@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2C286142-7875-44C6-A44B-332397A59FD4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Orchard.Management.PsProvider</RootNamespace>
+    <AssemblyName>Orchard.Management.PsProvider</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\..\..\lib\autofac\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Management.Automation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\lib\powershell\System.Management.Automation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Agents\AgentAttribute.cs" />
+    <Compile Include="Agents\AgentBase.cs" />
+    <Compile Include="ErrorIds.cs" />
+    <Compile Include="Agents\AgentProxy.cs" />
+    <Compile Include="Agents\AgentManager.cs" />
+    <Compile Include="Agents\IAgentManager.cs" />
+    <Compile Include="Host\OrchardHostContext.cs" />
+    <Compile Include="Host\OrchardHostContextProvider.cs" />
+    <Compile Include="Host\ReturnCodes.cs" />
+    <Compile Include="Host\OrchardHost.cs" />
+    <Compile Include="Host\IOrchardSession.cs" />
+    <Compile Include="Host\OrchardSession.cs" />
+    <Compile Include="IPowerShellConsole.cs" />
+    <Compile Include="OrchardDriveInfo.cs" />
+    <Compile Include="OrchardDriveParameters.cs" />
+    <Compile Include="OrchardPath.cs" />
+    <Compile Include="OrchardProvider.cs" />
+    <Compile Include="OrchardProviderContainer.cs" />
+    <Compile Include="OrchardProviderException.cs" />
+    <Compile Include="OrchardProviderExtensions.cs" />
+    <Compile Include="OrchardProviderInfo.cs" />
+    <Compile Include="OrchardPsSnapIn.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PowerShellConsole.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThrowHelper.cs" />
+    <Compile Include="Vfs\ContainerNode.cs" />
+    <Compile Include="Vfs\IOrchardVfs.cs" />
+    <Compile Include="Vfs\IPsNavigationProvider.cs" />
+    <Compile Include="Vfs\NodeType.cs" />
+    <Compile Include="Vfs\ObjectNode.cs" />
+    <Compile Include="Vfs\PsNavigationProvider.cs" />
+    <Compile Include="Vfs\PsNavigationProviderExtensions.cs" />
+    <Compile Include="Vfs\OrchardVfs.cs" />
+    <Compile Include="Vfs\OrchardVfsNode.cs" />
+    <Compile Include="Vfs\RootVfsNode.cs" />
+    <Compile Include="Vfs\SymbolicLinkNode.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Orchard\Orchard.Framework.csproj">
+      <Project>{2D1D92BB-4555-4CBE-8D0E-63563D6CE4C6}</Project>
+      <Name>Orchard.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
