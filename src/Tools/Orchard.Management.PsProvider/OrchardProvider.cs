@@ -64,13 +64,12 @@ namespace Orchard.Management.PsProvider {
                 return null;
             }
 
-            try {
-                return InitializeOrchardDrive(drive, driveParameters);
-            }
-            catch (Exception ex) {
-                this.ThrowTerminatingError(ex, ErrorIds.OrchardInitFailed, ErrorCategory.OpenError);
-                return null;
-            }
+            PSDriveInfo orchardDrive = null;
+            this.TryCritical(
+                () => orchardDrive = InitializeOrchardDrive(drive, driveParameters), 
+                ErrorIds.OrchardInitFailed, ErrorCategory.OpenError);
+
+            return orchardDrive;
         }
 
         protected override object NewDriveDynamicParameters() {
@@ -88,12 +87,7 @@ namespace Orchard.Management.PsProvider {
                 return null;
             }
 
-            try {
-                orchardDrive.Close();
-            }
-            catch (Exception ex) {
-                this.WriteError(ex, ErrorIds.CloseDriveFailed, ErrorCategory.CloseError, orchardDrive);
-            }
+            this.Try(orchardDrive.Close, ErrorIds.CloseDriveFailed, ErrorCategory.CloseError, orchardDrive);
 
             return orchardDrive;
         }
@@ -101,22 +95,21 @@ namespace Orchard.Management.PsProvider {
         protected override Collection<PSDriveInfo> InitializeDefaultDrives() {
             var drives = new Collection<PSDriveInfo>();
 
-            try {
-                Assembly entryAssembly = Assembly.GetEntryAssembly();
-                string path = entryAssembly != null ? entryAssembly.Location : System.Environment.CurrentDirectory;
+            this.Try(
+                () => {
+                    Assembly entryAssembly = Assembly.GetEntryAssembly();
+                    string path = entryAssembly != null ? entryAssembly.Location : System.Environment.CurrentDirectory;
 
-                for (var di = new DirectoryInfo(path); di != null; di = di.Parent) {
-                    if (OrchardPsSnapIn.VerifyOrchardDirectory(di.FullName)) {
-                        var drive = new PSDriveInfo("Orchard", ProviderInfo, "\\", "Orchard drive", Credential);
-                        var driveParameters = new OrchardDriveParameters { OrchardRoot = di.FullName };
-                        drives.Add(InitializeOrchardDrive(drive, driveParameters));
-                        break;
+                    for (var di = new DirectoryInfo(path); di != null; di = di.Parent) {
+                        if (OrchardPsSnapIn.VerifyOrchardDirectory(di.FullName)) {
+                            var drive = new PSDriveInfo("Orchard", ProviderInfo, "\\", "Orchard drive", Credential);
+                            var driveParameters = new OrchardDriveParameters {OrchardRoot = di.FullName};
+                            drives.Add(InitializeOrchardDrive(drive, driveParameters));
+                            break;
+                        }
                     }
-                }
-            }
-            catch (Exception ex) {
-                this.WriteError(ex, ErrorIds.DefaultDrivesInitFailed, ErrorCategory.OpenError);
-            }
+                }, 
+                ErrorIds.DefaultDrivesInitFailed, ErrorCategory.OpenError);
 
             return drives;
         }
@@ -212,15 +205,12 @@ namespace Orchard.Management.PsProvider {
                     }
 
                     ForNode(copyPath, 
-                        copyNode => {
-                            try {
+                        copyNode => this.Try(
+                            () => {
                                 node.CopyItemHandler(node, copyNode, recurse);
                                 this.WriteItemNode(node);
-                            }
-                            catch (Exception ex) {
-                                this.WriteError(ex, ErrorIds.HandlerError, ErrorCategory.NotSpecified, node);
-                            }
-                        });
+                            }, 
+                            ErrorIds.HandlerError, ErrorCategory.NotSpecified, node));
                 });
 
             if (!handled) {
@@ -263,15 +253,12 @@ namespace Orchard.Management.PsProvider {
                     }
 
                     ForNode(destination, 
-                        destinationNode => {
-                            try {
+                        destinationNode => this.Try(
+                            () => {
                                 node.MoveItemHandler(node, destinationNode);
                                 this.WriteItemNode(node);
-                            }
-                            catch (Exception ex) {
-                                this.WriteError(ex, ErrorIds.HandlerError, ErrorCategory.NotSpecified, node);
-                            }
-                        });
+                            },
+                            ErrorIds.HandlerError, ErrorCategory.NotSpecified, node));
                 });
 
             if (!handled) {
@@ -293,34 +280,32 @@ namespace Orchard.Management.PsProvider {
         }
 
         private OrchardVfsNode GetNodeByPath(string path) {
-            try {
-                var driveInfo = PSDriveInfo as OrchardDriveInfo;
-                if (driveInfo != null) {
-                    if (OrchardPath.IsDrivePath(path, PSDriveInfo.Root)) {
-                        return driveInfo.Vfs.Root;
+            OrchardVfsNode node = null;
+            
+            this.Try(
+                () => {
+                    var driveInfo = PSDriveInfo as OrchardDriveInfo;
+                    if (driveInfo != null) {
+                        if (OrchardPath.IsDrivePath(path, PSDriveInfo.Root)) {
+                            node = driveInfo.Vfs.Root;
+                        }
+                        else {
+                            node = driveInfo.Vfs.NavigatePath(path);
+                        }
                     }
+                },
+                ErrorIds.FailedToGetNode, ErrorCategory.ReadError);
 
-                    return driveInfo.Vfs.NavigatePath(path);
-                }
-            }
-            catch (Exception ex) {
-                this.WriteError(ex, ErrorIds.FailedToGetNode, ErrorCategory.ReadError);
-            }
-
-            return null;
+            return node;
         }
 
         private void ForNode(string path, Action<OrchardVfsNode> action) {
             string normalizedPath = OrchardPath.NormalizePath(path);
 
             OrchardVfsNode node = GetNodeByPath(normalizedPath);
+
             if (node != null) {
-                try {
-                    action(node);
-                }
-                catch (Exception ex) {
-                    this.WriteError(ex, ErrorIds.NodeEnumerationFailed, ErrorCategory.NotSpecified, node);
-                }
+                this.Try(() => action(node), ErrorIds.NodeEnumerationFailed, ErrorCategory.NotSpecified, node);
             }
             else {
                 this.WriteError(ThrowHelper.InvalidPathException(path), ErrorIds.ItemNotFound, ErrorCategory.ObjectNotFound);
@@ -334,12 +319,8 @@ namespace Orchard.Management.PsProvider {
             if (parentNode != null) {
                 IEnumerable<OrchardVfsNode> items = parentNode.GetChildNodes();
                 foreach (OrchardVfsNode node in items) {
-                    try {
-                        action(node);
-                    }
-                    catch (Exception ex) {
-                        this.WriteError(ex, ErrorIds.NodeEnumerationFailed, ErrorCategory.NotSpecified, node);
-                    }
+                    OrchardVfsNode currentNode = node;
+                    this.Try(() => action(currentNode), ErrorIds.NodeEnumerationFailed, ErrorCategory.NotSpecified, node);
                 }
             }
             else {
@@ -358,15 +339,14 @@ namespace Orchard.Management.PsProvider {
                     if (handler == null) {
                         return false;
                     }
-                    
-                    try {
-                        handler(node);
-                        this.WriteItemNode(node);
-                    }
-                    catch (Exception ex) {
-                        this.WriteError(ex, ErrorIds.HandlerError, ErrorCategory.NotSpecified, node);
-                    }
 
+                    this.Try(
+                        () => {
+                            handler(node);
+                            this.WriteItemNode(node);
+                        },
+                        ErrorIds.HandlerError, ErrorCategory.NotSpecified, node);
+                    
                     return true;
                 });
         }
@@ -383,15 +363,14 @@ namespace Orchard.Management.PsProvider {
                     if (handler == null) {
                         return false;
                     }
-                    
-                    try {
-                        handler(node, arg);
-                        this.WriteItemNode(node);
-                    }
-                    catch (Exception ex) {
-                        this.WriteError(ex, ErrorIds.HandlerError, ErrorCategory.NotSpecified, node);
-                    }
 
+                    this.Try(
+                        () => {
+                            handler(node, arg);
+                            this.WriteItemNode(node);
+                        },
+                        ErrorIds.HandlerError, ErrorCategory.NotSpecified, node);
+                    
                     return true;
                 });
         }
@@ -409,15 +388,14 @@ namespace Orchard.Management.PsProvider {
                     if (handler == null) {
                         return false;
                     }
-                    
-                    try {
-                        handler(node, arg1, arg2);
-                        this.WriteItemNode(node);
-                    }
-                    catch (Exception ex) {
-                        this.WriteError(ex, ErrorIds.HandlerError, ErrorCategory.NotSpecified, node);
-                    }
 
+                    this.Try(
+                        () => {
+                            handler(node, arg1, arg2);
+                            this.WriteItemNode(node);
+                        },
+                        ErrorIds.HandlerError, ErrorCategory.NotSpecified, node);
+                    
                     return true;
                 });
         }
@@ -434,7 +412,7 @@ namespace Orchard.Management.PsProvider {
                     TNode typedNode = node as TNode;
                     if (typedNode == null) {
                         this.WriteError(
-                            new InvalidOperationException("The operation is not supported for this item."), 
+                            new InvalidOperationException("The operation is not valid for this item."), 
                             ErrorIds.HandlerError, ErrorCategory.InvalidArgument, node);
                         handled = true;
                         return;
