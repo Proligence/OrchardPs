@@ -1,7 +1,7 @@
 ﻿using Orchard.Management.PsProvider.Agents;
 using Orchard.Management.PsProvider.Vfs;
 
-namespace Orchard.PowerShell.Configuration {
+namespace Proligence.PowerShell.Configuration {
     public class ConfigurationPsNavigationProvider : IPsNavigationProvider {
         public string Path {
             get {

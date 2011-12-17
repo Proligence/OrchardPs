@@ -4,7 +4,7 @@
     <View>
       <Name>CollectionItemView</Name>
       <ViewSelectedBy>
-        <TypeName>Orchard.PowerShell.Common.CollectionItem</TypeName>
+        <TypeName>Proligence.PowerShell.Common.CollectionItem</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
@@ -32,7 +32,7 @@
     <View>
       <Name>OrchardSiteView</Name>
       <ViewSelectedBy>
-        <TypeName>Orchard.PowerShell.Sites.Items.OrchardSite</TypeName>
+        <TypeName>Proligence.PowerShell.Sites.Items.OrchardSite</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>

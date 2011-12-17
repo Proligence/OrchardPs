@@ -1,8 +1,8 @@
 ﻿using Orchard.Management.PsProvider.Vfs;
-using Orchard.PowerShell.AgentProxies;
-using Orchard.PowerShell.Sites.Nodes;
+using Proligence.PowerShell.Agents;
+using Proligence.PowerShell.Sites.Nodes;
 
-namespace Orchard.PowerShell.Sites.NavigationProviders {
+namespace Proligence.PowerShell.Sites.NavigationProviders {
     public class SitesPsNavigationProvider : PsNavigationProvider {
         public override void Initialize()
         {

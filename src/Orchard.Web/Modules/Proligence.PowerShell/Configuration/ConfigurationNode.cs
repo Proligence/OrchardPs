@@ -2,9 +2,9 @@
 using System.Linq;
 using Orchard.Management.PsProvider.Agents;
 using Orchard.Management.PsProvider.Vfs;
-using Orchard.PowerShell.AgentProxies;
+using Proligence.PowerShell.Agents;
 
-namespace Orchard.PowerShell.Configuration {
+namespace Proligence.PowerShell.Configuration {
     public class ConfigurationNode : ContainerNode {
         private readonly IAgentManager _agentManager;
 

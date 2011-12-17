@@ -3,9 +3,9 @@ using System.Linq;
 using Autofac;
 using Orchard.Environment.Configuration;
 using Orchard.Management.PsProvider.Agents;
-using Orchard.PowerShell.Sites.Items;
+using Proligence.PowerShell.Sites.Items;
 
-namespace Orchard.PowerShell.Agents {
+namespace Proligence.PowerShell.Agents {
     public class TenantAgent : AgentBase {
         public OrchardSite[] GetSites() {
             IShellSettingsManager tenantManager = HostContainer.Resolve<IShellSettingsManager>();

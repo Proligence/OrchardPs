@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Orchard.Management.PsProvider.Vfs;
-using Orchard.PowerShell.AgentProxies;
-using Orchard.PowerShell.Common;
-using Orchard.PowerShell.Sites.Items;
+using Proligence.PowerShell.Agents;
+using Proligence.PowerShell.Common;
+using Proligence.PowerShell.Sites.Items;
 
-namespace Orchard.PowerShell.Sites.Nodes {
+namespace Proligence.PowerShell.Sites.Nodes {
     public class SitesNode : ContainerNode {
         private readonly TenantAgentProxy _tenantAgent;
 

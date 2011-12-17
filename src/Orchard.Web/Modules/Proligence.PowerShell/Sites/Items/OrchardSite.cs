@@ -1,7 +1,7 @@
 ﻿using System;
 using Orchard.Environment.Configuration;
 
-namespace Orchard.PowerShell.Sites.Items {
+namespace Proligence.PowerShell.Sites.Items {
     [Serializable]
     public class OrchardSite {
         public string Name { get; set; }
