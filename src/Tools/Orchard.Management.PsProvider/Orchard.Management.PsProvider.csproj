@@ -54,6 +54,7 @@
     <Compile Include="Agents\AgentProxy.cs" />
     <Compile Include="Agents\AgentManager.cs" />
     <Compile Include="Agents\IAgentManager.cs" />
+    <Compile Include="ExceptionExtensions.cs" />
     <Compile Include="Host\OrchardHostContext.cs" />
     <Compile Include="Host\OrchardHostContextProvider.cs" />
     <Compile Include="Host\ReturnCodes.cs" />

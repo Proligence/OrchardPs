@@ -25,7 +25,8 @@ namespace Orchard.Management.PsProvider.Agents {
                     type => type.AssemblyQualifiedName == agentAttribute.TypeName))).SingleOrDefault();
 
             if (agentType == null) {
-                throw new OrchardProviderException("Failed to instantiate agent.");
+                throw new OrchardProviderException(
+                    "Failed to instantiate agent because the type '" + agentAttribute.TypeName + "' was not found.");
             }
 
             Agent = Activator.CreateInstance(agentType);

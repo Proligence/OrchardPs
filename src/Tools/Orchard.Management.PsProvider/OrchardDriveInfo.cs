@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Management.Automation;
 using System.Reflection;
+using System.Text;
 using Autofac;
 using Orchard.Management.PsProvider.Host;
 using Orchard.Management.PsProvider.Vfs;
@@ -83,7 +84,9 @@ namespace Orchard.Management.PsProvider {
                     navigationProviders.Add(provider);
                 }
                 catch (Exception ex) {
-                    _console.WriteWarning("Failed to create instance of type '" + providerType.FullName + "'. " + ex.Message);
+                    string message = "Failed to create instance of type '" + providerType.FullName + "'. " + ex.CollectMessages();
+                    var exception = new OrchardProviderException(message, ex, false, ErrorIds.CreateNavigationProviderFailed);
+                    _console.WriteError(exception, exception.ErrorId, ErrorCategory.NotSpecified);
                 }
 
             }

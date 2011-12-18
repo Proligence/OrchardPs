@@ -1,6 +1,7 @@
 ﻿namespace Orchard.Management.PsProvider {
     internal static class ErrorIds {
         public const string CloseDriveFailed = "CloseDriveFailed";
+        public const string CreateNavigationProviderFailed = "CreateNavigationProviderFailed";
         public const string DefaultDrivesInitFailed = "DefaultDrivesInitFailed";
         public const string FailedToGetNode = "FailedToGetNode";
         public const string HandlerError = "HandlerError";
