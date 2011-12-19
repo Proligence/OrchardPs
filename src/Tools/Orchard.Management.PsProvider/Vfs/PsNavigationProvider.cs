@@ -2,7 +2,16 @@
 
 namespace Orchard.Management.PsProvider.Vfs {
     public abstract class PsNavigationProvider : IPsNavigationProvider {
-        protected PsNavigationProvider() { }
+        protected PsNavigationProvider() {
+            Path = "\\";
+        }
+
+        protected PsNavigationProvider(NodeType nodeType, OrchardVfsNode node) {
+            Path = "\\";
+            NodeType = nodeType;
+            Node = node;
+        }
+
         protected PsNavigationProvider(NodeType nodeType, string path, OrchardVfsNode node) {
             Path = path;
             NodeType = nodeType;
@@ -13,6 +22,7 @@ namespace Orchard.Management.PsProvider.Vfs {
         public NodeType NodeType { get; protected set; }
         public OrchardVfsNode Node { get; protected set; }
         public IAgentManager AgentManager { get; set; }
+        public IOrchardVfs Vfs { get; set; }
 
         public virtual void Initialize() { }
     }

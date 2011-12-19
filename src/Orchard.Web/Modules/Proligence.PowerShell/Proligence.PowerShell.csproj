@@ -57,11 +57,18 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Agents\CommandAgent.cs" />
+    <Compile Include="Agents\CommandAgentProxy.cs" />
     <Compile Include="Agents\TenantAgentProxy.cs" />
     <Compile Include="Agents\ContentAgent.cs" />
     <Compile Include="Agents\ContentAgentProxy.cs" />
     <Compile Include="Agents\TenantAgent.cs" />
-    <Compile Include="Common\CollectionItem.cs" />
+    <Compile Include="Commands\Items\OrchardCommand.cs" />
+    <Compile Include="Commands\NavigationProviders\CommandsPsNavigationProvider.cs" />
+    <Compile Include="Commands\Nodes\CommandNode.cs" />
+    <Compile Include="Commands\Nodes\CommandsNode.cs" />
+    <Compile Include="Common\Items\CollectionItem.cs" />
+    <Compile Include="Common\Extensions\OrchardVfsNodeExtensions.cs" />
     <Compile Include="Configuration\ConfigurationPsNavigationProvider.cs" />
     <Compile Include="Configuration\ConfigurationNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -91,8 +98,11 @@
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Commands\Commands.format.ps1xml" />
+    <None Include="Common\Common.format.ps1xml" />
     <None Include="Sites\Sites.format.ps1xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -41,6 +41,7 @@
       <HintPath>..\..\..\lib\powershell\System.Management.Automation.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,6 +51,8 @@
   <ItemGroup>
     <Compile Include="Agents\AgentAttribute.cs" />
     <Compile Include="Agents\AgentBase.cs" />
+    <Compile Include="Agents\ContainerManager.cs" />
+    <Compile Include="Agents\IContainerManager.cs" />
     <Compile Include="ErrorIds.cs" />
     <Compile Include="Agents\AgentProxy.cs" />
     <Compile Include="Agents\AgentManager.cs" />
@@ -77,8 +80,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThrowHelper.cs" />
     <Compile Include="Vfs\ContainerNode.cs" />
+    <Compile Include="Vfs\INavigationProviderManager.cs" />
     <Compile Include="Vfs\IOrchardVfs.cs" />
     <Compile Include="Vfs\IPsNavigationProvider.cs" />
+    <Compile Include="Vfs\NavigationProviderManager.cs" />
     <Compile Include="Vfs\NodeType.cs" />
     <Compile Include="Vfs\ObjectNode.cs" />
     <Compile Include="Vfs\PsNavigationProvider.cs" />

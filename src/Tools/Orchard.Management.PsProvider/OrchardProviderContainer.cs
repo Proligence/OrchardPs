@@ -24,11 +24,18 @@ namespace Orchard.Management.PsProvider {
         public static IContainer BuildContainer(Action<ContainerBuilder> registrations = null) {
             var builder = new ContainerBuilder();
 
+            // PsProvider
             builder.RegisterType<PowerShellConsole>().As<IPowerShellConsole>().SingleInstance();
-
             builder.RegisterType<OrchardDriveInfo>().InstancePerLifetimeScope();
+
+            // Host
             builder.RegisterType<OrchardSession>().As<IOrchardSession>().InstancePerLifetimeScope();
+            
+            // VFS
             builder.RegisterType<OrchardVfs>().As<IOrchardVfs>().InstancePerLifetimeScope();
+            builder.RegisterType<NavigationProviderManager>().As<INavigationProviderManager>().InstancePerLifetimeScope();
+
+            // Agents
             builder.RegisterType<AgentManager>().As<IAgentManager>().InstancePerLifetimeScope();
 
             if (registrations != null) {

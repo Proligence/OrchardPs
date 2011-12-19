@@ -2,7 +2,7 @@
 using System.Linq;
 using Orchard.Management.PsProvider.Vfs;
 
-namespace Proligence.PowerShell.Common {
+namespace Proligence.PowerShell.Common.Items {
     public class CollectionItem {
         private readonly ContainerNode _node;
 

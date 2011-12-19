@@ -2,7 +2,7 @@
 
 namespace Orchard.Management.PsProvider.Vfs {
     public class SymbolicLinkNode : ContainerNode {
-        public SymbolicLinkNode(string name, OrchardVfsNode node) : base(name) {
+        public SymbolicLinkNode(IOrchardVfs vfs, string name, OrchardVfsNode node) : base(vfs, name) {
             TargetNode = node;
             Item = node.Item;
             

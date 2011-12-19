@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-
-namespace Orchard.Management.PsProvider.Vfs {
+﻿namespace Orchard.Management.PsProvider.Vfs {
     public interface IOrchardVfs {
         RootVfsNode Root { get; }
-        void Initialize(IEnumerable<IPsNavigationProvider> navigationProviders);
+        INavigationProviderManager NavigationProviderManager { get; }
+        void Initialize();
         OrchardVfsNode NavigatePath(string path);
     }
 }

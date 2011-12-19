@@ -6,12 +6,12 @@ namespace Orchard.Management.PsProvider.Vfs {
     public class ContainerNode : OrchardVfsNode {
         private readonly List<OrchardVfsNode> _staticNodes;
 
-        public ContainerNode(string name) : base(name) {
+        public ContainerNode(IOrchardVfs vfs, string name) : base(vfs, name) {
             _staticNodes = new List<OrchardVfsNode>();
             NewItemName = "New item";
         }
 
-        public ContainerNode(string name, IEnumerable<OrchardVfsNode> staticNodes) : base(name) {
+        public ContainerNode(IOrchardVfs vfs, string name, IEnumerable<OrchardVfsNode> staticNodes) : base(vfs, name) {
             _staticNodes = new List<OrchardVfsNode>();
             NewItemName = "New item";
 

@@ -1,26 +1,17 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace Orchard.Management.PsProvider.Vfs {
     internal class OrchardVfs : IOrchardVfs {
-        private readonly RootVfsNode _root;
-        public List<IPsNavigationProvider> _navigationProviders;
+        public RootVfsNode Root { get; private set; }
+        public INavigationProviderManager NavigationProviderManager { get; private set; }
 
-        public RootVfsNode Root {
-            get { return _root; }
+        public OrchardVfs(OrchardDriveInfo drive, INavigationProviderManager navigationProviderManager) {
+            Root = new RootVfsNode(this, drive);
+            NavigationProviderManager = navigationProviderManager;
         }
 
-        public OrchardVfs(OrchardDriveInfo drive) {
-            _root = new RootVfsNode(drive);
-        }
-
-        public void Initialize(IEnumerable<IPsNavigationProvider> navigationProviders) {
-            IOrderedEnumerable<IPsNavigationProvider> providers = navigationProviders.OrderBy(np => np.GetPathLength());
-            _navigationProviders = providers.ToList();
-
-            IEnumerable<IPsNavigationProvider> globalNodeProviders = _navigationProviders
-                .Where(np => np.NodeType == NodeType.Global);
-
+        public void Initialize() {
+            IEnumerable<IPsNavigationProvider> globalNodeProviders = NavigationProviderManager.GetProviders(NodeType.Global);
             foreach (IPsNavigationProvider provider in globalNodeProviders) {
                 OrchardVfsNode parent = NavigatePath(provider.Path);
                 if (parent == null) {
@@ -37,15 +28,11 @@ namespace Orchard.Management.PsProvider.Vfs {
         }
 
         public OrchardVfsNode NavigatePath(string path) {
-            if (_root != null) {
-                return _root.NavigatePath(path);
+            if (Root != null) {
+                return Root.NavigatePath(path);
             }
 
             return null;
-        }
-
-        public IEnumerable<IPsNavigationProvider> GetNavigationProviders() {
-            return new List<IPsNavigationProvider>(_navigationProviders);
         }
     }
 }

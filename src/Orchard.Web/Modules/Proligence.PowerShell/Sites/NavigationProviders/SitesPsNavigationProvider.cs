@@ -7,8 +7,7 @@ namespace Proligence.PowerShell.Sites.NavigationProviders {
         public override void Initialize()
         {
             NodeType = NodeType.Global;
-            Path = "\\";
-            Node = new SitesNode(AgentManager.GetAgent<TenantAgentProxy>());
+            Node = new SitesNode(Vfs, AgentManager.GetAgent<TenantAgentProxy>());
         }
     }
 }

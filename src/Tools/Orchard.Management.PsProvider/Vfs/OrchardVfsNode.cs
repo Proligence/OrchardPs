@@ -2,7 +2,8 @@
 
 namespace Orchard.Management.PsProvider.Vfs {
     public abstract class OrchardVfsNode {
-        protected OrchardVfsNode(string name) {
+        protected OrchardVfsNode(IOrchardVfs vfs, string name) {
+            Vfs = vfs;
             Name = name;
             InvokeDefaultActionName = "Invoke default action";
             SetItemName = "Set item";
@@ -12,6 +13,8 @@ namespace Orchard.Management.PsProvider.Vfs {
             RemoveItemName = "Remove item";
             RenameItemName = "Rename item";
         }
+
+        public IOrchardVfs Vfs { get; private set; }
 
         public string Name { get; private set; }
         public OrchardVfsNode Parent { get; protected internal set; }
