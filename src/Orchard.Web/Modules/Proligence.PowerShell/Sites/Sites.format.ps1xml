@@ -2,34 +2,6 @@
 <Configuration>
   <ViewDefinitions>
     <View>
-      <Name>CollectionItemView</Name>
-      <ViewSelectedBy>
-        <TypeName>Proligence.PowerShell.Common.CollectionItem</TypeName>
-      </ViewSelectedBy>
-      <TableControl>
-        <TableHeaders>
-          <TableColumnHeader>
-            <Label>Name</Label>
-          </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Description</Label>
-          </TableColumnHeader>
-        </TableHeaders>
-        <TableRowEntries>
-          <TableRowEntry>
-            <TableColumnItems>
-              <TableColumnItem>
-                <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Description</PropertyName>
-              </TableColumnItem>
-            </TableColumnItems>
-          </TableRowEntry>
-        </TableRowEntries>
-      </TableControl>
-    </View>
-    <View>
       <Name>OrchardSiteView</Name>
       <ViewSelectedBy>
         <TypeName>Proligence.PowerShell.Sites.Items.OrchardSite</TypeName>

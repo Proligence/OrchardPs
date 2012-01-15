@@ -9,6 +9,7 @@
         public const string ItemNotFound = "ItemNotFound";
         public const string NodeEnumerationFailed = "NodeEnumerationFailed";
         public const string NullDrive = "NullDrive";
+        public const string OrchardDriveExpected = "OrchardDriveExpected";
         public const string OrchardInitFailed = "OrchardInitFailed";
         public const string ReadDirectoryFailed = "ReadDirectoryFailed";
         public const string UpdateFormatDataFailed = "UpdateFormatDataFailed";

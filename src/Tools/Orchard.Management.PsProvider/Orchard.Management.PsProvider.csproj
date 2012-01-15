@@ -65,6 +65,8 @@
     <Compile Include="Host\IOrchardSession.cs" />
     <Compile Include="Host\OrchardSession.cs" />
     <Compile Include="IPowerShellConsole.cs" />
+    <Compile Include="OrchardCmdlet.cs" />
+    <Compile Include="OrchardCmdletExtensions.cs" />
     <Compile Include="OrchardDriveInfo.cs" />
     <Compile Include="OrchardDriveParameters.cs" />
     <Compile Include="OrchardPath.cs" />

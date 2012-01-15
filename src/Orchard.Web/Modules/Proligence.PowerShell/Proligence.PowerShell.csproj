@@ -48,6 +48,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Management.Automation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -63,10 +64,12 @@
     <Compile Include="Agents\ContentAgent.cs" />
     <Compile Include="Agents\ContentAgentProxy.cs" />
     <Compile Include="Agents\TenantAgent.cs" />
+    <Compile Include="Commands\Cmdlets\InvokeOrchardCommand.cs" />
     <Compile Include="Commands\Items\OrchardCommand.cs" />
     <Compile Include="Commands\NavigationProviders\CommandsPsNavigationProvider.cs" />
     <Compile Include="Commands\Nodes\CommandNode.cs" />
     <Compile Include="Commands\Nodes\CommandsNode.cs" />
+    <Compile Include="Common\Extensions\OrchardCmdletExtensions.cs" />
     <Compile Include="Common\Items\CollectionItem.cs" />
     <Compile Include="Common\Extensions\OrchardVfsNodeExtensions.cs" />
     <Compile Include="Configuration\ConfigurationPsNavigationProvider.cs" />
