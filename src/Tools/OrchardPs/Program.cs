@@ -40,7 +40,8 @@ namespace OrchardPs {
 
             var versionAttribute = GetAssemblyAttribute<AssemblyFileVersionAttribute>();
             if (versionAttribute != null) {
-                banner.Append("Version " + versionAttribute.Version);
+                var v = Assembly.GetEntryAssembly().GetName().Version;
+                banner.Append(string.Format("Version {0}.{1} build {2}", v.Major, v.Minor, v.Build));
             }
             
             return banner.ToString();
