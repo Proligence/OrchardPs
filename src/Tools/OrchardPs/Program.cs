@@ -25,6 +25,11 @@ namespace OrchardPs {
                 foreach (FormatConfigurationEntry format in snapIn.Formats) {
                     configuration.Formats.Append(format);
                 }
+
+                configuration.InitializationScripts.Append(
+                    new ScriptConfigurationEntry(
+                        "NavigateToOrchardDrive", 
+                        "if (Test-Path Orchard:) { Set-Location Orchard: }"));
             }
             catch (Exception ex) {
                 Console.Error.WriteLine("Failed to create runspace configuration. " + ex.Message);
