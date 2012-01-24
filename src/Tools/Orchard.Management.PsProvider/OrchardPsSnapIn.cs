@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -13,6 +14,7 @@ namespace Orchard.Management.PsProvider {
         private Collection<CmdletConfigurationEntry> _cmdlets;
         private Collection<FormatConfigurationEntry> _formats;
         private Collection<Assembly> _orchardModuleAssemblies;
+        private IDictionary<string, string> _aliases;
         private bool _assembliesLoaded;
 
         public override string Name {
@@ -25,6 +27,16 @@ namespace Orchard.Management.PsProvider {
 
         public override string Description {
             get { return "This Windows PowerShell snap-in contains the Orchard PowerShell provider and Cmdlets defined in Orchard modules."; }
+        }
+
+        public IDictionary<string, string> Aliases {
+            get {
+                if (_aliases == null) {
+                    _aliases = new Dictionary<string, string>();
+                }
+
+                return _aliases;
+            }
         }
 
         public override Collection<ProviderConfigurationEntry> Providers {
@@ -137,6 +149,14 @@ namespace Orchard.Management.PsProvider {
 
                                 string name = cmdletAttribute.VerbName + "-" + cmdletAttribute.NounName;
                                 cmdlets.Add(new CmdletConfigurationEntry(name, type, null));
+
+                                IEnumerable<CmdletAliasAttribute> aliases =
+                                    type.GetCustomAttributes(typeof (CmdletAliasAttribute), false)
+                                        .Cast<CmdletAliasAttribute>();
+                                
+                                foreach (CmdletAliasAttribute aliasAttribute in aliases) {
+                                    Aliases.Add(aliasAttribute.Alias, name);
+                                }
                             }
                         }
                         catch (Exception ex) {

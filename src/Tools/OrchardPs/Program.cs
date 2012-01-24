@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Management.Automation.Runspaces;
 using System.Reflection;
 using System.Text;
@@ -30,6 +31,13 @@ namespace OrchardPs {
                     new ScriptConfigurationEntry(
                         "NavigateToOrchardDrive", 
                         "if (Test-Path Orchard:) { Set-Location Orchard: }"));
+
+                foreach (KeyValuePair<string, string> alias in snapIn.Aliases) {
+                    configuration.InitializationScripts.Append(
+                        new ScriptConfigurationEntry(
+                            "Alias-" + alias.Key, 
+                            "New-Alias '" + alias.Key + "' " + alias.Value));
+                }
             }
             catch (Exception ex) {
                 Console.Error.WriteLine("Failed to create runspace configuration. " + ex.Message);

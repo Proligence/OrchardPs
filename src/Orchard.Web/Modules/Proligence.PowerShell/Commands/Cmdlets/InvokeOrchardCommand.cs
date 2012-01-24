@@ -10,6 +10,7 @@ using Proligence.PowerShell.Common.Extensions;
 using Proligence.PowerShell.Sites.Items;
 
 namespace Proligence.PowerShell.Commands.Cmdlets {
+    [CmdletAlias("ioc")]
     [Cmdlet(VerbsLifecycle.Invoke, "OrchardCommand", DefaultParameterSetName = "Default", ConfirmImpact = ConfirmImpact.Medium)]
     public class InvokeOrchardCommand : OrchardCmdlet {
         private CommandAgentProxy _commandAgent;
