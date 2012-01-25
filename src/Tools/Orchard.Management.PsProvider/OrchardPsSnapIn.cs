@@ -13,8 +13,9 @@ namespace Orchard.Management.PsProvider {
         private Collection<ProviderConfigurationEntry> _providers;
         private Collection<CmdletConfigurationEntry> _cmdlets;
         private Collection<FormatConfigurationEntry> _formats;
-        private Collection<Assembly> _orchardModuleAssemblies;
+        private Collection<string> _helpFiles;
         private IDictionary<string, string> _aliases;
+        private Collection<Assembly> _orchardModuleAssemblies;
         private bool _assembliesLoaded;
 
         public override string Name {
@@ -27,16 +28,6 @@ namespace Orchard.Management.PsProvider {
 
         public override string Description {
             get { return "This Windows PowerShell snap-in contains the Orchard PowerShell provider and Cmdlets defined in Orchard modules."; }
-        }
-
-        public IDictionary<string, string> Aliases {
-            get {
-                if (_aliases == null) {
-                    _aliases = new Dictionary<string, string>();
-                }
-
-                return _aliases;
-            }
         }
 
         public override Collection<ProviderConfigurationEntry> Providers {
@@ -68,21 +59,24 @@ namespace Orchard.Management.PsProvider {
             get {
                 if (_formats == null) {
                     _formats = new Collection<FormatConfigurationEntry>();
-
-                    string directoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                    if (directoryName != null) {
-                        var directoryInfo = new DirectoryInfo(directoryName);
-                        while ((directoryInfo != null) && !VerifyOrchardDirectory(directoryInfo.FullName)) {
-                            directoryInfo = directoryInfo.Parent;
-                        }
-
-                        if (directoryInfo != null) {
-                            LoadFormatDataFiles(directoryInfo.FullName, _formats);
-                        }
+                    
+                    DirectoryInfo orchardDirectory = GetOrchardDirectory();
+                    if (orchardDirectory != null) {
+                        LoadFormatDataFiles(orchardDirectory.FullName, _formats);
                     }
                 }
 
                 return _formats;
+            }
+        }
+
+        public IDictionary<string, string> Aliases {
+            get {
+                if (_aliases == null) {
+                    _aliases = new Dictionary<string, string>();
+                }
+
+                return _aliases;
             }
         }
 
@@ -148,7 +142,8 @@ namespace Orchard.Management.PsProvider {
                                 }
 
                                 string name = cmdletAttribute.VerbName + "-" + cmdletAttribute.NounName;
-                                cmdlets.Add(new CmdletConfigurationEntry(name, type, null));
+                                string helpFile = GetHelpFile(name);
+                                cmdlets.Add(new CmdletConfigurationEntry(name, type, helpFile));
 
                                 IEnumerable<CmdletAliasAttribute> aliases =
                                     type.GetCustomAttributes(typeof (CmdletAliasAttribute), false)
@@ -170,6 +165,20 @@ namespace Orchard.Management.PsProvider {
             }
         }
 
+        private DirectoryInfo GetOrchardDirectory() {
+            string directoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            if (directoryName != null) {
+                var directoryInfo = new DirectoryInfo(directoryName);
+                while ((directoryInfo != null) && !VerifyOrchardDirectory(directoryInfo.FullName)) {
+                    directoryInfo = directoryInfo.Parent;
+                }
+
+                return directoryInfo;
+            }
+
+            return null;
+        }
+
         private void LoadFormatDataFiles(string directory, Collection<FormatConfigurationEntry> formats) {
             string[] fileNames;
             try {
@@ -182,6 +191,38 @@ namespace Orchard.Management.PsProvider {
 
             foreach (string fileName in fileNames) {
                 formats.Add(new FormatConfigurationEntry(fileName));
+            }
+        }
+
+        private string GetHelpFile(string cmdletName) {
+            if (_helpFiles == null) {
+                _helpFiles = new Collection<string>();
+
+                DirectoryInfo orchardDirectory = GetOrchardDirectory();
+                if (orchardDirectory != null) {
+                    LoadHelpFiles(orchardDirectory.FullName, _helpFiles);
+                }
+            }
+
+            return _helpFiles.Where(f => f.Contains(cmdletName + "-help.xml")).FirstOrDefault();
+        }
+
+        private void LoadHelpFiles(string directory, Collection<string> helpFiles) {
+            string[] fileNames;
+            try {
+                fileNames = Directory.GetFiles(directory, "*.xml", SearchOption.AllDirectories);
+            }
+            catch (Exception ex) {
+                Trace.WriteLine("Failed to read directory '" + directory + "'. " + ex.Message);
+                return;
+            }
+
+            foreach (string fileName in fileNames) {
+                if (fileName.EndsWith("-help.xml")) {
+                    if (!fileName.EndsWith("Orchard.Management.PsProvider.dll-help.xml")) {
+                        helpFiles.Add(fileName);
+                    }
+                }
             }
         }
     }
