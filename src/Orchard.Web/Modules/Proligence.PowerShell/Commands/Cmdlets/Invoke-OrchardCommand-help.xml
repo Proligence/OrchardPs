@@ -1,0 +1,242 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<helpItems xmlns="http://msh" schema="maml">
+  <command:command 
+    xmlns:maml="http://schemas.microsoft.com/maml/2004/10"
+    xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10"
+    xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+
+    <!-- Cmdlet details section-->
+    
+    <command:details>
+      <command:name>Invoke-OrchardCommand</command:name>
+      <maml:description>
+        <maml:para>Invokes a legacy Orchard command.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Invoke</command:verb>
+      <command:noun>OrchardCommand</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+
+    <!-- Cmdlet description section-->
+    
+    <maml:description>
+      <maml:para>The Invoke-OrchardCommand cmdlet invokes legacy Orchard commands which were written for use with the orchard.exe application.</maml:para>
+    </maml:description>
+
+    <!-- Cmdlet syntax section-->
+    
+    <command:syntax>
+      
+      <command:syntaxItem>
+        <maml:name>Invoke-OrchardCommand</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies the full name of the command to invoke. This parameter is required.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="2">
+          <maml:name>Parameters</maml:name>
+          <maml:description>
+            <maml:para>Specifies the switches for the command to invoke. All unnamed arguments after command name are automatically collected in this parameter.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">ArrayList</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      
+      <command:syntaxItem>
+        <maml:name>Invoke-OrchardCommand</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true" position="1">
+          <maml:name>Command</maml:name>
+          <maml:description>
+            <maml:para>Specifies the object which represents the orchard command to invoke. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents. This parameter is required.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">OrchardCommand</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="2">
+          <maml:name>Parameters</maml:name>
+          <maml:description>
+            <maml:para>Specifies the switches for the command to invoke. All unnamed arguments after the command's name are automatically collected in this parameter.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">ArrayList</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      
+    </command:syntax>
+
+    <!-- Cmdlet parameters section-->
+    
+    <command:parameters>
+      
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>Specifies the full name of the command to invoke. This parameter is required.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true" position="1">
+        <maml:name>Command</maml:name>
+        <maml:description>
+          <maml:para>Specifies the object which represents the orchard command to invoke. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents. This parameter is required.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">OrchardCommand</command:parameterValue>
+        <dev:type>
+          <maml:name>OrchardCommand</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="2">
+        <maml:name>Parameters</maml:name>
+        <maml:description>
+          <maml:para>Specifies the switches for the command to invoke. All unnamed arguments after command name are automatically collected in this parameter.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="true">ArrayList</command:parameterValue>
+        <dev:type>
+          <maml:name>ArrayList</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue>Empty</dev:defaultValue>
+      </command:parameter>
+      
+    </command:parameters>
+
+    <!-- Input - Output section-->
+    
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>Proligence.PowerShell.Commands.Items.OrchardCommand</maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe instances of the OrchardCommand class to Invoke-OrchardCommand. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents.</maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+
+    <command:returnValues />
+
+    <!-- Error section-->
+    
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+
+    <!-- Notes section  -->
+
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>The Invoke-OrchardCommand cmdlet does not return any values to the pipeline, however the Orchard legacy command execution engine will write output data directly to the console.</maml:para>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+
+    <!-- Example section  -->
+    
+    <command:examples>
+      
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>Orchard:\&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Invoke-OrchardCommand help commands
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command executes the legacy 'help commands' command to list all legacy Orchard commands.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>Orchard:\&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Invoke-OrchardCommand feature disable Orchard.Comments
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command executes the legacy 'feature disable' command to disable the Orchard.Comments feature.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 3 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>Orchard:\&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Invoke-OrchardCommand theme list /Summary:true
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command executes the legacy 'theme list' command to list all installed themes. The 'Summary' parameter is specified to 'true' to display only theme names, without details.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      
+    </command:examples>
+
+    <!-- Related links section  -->
+
+    <RelatedLinks>
+      <navigationLink>
+        <linkText>Get-ChildItem</linkText>
+        <uri/>
+      </navigationLink>
+    </RelatedLinks>
+
+  </command:command>
+</helpItems>

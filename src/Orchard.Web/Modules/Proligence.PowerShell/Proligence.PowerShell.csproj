@@ -81,6 +81,9 @@
     <Compile Include="Sites\NavigationProviders\SitesPsNavigationProvider.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Commands\Cmdlets\Invoke-OrchardCommand-help.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Module.txt" />
   </ItemGroup>
   <ItemGroup>
