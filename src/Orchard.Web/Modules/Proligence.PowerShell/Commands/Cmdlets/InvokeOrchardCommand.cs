@@ -11,7 +11,7 @@ using Proligence.PowerShell.Sites.Items;
 
 namespace Proligence.PowerShell.Commands.Cmdlets {
     [CmdletAlias("ioc")]
-    [Cmdlet(VerbsLifecycle.Invoke, "OrchardCommand", DefaultParameterSetName = "Default", ConfirmImpact = ConfirmImpact.Medium)]
+    [Cmdlet(VerbsLifecycle.Invoke, "OrchardCommand", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
     public class InvokeOrchardCommand : OrchardCmdlet {
         private CommandAgentProxy _commandAgent;
 
@@ -76,11 +76,13 @@ namespace Proligence.PowerShell.Commands.Cmdlets {
                     return;
                 }
             }
-                
-            _commandAgent.ExecuteCommand(
-                siteName, 
-                arguments.ToArray(), 
-                new Dictionary<string, string>(switches));
+
+            if (ShouldProcess("Site: " + siteName, "Invoke Command '" + string.Join(" ", arguments) + "'")) {
+                _commandAgent.ExecuteCommand(
+                    siteName,
+                    arguments.ToArray(),
+                    new Dictionary<string, string>(switches));
+            }
         }
 
         private bool ParseParameters(IEnumerable<string> args, out IList<string> arguments, out IDictionary<string, string> switches) {
