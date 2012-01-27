@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Management.Automation;
 using System.Reflection;
+using System.Text;
 using Autofac;
 
 namespace Orchard.Management.PsProvider.Vfs {
@@ -65,12 +67,12 @@ namespace Orchard.Management.PsProvider.Vfs {
                             }
                         }
                         catch (Exception ex) {
-                            _console.WriteWarning("Failed to get information about type '" + type.FullName + "'. " + ex.Message);
+                            TraceException(ex, "Failed to get information about type '" + type.FullName + "'. ");
                         }
                     }
                 }
                 catch (Exception ex) {
-                    _console.WriteWarning("Failed to get types for assembly '" + assembly.FullName + "'. " + ex.Message);
+                    TraceException(ex, "Failed to get types for assembly '" + assembly.FullName + "'. ");
                 }
             }
             
@@ -82,6 +84,26 @@ namespace Orchard.Management.PsProvider.Vfs {
             _scope.InjectUnsetProperties(provider);
             provider.Initialize();
             return provider;
+        }
+
+        private static void TraceException(Exception ex, string message) {
+            var sb = new StringBuilder(message);
+            sb.Append(ex.Message);
+
+            var inner = ex.InnerException;
+            while (inner != null) {
+                sb.Append(inner.Message);
+                inner = inner.InnerException;
+            }
+
+            var typeLoadException = ex as ReflectionTypeLoadException;
+            if (typeLoadException != null) {
+                foreach (Exception loaderException in typeLoadException.LoaderExceptions) {
+                    sb.Append(loaderException.Message);
+                }
+            }
+
+            Trace.WriteLine(sb.ToString());
         }
     }
 }

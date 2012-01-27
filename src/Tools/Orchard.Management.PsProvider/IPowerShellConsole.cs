@@ -7,5 +7,6 @@ namespace Orchard.Management.PsProvider {
         void WriteWarning(string text);
         void WriteDebug(string text);
         void WriteVerbose(string text);
+        void WriteLine();
     }
 }

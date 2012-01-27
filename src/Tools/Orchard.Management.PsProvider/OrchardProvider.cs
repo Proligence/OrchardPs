@@ -267,7 +267,8 @@ namespace Orchard.Management.PsProvider {
         }
 
         private PSDriveInfo InitializeOrchardDrive(PSDriveInfo drive, OrchardDriveParameters driveParameters) {
-            Console.WriteWarning("Initializing Orchard session. (This might take a few seconds...)");
+            Console.WriteVerbose("Initializing Orchard session. (This might take a few seconds...)");
+            Console.WriteLine();
             
             ILifetimeScope lifetimeScope = OrchardProviderInfo.Container.BeginLifetimeScope();
 
