@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Management.Automation;
+using System.Management.Automation.Host;
 using System.Management.Automation.Provider;
 using System.Reflection;
 using Autofac;
@@ -29,6 +30,9 @@ namespace Orchard.Management.PsProvider {
         }
 
         protected override ProviderInfo Start(ProviderInfo providerInfo) {
+            // Increase console window size
+            IncreaseWindowSize(120, 50);
+
             IContainer container = OrchardProviderContainer.GetContainer();
             return new OrchardProviderInfo(providerInfo, container);
         }
@@ -263,6 +267,39 @@ namespace Orchard.Management.PsProvider {
 
             if (!handled) {
                 base.MoveItem(path, destination);
+            }
+        }
+
+        private void IncreaseWindowSize(int width, int height) {
+            Size maximumSize = Host.UI.RawUI.MaxPhysicalWindowSize;
+            Size bufferSize = Host.UI.RawUI.BufferSize;
+            Size windowSize = Host.UI.RawUI.WindowSize;
+
+            bool updateNeeded = false;
+
+            if (bufferSize.Width < width) {
+                bufferSize.Width = (width <= maximumSize.Width) ? width : maximumSize.Width;
+                updateNeeded = true;
+            }
+
+            if (windowSize.Width < width) {
+                windowSize.Width = (width <= maximumSize.Width) ? width : maximumSize.Width;
+                updateNeeded = true;
+            }
+
+            if (bufferSize.Height < height) {
+                bufferSize.Height = (height < maximumSize.Height) ? height : maximumSize.Height;
+                updateNeeded = true;
+            }
+
+            if (windowSize.Height < height) {
+                windowSize.Height = (height <= maximumSize.Height) ? height : maximumSize.Height;
+                updateNeeded = true;
+            }
+
+            if (updateNeeded) {
+                Host.UI.RawUI.BufferSize = bufferSize;
+                Host.UI.RawUI.WindowSize = windowSize;
             }
         }
 
