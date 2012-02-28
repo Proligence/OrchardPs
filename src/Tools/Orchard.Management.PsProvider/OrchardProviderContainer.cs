@@ -1,27 +1,59 @@
-﻿using System;
-using Autofac;
-using Orchard.Management.PsProvider.Agents;
-using Orchard.Management.PsProvider.Host;
-using Orchard.Management.PsProvider.Vfs;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="OrchardProviderContainer.cs" company="Proligence">
+//   Copyright (c) 2011 Proligence, All Rights Reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace Orchard.Management.PsProvider {
-    public static class OrchardProviderContainer {
-        private static IContainer _container;
-        private static readonly object _containerLock = new object();
+namespace Orchard.Management.PsProvider 
+{
+    using System;
+    using Autofac;
+    using Orchard.Management.PsProvider.Agents;
+    using Orchard.Management.PsProvider.Host;
+    using Orchard.Management.PsProvider.Vfs;
 
-        public static IContainer GetContainer() {
-            if (_container == null) {
-                lock (_containerLock) {
-                    if (_container == null) {
-                        _container = BuildContainer();
+    /// <summary>
+    /// Manages the dependency injection container for the Orchard PS provider.
+    /// </summary>
+    public static class OrchardProviderContainer 
+    {
+        /// <summary>
+        /// The object used to synchronize access to the <see cref="container"/> variable.
+        /// </summary>
+        private static readonly object containerLock = new object();
+
+        /// <summary>
+        /// The dependency injection container.
+        /// </summary>
+        private static IContainer container;
+
+        /// <summary>
+        /// Gets the dependency injection container for the Orchard PS provider.
+        /// </summary>
+        /// <returns>The dependency injection container instance.</returns>
+        public static IContainer GetContainer() 
+        {
+            if (container == null) 
+            {
+                lock (containerLock) 
+                {
+                    if (container == null) 
+                    {
+                        container = BuildContainer();
                     }
                 }
             }
 
-            return _container;
+            return container;
         }
 
-        public static IContainer BuildContainer(Action<ContainerBuilder> registrations = null) {
+        /// <summary>
+        /// Builds a new dependency injection container for the Orchard PS provider.
+        /// </summary>
+        /// <param name="registrations">Additional container registrations.</param>
+        /// <returns>The created dependency injection container.</returns>
+        public static IContainer BuildContainer(Action<ContainerBuilder> registrations = null) 
+        {
             var builder = new ContainerBuilder();
 
             // PsProvider
@@ -38,7 +70,8 @@ namespace Orchard.Management.PsProvider {
             // Agents
             builder.RegisterType<AgentManager>().As<IAgentManager>().InstancePerLifetimeScope();
 
-            if (registrations != null) {
+            if (registrations != null) 
+            {
                 registrations(builder);
             }
 

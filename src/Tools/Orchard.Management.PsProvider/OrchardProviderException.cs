@@ -1,52 +1,136 @@
-﻿using System;
-using System.Management.Automation;
-using System.Runtime.Serialization;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="OrchardProviderException.cs" company="Proligence">
+//   Copyright (c) 2011 Proligence, All Rights Reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace Orchard.Management.PsProvider {
+namespace Orchard.Management.PsProvider 
+{
+    using System;
+    using System.Management.Automation;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// The base class for exceptions which represent errors from the Orchard PS provider.
+    /// </summary>
     [Serializable]
-    public class OrchardProviderException : Exception {
+    public class OrchardProviderException : Exception 
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OrchardProviderException"/> class.
+        /// </summary>
+        public OrchardProviderException()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OrchardProviderException"/> class.
+        /// </summary>
+        /// <param name="message">The exception's message.</param>
+        public OrchardProviderException(string message) 
+            : base(message)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OrchardProviderException"/> class.
+        /// </summary>
+        /// <param name="message">The exception's message.</param>
+        /// <param name="fatal">if set to <c>true</c> indicates that the error is fatal.</param>
+        /// <param name="errorId">The error identifier.</param>
+        /// <param name="category">The error category.</param>
+        public OrchardProviderException(
+            string message, 
+            bool fatal, 
+            string errorId, 
+            ErrorCategory category = ErrorCategory.NotSpecified) 
+            : base(message) 
+        {
+            this.IsFatal = fatal;
+            this.ErrorId = errorId;
+            this.ErrorCategory = category;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OrchardProviderException"/> class.
+        /// </summary>
+        /// <param name="message">The exception's message.</param>
+        /// <param name="inner">The inner exception.</param>
+        public OrchardProviderException(string message, Exception inner) 
+            : base(message, inner)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OrchardProviderException"/> class.
+        /// </summary>
+        /// <param name="message">The exception's message.</param>
+        /// <param name="inner">The inner exception.</param>
+        /// <param name="fatal">if set to <c>true</c> indicates that the error is fatal.</param>
+        /// <param name="errorId">The error identifier.</param>
+        /// <param name="category">The error category.</param>
+        public OrchardProviderException(
+            string message, 
+            Exception inner, 
+            bool fatal, 
+            string errorId, 
+            ErrorCategory category = ErrorCategory.NotSpecified) 
+            : base(message, inner) 
+        {
+            this.IsFatal = fatal;
+            this.ErrorId = errorId;
+            this.ErrorCategory = category;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OrchardProviderException"/> class.
+        /// </summary>
+        /// <param name="info">
+        /// The <see cref="SerializationInfo"/> that holds the serialized object data about the exception being thrown.
+        /// </param>
+        /// <param name="context">
+        /// The <see cref="StreamingContext"/> that contains contextual information about the source or destination.
+        /// </param>
+        protected OrchardProviderException(SerializationInfo info, StreamingContext context) 
+            : base(info, context) 
+        {
+            this.IsFatal = info.GetBoolean("IsFatal");
+            this.ErrorId = info.GetString("ErrorId");
+            this.ErrorCategory = (ErrorCategory)info.GetValue("ErrorCategory", typeof(ErrorCategory));
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the exception represents a fatal error.
+        /// </summary>
         public bool IsFatal { get; private set; }
+
+        /// <summary>
+        /// Gets the error identifier.
+        /// </summary>
         public string ErrorId { get; private set; }
+
+        /// <summary>
+        /// Gets the error category.
+        /// </summary>
         public ErrorCategory ErrorCategory { get; private set; }
 
-        public OrchardProviderException() { }
-        
-        public OrchardProviderException(string message) 
-            : base(message) { }
-
-        public OrchardProviderException(string message, bool isFatal, string errorId, ErrorCategory category = ErrorCategory.NotSpecified) 
-            : base (message) {
-
-            IsFatal = isFatal;
-            ErrorId = errorId;
-            ErrorCategory = category;
-        }
-
-        public OrchardProviderException(string message, Exception inner) 
-            : base(message, inner) { }
-
-        public OrchardProviderException(string message, Exception inner, bool isFatal, string errorId, ErrorCategory category = ErrorCategory.NotSpecified) 
-            : base(message, inner) {
-
-            IsFatal = isFatal;
-            ErrorId = errorId;
-            ErrorCategory = category;
-        }
-
-        protected OrchardProviderException(SerializationInfo info, StreamingContext context) 
-            : base(info, context) {
-
-            IsFatal = info.GetBoolean("IsFatal");
-            ErrorId = info.GetString("ErrorId");
-            ErrorCategory = (ErrorCategory)info.GetValue("ErrorCategory", typeof(ErrorCategory));
-        }
-
-        public override void GetObjectData(SerializationInfo info, StreamingContext context) {
+        /// <summary>
+        /// When overridden in a derived class, sets the <see cref="SerializationInfo"/> with information about the
+        /// exception.
+        /// </summary>
+        /// <param name="info">
+        /// The <see cref="SerializationInfo"/> that holds the serialized object data about the exception being thrown.
+        /// </param>
+        /// <param name="context">
+        /// The <see cref="StreamingContext"/> that contains contextual information about the source or destination.
+        /// </param>
+        public override void GetObjectData(SerializationInfo info, StreamingContext context) 
+        {
             base.GetObjectData(info, context);
             
-            info.AddValue("IsFatal", IsFatal);
-            info.AddValue("ErrorId", ErrorId);
-            info.AddValue("ErrorCategory", ErrorCategory);
+            info.AddValue("IsFatal", this.IsFatal);
+            info.AddValue("ErrorId", this.ErrorId);
+            info.AddValue("ErrorCategory", this.ErrorCategory);
         }
     }
 }

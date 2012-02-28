@@ -1,35 +1,71 @@
-﻿using System.Management.Automation;
-using Autofac;
-using Orchard.Management.PsProvider.Agents;
-using Orchard.Management.PsProvider.Vfs;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="OrchardCmdlet.cs" company="Proligence">
+//   Copyright (c) 2011 Proligence, All Rights Reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace Orchard.Management.PsProvider {
-    public class OrchardCmdlet : PSCmdlet {
-        private IAgentManager _agentManager;
+namespace Orchard.Management.PsProvider 
+{
+    using System.Management.Automation;
+    using Autofac;
+    using Orchard.Management.PsProvider.Agents;
+    using Orchard.Management.PsProvider.Vfs;
+
+    /// <summary>
+    /// The base class for cmdlets which must be invoked from a path which belongs to the Orchard PS provider.
+    /// </summary>
+    public class OrchardCmdlet : PSCmdlet 
+    {
+        /// <summary>
+        /// The agent manager instance.
+        /// </summary>
+        private IAgentManager agentManager;
         
+        /// <summary>
+        /// Gets the <see cref="OrchardDriveInfo"/> object of the Orchard drive on which the cmdlet was called.
+        /// </summary>
         public OrchardDriveInfo OrchardDrive { get; private set; }
+
+        /// <summary>
+        /// Gets the current VFS node in the Orchard drive on which the cmdlet was called.
+        /// </summary>
         public OrchardVfsNode CurrentNode { get; private set; }
+
+        /// <summary>
+        /// Gets the dependency injection container for the Orchard PS provider.
+        /// </summary>
         public IContainer OrchardProviderContainer { get; private set; }
-        
-        protected IAgentManager AgentManager {
-            get {
-                if (_agentManager == null) {
-                    _agentManager = OrchardDrive.LifetimeScope.Resolve<IAgentManager>();
+       
+        /// <summary>
+        /// Gets the agent manager instance.
+        /// </summary>
+        protected IAgentManager AgentManager 
+        {
+            get 
+            {
+                if (this.agentManager == null) 
+                {
+                    this.agentManager = this.OrchardDrive.LifetimeScope.Resolve<IAgentManager>();
                 }
 
-                return _agentManager;
+                return this.agentManager;
             }
         }
 
-        protected override void BeginProcessing() {
-            OrchardDrive = SessionState.Drive.Current as OrchardDriveInfo;
-            if (OrchardDrive == null) {
+        /// <summary>
+        /// Provides a one-time, preprocessing functionality for the cmdlet.
+        /// </summary>
+        protected override void BeginProcessing() 
+        {
+            this.OrchardDrive = SessionState.Drive.Current as OrchardDriveInfo;
+            if (this.OrchardDrive == null) 
+            {
                 var exception = ThrowHelper.InvalidOperation("The cmdlet must be invoked from an Orchard drive.");
                 this.ThrowTerminatingError(exception, ErrorIds.OrchardDriveExpected, ErrorCategory.InvalidOperation);
             }
 
-            CurrentNode = OrchardDrive.Vfs.NavigatePath(OrchardDrive.CurrentLocation);
-            OrchardProviderContainer = OrchardDrive.GetOrchardProviderContainer();
+            this.CurrentNode = this.OrchardDrive.Vfs.NavigatePath(this.OrchardDrive.CurrentLocation);
+            this.OrchardProviderContainer = this.OrchardDrive.GetOrchardProviderContainer();
         }
     }
 }

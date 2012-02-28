@@ -1,18 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Autofac;
-using Orchard.Commands;
-using Orchard.Management.PsProvider.Agents;
-using Proligence.PowerShell.Commands.Items;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CommandAgent.cs" company="Proligence">
+//   Proligence Confidential, All Rights Reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace Proligence.PowerShell.Agents {
-    public class CommandAgent : AgentBase {
-        public OrchardCommand[] GetCommands(string site) {
-            ICommandManager commandManager = GetCommandManager(site);
+namespace Proligence.PowerShell.Agents 
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Autofac;
+    using Orchard.Commands;
+    using Orchard.Management.PsProvider.Agents;
+    using Proligence.PowerShell.Commands.Items;
+
+    /// <summary>
+    /// Implements the agent which exposes legacy Orchard commands.
+    /// </summary>
+    public class CommandAgent : AgentBase 
+    {
+        /// <summary>
+        /// Gets all legacy commands which are available for the specified Orchard site.
+        /// </summary>
+        /// <param name="site">The name of the site.</param>
+        /// <returns>
+        /// An array of <see cref="OrchardCommand"/> objects which represent the Orchard commands which are available
+        /// at the specified site.
+        /// </returns>
+        public OrchardCommand[] GetCommands(string site) 
+        {
+            ICommandManager commandManager = this.GetCommandManager(site);
             IEnumerable<CommandDescriptor> commandDescriptors = commandManager.GetCommandDescriptors();
             IEnumerable<OrchardCommand> commands = commandDescriptors.Select(
-                command => new OrchardCommand {
+                command => new OrchardCommand 
+                {
                     CommandName = command.Name,
                     HelpText = command.HelpText,
                     SiteName = site
@@ -21,19 +42,34 @@ namespace Proligence.PowerShell.Agents {
             return commands.ToArray();
         }
 
-        public void ExecuteCommand(string siteName, string[] args, Dictionary<string, string> switches) {
+        /// <summary>
+        /// Executes the specified legacy command.
+        /// </summary>
+        /// <param name="siteName">The name of the site on which the command will be exectued.</param>
+        /// <param name="args">Command name and arguments.</param>
+        /// <param name="switches">Command switches.</param>
+        public void ExecuteCommand(string siteName, string[] args, Dictionary<string, string> switches) 
+        {
             var agent = new CommandHostAgent();
             agent.StartHost(Console.In, Console.Out);
-            try {
+            try 
+            {
                 agent.RunCommand(Console.In, Console.Out, siteName, args, switches);
             }
-            finally {
+            finally 
+            {
                 agent.StopHost(Console.In, Console.Out);
             }
         }
 
-        private ICommandManager GetCommandManager(string site) {
-            ILifetimeScope siteContainer = ContainerManager.GetSiteContainer(site);
+        /// <summary>
+        /// Gets the <see cref="ICommandManager"/> instance for the specified site.
+        /// </summary>
+        /// <param name="site">The name of the site.</param>
+        /// <returns>The <see cref="ICommandManager"/> instance for the specified site.</returns>
+        private ICommandManager GetCommandManager(string site) 
+        {
+            ILifetimeScope siteContainer = this.ContainerManager.GetSiteContainer(site);
             return siteContainer.Resolve<ICommandManager>();
         }
     }

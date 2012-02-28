@@ -1,29 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Management.Automation.Runspaces;
-using System.Reflection;
-using System.Text;
-using Microsoft.PowerShell;
-using Orchard.Management.PsProvider;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Program.cs" company="Proligence">
+//   Copyright (c) 2011 Proligence, All Rights Reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace OrchardPs {
-    public static class Program {
-        public static int Main(string[] args) {
+namespace OrchardPs 
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Management.Automation.Runspaces;
+    using System.Reflection;
+    using System.Text;
+    using Microsoft.PowerShell;
+    using Orchard.Management.PsProvider;
+
+    /// <summary>
+    /// Implements the application's entry point.
+    /// </summary>
+    public static class Program 
+    {
+        /// <summary>
+        /// Implements the application's entry point.
+        /// </summary>
+        /// <param name="args">The application's command line arguments.</param>
+        /// <returns>The application's exit code.</returns>
+        public static int Main(string[] args) 
+        {
             RunspaceConfiguration configuration;
-            try {
+            try 
+            {
                 configuration = RunspaceConfiguration.Create();
 
                 var snapIn = new OrchardPsSnapIn();
                 
-                foreach (ProviderConfigurationEntry provider in snapIn.Providers) {
+                foreach (ProviderConfigurationEntry provider in snapIn.Providers) 
+                {
                     configuration.Providers.Append(provider);   
                 }
 
-                foreach (CmdletConfigurationEntry cmdlet in snapIn.Cmdlets) {
+                foreach (CmdletConfigurationEntry cmdlet in snapIn.Cmdlets) 
+                {
                     configuration.Cmdlets.Append(cmdlet);
                 }
 
-                foreach (FormatConfigurationEntry format in snapIn.Formats) {
+                foreach (FormatConfigurationEntry format in snapIn.Formats) 
+                {
                     configuration.Formats.Append(format);
                 }
 
@@ -32,14 +53,16 @@ namespace OrchardPs {
                         "NavigateToOrchardDrive", 
                         "if (Test-Path Orchard:) { Set-Location Orchard: }"));
 
-                foreach (KeyValuePair<string, string> alias in snapIn.Aliases) {
+                foreach (KeyValuePair<string, string> alias in snapIn.Aliases)
+                {
                     configuration.InitializationScripts.Append(
                         new ScriptConfigurationEntry(
                             "Alias-" + alias.Key, 
                             "New-Alias '" + alias.Key + "' " + alias.Value));
                 }
             }
-            catch (Exception ex) {
+            catch (Exception ex) 
+            {
                 Console.Error.WriteLine("Failed to create runspace configuration. " + ex.Message);
                 return -1;
             }
@@ -47,12 +70,18 @@ namespace OrchardPs {
             return ConsoleShell.Start(configuration, GetBanner(), string.Empty, args);
         }
 
-        private static string GetBanner() {
+        /// <summary>
+        /// Gets the text banner which is displayed to the user when the application is started.
+        /// </summary>
+        /// <returns>The text banner.</returns>
+        private static string GetBanner() 
+        {
             var banner = new StringBuilder();
             banner.AppendLine("Proligence Orchard PowerShell");
 
             var versionAttribute = GetAssemblyAttribute<AssemblyFileVersionAttribute>();
-            if (versionAttribute != null) {
+            if (versionAttribute != null) 
+            {
                 var v = Assembly.GetEntryAssembly().GetName().Version;
                 banner.Append(string.Format("Version {0}.{1} build {2}", v.Major, v.Minor, v.Build));
             }
@@ -60,10 +89,18 @@ namespace OrchardPs {
             return banner.ToString();
         }
 
-        private static TAttribute GetAssemblyAttribute<TAttribute>() where TAttribute : Attribute {
+        /// <summary>
+        /// Gets the specified assembly attribute.
+        /// </summary>
+        /// <typeparam name="TAttribute">The type of the attribute to get.</typeparam>
+        /// <returns>The attribute or <c>null</c> if attribute was not found.</returns>
+        private static TAttribute GetAssemblyAttribute<TAttribute>()
+            where TAttribute : Attribute 
+        {
             var assembly = typeof(Program).Assembly;
             var attributes = assembly.GetCustomAttributes(typeof(TAttribute), false);
-            if (attributes.Length > 0) {
+            if (attributes.Length > 0) 
+            {
                 return (TAttribute)attributes[0];
             }
 

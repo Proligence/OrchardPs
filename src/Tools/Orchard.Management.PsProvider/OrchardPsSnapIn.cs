@@ -1,175 +1,283 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Management.Automation;
-using System.Management.Automation.Runspaces;
-using System.Reflection;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="OrchardPsSnapIn.cs" company="Proligence">
+//   Copyright (c) 2011 Proligence, All Rights Reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace Orchard.Management.PsProvider {
-    public class OrchardPsSnapIn : CustomPSSnapIn {
-        private Collection<ProviderConfigurationEntry> _providers;
-        private Collection<CmdletConfigurationEntry> _cmdlets;
-        private Collection<FormatConfigurationEntry> _formats;
-        private Collection<string> _helpFiles;
-        private IDictionary<string, string> _aliases;
-        private Collection<Assembly> _orchardModuleAssemblies;
-        private bool _assembliesLoaded;
+namespace Orchard.Management.PsProvider 
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
+    using System.Management.Automation;
+    using System.Management.Automation.Runspaces;
+    using System.Reflection;
 
-        public override string Name {
+    /// <summary>
+    /// Implements the PowerShell snap-in for the Orchard PS provider.
+    /// </summary>
+    public class OrchardPsSnapIn : CustomPSSnapIn 
+    {
+        private Collection<ProviderConfigurationEntry> providers;
+        private Collection<CmdletConfigurationEntry> cmdlets;
+        private Collection<FormatConfigurationEntry> formats;
+        private Collection<string> helpFiles;
+        private IDictionary<string, string> aliases;
+        private Collection<Assembly> orchardModuleAssemblies;
+        private bool assembliesLoaded;
+
+        /// <summary>
+        /// Gets the name of the snap-in.
+        /// </summary>
+        public override string Name 
+        {
             get { return "Orchard.Management"; }
         }
 
-        public override string Vendor {
-            get { return "Orchard"; }
+        /// <summary>
+        /// Gets the name of the snap-in's vendor.
+        /// </summary>
+        public override string Vendor 
+        {
+            get { return "Proligence"; }
         }
 
-        public override string Description {
-            get { return "This Windows PowerShell snap-in contains the Orchard PowerShell provider and Cmdlets defined in Orchard modules."; }
+        /// <summary>
+        /// Gets the snap-in's description.
+        /// </summary>
+        public override string Description 
+        {
+            get 
+            {
+                return "This Windows PowerShell snap-in contains the Orchard PowerShell provider and Cmdlets " +
+                       "defined in Orchard modules.";
+            }
         }
 
-        public override Collection<ProviderConfigurationEntry> Providers {
-            get {
-                if (_providers == null) {
-                    _providers = new Collection<ProviderConfigurationEntry> {
-                        new ProviderConfigurationEntry("Orchard", typeof (OrchardProvider), null)
+        /// <summary>
+        /// Gets a collection of PS providers included in the snap-in.
+        /// </summary>
+        public override Collection<ProviderConfigurationEntry> Providers 
+        {
+            get 
+            {
+                if (this.providers == null) 
+                {
+                    this.providers = new Collection<ProviderConfigurationEntry> 
+                    {
+                        new ProviderConfigurationEntry("Orchard", typeof(OrchardProvider), null)
                     };
                 }
                 
-                return _providers;
+                return this.providers;
             }
         }
 
-        public override Collection<CmdletConfigurationEntry> Cmdlets {
-            get {
-                LoadOrchardAssemblies();
+        /// <summary>
+        /// Gets a collection of PS cmdlets included in the snap-in.
+        /// </summary>
+        public override Collection<CmdletConfigurationEntry> Cmdlets 
+        {
+            get 
+            {
+                this.LoadOrchardAssemblies();
 
-                if (_cmdlets == null) {
-                    _cmdlets = new Collection<CmdletConfigurationEntry>();
-                    LoadCmdlets(_cmdlets);
+                if (this.cmdlets == null) 
+                {
+                    this.cmdlets = new Collection<CmdletConfigurationEntry>();
+                    this.LoadCmdlets(this.cmdlets);
                 }
 
-                return _cmdlets;
+                return this.cmdlets;
             }
         }
 
-        public override Collection<FormatConfigurationEntry> Formats {
-            get {
-                if (_formats == null) {
-                    _formats = new Collection<FormatConfigurationEntry>();
+        /// <summary>
+        /// Gets a collection of PS object formats included in the snap-in.
+        /// </summary>
+        public override Collection<FormatConfigurationEntry> Formats 
+        {
+            get 
+            {
+                if (this.formats == null) 
+                {
+                    this.formats = new Collection<FormatConfigurationEntry>();
                     
-                    DirectoryInfo orchardDirectory = GetOrchardDirectory();
-                    if (orchardDirectory != null) {
-                        LoadFormatDataFiles(orchardDirectory.FullName, _formats);
+                    DirectoryInfo orchardDirectory = this.GetOrchardDirectory();
+                    if (orchardDirectory != null) 
+                    {
+                        this.LoadFormatDataFiles(orchardDirectory.FullName, this.formats);
                     }
                 }
 
-                return _formats;
+                return this.formats;
             }
         }
 
-        public IDictionary<string, string> Aliases {
-            get {
-                if (_aliases == null) {
-                    _aliases = new Dictionary<string, string>();
+        /// <summary>
+        /// Gets a dictionary of command aliases which will be automatically created.
+        /// </summary>
+        public IDictionary<string, string> Aliases 
+        {
+            get 
+            {
+                if (this.aliases == null) 
+                {
+                    this.aliases = new Dictionary<string, string>();
                 }
 
-                return _aliases;
+                return this.aliases;
             }
         }
 
-        internal static bool VerifyOrchardDirectory(string directory) {
-            if (!File.Exists(Path.Combine(directory, "web.config")))
+        /// <summary>
+        /// Verifies that the specified directory contains an Orchard installation.
+        /// </summary>
+        /// <param name="directory">The directory to verify.</param>
+        /// <returns>
+        /// <c>true</c> if the specified directory contains an Orchard installation; otherwise, <c>false</c>.
+        /// </returns>
+        internal static bool VerifyOrchardDirectory(string directory) 
+        {
+            if (!File.Exists(Path.Combine(directory, "web.config"))) 
+            {
                 return false;
+            }
 
             if (!Directory.Exists(Path.Combine(directory, "bin")))
+            {
                 return false;
+            }
 
             if (!File.Exists(Path.Combine(directory, "bin\\Orchard.Framework.dll")))
+            {
                 return false;
+            }
 
             return true;
         }
 
-        private void LoadOrchardAssemblies() {
-            if (_assembliesLoaded) {
+        /// <summary>
+        /// Loads the assemblies of all Orchard modules into the current AppDomain.
+        /// </summary>
+        private void LoadOrchardAssemblies() 
+        {
+            if (this.assembliesLoaded) 
+            {
                 return;
             }
 
             string orchardRoot = Directory.GetParent(System.Environment.CurrentDirectory).FullName;
-            if (!VerifyOrchardDirectory(orchardRoot)) {
+            if (!VerifyOrchardDirectory(orchardRoot)) 
+            {
                 throw new InvalidOperationException("The current directory does not contain an Orchard installation.");
             }
 
-            _orchardModuleAssemblies = new Collection<Assembly>();
-            foreach (string directory in Directory.GetDirectories(Path.Combine(orchardRoot, "Modules"))) {
-                DirectoryInfo moduleDirectory = new DirectoryInfo(directory);
-                if (moduleDirectory.Exists) {
+            this.orchardModuleAssemblies = new Collection<Assembly>();
+            foreach (string directory in Directory.GetDirectories(Path.Combine(orchardRoot, "Modules"))) 
+            {
+                var moduleDirectory = new DirectoryInfo(directory);
+                if (moduleDirectory.Exists) 
+                {
                     string moduleName = moduleDirectory.Name;
-                    string assemblyPath = Path.Combine(moduleDirectory.FullName, Path.Combine("bin", moduleName + ".dll"));
-                    if (File.Exists(assemblyPath)) {
-                        try {
+                    string assemblyPath = Path.Combine(
+                        moduleDirectory.FullName, 
+                        Path.Combine("bin", moduleName + ".dll"));
+                    
+                    if (File.Exists(assemblyPath)) 
+                    {
+                        try 
+                        {
                             Assembly assembly = Assembly.LoadFrom(assemblyPath);
-                            _orchardModuleAssemblies.Add(assembly);
+                            this.orchardModuleAssemblies.Add(assembly);
                         }
-                        catch (Exception ex) {
+                        catch (Exception ex) 
+                        {
                             Trace.WriteLine("Failed to load assembly '" + assemblyPath + "'. " + ex.Message);
                         }
                     }
                 }
             }
 
-            _assembliesLoaded = true;
+            this.assembliesLoaded = true;
         }
 
-        private void LoadCmdlets(Collection<CmdletConfigurationEntry> cmdlets) {
-            Type cmdletType = typeof (Cmdlet);
-            foreach (Assembly assembly in _orchardModuleAssemblies) {
-                try {
-                    foreach (Type type in assembly.GetTypes()) {
-                        try {
-                            if (cmdletType.IsAssignableFrom(type)) {
+        /// <summary>
+        /// Discovers the cmdlets defined in Orchard module assemblies.
+        /// </summary>
+        /// <param name="cmdletsCollection">The collection to which the discovered assemlies will be added.</param>
+        private void LoadCmdlets(ICollection<CmdletConfigurationEntry> cmdletsCollection)
+        {
+            Type cmdletType = typeof(Cmdlet);
+
+            foreach (Assembly assembly in this.orchardModuleAssemblies)
+            {
+                try
+                {
+                    foreach (Type type in assembly.GetTypes())
+                    {
+                        try
+                        {
+                            if (cmdletType.IsAssignableFrom(type))
+                            {
                                 CmdletAttribute cmdletAttribute =
-                                    type.GetCustomAttributes(typeof (CmdletAttribute), false)
+                                    type.GetCustomAttributes(typeof(CmdletAttribute), false)
                                         .Cast<CmdletAttribute>()
                                         .FirstOrDefault();
 
-                                if (cmdletAttribute == null) {
-                                    Trace.WriteLine("Cannot load cmdlet '" + type.FullName + "' because it's class not decorated with CmdletAttribute.");
+                                if (cmdletAttribute == null)
+                                {
+                                    Trace.WriteLine(
+                                        "Cannot load cmdlet '" + type.FullName + "' because it's class not " + 
+                                        "decorated with CmdletAttribute.");
                                     continue;
                                 }
 
                                 string name = cmdletAttribute.VerbName + "-" + cmdletAttribute.NounName;
-                                string helpFile = GetHelpFile(name);
-                                cmdlets.Add(new CmdletConfigurationEntry(name, type, helpFile));
+                                string helpFile = this.GetHelpFile(name);
+                                cmdletsCollection.Add(new CmdletConfigurationEntry(name, type, helpFile));
 
-                                IEnumerable<CmdletAliasAttribute> aliases =
-                                    type.GetCustomAttributes(typeof (CmdletAliasAttribute), false)
+                                IEnumerable<CmdletAliasAttribute> assemblyAliases =
+                                    type.GetCustomAttributes(typeof(CmdletAliasAttribute), false)
                                         .Cast<CmdletAliasAttribute>();
                                 
-                                foreach (CmdletAliasAttribute aliasAttribute in aliases) {
-                                    Aliases.Add(aliasAttribute.Alias, name);
+                                foreach (CmdletAliasAttribute aliasAttribute in assemblyAliases) 
+                                {
+                                    this.Aliases.Add(aliasAttribute.Alias, name);
                                 }
                             }
                         }
-                        catch (Exception ex) {
+                        catch (Exception ex) 
+                        {
                             Trace.WriteLine("Failed to process type '" + type.FullName + "'. " + ex.Message);
                         }
                     }
                 }
-                catch (Exception ex) {
+                catch (Exception ex) 
+                {
                     Trace.WriteLine("Failed to get types for assembly '" + assembly.FullName + "'. " + ex.Message);
                 }
             }
         }
 
-        private DirectoryInfo GetOrchardDirectory() {
+        /// <summary>
+        /// Gets the Orchard directory based on the location of the application's entry assembly.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="DirectoryInfo"/> object of the Orchard's root directory or <c>null</c> if Orchard directory
+        /// was not found.
+        /// </returns>
+        private DirectoryInfo GetOrchardDirectory() 
+        {
             string directoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            if (directoryName != null) {
+            if (directoryName != null) 
+            {
                 var directoryInfo = new DirectoryInfo(directoryName);
-                while ((directoryInfo != null) && !VerifyOrchardDirectory(directoryInfo.FullName)) {
+                while ((directoryInfo != null) && !VerifyOrchardDirectory(directoryInfo.FullName)) 
+                {
                     directoryInfo = directoryInfo.Parent;
                 }
 
@@ -179,48 +287,78 @@ namespace Orchard.Management.PsProvider {
             return null;
         }
 
-        private void LoadFormatDataFiles(string directory, Collection<FormatConfigurationEntry> formats) {
+        /// <summary>
+        /// Discovers the PS format files in Orchard module assemblies.
+        /// </summary>
+        /// <param name="directory">The Orchard's root directory.</param>
+        /// <param name="formatsCollection">The collection to which the discovered format files will be added.</param>
+        private void LoadFormatDataFiles(string directory, Collection<FormatConfigurationEntry> formatsCollection) 
+        {
             string[] fileNames;
-            try {
+            try 
+            {
                 fileNames = Directory.GetFiles(directory, "*.format.ps1xml", SearchOption.AllDirectories);
             }
-            catch (Exception ex) {
+            catch (Exception ex) 
+            {
                 Trace.WriteLine("Failed to read directory '" + directory + "'. " + ex.Message);
                 return;
             }
 
-            foreach (string fileName in fileNames) {
-                formats.Add(new FormatConfigurationEntry(fileName));
+            foreach (string fileName in fileNames) 
+            {
+                formatsCollection.Add(new FormatConfigurationEntry(fileName));
             }
         }
 
-        private string GetHelpFile(string cmdletName) {
-            if (_helpFiles == null) {
-                _helpFiles = new Collection<string>();
+        /// <summary>
+        /// Gets the path to the help file for the specified cmdlet.
+        /// </summary>
+        /// <param name="cmdletName">The name of the cmdlet.</param>
+        /// <returns>
+        /// The path to the cmdlet's help file or <c>null</c> if the cmdlet does not have a help file.
+        /// </returns>
+        private string GetHelpFile(string cmdletName) 
+        {
+            if (this.helpFiles == null) 
+            {
+                this.helpFiles = new Collection<string>();
 
-                DirectoryInfo orchardDirectory = GetOrchardDirectory();
-                if (orchardDirectory != null) {
-                    LoadHelpFiles(orchardDirectory.FullName, _helpFiles);
+                DirectoryInfo orchardDirectory = this.GetOrchardDirectory();
+                if (orchardDirectory != null) 
+                {
+                    this.LoadHelpFiles(orchardDirectory.FullName, this.helpFiles);
                 }
             }
 
-            return _helpFiles.Where(f => f.Contains(cmdletName + "-help.xml")).FirstOrDefault();
+            return this.helpFiles.Where(f => f.Contains(cmdletName + "-help.xml")).FirstOrDefault();
         }
 
-        private void LoadHelpFiles(string directory, Collection<string> helpFiles) {
+        /// <summary>
+        /// Discovers the PS cmdlet help files in Orchard module assemblies.
+        /// </summary>
+        /// <param name="directory">The Orchard's root directory.</param>
+        /// <param name="helpFilesCollection">The collection to which the discovered help files will be added.</param>
+        private void LoadHelpFiles(string directory, Collection<string> helpFilesCollection) 
+        {
             string[] fileNames;
-            try {
+            try 
+            {
                 fileNames = Directory.GetFiles(directory, "*.xml", SearchOption.AllDirectories);
             }
-            catch (Exception ex) {
+            catch (Exception ex) 
+            {
                 Trace.WriteLine("Failed to read directory '" + directory + "'. " + ex.Message);
                 return;
             }
 
-            foreach (string fileName in fileNames) {
-                if (fileName.EndsWith("-help.xml")) {
-                    if (!fileName.EndsWith("Orchard.Management.PsProvider.dll-help.xml")) {
-                        helpFiles.Add(fileName);
+            foreach (string fileName in fileNames) 
+            {
+                if (fileName.EndsWith("-help.xml")) 
+                {
+                    if (!fileName.EndsWith("Orchard.Management.PsProvider.dll-help.xml")) 
+                    {
+                        helpFilesCollection.Add(fileName);
                     }
                 }
             }
