@@ -4,3 +4,4 @@ obj
 *.suo
 *.user
 StyleCop.Cache
+_ReSharper*
