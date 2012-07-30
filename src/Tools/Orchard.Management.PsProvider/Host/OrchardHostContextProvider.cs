@@ -9,6 +9,8 @@ namespace Orchard.Management.PsProvider.Host
     using System;
     using System.Diagnostics;
     using System.IO;
+    using System.Linq;
+    using System.Reflection;
     using System.Security;
     using System.Web.Compilation;
     using System.Web.Hosting;
@@ -77,9 +79,17 @@ namespace Orchard.Management.PsProvider.Host
         /// </summary>
         /// <typeparam name="T">The type of the agent to get proxy for.</typeparam>
         /// <returns>The created agent proxy instance.</returns>
-        public T CreateAgent<T>() where T : AgentProxy 
+        public T CreateAgent<T>() where T : AgentProxy
         {
-            return (T)clientBuildManager.CreateObject(typeof(T), false);
+            AppDomain.CurrentDomain.AssemblyResolve += AssemblyResolveHandler;
+            try
+            {
+                return (T)clientBuildManager.CreateObject(typeof(T), false);
+            }
+            finally
+            {
+                AppDomain.CurrentDomain.AssemblyResolve -= AssemblyResolveHandler;
+            }
         }
 
         /// <summary>
@@ -171,6 +181,25 @@ namespace Orchard.Management.PsProvider.Host
             throw new ApplicationException(string.Format(
                 "Directory \"{0}\" doesn't seem to contain an Orchard installation", 
                 new DirectoryInfo(directory).FullName));
+        }
+
+        /// <summary>
+        /// Handles the <see cref="AppDomain.AssemblyResolve"/> event for the current application domain when agent
+        /// proxies are created.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="args">The event arguments.</param>
+        /// <returns>Resolved assembly.</returns>
+        /// <remarks>
+        /// This is a workaround for what seems to be a bug in the .NET framework. Without this event handler an
+        /// exception is thrown, which says that the returned object cannot be cast to the agnet proxy type.
+        /// More details:
+        /// http://stackoverflow.com/questions/1437831/appdomain-createinstancefromandunwrap-unable-to-cast-transparent-proxy
+        /// http://www.west-wind.com/weblog/posts/2009/Jan/19/Assembly-Loading-across-AppDomains
+        /// </remarks>
+        private Assembly AssemblyResolveHandler(object sender, ResolveEventArgs args)
+        {
+            return AppDomain.CurrentDomain.GetAssemblies().SingleOrDefault(a => a.FullName == args.Name);
         }
     }
 }
