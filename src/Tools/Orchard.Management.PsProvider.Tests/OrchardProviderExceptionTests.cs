@@ -19,7 +19,7 @@ namespace Orchard.Management.PsProvider.Tests
         /// Tests the constructor of the <see cref="OrchardProvider"/> class when no parameters are specified.
         /// </summary>
         [Test]
-        public void TestCtor() 
+        public void TestConstructor() 
         {
             var exception = new OrchardProviderException();
             
@@ -32,7 +32,7 @@ namespace Orchard.Management.PsProvider.Tests
         /// Tests the constructor of the <see cref="OrchardProvider"/> class when a message is specified.
         /// </summary>
         [Test]
-        public void TestCtorWithMessage() 
+        public void TestConstructorWithMessage() 
         {
             var exception = new OrchardProviderException("My message.");
 
@@ -45,9 +45,9 @@ namespace Orchard.Management.PsProvider.Tests
         /// specified.
         /// </summary>
         [Test]
-        public void TestCtorWithMessageAndInnerException() 
+        public void TestConstructorWithMessageAndInnerException() 
         {
-            var inner = new Exception();
+            var inner = new InvalidOperationException("Test exception message");
             var exception = new OrchardProviderException("My message.", inner);
 
             Assert.That(exception.Message, Is.EqualTo("My message."));

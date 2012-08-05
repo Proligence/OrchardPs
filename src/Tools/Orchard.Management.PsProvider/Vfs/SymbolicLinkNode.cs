@@ -6,6 +6,7 @@
 
 namespace Orchard.Management.PsProvider.Vfs 
 {
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -22,6 +23,11 @@ namespace Orchard.Management.PsProvider.Vfs
         public SymbolicLinkNode(IOrchardVfs vfs, string name, OrchardVfsNode node) 
             : base(vfs, name) 
         {
+            if (node == null)
+            {
+                throw new ArgumentNullException("node");
+            }
+
             this.TargetNode = node;
             this.Item = node.Item;
             

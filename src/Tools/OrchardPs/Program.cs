@@ -8,6 +8,7 @@ namespace OrchardPs
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Management.Automation.Runspaces;
     using System.Reflection;
     using System.Text;
@@ -26,48 +27,49 @@ namespace OrchardPs
         /// <returns>The application's exit code.</returns>
         public static int Main(string[] args) 
         {
-            RunspaceConfiguration configuration;
-            try 
+            using (var snapIn = new OrchardPsSnapIn())
             {
-                configuration = RunspaceConfiguration.Create();
-
-                var snapIn = new OrchardPsSnapIn();
-                
-                foreach (ProviderConfigurationEntry provider in snapIn.Providers) 
+                RunspaceConfiguration configuration;
+                try
                 {
-                    configuration.Providers.Append(provider);   
-                }
+                    configuration = RunspaceConfiguration.Create();
 
-                foreach (CmdletConfigurationEntry cmdlet in snapIn.Cmdlets) 
-                {
-                    configuration.Cmdlets.Append(cmdlet);
-                }
+                    foreach (ProviderConfigurationEntry provider in snapIn.Providers)
+                    {
+                        configuration.Providers.Append(provider);
+                    }
 
-                foreach (FormatConfigurationEntry format in snapIn.Formats) 
-                {
-                    configuration.Formats.Append(format);
-                }
+                    foreach (CmdletConfigurationEntry cmdlet in snapIn.Cmdlets)
+                    {
+                        configuration.Cmdlets.Append(cmdlet);
+                    }
 
-                configuration.InitializationScripts.Append(
-                    new ScriptConfigurationEntry(
-                        "NavigateToOrchardDrive", 
-                        "if (Test-Path Orchard:) { Set-Location Orchard: }"));
+                    foreach (FormatConfigurationEntry format in snapIn.Formats)
+                    {
+                        configuration.Formats.Append(format);
+                    }
 
-                foreach (KeyValuePair<string, string> alias in snapIn.Aliases)
-                {
                     configuration.InitializationScripts.Append(
                         new ScriptConfigurationEntry(
-                            "Alias-" + alias.Key, 
-                            "New-Alias '" + alias.Key + "' " + alias.Value));
-                }
-            }
-            catch (Exception ex) 
-            {
-                Console.Error.WriteLine("Failed to create runspace configuration. " + ex.Message);
-                return -1;
-            }
+                            "NavigateToOrchardDrive",
+                            "if (Test-Path Orchard:) { Set-Location Orchard: }"));
 
-            return ConsoleShell.Start(configuration, GetBanner(), string.Empty, args);
+                    foreach (KeyValuePair<string, string> alias in snapIn.Aliases)
+                    {
+                        configuration.InitializationScripts.Append(
+                            new ScriptConfigurationEntry(
+                                "Alias-" + alias.Key,
+                                "New-Alias '" + alias.Key + "' " + alias.Value));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.WriteLine("Failed to create runspace configuration. " + ex.Message);
+                    return -1;
+                }
+
+                return ConsoleShell.Start(configuration, GetBanner(), string.Empty, args);
+            }
         }
 
         /// <summary>
@@ -82,8 +84,15 @@ namespace OrchardPs
             var versionAttribute = GetAssemblyAttribute<AssemblyFileVersionAttribute>();
             if (versionAttribute != null) 
             {
-                var v = Assembly.GetEntryAssembly().GetName().Version;
-                banner.Append(string.Format("Version {0}.{1} build {2}", v.Major, v.Minor, v.Build));
+                Version version = Assembly.GetEntryAssembly().GetName().Version;
+                string versionString = string.Format(
+                    CultureInfo.CurrentCulture,
+                    "Version {0}.{1} build {2}", 
+                    version.Major, 
+                    version.Minor, 
+                    version.Build);
+
+                banner.Append(versionString);
             }
             
             return banner.ToString();

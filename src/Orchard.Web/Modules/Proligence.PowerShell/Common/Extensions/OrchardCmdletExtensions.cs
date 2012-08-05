@@ -6,6 +6,7 @@
 
 namespace Proligence.PowerShell.Common.Extensions 
 {
+    using System;
     using Orchard.Management.PsProvider;
     using Orchard.Management.PsProvider.Vfs;
     using Proligence.PowerShell.Sites.Items;
@@ -26,6 +27,11 @@ namespace Proligence.PowerShell.Common.Extensions
         /// </returns>
         public static OrchardSite GetCurrentSite(this OrchardCmdlet cmdlet) 
         {
+            if (cmdlet == null)
+            {
+                throw new ArgumentNullException("cmdlet");
+            }
+
             OrchardVfsNode currentNode = cmdlet.CurrentNode;
             while (currentNode != null) 
             {

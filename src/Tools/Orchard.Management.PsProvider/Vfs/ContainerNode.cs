@@ -44,9 +44,12 @@ namespace Orchard.Management.PsProvider.Vfs
             this.staticNodes = new List<OrchardVfsNode>();
             this.NewItemName = "New item";
 
-            foreach (OrchardVfsNode node in staticNodes) 
+            if (staticNodes != null)
             {
-                this.AddStaticNode(node);
+                foreach (OrchardVfsNode node in staticNodes)
+                {
+                    this.AddStaticNode(node);
+                }
             }
         }
 
@@ -147,13 +150,18 @@ namespace Orchard.Management.PsProvider.Vfs
         /// </returns>
         public override OrchardVfsNode NavigatePath(string path) 
         {
+            if (path == null)
+            {
+                throw new ArgumentNullException("path");
+            }
+
             OrchardVfsNode node = base.NavigatePath(path);
             if (node != null) 
             {
                 return node;
             }
 
-            if (path.StartsWith("\\")) 
+            if (path.StartsWith("\\", StringComparison.Ordinal))
             {
                 path = path.Substring(1);
             }
@@ -171,18 +179,16 @@ namespace Orchard.Management.PsProvider.Vfs
                     return null;
                 }
 
-                OrchardVfsNode nextNode = containerNode.StaticNodes
-                    .Where(n => n.Name.Equals(pathParts[index], StringComparison.InvariantCulture))
-                    .FirstOrDefault();
+                OrchardVfsNode nextNode = containerNode.StaticNodes.FirstOrDefault(
+                    n => n.Name.Equals(pathParts[index], StringComparison.Ordinal));
 
                 if (nextNode == null) 
                 {
                     IEnumerable<OrchardVfsNode> virtualNodes = containerNode.GetVirtualNodes();
                     if (virtualNodes != null) 
                     {
-                        nextNode = virtualNodes
-                            .Where(n => n.Name.Equals(pathParts[index], StringComparison.InvariantCulture))
-                            .FirstOrDefault();
+                        nextNode = virtualNodes.FirstOrDefault(
+                            n => n.Name.Equals(pathParts[index], StringComparison.Ordinal));
                     }
                 }
 

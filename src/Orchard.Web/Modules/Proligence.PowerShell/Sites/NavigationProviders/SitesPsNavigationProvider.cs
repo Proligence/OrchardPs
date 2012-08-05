@@ -20,8 +20,8 @@ namespace Proligence.PowerShell.Sites.NavigationProviders
         /// </summary>
         public override void Initialize()
         {
-            NodeType = NodeType.Global;
-            Node = new SitesNode(Vfs, AgentManager.GetAgent<TenantAgentProxy>());
+            this.NodeType = NodeType.Global;
+            this.Node = new SitesNode(this.Vfs, this.AgentManager.GetAgent<TenantAgentProxy>());
         }
     }
 }

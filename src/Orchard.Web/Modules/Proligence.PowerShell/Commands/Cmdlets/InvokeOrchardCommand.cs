@@ -9,6 +9,7 @@ namespace Proligence.PowerShell.Commands.Cmdlets
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
     using Orchard.Management.PsProvider;
@@ -179,8 +180,10 @@ namespace Proligence.PowerShell.Commands.Cmdlets
                     if (string.IsNullOrEmpty(switchName)) 
                     {
                         string message = string.Format(
+                            CultureInfo.CurrentCulture,
                             "Invalid switch syntax: \"{0}\". Valid syntax is /<switchName>[:<switchValue>].", 
                             arg);
+
                         var exception = new ArgumentException(message);
                         this.WriteError(exception, "InvalidCommandSwitchSyntax", ErrorCategory.SyntaxError);
                         return false;

@@ -29,12 +29,12 @@ namespace Orchard.Management.PsProvider.Host
         /// <summary>
         /// Gets or sets the result of the latest session start.
         /// </summary>
-        public ReturnCodes StartSessionResult { get; set; }
+        public ReturnCode StartSessionResult { get; set; }
 
         /// <summary>
         /// Gets or sets the result of retring the latest session start.
         /// </summary>
-        public ReturnCodes RetryResult { get; set; }
+        public ReturnCode RetryResult { get; set; }
 
         /// <summary>
         /// Gets or sets the Orchard host instance.

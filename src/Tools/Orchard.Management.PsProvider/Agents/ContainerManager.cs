@@ -59,14 +59,30 @@ namespace Orchard.Management.PsProvider.Agents
         /// </summary>
         public void Dispose() 
         {
-            lock (this.siteShells) 
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources
+        /// </summary>
+        /// <param name="disposing">
+        /// <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged
+        /// resources.
+        /// </param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
             {
-                foreach (ShellContext shellContext in this.siteShells.Values) 
+                lock (this.siteShells)
                 {
-                    shellContext.LifetimeScope.Dispose();
+                    foreach (ShellContext shellContext in this.siteShells.Values)
+                    {
+                        shellContext.LifetimeScope.Dispose();
+                    }
+
+                    this.siteShells.Clear();
                 }
-                
-                this.siteShells.Clear();
             }
         }
 
@@ -78,7 +94,7 @@ namespace Orchard.Management.PsProvider.Agents
         private ShellContext CreateShellContext(string siteName) 
         {
             IEnumerable<ShellSettings> shellSettings = this.shellSettingsManager.LoadSettings();
-            ShellSettings settings = shellSettings.Where(s => s.Name == siteName).FirstOrDefault();
+            ShellSettings settings = shellSettings.FirstOrDefault(s => s.Name == siteName);
             if (settings == null) 
             {
                 throw new ArgumentException("Failed to find site '" + siteName + "'.", "siteName");

@@ -20,8 +20,8 @@ namespace Proligence.PowerShell.Commands.NavigationProviders
         /// </summary>
         public override void Initialize()
         {
-            NodeType = NodeType.Site;
-            Node = new CommandsNode(Vfs, AgentManager.GetAgent<CommandAgentProxy>());
+            this.NodeType = NodeType.Site;
+            this.Node = new CommandsNode(this.Vfs, this.AgentManager.GetAgent<CommandAgentProxy>());
         }
     }
 }

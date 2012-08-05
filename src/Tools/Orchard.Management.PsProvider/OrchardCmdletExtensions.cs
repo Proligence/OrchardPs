@@ -29,6 +29,11 @@ namespace Orchard.Management.PsProvider
             ErrorCategory category, 
             object target = null)
         {
+            if (cmdlet == null)
+            {
+                throw new ArgumentNullException("cmdlet");
+            }
+
             var errorRecord = new ErrorRecord(exception, errorId, category, target);
             cmdlet.WriteError(errorRecord);
         }
@@ -48,6 +53,11 @@ namespace Orchard.Management.PsProvider
             ErrorCategory category,
             object target = null)
         {
+            if (cmdlet == null)
+            {
+                throw new ArgumentNullException("cmdlet");
+            }
+
             var errorRecord = new ErrorRecord(exception, errorId, category, target);
             cmdlet.ThrowTerminatingError(errorRecord);
         }

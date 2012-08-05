@@ -19,7 +19,7 @@ namespace Orchard.Management.PsProvider.Vfs
         public RootVfsNode(IOrchardVfs vfs, OrchardDriveInfo drive) 
             : base(vfs, null) 
         {
-            Item = drive;
+            this.Item = drive;
         }
     }
 }

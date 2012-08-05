@@ -6,6 +6,8 @@
 
 namespace Orchard.Management.PsProvider.Vfs 
 {
+    using System;
+
     /// <summary>
     /// Implements extension methods for the <see cref="IPsNavigationProvider"/> interface.
     /// </summary>
@@ -18,6 +20,11 @@ namespace Orchard.Management.PsProvider.Vfs
         /// <returns>The path depth of the navigation provider.</returns>
         public static int GetPathLength(this IPsNavigationProvider navigationProvider) 
         {
+            if (navigationProvider == null)
+            {
+                throw new ArgumentNullException("navigationProvider");
+            }
+
             if (!string.IsNullOrEmpty(navigationProvider.Path)) 
             {
                 return navigationProvider.Path.Split('\\').Length;

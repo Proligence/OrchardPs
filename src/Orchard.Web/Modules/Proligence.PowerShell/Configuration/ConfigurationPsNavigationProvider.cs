@@ -18,8 +18,8 @@ namespace Proligence.PowerShell.Configuration
         /// </summary>
         public override void Initialize() 
         {
-            NodeType = NodeType.Site;
-            Node = new ConfigurationNode(Vfs);
+            this.NodeType = NodeType.Site;
+            this.Node = new ConfigurationNode(this.Vfs);
         }
     }
 }

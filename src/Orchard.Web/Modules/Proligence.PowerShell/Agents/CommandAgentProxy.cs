@@ -37,7 +37,7 @@ namespace Proligence.PowerShell.Agents
         /// <param name="switches">Command switches.</param>
         public void ExecuteCommand(string siteName, string[] args, Dictionary<string, string> switches) 
         {
-            Invoke("ExecuteCommand", siteName, args, switches);
+            this.Invoke("ExecuteCommand", siteName, args, switches);
         }
     }
 }

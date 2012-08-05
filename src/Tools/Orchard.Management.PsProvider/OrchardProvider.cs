@@ -195,7 +195,7 @@ namespace Orchard.Management.PsProvider
                 () => 
                 {
                     Assembly entryAssembly = Assembly.GetEntryAssembly();
-                    string path = entryAssembly != null ? entryAssembly.Location : System.Environment.CurrentDirectory;
+                    string path = entryAssembly != null ? entryAssembly.Location : Environment.CurrentDirectory;
 
                     for (var di = new DirectoryInfo(path); di != null; di = di.Parent) 
                     {
@@ -253,9 +253,10 @@ namespace Orchard.Management.PsProvider
         /// </summary>
         /// <param name="path">The path to the item to be set.</param>
         /// <param name="value">The value of the item.</param>
-        protected override void SetItem(string path, object value) 
+        protected override void SetItem(string path, object value)
         {
-            this.Trace("SetItem(Path='{0}', Value='{1}')", path, value.ToString());
+            string valueStr = value != null ? value.ToString() : "(null)";
+            this.Trace("SetItem(Path='{0}', Value='{1}')", path, valueStr);
 
             if (!this.InvokeHandler<OrchardVfsNode, object>(
                 node => node.SetItemHandler, 
@@ -358,7 +359,7 @@ namespace Orchard.Management.PsProvider
         {
             this.Trace("GetChildItems(Path='{0}')", path);
 
-            this.ForEachChildNode(path, node => this.WriteItemNode(node));
+            this.ForEachChildNode(path, this.WriteItemNode);
         }
 
         /// <summary>
@@ -369,9 +370,10 @@ namespace Orchard.Management.PsProvider
         /// <param name="newItemValue">
         /// The provider specific type that can be used to create a new instance of an item at the specified path.
         /// </param>
-        protected override void NewItem(string path, string itemTypeName, object newItemValue) 
+        protected override void NewItem(string path, string itemTypeName, object newItemValue)
         {
-            this.Trace("NewItem(Path='{0}', Type='{1}', Value='{2}')", path, itemTypeName, newItemValue.ToString());
+            string newItemValueStr = newItemValue != null ? newItemValue.ToString() : "(null)";
+            this.Trace("NewItem(Path='{0}', Type='{1}', Value='{2}')", path, itemTypeName, newItemValueStr);
 
             if (!this.InvokeHandler<ContainerNode, string, object>(
                 node => node.NewItemHandler, 

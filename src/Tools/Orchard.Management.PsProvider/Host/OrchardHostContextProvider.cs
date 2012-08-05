@@ -8,6 +8,7 @@ namespace Orchard.Management.PsProvider.Host
 {
     using System;
     using System.Diagnostics;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -22,8 +23,15 @@ namespace Orchard.Management.PsProvider.Host
     /// </summary>
     public class OrchardHostContextProvider 
     {
-        private readonly string orchardPath;
+        /// <summary>
+        /// The <see cref="ClientBuildManager"/> for Orchard's ASP.NET AppDomain.
+        /// </summary>
         private static ClientBuildManager clientBuildManager;
+
+        /// <summary>
+        /// The path to the Orchard installation.
+        /// </summary>
+        private readonly string orchardPath;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OrchardHostContextProvider"/> class.
@@ -41,7 +49,7 @@ namespace Orchard.Management.PsProvider.Host
         [SecurityCritical]
         public OrchardHostContext CreateContext() 
         {
-            var context = new OrchardHostContext { RetryResult = ReturnCodes.Retry };
+            var context = new OrchardHostContext { RetryResult = ReturnCode.Retry };
             this.Initialize(context);
             
             return context;
@@ -54,6 +62,11 @@ namespace Orchard.Management.PsProvider.Host
         [SecurityCritical]
         public void Shutdown(OrchardHostContext context) 
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
             try 
             {
                 if (context.OrchardHost != null) 
@@ -79,16 +92,17 @@ namespace Orchard.Management.PsProvider.Host
         /// </summary>
         /// <typeparam name="T">The type of the agent to get proxy for.</typeparam>
         /// <returns>The created agent proxy instance.</returns>
+        [SecurityCritical]
         public T CreateAgent<T>() where T : AgentProxy
         {
-            AppDomain.CurrentDomain.AssemblyResolve += AssemblyResolveHandler;
+            AppDomain.CurrentDomain.AssemblyResolve += this.AssemblyResolveHandler;
             try
             {
                 return (T)clientBuildManager.CreateObject(typeof(T), false);
             }
             finally
             {
-                AppDomain.CurrentDomain.AssemblyResolve -= AssemblyResolveHandler;
+                AppDomain.CurrentDomain.AssemblyResolve -= this.AssemblyResolveHandler;
             }
         }
 
@@ -99,7 +113,7 @@ namespace Orchard.Management.PsProvider.Host
         /// <param name="args">The arguments for the message's format string.</param>
         private static void LogInfo(string format, params object[] args) 
         {
-            Trace.WriteLine(string.Format(format, args));
+            Trace.WriteLine(string.Format(CultureInfo.CurrentCulture, format, args));
         }
 
         /// <summary>
@@ -108,6 +122,7 @@ namespace Orchard.Management.PsProvider.Host
         /// <param name="virtualPath">The virtual path for the web application.</param>
         /// <param name="physicalPath">The physical path for the web application.</param>
         /// <returns>The created <see cref="OrchardHost"/> object.</returns>
+        [SecurityCritical]
         private static OrchardHost CreateOrchardHost(string virtualPath, string physicalPath) 
         {
             clientBuildManager = new ClientBuildManager(virtualPath, physicalPath);
@@ -123,7 +138,7 @@ namespace Orchard.Management.PsProvider.Host
         {
             if (string.IsNullOrEmpty(this.orchardPath))
             {
-                context.WorkingDirectory = System.Environment.CurrentDirectory;
+                context.WorkingDirectory = Environment.CurrentDirectory;
             }
             else
             {
@@ -157,10 +172,14 @@ namespace Orchard.Management.PsProvider.Host
 
             while (directoryInfo != null) 
             {
-                if (!directoryInfo.Exists) 
+                if (!directoryInfo.Exists)
                 {
-                    throw new ApplicationException(
-                        string.Format("Directory \"{0}\" does not exist", directoryInfo.FullName));
+                    string message = string.Format(
+                        CultureInfo.CurrentCulture,
+                        "Directory \"{0}\" does not exist.",
+                        directoryInfo.FullName);
+                    
+                    throw new InvalidOperationException(message);
                 }
 
                 bool webConfigExists = 
@@ -178,9 +197,12 @@ namespace Orchard.Management.PsProvider.Host
                 directoryInfo = directoryInfo.Parent;   
             }
 
-            throw new ApplicationException(string.Format(
-                "Directory \"{0}\" doesn't seem to contain an Orchard installation", 
-                new DirectoryInfo(directory).FullName));
+            string msg = string.Format(
+                CultureInfo.CurrentCulture,
+                "Directory \"{0}\" doesn't seem to contain an Orchard installation",
+                new DirectoryInfo(directory).FullName);
+            
+            throw new InvalidOperationException(msg);
         }
 
         /// <summary>

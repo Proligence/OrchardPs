@@ -54,7 +54,7 @@ namespace Orchard.Management.PsProvider.Host
         /// returning; otherwise, <c>false</c>.
         /// </param>
         [SecuritySafeCritical]
-        void IRegisteredObject.Stop(bool immediate) 
+        public void Stop(bool immediate) 
         {
             HostingEnvironment.UnregisterObject(this);
         }
@@ -63,12 +63,12 @@ namespace Orchard.Management.PsProvider.Host
         /// Starts the Orchard session.
         /// </summary>
         /// <returns>Return code.</returns>
-        public ReturnCodes StartSession() 
+        public ReturnCode StartSession() 
         {
             this.agent = Activator.CreateInstance("Orchard.Framework", "Orchard.Commands.CommandHostAgent").Unwrap();
             
             MethodInfo methodInfo = this.agent.GetType().GetMethod("StartHost");
-            return (ReturnCodes)methodInfo.Invoke(this.agent, new object[] { TextReader.Null, TextWriter.Null });
+            return (ReturnCode)methodInfo.Invoke(this.agent, new object[] { TextReader.Null, TextWriter.Null });
         }
 
         /// <summary>

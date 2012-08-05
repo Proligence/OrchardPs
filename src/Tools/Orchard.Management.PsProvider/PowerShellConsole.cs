@@ -39,6 +39,11 @@ namespace Orchard.Management.PsProvider
         /// <param name="targetObject">The operation's target object (for PowerShell), optional.</param>
         public void WriteError(Exception exception, string errorId, ErrorCategory category, object targetObject = null)
         {
+            if (exception == null)
+            {
+                throw new ArgumentNullException("exception");
+            }
+
             var errorRecord = new ErrorRecord(exception, errorId, category, targetObject);
             this.provider.WriteError(errorRecord);
 

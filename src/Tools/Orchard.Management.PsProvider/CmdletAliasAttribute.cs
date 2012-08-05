@@ -11,7 +11,8 @@ namespace Orchard.Management.PsProvider
     /// <summary>
     /// Specifies an alias for a cmdlet which will be automatically registered during application startup.
     /// </summary>
-    public class CmdletAliasAttribute : Attribute 
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
+    public sealed class CmdletAliasAttribute : Attribute 
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CmdletAliasAttribute"/> class.

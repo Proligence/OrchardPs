@@ -7,6 +7,8 @@
 namespace Orchard.Management.PsProvider 
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using System.Management.Automation;
     using Orchard.Management.PsProvider.Vfs;
 
@@ -22,6 +24,16 @@ namespace Orchard.Management.PsProvider
         /// <param name="node">The node instance.</param>
         public static void WriteItemNode(this OrchardProvider provider, OrchardVfsNode node) 
         {
+            if (provider == null)
+            {
+                throw new ArgumentNullException("provider");
+            }
+
+            if (node == null)
+            {
+                throw new ArgumentNullException("node");
+            }
+
             provider.WriteItemObject(node.Item, node.GetPath(), node is ContainerNode);
         }
 
@@ -36,6 +48,21 @@ namespace Orchard.Management.PsProvider
             OrchardVfsNode node, 
             Func<OrchardVfsNode, object> itemFunc) 
         {
+            if (provider == null)
+            {
+                throw new ArgumentNullException("provider");
+            }
+
+            if (node == null)
+            {
+                throw new ArgumentNullException("node");
+            }
+
+            if (itemFunc == null)
+            {
+                throw new ArgumentNullException("itemFunc");
+            }
+
             provider.WriteItemObject(itemFunc(node), node.GetPath(), node is ContainerNode);
         }
 
@@ -54,6 +81,11 @@ namespace Orchard.Management.PsProvider
             ErrorCategory category, 
             object target = null) 
         {
+            if (provider == null)
+            {
+                throw new ArgumentNullException("provider");
+            }
+
             var errorRecord = new ErrorRecord(exception, errorId, category, target);
             provider.WriteError(errorRecord);
         }
@@ -73,6 +105,11 @@ namespace Orchard.Management.PsProvider
             ErrorCategory category, 
             object target = null)
         {
+            if (provider == null)
+            {
+                throw new ArgumentNullException("provider");
+            }
+
             var errorRecord = new ErrorRecord(exception, errorId, category, target);
             provider.ThrowTerminatingError(errorRecord);
         }
@@ -85,7 +122,12 @@ namespace Orchard.Management.PsProvider
         /// <param name="args">The arguments for the message's format string.</param>
         public static void Trace(this OrchardProvider provider, string format, params object[] args) 
         {
-            provider.WriteDebug("OrchardProvider::" + string.Format(format, args));
+            if (provider == null)
+            {
+                throw new ArgumentNullException("provider");
+            }
+
+            provider.WriteDebug("OrchardProvider::" + string.Format(CultureInfo.InvariantCulture, format, args));
         }
 
         /// <summary>
@@ -96,6 +138,7 @@ namespace Orchard.Management.PsProvider
         /// <param name="errorId">The error identifier in case an error occurs (for PowerShell).</param>
         /// <param name="category">The error category (for PowerShell) in case an error occurs.</param>
         /// <param name="target">The target object of the current operation (for PowerShell), optional.</param>
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "By design")]
         public static void Try(
             this OrchardProvider provider, 
             Action action, 
@@ -103,6 +146,16 @@ namespace Orchard.Management.PsProvider
             ErrorCategory category = ErrorCategory.NotSpecified, 
             object target = null) 
         {
+            if (provider == null)
+            {
+                throw new ArgumentNullException("provider");
+            }
+
+            if (action == null)
+            {
+                throw new ArgumentNullException("action");
+            }
+
             try 
             {
                 action();
@@ -137,6 +190,7 @@ namespace Orchard.Management.PsProvider
         /// <param name="errorId">The error identifier in case an error occurs (for PowerShell).</param>
         /// <param name="category">The error category (for PowerShell) in case an error occurs.</param>
         /// <param name="target">The target object of the current operation (for PowerShell), optional.</param>
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "By design")]
         public static void TryCritical(
             this OrchardProvider provider, 
             Action action, 
@@ -144,6 +198,16 @@ namespace Orchard.Management.PsProvider
             ErrorCategory category = ErrorCategory.NotSpecified, 
             object target = null) 
         {
+            if (provider == null)
+            {
+                throw new ArgumentNullException("provider");
+            }
+
+            if (action == null)
+            {
+                throw new ArgumentNullException("action");
+            }
+
             try 
             {
                 action();

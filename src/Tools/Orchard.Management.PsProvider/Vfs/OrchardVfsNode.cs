@@ -157,12 +157,12 @@ namespace Orchard.Management.PsProvider.Vfs
                 return this;
             }
 
-            if (path.StartsWith("\\"))
+            if (path.StartsWith("\\", StringComparison.Ordinal))
             {
                 path = path.Substring(1);
             }
 
-            if (path == string.Empty)
+            if (string.IsNullOrEmpty(path))
             {
                 return this;
             }

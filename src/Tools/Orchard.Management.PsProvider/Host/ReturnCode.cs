@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ReturnCodes.cs" company="Proligence">
+// <copyright file="ReturnCode.cs" company="Proligence">
 //   Copyright (c) 2011 Proligence, All Rights Reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -9,7 +9,7 @@ namespace Orchard.Management.PsProvider.Host
     /// <summary>
     /// Defines return codes used in <see cref="OrchardSession"/> class.
     /// </summary>
-    public enum ReturnCodes
+    public enum ReturnCode
     {
         /// <summary>
         /// Operation succeeded.

@@ -9,6 +9,7 @@ namespace Orchard.Management.PsProvider.Vfs
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Management.Automation;
     using System.Reflection;
@@ -52,6 +53,7 @@ namespace Orchard.Management.PsProvider.Vfs
         /// Gets all registered PS navigation providers.
         /// </summary>
         /// <returns>A sequence of navigation providers.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "By design")]
         public IEnumerable<IPsNavigationProvider> GetProviders() 
         {
             if (this.navigationProviders == null) 
@@ -134,6 +136,7 @@ namespace Orchard.Management.PsProvider.Vfs
         /// <see cref="AppDomain"/>.
         /// </summary>
         /// <returns>Sequence of types.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "By design")]
         private IEnumerable<Type> GetNavigationProviderTypes() 
         {
             List<Type> types = new List<Type>();

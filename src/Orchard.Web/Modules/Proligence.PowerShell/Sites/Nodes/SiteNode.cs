@@ -26,7 +26,8 @@ namespace Proligence.PowerShell.Sites.Nodes
         /// </summary>
         /// <param name="vfs">The Orchard VFS instance which the node belongs to.</param>
         /// <param name="site">The <see cref="OrchardSite"/> object of the site represented by the node.</param>
-        public SiteNode(IOrchardVfs vfs, OrchardSite site) : base(vfs, site.Name) 
+        public SiteNode(IOrchardVfs vfs, OrchardSite site) 
+            : base(vfs, site.Name) 
         {
             this.Item = site;
         }

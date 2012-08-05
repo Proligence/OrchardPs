@@ -7,6 +7,7 @@
 namespace Proligence.PowerShell.Sites.Items 
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using Orchard.Environment.Configuration;
 
     /// <summary>
@@ -63,11 +64,13 @@ namespace Proligence.PowerShell.Sites.Items
         /// <summary>
         /// Gets or sets the site's request URL host.
         /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings", Justification = "By design")]
         public string RequestUrlHost { get; set; }
         
         /// <summary>
         /// Gets or sets the site's request URL prefix.
         /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings", Justification = "By design")]
         public string RequestUrlPrefix { get; set; }
     }
 }

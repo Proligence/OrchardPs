@@ -35,7 +35,7 @@ namespace Orchard.Management.PsProvider.Host
             {
                 ctx = this.hostContextProvider.CreateContext();
             }
-            else if (ctx.StartSessionResult == ReturnCodes.Fail) 
+            else if (ctx.StartSessionResult == ReturnCode.Fail) 
             {
                 this.hostContextProvider.Shutdown(this.context);
                 throw new OrchardProviderException("Failed to initialize Orchard session.");

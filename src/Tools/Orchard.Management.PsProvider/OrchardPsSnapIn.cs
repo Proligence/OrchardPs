@@ -10,6 +10,7 @@ namespace Orchard.Management.PsProvider
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
@@ -163,14 +164,17 @@ namespace Orchard.Management.PsProvider
         /// <summary>
         /// Loads the assemblies of all Orchard modules into the current AppDomain.
         /// </summary>
-        private void LoadOrchardAssemblies() 
+        [SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", 
+            MessageId = "System.Reflection.Assembly.LoadFrom", Justification = "By design")]
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "By design")]
+        private void LoadOrchardAssemblies()
         {
             if (this.assembliesLoaded) 
             {
                 return;
             }
 
-            string orchardRoot = Directory.GetParent(System.Environment.CurrentDirectory).FullName;
+            string orchardRoot = Directory.GetParent(Environment.CurrentDirectory).FullName;
             if (!VerifyOrchardDirectory(orchardRoot)) 
             {
                 throw new InvalidOperationException("The current directory does not contain an Orchard installation.");
@@ -209,6 +213,7 @@ namespace Orchard.Management.PsProvider
         /// Discovers the cmdlets defined in Orchard module assemblies.
         /// </summary>
         /// <param name="cmdletsCollection">The collection to which the discovered assemlies will be added.</param>
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "By design")]
         private void LoadCmdlets(ICollection<CmdletConfigurationEntry> cmdletsCollection)
         {
             Type cmdletType = typeof(Cmdlet);
@@ -292,6 +297,7 @@ namespace Orchard.Management.PsProvider
         /// </summary>
         /// <param name="directory">The Orchard's root directory.</param>
         /// <param name="formatsCollection">The collection to which the discovered format files will be added.</param>
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "By design")]
         private void LoadFormatDataFiles(string directory, Collection<FormatConfigurationEntry> formatsCollection) 
         {
             string[] fileNames;
@@ -331,7 +337,7 @@ namespace Orchard.Management.PsProvider
                 }
             }
 
-            return this.helpFiles.Where(f => f.Contains(cmdletName + "-help.xml")).FirstOrDefault();
+            return this.helpFiles.FirstOrDefault(f => f.Contains(cmdletName + "-help.xml"));
         }
 
         /// <summary>
@@ -339,6 +345,7 @@ namespace Orchard.Management.PsProvider
         /// </summary>
         /// <param name="directory">The Orchard's root directory.</param>
         /// <param name="helpFilesCollection">The collection to which the discovered help files will be added.</param>
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "By design")]
         private void LoadHelpFiles(string directory, Collection<string> helpFilesCollection) 
         {
             string[] fileNames;
@@ -354,9 +361,11 @@ namespace Orchard.Management.PsProvider
 
             foreach (string fileName in fileNames) 
             {
-                if (fileName.EndsWith("-help.xml")) 
+                if (fileName.EndsWith("-help.xml", StringComparison.OrdinalIgnoreCase)) 
                 {
-                    if (!fileName.EndsWith("Orchard.Management.PsProvider.dll-help.xml")) 
+                    if (!fileName.EndsWith(
+                        "Orchard.Management.PsProvider.dll-help.xml",
+                        StringComparison.OrdinalIgnoreCase)) 
                     {
                         helpFilesCollection.Add(fileName);
                     }

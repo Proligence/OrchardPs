@@ -6,6 +6,7 @@
 
 namespace Orchard.Management.PsProvider 
 {
+    using System;
     using System.Linq;
 
     /// <summary>
@@ -71,7 +72,7 @@ namespace Orchard.Management.PsProvider
                 left = string.Empty;
             }
 
-            if (!left.EndsWith(PathSeparator))
+            if (!left.EndsWith(PathSeparator, StringComparison.Ordinal))
             {
                 left += PathSeparator;
             }
@@ -81,7 +82,7 @@ namespace Orchard.Management.PsProvider
                 right = string.Empty;
             }
 
-            if (right.StartsWith(PathSeparator))
+            if (right.StartsWith(PathSeparator, StringComparison.Ordinal))
             {
                 right = right.Substring(1);
             }

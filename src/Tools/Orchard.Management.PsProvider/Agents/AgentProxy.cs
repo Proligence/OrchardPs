@@ -76,7 +76,7 @@ namespace Orchard.Management.PsProvider.Agents
         /// returning; otherwise, <c>false</c>.
         /// </param>
         [SecuritySafeCritical]
-        void IRegisteredObject.Stop(bool immediate)
+        public void Stop(bool immediate)
         {
             HostingEnvironment.UnregisterObject(this);
         }

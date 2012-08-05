@@ -18,17 +18,20 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;CODE_ANALYSIS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>..\OrchardPs\OrchardPs.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>..\OrchardPs\OrchardPs.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac">
@@ -59,9 +62,10 @@
     <Compile Include="Agents\AgentManager.cs" />
     <Compile Include="Agents\IAgentManager.cs" />
     <Compile Include="ExceptionExtensions.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Host\OrchardHostContext.cs" />
     <Compile Include="Host\OrchardHostContextProvider.cs" />
-    <Compile Include="Host\ReturnCodes.cs" />
+    <Compile Include="Host\ReturnCode.cs" />
     <Compile Include="Host\OrchardHost.cs" />
     <Compile Include="Host\IOrchardSession.cs" />
     <Compile Include="Host\OrchardSession.cs" />

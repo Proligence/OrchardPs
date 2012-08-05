@@ -18,16 +18,6 @@ namespace Orchard.Management.PsProvider
     public class OrchardDriveInfo : PSDriveInfo 
     {
         /// <summary>
-        /// The object which exposes the PowerShell console.
-        /// </summary>
-        private readonly IPowerShellConsole console;
-
-        /// <summary>
-        /// The object which exposes the navigation providers for the drive.
-        /// </summary>
-        private readonly INavigationProviderManager navigationProviderManager;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="OrchardDriveInfo"/> class.
         /// </summary>
         /// <param name="driveInfo">The <see cref="DriveInfo"/> object for the Orchard drive.</param>
@@ -37,8 +27,8 @@ namespace Orchard.Management.PsProvider
         {
             this.OrchardRoot = orchardRoot;
             this.LifetimeScope = scope;
-            this.console = this.LifetimeScope.Resolve<IPowerShellConsole>();
-            this.navigationProviderManager = this.LifetimeScope.Resolve<INavigationProviderManager>(
+            this.Console = this.LifetimeScope.Resolve<IPowerShellConsole>();
+            this.NavigationProviderManager = this.LifetimeScope.Resolve<INavigationProviderManager>(
                 new NamedParameter("scope", this.LifetimeScope));
         }
 
@@ -61,6 +51,16 @@ namespace Orchard.Management.PsProvider
         /// Gets the drive's Orchard virtual file system (VFS).
         /// </summary>
         internal IOrchardVfs Vfs { get; private set; }
+
+        /// <summary>
+        /// Gets the object which exposes the PowerShell console.
+        /// </summary>
+        internal IPowerShellConsole Console { get; private set; }
+
+        /// <summary>
+        /// Gets the object which exposes the navigation providers for the drive.
+        /// </summary>
+        internal INavigationProviderManager NavigationProviderManager { get; private set; }
 
         /// <summary>
         /// Initializes the drive and establishes a connection with the AppDomain which runs inside the Orchard web

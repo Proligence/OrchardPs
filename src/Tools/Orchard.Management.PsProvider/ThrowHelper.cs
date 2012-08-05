@@ -42,7 +42,7 @@ namespace Orchard.Management.PsProvider
         /// <returns>The exception object.</returns>
         public static InvalidOperationException InvalidOperation(string message) 
         {
-            return new InvalidOperationException("The cmdlet must be invoked from an Orchard drive.");
+            return new InvalidOperationException(message);
         }
     }
 }
