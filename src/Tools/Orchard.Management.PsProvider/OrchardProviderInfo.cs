@@ -6,6 +6,7 @@
 
 namespace Orchard.Management.PsProvider 
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.Management.Automation;
     using Autofac;
 
@@ -19,6 +20,7 @@ namespace Orchard.Management.PsProvider
         /// </summary>
         /// <param name="providerInfo">The <see cref="ProviderInfo"/> object of the PS provider.</param>
         /// <param name="container">The dependency injection container of the PS provider.</param>
+        [ExcludeFromCodeCoverage]
         internal OrchardProviderInfo(ProviderInfo providerInfo, IContainer container) 
             : base(providerInfo)
         {

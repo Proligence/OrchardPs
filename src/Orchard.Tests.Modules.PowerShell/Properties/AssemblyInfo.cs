@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="AssemblyInfo.cs" company="Proligence">
-//   Proligence Confidential, All Rights Reserved.
+//   Copyright (c) 2011 Proligence, All Rights Reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 

@@ -20,3 +20,6 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Ps")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Ps", Scope = "namespace", Target = "Orchard.Management.PsProvider.Tests")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA2210:AssembliesShouldHaveValidStrongNames")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Ps", Scope = "member", Target = "Orchard.Management.PsProvider.Tests.StubFactory.#CreatePsSnapInInfo()")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Ps", Scope = "member", Target = "Orchard.Management.PsProvider.Tests.StubFactory.#CreatePsSnapInInfo()")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1806:DoNotIgnoreMethodResults", MessageId = "Orchard.Management.PsProvider.CmdletAliasAttribute", Scope = "member", Target = "Orchard.Management.PsProvider.Tests.CmdletAliasAttributeTests.#TestConstructorWhenAliasNullOrEmpty(System.String)")]

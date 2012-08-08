@@ -11,7 +11,7 @@ namespace Orchard.Management.PsProvider
     /// <summary>
     /// Implements extension methods for the <see cref="Exception"/> class.
     /// </summary>
-    public static class ExceptionExtensions 
+    internal static class ExceptionExtensions 
     {
         /// <summary>
         /// Collects all messages from the specified exception and its inner exceptions.
@@ -22,12 +22,22 @@ namespace Orchard.Management.PsProvider
         /// </returns>
         public static string CollectMessages(this Exception exception)
         {
+            if (exception == null)
+            {
+                throw new ArgumentNullException("exception");
+            }
+
             string message = string.Empty;
             
-            while (exception != null) 
+            while (exception != null)
             {
                 if (!message.Contains(exception.Message))
                 {
+                    if ((message.Length > 0) && !char.IsWhiteSpace(message[message.Length - 1]))
+                    {
+                        message += " ";
+                    }
+
                     message += exception.Message;
                 }
 
