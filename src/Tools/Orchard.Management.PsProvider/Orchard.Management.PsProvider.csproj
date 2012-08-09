@@ -69,6 +69,7 @@
     <Compile Include="Host\OrchardHost.cs" />
     <Compile Include="Host\IOrchardSession.cs" />
     <Compile Include="Host\OrchardSession.cs" />
+    <Compile Include="IOrchardCmdlet.cs" />
     <Compile Include="IPowerShellConsole.cs" />
     <Compile Include="OrchardCmdlet.cs" />
     <Compile Include="OrchardCmdletExtensions.cs" />

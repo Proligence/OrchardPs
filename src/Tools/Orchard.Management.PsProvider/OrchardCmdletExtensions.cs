@@ -23,7 +23,7 @@ namespace Orchard.Management.PsProvider
         /// <param name="category">The error category (for PowerShell).</param>
         /// <param name="target">The target object of the current operation (for PowerShell), optional.</param>
         public static void WriteError(
-            this OrchardCmdlet cmdlet, 
+            this IOrchardCmdlet cmdlet, 
             Exception exception, 
             string errorId, 
             ErrorCategory category, 
@@ -47,7 +47,7 @@ namespace Orchard.Management.PsProvider
         /// <param name="category">The error category (for PowerShell).</param>
         /// <param name="target">The target object of the current operation (for PowerShell), optional.</param>
         public static void ThrowTerminatingError(
-            this OrchardCmdlet cmdlet,
+            this IOrchardCmdlet cmdlet,
             Exception exception,
             string errorId,
             ErrorCategory category,

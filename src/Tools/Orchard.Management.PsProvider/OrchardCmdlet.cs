@@ -14,7 +14,7 @@ namespace Orchard.Management.PsProvider
     /// <summary>
     /// The base class for cmdlets which must be invoked from a path which belongs to the Orchard PS provider.
     /// </summary>
-    public class OrchardCmdlet : PSCmdlet 
+    public class OrchardCmdlet : PSCmdlet, IOrchardCmdlet
     {
         /// <summary>
         /// The agent manager instance.
