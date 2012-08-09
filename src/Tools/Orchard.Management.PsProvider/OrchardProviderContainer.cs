@@ -20,12 +20,12 @@ namespace Orchard.Management.PsProvider
         /// <summary>
         /// The object used to synchronize access to the <see cref="container"/> variable.
         /// </summary>
-        private static readonly object containerLock = new object();
+        private static readonly object ContainerLock = new object();
 
         /// <summary>
         /// The dependency injection container.
         /// </summary>
-        private static IContainer container;
+        private static volatile IContainer container;
 
         /// <summary>
         /// Gets the dependency injection container for the Orchard PS provider.
@@ -35,7 +35,7 @@ namespace Orchard.Management.PsProvider
         {
             if (container == null) 
             {
-                lock (containerLock) 
+                lock (ContainerLock) 
                 {
                     if (container == null) 
                     {
