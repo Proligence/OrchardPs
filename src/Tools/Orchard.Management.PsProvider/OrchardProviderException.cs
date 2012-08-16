@@ -4,17 +4,18 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Orchard.Management.PsProvider 
+namespace Orchard.Management.PsProvider
 {
     using System;
     using System.Management.Automation;
     using System.Runtime.Serialization;
+    using Proligence.PowerShell.Vfs.Provider;
 
     /// <summary>
-    /// The base class for exceptions which represent errors from the Orchard PS provider.
+    /// Implements an exception which represent errors reported by the Orchard PS provider.
     /// </summary>
     [Serializable]
-    public class OrchardProviderException : Exception 
+    public class OrchardProviderException : VfsProviderException
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="OrchardProviderException"/> class.
@@ -44,11 +45,8 @@ namespace Orchard.Management.PsProvider
             bool fatal, 
             string errorId, 
             ErrorCategory category = ErrorCategory.NotSpecified) 
-            : base(message) 
+            : base(message, fatal, errorId, category) 
         {
-            this.IsFatal = fatal;
-            this.ErrorId = errorId;
-            this.ErrorCategory = category;
         }
 
         /// <summary>
@@ -75,11 +73,8 @@ namespace Orchard.Management.PsProvider
             bool fatal, 
             string errorId, 
             ErrorCategory category = ErrorCategory.NotSpecified) 
-            : base(message, inner) 
+            : base(message, inner, fatal, errorId, category) 
         {
-            this.IsFatal = fatal;
-            this.ErrorId = errorId;
-            this.ErrorCategory = category;
         }
 
         /// <summary>
@@ -94,43 +89,6 @@ namespace Orchard.Management.PsProvider
         protected OrchardProviderException(SerializationInfo info, StreamingContext context) 
             : base(info, context) 
         {
-            this.IsFatal = info.GetBoolean("IsFatal");
-            this.ErrorId = info.GetString("ErrorId");
-            this.ErrorCategory = (ErrorCategory)info.GetValue("ErrorCategory", typeof(ErrorCategory));
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the exception represents a fatal error.
-        /// </summary>
-        public bool IsFatal { get; private set; }
-
-        /// <summary>
-        /// Gets the error identifier.
-        /// </summary>
-        public string ErrorId { get; private set; }
-
-        /// <summary>
-        /// Gets the error category.
-        /// </summary>
-        public ErrorCategory ErrorCategory { get; private set; }
-
-        /// <summary>
-        /// When overridden in a derived class, sets the <see cref="SerializationInfo"/> with information about the
-        /// exception.
-        /// </summary>
-        /// <param name="info">
-        /// The <see cref="SerializationInfo"/> that holds the serialized object data about the exception being thrown.
-        /// </param>
-        /// <param name="context">
-        /// The <see cref="StreamingContext"/> that contains contextual information about the source or destination.
-        /// </param>
-        public override void GetObjectData(SerializationInfo info, StreamingContext context) 
-        {
-            base.GetObjectData(info, context);
-            
-            info.AddValue("IsFatal", this.IsFatal);
-            info.AddValue("ErrorId", this.ErrorId);
-            info.AddValue("ErrorCategory", this.ErrorCategory);
         }
     }
 }

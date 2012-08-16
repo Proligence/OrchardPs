@@ -4,7 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Orchard.Management.PsProvider 
+namespace Orchard.Management.PsProvider
 {
     using System;
 

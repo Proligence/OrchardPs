@@ -8,7 +8,8 @@ namespace Proligence.PowerShell.Common.Items
 {
     using System.Collections;
     using System.Linq;
-    using Orchard.Management.PsProvider.Vfs;
+    using Proligence.PowerShell.Vfs;
+    using Proligence.PowerShell.Vfs.Navigation;
 
     /// <summary>
     /// Implements a generic Orchard VFS item object which groups a collection of items in a

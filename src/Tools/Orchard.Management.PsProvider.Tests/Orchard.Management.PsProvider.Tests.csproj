@@ -57,10 +57,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CmdletAliasAttributeTests.cs" />
-    <Compile Include="ExceptionExtensionsTests.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="OrchardCmdletExtensionsTests.cs" />
-    <Compile Include="OrchardProviderExceptionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThrowHelperTests.cs" />
   </ItemGroup>
@@ -68,6 +66,10 @@
     <ProjectReference Include="..\Orchard.Management.PsProvider\Orchard.Management.PsProvider.csproj">
       <Project>{2C286142-7875-44C6-A44B-332397A59FD4}</Project>
       <Name>Orchard.Management.PsProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Proligence.PowerShell.Vfs\src\Proligence.PowerShell.Vfs\Proligence.PowerShell.Vfs.csproj">
+      <Project>{D0E90084-E1B3-49DA-8841-B1A1970EC2DD}</Project>
+      <Name>Proligence.PowerShell.Vfs</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -10,7 +10,7 @@ namespace Orchard.Management.PsProvider
     using Autofac;
     using Orchard.Management.PsProvider.Agents;
     using Orchard.Management.PsProvider.Host;
-    using Orchard.Management.PsProvider.Vfs;
+    using Proligence.PowerShell.Vfs;
 
     /// <summary>
     /// Manages the dependency injection container for the Orchard PS provider.
@@ -56,18 +56,10 @@ namespace Orchard.Management.PsProvider
         {
             var builder = new ContainerBuilder();
 
-            // PsProvider
-            builder.RegisterType<PowerShellConsole>().As<IPowerShellConsole>().SingleInstance();
+            builder.RegisterModule<PowerShellVfsModule>();
+
             builder.RegisterType<OrchardDriveInfo>().InstancePerLifetimeScope();
-
-            // Host
             builder.RegisterType<OrchardSession>().As<IOrchardSession>().InstancePerLifetimeScope();
-            
-            // VFS
-            builder.RegisterType<OrchardVfs>().As<IOrchardVfs>().InstancePerLifetimeScope();
-            builder.RegisterType<NavigationProviderManager>().As<INavigationProviderManager>().InstancePerLifetimeScope();
-
-            // Agents
             builder.RegisterType<AgentManager>().As<IAgentManager>().InstancePerLifetimeScope();
 
             if (registrations != null) 

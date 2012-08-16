@@ -72,7 +72,7 @@
     <Compile Include="Commands\Nodes\CommandsNode.cs" />
     <Compile Include="Common\Extensions\OrchardCmdletExtensions.cs" />
     <Compile Include="Common\Items\CollectionItem.cs" />
-    <Compile Include="Common\Extensions\OrchardVfsNodeExtensions.cs" />
+    <Compile Include="Common\Extensions\VfsNodeExtensions.cs" />
     <Compile Include="Configuration\ConfigurationPsNavigationProvider.cs" />
     <Compile Include="Configuration\ConfigurationNode.cs" />
     <Compile Include="GlobalSuppressions.cs" />
@@ -96,6 +96,10 @@
     <ProjectReference Include="..\..\..\Tools\Orchard.Management.PsProvider\Orchard.Management.PsProvider.csproj">
       <Project>{2C286142-7875-44C6-A44B-332397A59FD4}</Project>
       <Name>Orchard.Management.PsProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Tools\Proligence.PowerShell.Vfs\src\Proligence.PowerShell.Vfs\Proligence.PowerShell.Vfs.csproj">
+      <Project>{D0E90084-E1B3-49DA-8841-B1A1970EC2DD}</Project>
+      <Name>Proligence.PowerShell.Vfs</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Core\Orchard.Core.csproj">
       <Project>{9916839C-39FC-4CEB-A5AF-89CA7E87119F}</Project>

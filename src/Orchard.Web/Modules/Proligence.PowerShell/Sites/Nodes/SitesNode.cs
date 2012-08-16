@@ -8,10 +8,12 @@ namespace Proligence.PowerShell.Sites.Nodes
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Orchard.Management.PsProvider.Vfs;
     using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Common.Items;
     using Proligence.PowerShell.Sites.Items;
+    using Proligence.PowerShell.Vfs;
+    using Proligence.PowerShell.Vfs.Core;
+    using Proligence.PowerShell.Vfs.Navigation;
 
     /// <summary>
     /// Implements a VFS node which groups <see cref="SiteNode"/> nodes for a single Orchard installation.
@@ -28,7 +30,7 @@ namespace Proligence.PowerShell.Sites.Nodes
         /// </summary>
         /// <param name="vfs">The Orchard VFS instance which the node belongs to.</param>
         /// <param name="tenantAgent">The tenant agent proxy instance.</param>
-        public SitesNode(IOrchardVfs vfs, TenantAgentProxy tenantAgent) 
+        public SitesNode(IPowerShellVfs vfs, TenantAgentProxy tenantAgent) 
             : base(vfs, "Sites") 
         {
             this.tenantAgent = tenantAgent;
@@ -46,7 +48,7 @@ namespace Proligence.PowerShell.Sites.Nodes
         /// <returns>
         /// A sequence of child nodes.
         /// </returns>
-        public override IEnumerable<OrchardVfsNode> GetVirtualNodes() 
+        public override IEnumerable<VfsNode> GetVirtualNodes() 
         {
             OrchardSite[] sites = this.tenantAgent.GetSites();
             return sites.Select(site => new SiteNode(Vfs, site));

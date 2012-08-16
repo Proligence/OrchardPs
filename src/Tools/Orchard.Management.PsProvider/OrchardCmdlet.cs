@@ -9,7 +9,8 @@ namespace Orchard.Management.PsProvider
     using System.Management.Automation;
     using Autofac;
     using Orchard.Management.PsProvider.Agents;
-    using Orchard.Management.PsProvider.Vfs;
+    using Proligence.PowerShell.Vfs;
+    using Proligence.PowerShell.Vfs.Navigation;
 
     /// <summary>
     /// The base class for cmdlets which must be invoked from a path which belongs to the Orchard PS provider.
@@ -29,7 +30,7 @@ namespace Orchard.Management.PsProvider
         /// <summary>
         /// Gets the current VFS node in the Orchard drive on which the cmdlet was called.
         /// </summary>
-        public OrchardVfsNode CurrentNode { get; private set; }
+        public VfsNode CurrentNode { get; private set; }
 
         /// <summary>
         /// Gets the dependency injection container for the Orchard PS provider.

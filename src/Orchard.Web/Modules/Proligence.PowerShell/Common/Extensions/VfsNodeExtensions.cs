@@ -1,19 +1,20 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="OrchardVfsNodeExtensions.cs" company="Proligence">
+// <copyright file="VfsNodeExtensions.cs" company="Proligence">
 //   Proligence Confidential, All Rights Reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace Proligence.PowerShell.Common.Extensions 
 {
-    using Orchard.Management.PsProvider.Vfs;
     using Proligence.PowerShell.Sites.Items;
     using Proligence.PowerShell.Sites.Nodes;
+    using Proligence.PowerShell.Vfs;
+    using Proligence.PowerShell.Vfs.Navigation;
 
     /// <summary>
-    /// Implements extension methods for the <see cref="OrchardVfsNode"/> class.
+    /// Implements extension methods for the <see cref="VfsNode"/> class.
     /// </summary>
-    public static class OrchardVfsNodeExtensions 
+    public static class VfsNodeExtensions 
     {
         /// <summary>
         /// Gets the name of the Orchard site which the VFS node belongs to.
@@ -23,7 +24,7 @@ namespace Proligence.PowerShell.Common.Extensions
         /// The name of the Orchard site which the VFS node belongs to or <c>null</c> if the node does not belong to
         /// any Orchard site.
         /// </returns>
-        public static string GetCurrentSiteName(this OrchardVfsNode node) 
+        public static string GetCurrentSiteName(this VfsNode node) 
         {
             while (node != null) 
             {

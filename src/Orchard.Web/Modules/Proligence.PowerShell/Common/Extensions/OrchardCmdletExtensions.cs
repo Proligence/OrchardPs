@@ -8,9 +8,10 @@ namespace Proligence.PowerShell.Common.Extensions
 {
     using System;
     using Orchard.Management.PsProvider;
-    using Orchard.Management.PsProvider.Vfs;
     using Proligence.PowerShell.Sites.Items;
     using Proligence.PowerShell.Sites.Nodes;
+    using Proligence.PowerShell.Vfs;
+    using Proligence.PowerShell.Vfs.Navigation;
 
     /// <summary>
     /// Implements extension methods for the <see cref="OrchardCmdlet"/> class.
@@ -32,7 +33,7 @@ namespace Proligence.PowerShell.Common.Extensions
                 throw new ArgumentNullException("cmdlet");
             }
 
-            OrchardVfsNode currentNode = cmdlet.CurrentNode;
+            VfsNode currentNode = cmdlet.CurrentNode;
             while (currentNode != null) 
             {
                 var siteNode = currentNode as SiteNode;
