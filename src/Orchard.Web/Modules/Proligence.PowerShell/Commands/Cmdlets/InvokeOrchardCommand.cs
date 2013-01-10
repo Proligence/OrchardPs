@@ -67,15 +67,18 @@ namespace Proligence.PowerShell.Commands.Cmdlets
             OrchardSite site = this.GetCurrentSite();
             string siteName = site != null ? site.Name : "Default";
 
+            string output = null;
             switch (this.ParameterSetName) 
             {
                 case "Default":
-                    this.InvokeDefault(siteName, this.Name, this.Parameters);
+                    output = this.InvokeDefault(siteName, this.Name, this.Parameters);
                     break;
                 case "CommandObject":
-                    this.InvokeCommandObject(siteName, this.Command, this.Parameters);
+                    output = this.InvokeCommandObject(siteName, this.Command, this.Parameters);
                     break;
             }
+
+            this.WriteObject(output);
         }
 
         /// <summary>
@@ -84,7 +87,8 @@ namespace Proligence.PowerShell.Commands.Cmdlets
         /// <param name="siteName">The name of the Orchard site on which the command will be execited.</param>
         /// <param name="commandName">The name and arguments of the command to execute.</param>
         /// <param name="parameters">The switches which will be passed to the executed command.</param>
-        private void InvokeDefault(string siteName, string commandName, ArrayList parameters) 
+        /// <returns>The command's output.</returns>
+        private string InvokeDefault(string siteName, string commandName, ArrayList parameters) 
         {
             var arguments = new List<string>();
             var switches = new Dictionary<string, string>();
@@ -94,7 +98,7 @@ namespace Proligence.PowerShell.Commands.Cmdlets
                 arguments.Add(commandName);
             }
 
-            this.InvokeWithParameters(siteName, arguments, switches, parameters);
+            return this.InvokeWithParameters(siteName, arguments, switches, parameters);
         }
 
         /// <summary>
@@ -105,11 +109,12 @@ namespace Proligence.PowerShell.Commands.Cmdlets
         /// The <see cref="OrchardCommand"/> object which represents the orchard command to execute.
         /// </param>
         /// <param name="parameters">The switches which will be passed to the executed command.</param>
-        private void InvokeCommandObject(string siteName, OrchardCommand command, ArrayList parameters) 
+        /// <returns>The command's output.</returns>
+        private string InvokeCommandObject(string siteName, OrchardCommand command, ArrayList parameters) 
         {
             var arguments = new List<string>(command.CommandName.Split(new[] { ' ' }));
             var switches = new Dictionary<string, string>();
-            this.InvokeWithParameters(siteName, arguments, switches, parameters);
+            return this.InvokeWithParameters(siteName, arguments, switches, parameters);
         }
 
         /// <summary>
@@ -119,7 +124,8 @@ namespace Proligence.PowerShell.Commands.Cmdlets
         /// <param name="arguments">The name and arguments of the command to execute.</param>
         /// <param name="switches">The switches which will be passed to the executed command.</param>
         /// <param name="parameters">The command parameters to parse.</param>
-        private void InvokeWithParameters(
+        /// <returns>The command's output.</returns>
+        private string InvokeWithParameters(
             string siteName, 
             List<string> arguments, 
             Dictionary<string, string> switches, 
@@ -139,17 +145,19 @@ namespace Proligence.PowerShell.Commands.Cmdlets
                 }
                 else 
                 {
-                    return;
+                    return null;
                 }
             }
 
             if (this.ShouldProcess("Site: " + siteName, "Invoke Command '" + string.Join(" ", arguments) + "'")) 
             {
-                this.commandAgent.ExecuteCommand(
+                return this.commandAgent.ExecuteCommand(
                     siteName,
                     arguments.ToArray(),
                     new Dictionary<string, string>(switches));
             }
+
+            return null;
         }
 
         /// <summary>

@@ -8,6 +8,8 @@ namespace Proligence.PowerShell.Agents
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
+    using System.IO;
     using System.Linq;
     using Autofac;
     using Orchard.Commands;
@@ -48,13 +50,18 @@ namespace Proligence.PowerShell.Agents
         /// <param name="siteName">The name of the site on which the command will be exectued.</param>
         /// <param name="args">Command name and arguments.</param>
         /// <param name="switches">Command switches.</param>
-        public void ExecuteCommand(string siteName, string[] args, Dictionary<string, string> switches) 
+        /// <returns>The command's output.</returns>
+        public string ExecuteCommand(string siteName, string[] args, Dictionary<string, string> switches) 
         {
             var agent = new CommandHostAgent();
             agent.StartHost(Console.In, Console.Out);
             try 
             {
-                agent.RunCommand(Console.In, Console.Out, siteName, args, switches);
+                using (TextWriter writer = new StringWriter(CultureInfo.CurrentCulture))
+                {
+                    agent.RunCommand(Console.In, writer, siteName, args, switches);
+                    return writer.ToString();
+                }
             }
             finally 
             {

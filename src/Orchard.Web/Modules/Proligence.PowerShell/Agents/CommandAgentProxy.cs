@@ -35,9 +35,10 @@ namespace Proligence.PowerShell.Agents
         /// <param name="siteName">The name of the site on which the command will be exectued.</param>
         /// <param name="args">Command name and arguments.</param>
         /// <param name="switches">Command switches.</param>
-        public void ExecuteCommand(string siteName, string[] args, Dictionary<string, string> switches) 
+        /// <returns>The command's output.</returns>
+        public string ExecuteCommand(string siteName, string[] args, Dictionary<string, string> switches) 
         {
-            this.Invoke("ExecuteCommand", siteName, args, switches);
+            return (string)this.Invoke("ExecuteCommand", siteName, args, switches);
         }
     }
 }
