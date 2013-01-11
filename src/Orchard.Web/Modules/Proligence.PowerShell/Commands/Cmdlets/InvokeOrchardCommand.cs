@@ -51,6 +51,13 @@ namespace Proligence.PowerShell.Commands.Cmdlets
         public ArrayList Parameters { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to force orchard output directly into <see cref="Console.Out"/>.
+        /// </summary>
+        [Parameter(ParameterSetName = "Default", Mandatory = false)]
+        [Parameter(ParameterSetName = "CommandObject", Mandatory = false)]
+        public SwitchParameter DirectConsole { get; set; }
+
+        /// <summary>
         /// Provides a one-time, preprocessing functionality for the cmdlet.
         /// </summary>
         protected override void BeginProcessing() 
@@ -71,14 +78,17 @@ namespace Proligence.PowerShell.Commands.Cmdlets
             switch (this.ParameterSetName) 
             {
                 case "Default":
-                    output = this.InvokeDefault(siteName, this.Name, this.Parameters);
+                    output = this.InvokeDefault(siteName, this.Name, this.Parameters, this.DirectConsole);
                     break;
                 case "CommandObject":
-                    output = this.InvokeCommandObject(siteName, this.Command, this.Parameters);
+                    output = this.InvokeCommandObject(siteName, this.Command, this.Parameters, this.DirectConsole);
                     break;
             }
 
-            this.WriteObject(output);
+            if (!this.DirectConsole)
+            {
+                this.WriteObject(output);
+            }
         }
 
         /// <summary>
@@ -87,8 +97,11 @@ namespace Proligence.PowerShell.Commands.Cmdlets
         /// <param name="siteName">The name of the Orchard site on which the command will be execited.</param>
         /// <param name="commandName">The name and arguments of the command to execute.</param>
         /// <param name="parameters">The switches which will be passed to the executed command.</param>
+        /// <param name="directConsole">
+        /// <c>true</c> to force orchard output directly into <see cref="Console.Out"/>; otherwise, <c>false</c>.
+        /// </param>
         /// <returns>The command's output.</returns>
-        private string InvokeDefault(string siteName, string commandName, ArrayList parameters) 
+        private string InvokeDefault(string siteName, string commandName, ArrayList parameters, bool directConsole) 
         {
             var arguments = new List<string>();
             var switches = new Dictionary<string, string>();
@@ -98,7 +111,7 @@ namespace Proligence.PowerShell.Commands.Cmdlets
                 arguments.Add(commandName);
             }
 
-            return this.InvokeWithParameters(siteName, arguments, switches, parameters);
+            return this.InvokeWithParameters(siteName, arguments, switches, parameters, directConsole);
         }
 
         /// <summary>
@@ -109,12 +122,15 @@ namespace Proligence.PowerShell.Commands.Cmdlets
         /// The <see cref="OrchardCommand"/> object which represents the orchard command to execute.
         /// </param>
         /// <param name="parameters">The switches which will be passed to the executed command.</param>
+        /// <param name="directConsole">
+        /// <c>true</c> to force orchard output directly into <see cref="Console.Out"/>; otherwise, <c>false</c>.
+        /// </param>
         /// <returns>The command's output.</returns>
-        private string InvokeCommandObject(string siteName, OrchardCommand command, ArrayList parameters) 
+        private string InvokeCommandObject(string siteName, OrchardCommand command, ArrayList parameters, bool directConsole) 
         {
             var arguments = new List<string>(command.CommandName.Split(new[] { ' ' }));
             var switches = new Dictionary<string, string>();
-            return this.InvokeWithParameters(siteName, arguments, switches, parameters);
+            return this.InvokeWithParameters(siteName, arguments, switches, parameters, directConsole);
         }
 
         /// <summary>
@@ -124,12 +140,16 @@ namespace Proligence.PowerShell.Commands.Cmdlets
         /// <param name="arguments">The name and arguments of the command to execute.</param>
         /// <param name="switches">The switches which will be passed to the executed command.</param>
         /// <param name="parameters">The command parameters to parse.</param>
+        /// <param name="directConsole">
+        /// <c>true</c> to force orchard output directly into <see cref="Console.Out"/>; otherwise, <c>false</c>.
+        /// </param>
         /// <returns>The command's output.</returns>
         private string InvokeWithParameters(
             string siteName, 
             List<string> arguments, 
             Dictionary<string, string> switches, 
-            ArrayList parameters) 
+            ArrayList parameters,
+            bool directConsole)
         {
             if (parameters != null) 
             {
@@ -154,7 +174,8 @@ namespace Proligence.PowerShell.Commands.Cmdlets
                 return this.commandAgent.ExecuteCommand(
                     siteName,
                     arguments.ToArray(),
-                    new Dictionary<string, string>(switches));
+                    new Dictionary<string, string>(switches),
+                    directConsole);
             }
 
             return null;

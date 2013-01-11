@@ -50,18 +50,34 @@ namespace Proligence.PowerShell.Agents
         /// <param name="siteName">The name of the site on which the command will be exectued.</param>
         /// <param name="args">Command name and arguments.</param>
         /// <param name="switches">Command switches.</param>
+        /// <param name="directConsole">
+        /// <c>true</c> to force orchard output directly into <see cref="Console.Out"/>; otherwise, <c>false</c>.
+        /// </param>
         /// <returns>The command's output.</returns>
-        public string ExecuteCommand(string siteName, string[] args, Dictionary<string, string> switches) 
+        public string ExecuteCommand(
+            string siteName,
+            string[] args,
+            Dictionary<string, string> switches,
+            bool directConsole) 
         {
             var agent = new CommandHostAgent();
             agent.StartHost(Console.In, Console.Out);
             try 
             {
-                using (TextWriter writer = new StringWriter(CultureInfo.CurrentCulture))
+                if (directConsole)
                 {
-                    agent.RunCommand(Console.In, writer, siteName, args, switches);
-                    return writer.ToString();
+                    agent.RunCommand(Console.In, Console.Out, siteName, args, switches);
+                    return null;
                 }
+                else
+                {
+                    using (TextWriter writer = new StringWriter(CultureInfo.CurrentCulture))
+                    {
+                        agent.RunCommand(Console.In, writer, siteName, args, switches);
+                        return writer.ToString();
+                    }
+                }
+                
             }
             finally 
             {
