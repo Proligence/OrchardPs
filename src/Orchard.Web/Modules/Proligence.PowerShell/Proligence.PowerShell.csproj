@@ -20,6 +20,10 @@
     <UpgradeBackupLocation />
     <TargetFrameworkProfile />
     <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -62,6 +66,8 @@
   <ItemGroup>
     <Compile Include="Agents\CommandAgent.cs" />
     <Compile Include="Agents\CommandAgentProxy.cs" />
+    <Compile Include="Agents\ModulesAgentProxy.cs" />
+    <Compile Include="Agents\ModulesAgent.cs" />
     <Compile Include="Agents\TenantAgentProxy.cs" />
     <Compile Include="Agents\ContentAgent.cs" />
     <Compile Include="Agents\ContentAgentProxy.cs" />
@@ -77,6 +83,14 @@
     <Compile Include="Configuration\ConfigurationPsNavigationProvider.cs" />
     <Compile Include="Configuration\ConfigurationNode.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Modules\Items\OrchardFeature.cs" />
+    <Compile Include="Modules\Items\OrchardModule.cs" />
+    <Compile Include="Modules\NavigationProviders\FeaturesPsNavigationProvider.cs" />
+    <Compile Include="Modules\NavigationProviders\ModulesPsNavigationProvider.cs" />
+    <Compile Include="Modules\Nodes\FeaturesNode.cs" />
+    <Compile Include="Modules\Nodes\FeatureNode.cs" />
+    <Compile Include="Modules\Nodes\ModuleNode.cs" />
+    <Compile Include="Modules\Nodes\ModulesNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sites\Items\OrchardSite.cs" />
     <Compile Include="Sites\Nodes\SiteNode.cs" />
@@ -113,9 +127,14 @@
   <ItemGroup>
     <None Include="Commands\Commands.format.ps1xml" />
     <None Include="Common\Common.format.ps1xml" />
+    <Content Include="Modules\Modules.format.ps1xml">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Sites\Sites.format.ps1xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Modules\Cmdlets\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

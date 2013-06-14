@@ -1,0 +1,61 @@
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ModulesNode.cs" company="Proligence">
+//   Proligence Confidential, All Rights Reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Proligence.PowerShell.Modules.Nodes 
+{
+    using System.Collections.Generic;
+    using System.Linq;
+    using Proligence.PowerShell.Agents;
+    using Proligence.PowerShell.Common.Extensions;
+    using Proligence.PowerShell.Common.Items;
+    using Proligence.PowerShell.Modules.Items;
+    using Proligence.PowerShell.Vfs.Core;
+    using Proligence.PowerShell.Vfs.Navigation;
+
+    /// <summary>
+    /// Implements a VFS node which groups <see cref="ModuleNode"/> nodes for a single Orchard site.
+    /// </summary>
+    public class ModulesNode : ContainerNode
+    {
+        /// <summary>
+        /// The command agent proxy instance.
+        /// </summary>
+        private readonly ModulesAgentProxy modulesAgent;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ModulesNode"/> class.
+        /// </summary>
+        /// <param name="vfs">The Orchard VFS instance which the node belongs to.</param>
+        /// <param name="modulesAgent">The modules agent proxy instance.</param>
+        public ModulesNode(IPowerShellVfs vfs, ModulesAgentProxy modulesAgent)
+            : base(vfs, "Modules") 
+        {
+            this.modulesAgent = modulesAgent;
+
+            this.Item = new CollectionItem(this) 
+            {
+                Name = "Modules",
+                Description = "Contains all modules available in the current site."
+            };
+        }
+
+        /// <summary>
+        /// Gets the node's virtual (dynamic) child nodes.
+        /// </summary>
+        /// <returns>A sequence of child nodes.</returns>
+        public override IEnumerable<VfsNode> GetVirtualNodes() 
+        {
+            string siteName = this.GetCurrentSiteName();
+            if (siteName == null) 
+            {
+                return new VfsNode[0];
+            }
+
+            OrchardModule[] modules = this.modulesAgent.GetModules(siteName);
+            return modules.Select(module => new ModuleNode(this.Vfs, module));
+        }
+    }
+}
