@@ -8,6 +8,7 @@ namespace Orchard.Management.PsProvider.Agents
 {
     using System;
     using System.Linq;
+    using System.Reflection;
     using System.Runtime.Remoting.Lifetime;
     using System.Security;
     using System.Web.Hosting;
@@ -89,10 +90,17 @@ namespace Orchard.Management.PsProvider.Agents
         /// <returns>The method's result.</returns>
         public object Invoke(string methodName, params object[] parameters) 
         {
-            return this.Agent
-                .GetType()
-                .GetMethod(methodName)
-                .Invoke(this.Agent, parameters);
+            try
+            {
+                return this.Agent
+                    .GetType()
+                    .GetMethod(methodName)
+                    .Invoke(this.Agent, parameters);
+            }
+            catch (TargetInvocationException ex)
+            {
+                throw ex.InnerException;
+            }
         }
     }
 }
