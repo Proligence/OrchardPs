@@ -45,8 +45,18 @@ namespace Proligence.PowerShell.Modules.Items
         public string[] Dependencies { get; set; }
         
         /// <summary>
-        /// Gets the Orchard module which implements the feature.
+        /// Gets or sets the Orchard module which implements the feature.
         /// </summary>
         public OrchardModule Module { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the feature is enabled.
+        /// </summary>
+        public bool Enabled { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the Orchard site which the feature belongs to.
+        /// </summary>
+        public string SiteName { get; set; }
     }
 }

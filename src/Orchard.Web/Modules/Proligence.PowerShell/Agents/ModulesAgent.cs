@@ -11,6 +11,7 @@ namespace Proligence.PowerShell.Agents
     using Autofac;
     using Orchard.Environment.Extensions;
     using Orchard.Environment.Extensions.Models;
+    using Orchard.Environment.Features;
     using Orchard.Management.PsProvider.Agents;
     using Proligence.PowerShell.Modules.Items;
 
@@ -27,7 +28,9 @@ namespace Proligence.PowerShell.Agents
         public OrchardModule[] GetModules(string site)
         {
             IExtensionManager extensionManager = this.GetExtensionManager(site);
+            IFeatureManager featureManager = this.GetFeatureManager(site);
             IEnumerable<ExtensionDescriptor> extensionDescriptors = extensionManager.AvailableExtensions();
+            IEnumerable<FeatureDescriptor> enabledFeatures = featureManager.GetEnabledFeatures().ToArray();
 
             OrchardModule[] modules = extensionDescriptors.Select(MapDescriptorToOrchardModule).ToArray();
             foreach (OrchardModule orchardModule in modules)
@@ -35,6 +38,8 @@ namespace Proligence.PowerShell.Agents
                 foreach (OrchardFeature orchardFeature in orchardModule.Features)
                 {
                     orchardFeature.Module = orchardModule;
+                    orchardFeature.Enabled = enabledFeatures.Any(f => f.Name == orchardFeature.Name);
+                    orchardFeature.SiteName = site;
                 }
             }
 
@@ -49,8 +54,10 @@ namespace Proligence.PowerShell.Agents
         public OrchardFeature[] GetFeatures(string site)
         {
             IExtensionManager extensionManager = this.GetExtensionManager(site);
+            IFeatureManager featureManager = this.GetFeatureManager(site);
             IEnumerable<FeatureDescriptor> featureDescriptors = extensionManager.AvailableFeatures();
             IEnumerable<ExtensionDescriptor> extensions = extensionManager.AvailableExtensions().ToArray();
+            IEnumerable<FeatureDescriptor> enabledFeatures = featureManager.GetEnabledFeatures().ToArray();
 
             var features = new List<OrchardFeature>();
 
@@ -62,12 +69,30 @@ namespace Proligence.PowerShell.Agents
                 if (extension != null)
                 {
                     feature.Module = MapDescriptorToOrchardModule(extension);
+                    feature.Enabled = enabledFeatures.Any(f => f.Name == feature.Name);
                 }
 
                 features.Add(feature);
             }
 
+            foreach (OrchardFeature orchardFeature in features)
+            {
+                orchardFeature.SiteName = site;
+            }
+
             return features.ToArray();
+        }
+
+        /// <summary>
+        /// Enables the specified feature.
+        /// </summary>
+        /// <param name="site">The name of the site for which the feature will be enabled.</param>
+        /// <param name="name">The name of the feature to enable.</param>
+        /// <param name="includeDependencies">True to enable dependant features; otherwise, false.</param>
+        public void EnableFeature(string site, string name, bool includeDependencies)
+        {
+            IFeatureManager featureManager = this.GetFeatureManager(site);
+            featureManager.EnableFeatures(new[] { name }, includeDependencies);
         }
 
         /// <summary>
@@ -79,6 +104,17 @@ namespace Proligence.PowerShell.Agents
         {
             ILifetimeScope siteContainer = this.ContainerManager.GetSiteContainer(site);
             return siteContainer.Resolve<IExtensionManager>();
+        }
+
+        /// <summary>
+        /// Gets the <see cref="IFeatureManager"/> instance for the specified site.
+        /// </summary>
+        /// <param name="site">The name of the site.</param>
+        /// <returns>The <see cref="IFeatureManager"/> instance for the specified site.</returns>
+        private IFeatureManager GetFeatureManager(string site)
+        {
+            ILifetimeScope siteContainer = this.ContainerManager.GetSiteContainer(site);
+            return siteContainer.Resolve<IFeatureManager>();
         }
 
         /// <summary>

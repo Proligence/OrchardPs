@@ -83,6 +83,7 @@
     <Compile Include="Configuration\ConfigurationPsNavigationProvider.cs" />
     <Compile Include="Configuration\ConfigurationNode.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Modules\Cmdlets\EnableOrchardFeature.cs" />
     <Compile Include="Modules\Items\OrchardFeature.cs" />
     <Compile Include="Modules\Items\OrchardModule.cs" />
     <Compile Include="Modules\NavigationProviders\FeaturesPsNavigationProvider.cs" />
@@ -122,6 +123,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Modules\Cmdlets\Enable-OrchardFeature-help.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -132,9 +136,7 @@
     </Content>
     <None Include="Sites\Sites.format.ps1xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Modules\Cmdlets\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

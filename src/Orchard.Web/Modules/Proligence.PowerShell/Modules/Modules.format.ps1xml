@@ -67,6 +67,10 @@
             <Width>20</Width>
           </TableColumnHeader>
           <TableColumnHeader>
+            <Label>Enabled</Label>
+            <Width>10</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
             <Label>Module</Label>
             <Width>20</Width>
           </TableColumnHeader>
@@ -86,6 +90,9 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Category</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Enabled</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <ScriptBlock>if ($_.Module) { $_.Module.Name } else { 'Core' }</ScriptBlock>

@@ -34,5 +34,16 @@ namespace Proligence.PowerShell.Agents
         {
             return (OrchardFeature[])Invoke("GetFeatures", site);
         }
+
+        /// <summary>
+        /// Enables the specified feature.
+        /// </summary>
+        /// <param name="site">The name of the site for which the feature will be enabled.</param>
+        /// <param name="name">The name of the feature to enable.</param>
+        /// <param name="includeDependencies">True to enable dependant features; otherwise, false.</param>
+        public void EnableFeature(string site, string name, bool includeDependencies)
+        {
+            this.Invoke("EnableFeature", site, name, includeDependencies);
+        }
     }
 }
