@@ -83,6 +83,7 @@
     <Compile Include="Configuration\ConfigurationPsNavigationProvider.cs" />
     <Compile Include="Configuration\ConfigurationNode.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Modules\Cmdlets\DisableOrchardFeature.cs" />
     <Compile Include="Modules\Cmdlets\EnableOrchardFeature.cs" />
     <Compile Include="Modules\Items\OrchardFeature.cs" />
     <Compile Include="Modules\Items\OrchardModule.cs" />
@@ -123,6 +124,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Modules\Cmdlets\Disable-OrchardFeature-help.xml" />
     <Content Include="Modules\Cmdlets\Enable-OrchardFeature-help.xml">
       <SubType>Designer</SubType>
     </Content>

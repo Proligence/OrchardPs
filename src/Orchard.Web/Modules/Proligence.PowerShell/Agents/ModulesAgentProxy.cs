@@ -45,5 +45,16 @@ namespace Proligence.PowerShell.Agents
         {
             this.Invoke("EnableFeature", site, name, includeDependencies);
         }
+
+        /// <summary>
+        /// Disables the specified feature.
+        /// </summary>
+        /// <param name="site">The name of the site for which the feature will be disabled.</param>
+        /// <param name="name">The name of the feature to disable.</param>
+        /// <param name="includeDependencies">True to disable dependant features; otherwise, false.</param>
+        public void DisableFeature(string site, string name, bool includeDependencies)
+        {
+            this.Invoke("DisableFeature", site, name, includeDependencies);
+        }
     }
 }

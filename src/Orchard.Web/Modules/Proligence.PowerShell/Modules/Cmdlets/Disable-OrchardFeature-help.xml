@@ -8,14 +8,14 @@
     <!-- Cmdlet details section-->
     
     <command:details>
-      <command:name>Enable-OrchardFeature</command:name>
+      <command:name>Disable-OrchardFeature</command:name>
       <maml:description>
-        <maml:para>Enables Orchard features.</maml:para>
+        <maml:para>Disables Orchard features.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para></maml:para>
       </maml:copyright>
-      <command:verb>Enable</command:verb>
+      <command:verb>Disable</command:verb>
       <command:noun>OrchardFeature</command:noun>
       <dev:version></dev:version>
     </command:details>
@@ -23,7 +23,7 @@
     <!-- Cmdlet description section-->
     
     <maml:description>
-      <maml:para>The Enable-OrchardFeature cmdlet enables features for Orchard sites.</maml:para>
+      <maml:para>The Disable-OrchardFeature cmdlet disables features for Orchard sites.</maml:para>
     </maml:description>
 
     <!-- Cmdlet syntax section-->
@@ -31,42 +31,42 @@
     <command:syntax>
       
       <command:syntaxItem>
-        <maml:name>Enable-OrchardFeature</maml:name>
+        <maml:name>Disable-OrchardFeature</maml:name>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
           <maml:name>Name</maml:name>
           <maml:description>
-            <maml:para>Specifies the name of the feature to enable.</maml:para>
+            <maml:para>Specifies the name of the feature to disable.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
           <maml:name>Site</maml:name>
           <maml:description>
-            <maml:para>Specifies the name of the site (tenant) for which to enable the feature.</maml:para>
+            <maml:para>Specifies the name of the site (tenant) for which to disable the feature.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
           <maml:name>WithoutDependencies</maml:name>
           <maml:description>
-            <maml:para>Specifies that the command should not enable dependant features and fail if they are required.</maml:para>
+            <maml:para>Specifies that the command should not disable dependant features and fail if they are required.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
       
       <command:syntaxItem>
-        <maml:name>Enable-OrchardFeature</maml:name>
+        <maml:name>Disable-OrchardFeature</maml:name>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true" position="1">
           <maml:name>Feature</maml:name>
           <maml:description>
-            <maml:para>Specifies the object which represents the Orchard feature to enable. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents. This parameter is required.</maml:para>
+            <maml:para>Specifies the object which represents the Orchard feature to disable. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents. This parameter is required.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">OrchardFeature</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
           <maml:name>WithoutDependencies</maml:name>
           <maml:description>
-            <maml:para>Specifies that the command should not enable dependant features and fail if they are required.</maml:para>
+            <maml:para>Specifies that the command should not disable dependant features and fail if they are required.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
@@ -80,7 +80,7 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
         <maml:name>Name</maml:name>
         <maml:description>
-          <maml:para>Specifies the name of the feature to enable.</maml:para>
+          <maml:para>Specifies the name of the feature to disable.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
@@ -93,7 +93,7 @@
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
         <maml:name>Site</maml:name>
         <maml:description>
-          <maml:para>Specifies the name of the site (tenant) for which to enable the feature.</maml:para>
+          <maml:para>Specifies the name of the site (tenant) for which to disable the feature.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
         <dev:type>
@@ -106,7 +106,7 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true">
         <maml:name>Feature</maml:name>
         <maml:description>
-          <maml:para>Specifies the object which represents the Orchard feature to enable. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents. This parameter is required.</maml:para>
+          <maml:para>Specifies the object which represents the Orchard feature to disable. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents. This parameter is required.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">OrchardCommand</command:parameterValue>
         <dev:type>
@@ -119,7 +119,7 @@
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
         <maml:name>WithoutDependencies</maml:name>
         <maml:description>
-          <maml:para>Specifies that the command should not enable dependant features and fail if they are required.</maml:para>
+          <maml:para>Specifies that the command should not disable dependant features and fail if they are required.</maml:para>
         </maml:description>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
@@ -136,7 +136,7 @@
           <maml:description />
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe instances of the OrchardFeature class to Enable-OrchardFeature. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents.</maml:para>
+          <maml:para>You can pipe instances of the OrchardFeature class to Disable-OrchardFeature. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents.</maml:para>
         </maml:description>
       </command:inputType>
     </command:inputTypes>
@@ -169,12 +169,12 @@
           <maml:para>Orchard:\Sites\Default&gt; </maml:para>
         </maml:introduction>
         <dev:code>
-          Enable-OrchardCommand Blogs
+          Disable-OrchardCommand Blogs
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>This command enables the 'Blogs' feature on the current tenat (Default). If the feature is already enabled then the command has no effect.</maml:para>
+          <maml:para>This command disables the 'Blogs' feature on the current tenat (Default). If the feature is not enabled then the command has no effect.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
@@ -195,12 +195,12 @@
           <maml:para>Orchard:\&gt; </maml:para>
         </maml:introduction>
         <dev:code>
-          Enable-OrchardCommand Blogs -Site MyTenant
+          Disable-OrchardCommand Blogs -Site MyTenant
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>This command enables the 'Blogs' feature on the tenat 'MyTenant'. If the feature is already enabled then the command has no effect.</maml:para>
+          <maml:para>This command disables the 'Blogs' feature on the tenat 'MyTenant'. If the feature is not enabled then the command has no effect.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
@@ -221,12 +221,12 @@
           <maml:para>Orchard:\Sites\Default\Features&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          Get-ChldItem a* | Enable-OrchardCommand
+          Get-ChldItem a* | Disable-OrchardCommand
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>This command enables all features which start with the letter 'a' on the current tenant (Default).</maml:para>
+          <maml:para>This command disables all features which start with the letter 'a' on the current tenant (Default).</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
@@ -249,7 +249,7 @@
         <uri/>
       </navigationLink>
       <navigationLink>
-        <linkText>Disable-OrchardFeature</linkText>
+        <linkText>Enable-OrchardFeature</linkText>
         <uri/>
       </navigationLink>
     </RelatedLinks>

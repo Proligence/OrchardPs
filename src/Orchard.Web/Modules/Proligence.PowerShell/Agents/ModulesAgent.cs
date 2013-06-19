@@ -96,6 +96,18 @@ namespace Proligence.PowerShell.Agents
         }
 
         /// <summary>
+        /// Disables the specified feature.
+        /// </summary>
+        /// <param name="site">The name of the site for which the feature will be disabled.</param>
+        /// <param name="name">The name of the feature to disable.</param>
+        /// <param name="includeDependencies">True to disable dependant features; otherwise, false.</param>
+        public void DisableFeature(string site, string name, bool includeDependencies)
+        {
+            IFeatureManager featureManager = this.GetFeatureManager(site);
+            featureManager.DisableFeatures(new[] { name }, includeDependencies);
+        }
+
+        /// <summary>
         /// Gets the <see cref="IExtensionManager"/> instance for the specified site.
         /// </summary>
         /// <param name="site">The name of the site.</param>
