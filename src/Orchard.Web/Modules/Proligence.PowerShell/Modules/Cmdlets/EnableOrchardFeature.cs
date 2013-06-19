@@ -33,20 +33,20 @@ namespace Proligence.PowerShell.Modules.Cmdlets
         private IDictionary<string, OrchardFeature[]> features;
 
         /// <summary>
-        /// Gets or sets the name of the module to enable.
+        /// Gets or sets the name of the feature to enable.
         /// </summary>
         [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 1)]
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the site for which the module will be enabled.
+        /// Gets or sets the name of the site for which the feature will be enabled.
         /// </summary>
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         public string Site { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="OrchardFeature"/> object which represents the orchard command to execute.
+        /// Gets or sets the <see cref="OrchardFeature"/> object which represents the orchard feature to enable.
         /// </summary>
         [Parameter(ParameterSetName = "FeatureObject", ValueFromPipeline = true)]
         public OrchardFeature Feature { get; set; }
