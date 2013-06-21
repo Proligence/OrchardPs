@@ -34,7 +34,7 @@
     <CodeAnalysisRuleSet>..\OrchardPs\OrchardPs.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=2.6.1.841, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+    <Reference Include="Autofac">
       <HintPath>..\..\..\lib\autofac\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="Moq">
@@ -42,6 +42,9 @@
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\..\lib\nunit\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Proligence.PowerShell.Vfs">
+      <HintPath>..\..\..\lib\powershell-vfs\Proligence.PowerShell.Vfs.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
@@ -66,10 +69,6 @@
     <ProjectReference Include="..\Orchard.Management.PsProvider\Orchard.Management.PsProvider.csproj">
       <Project>{2C286142-7875-44C6-A44B-332397A59FD4}</Project>
       <Name>Orchard.Management.PsProvider</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Proligence.PowerShell.Vfs\src\Proligence.PowerShell.Vfs\Proligence.PowerShell.Vfs.csproj">
-      <Project>{D0E90084-E1B3-49DA-8841-B1A1970EC2DD}</Project>
-      <Name>Proligence.PowerShell.Vfs</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -50,6 +50,9 @@
       <HintPath>..\..\..\..\lib\autofac\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Proligence.PowerShell.Vfs">
+      <HintPath>..\..\..\..\lib\powershell-vfs\Proligence.PowerShell.Vfs.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -113,10 +116,6 @@
     <ProjectReference Include="..\..\..\Tools\Orchard.Management.PsProvider\Orchard.Management.PsProvider.csproj">
       <Project>{2C286142-7875-44C6-A44B-332397A59FD4}</Project>
       <Name>Orchard.Management.PsProvider</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Tools\Proligence.PowerShell.Vfs\src\Proligence.PowerShell.Vfs\Proligence.PowerShell.Vfs.csproj">
-      <Project>{D0E90084-E1B3-49DA-8841-B1A1970EC2DD}</Project>
-      <Name>Proligence.PowerShell.Vfs</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Core\Orchard.Core.csproj">
       <Project>{9916839C-39FC-4CEB-A5AF-89CA7E87119F}</Project>

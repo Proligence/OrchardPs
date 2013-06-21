@@ -37,6 +37,9 @@
     <Reference Include="Autofac">
       <HintPath>..\..\..\lib\autofac\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="Proligence.PowerShell.Vfs">
+      <HintPath>..\..\..\lib\powershell-vfs\Proligence.PowerShell.Vfs.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
@@ -90,10 +93,6 @@
     <ProjectReference Include="..\..\Orchard\Orchard.Framework.csproj">
       <Project>{2D1D92BB-4555-4CBE-8D0E-63563D6CE4C6}</Project>
       <Name>Orchard.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Proligence.PowerShell.Vfs\src\Proligence.PowerShell.Vfs\Proligence.PowerShell.Vfs.csproj">
-      <Project>{D0E90084-E1B3-49DA-8841-B1A1970EC2DD}</Project>
-      <Name>Proligence.PowerShell.Vfs</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
