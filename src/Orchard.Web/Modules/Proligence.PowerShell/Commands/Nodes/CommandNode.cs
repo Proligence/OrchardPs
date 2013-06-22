@@ -6,6 +6,7 @@
 
 namespace Proligence.PowerShell.Commands.Nodes 
 {
+    using Orchard.Management.PsProvider;
     using Proligence.PowerShell.Commands.Items;
     using Proligence.PowerShell.Vfs.Core;
     using Proligence.PowerShell.Vfs.Navigation;
@@ -13,6 +14,7 @@ namespace Proligence.PowerShell.Commands.Nodes
     /// <summary>
     /// Implements a VFS node which represents a legacy Orchard command.
     /// </summary>
+    [SupportedCmdlet("Invoke-OrchardCommand")]
     public class CommandNode : ObjectNode 
     {
         /// <summary>

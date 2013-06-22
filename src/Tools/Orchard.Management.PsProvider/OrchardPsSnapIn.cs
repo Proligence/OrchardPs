@@ -206,6 +206,9 @@ namespace Orchard.Management.PsProvider
                 }
             }
 
+            // Add Orchard.Management.PsProvider assembly as core module
+            this.orchardModuleAssemblies.Add(this.GetType().Assembly);
+
             this.assembliesLoaded = true;
         }
 

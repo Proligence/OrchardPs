@@ -40,5 +40,10 @@ namespace Orchard.Management.PsProvider
         /// Failed to update format files registered in PowerShell.
         /// </summary>
         public const string UpdateFormatDataFailed = "UpdateFormatDataFailed";
+
+        /// <summary>
+        /// Failed to find the specified item in the file system.
+        /// </summary>
+        public const string FailedToFindItem = "FailedToFindItem";
     }
 }

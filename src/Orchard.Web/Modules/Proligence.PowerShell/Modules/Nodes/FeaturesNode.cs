@@ -8,6 +8,7 @@ namespace Proligence.PowerShell.Modules.Nodes
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Orchard.Management.PsProvider;
     using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Common.Extensions;
     using Proligence.PowerShell.Common.Items;
@@ -18,6 +19,8 @@ namespace Proligence.PowerShell.Modules.Nodes
     /// <summary>
     /// Implements a VFS node which groups <see cref="FeatureNode"/> nodes for a single Orchard site.
     /// </summary>
+    [SupportedCmdlet("Enable-OrchardFeature")]
+    [SupportedCmdlet("Disable-OrchardFeature")]
     public class FeaturesNode : ContainerNode
     {
         /// <summary>

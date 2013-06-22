@@ -63,6 +63,7 @@
     <Compile Include="Agents\ContainerManager.cs" />
     <Compile Include="Agents\IContainerManager.cs" />
     <Compile Include="CmdletAliasAttribute.cs" />
+    <Compile Include="Cmdlets\GetOrchardPsCommand.cs" />
     <Compile Include="ErrorIds.cs" />
     <Compile Include="Agents\AgentProxy.cs" />
     <Compile Include="Agents\AgentManager.cs" />
@@ -87,6 +88,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SupportedCmdletAttribute.cs" />
     <Compile Include="ThrowHelper.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -94,6 +96,12 @@
       <Project>{2D1D92BB-4555-4CBE-8D0E-63563D6CE4C6}</Project>
       <Name>Orchard.Framework</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Cmdlets\Get-OrchardPsCommand-help.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
