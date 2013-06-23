@@ -67,9 +67,16 @@ namespace Orchard.Management.PsProvider
             {
                 if (this.providers == null) 
                 {
+                    if (this.helpFiles == null)
+                    {
+                        this.LoadHelpFiles();
+                    }
+
+                    string helpFilePath = this.GetHelpFile("Orchard.Management.PsProvider.dll");
+
                     this.providers = new Collection<ProviderConfigurationEntry> 
                     {
-                        new ProviderConfigurationEntry("Orchard", typeof(OrchardProvider), null)
+                        new ProviderConfigurationEntry("Orchard", typeof(OrchardProvider), helpFilePath)
                     };
                 }
                 
@@ -331,16 +338,24 @@ namespace Orchard.Management.PsProvider
         {
             if (this.helpFiles == null) 
             {
-                this.helpFiles = new Collection<string>();
-
-                DirectoryInfo orchardDirectory = this.GetOrchardDirectory();
-                if (orchardDirectory != null) 
-                {
-                    this.LoadHelpFiles(orchardDirectory.FullName, this.helpFiles);
-                }
+                this.LoadHelpFiles();
             }
 
             return this.helpFiles.FirstOrDefault(f => f.Contains(cmdletName + "-help.xml"));
+        }
+
+        /// <summary>
+        /// Discovers the PS cmdlet help files in Orchard module assemblies.
+        /// </summary>
+        private void LoadHelpFiles()
+        {
+            this.helpFiles = new Collection<string>();
+
+            DirectoryInfo orchardDirectory = this.GetOrchardDirectory();
+            if (orchardDirectory != null)
+            {
+                this.LoadHelpFiles(orchardDirectory.FullName, this.helpFiles);
+            }
         }
 
         /// <summary>
@@ -366,12 +381,7 @@ namespace Orchard.Management.PsProvider
             {
                 if (fileName.EndsWith("-help.xml", StringComparison.OrdinalIgnoreCase)) 
                 {
-                    if (!fileName.EndsWith(
-                        "Orchard.Management.PsProvider.dll-help.xml",
-                        StringComparison.OrdinalIgnoreCase)) 
-                    {
-                        helpFilesCollection.Add(fileName);
-                    }
+                    helpFilesCollection.Add(fileName);
                 }
             }
         }

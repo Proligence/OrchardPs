@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<helpItems schema="maml">
+  <providerHelp>
+    
+    <Name>
+      Orchard
+    </Name>
+    
+    <Drives>
+      <Para>Orchard</Para>
+    </Drives>
+    
+    <Synopsis>
+      Access Orchard CMS application instances and their data.
+    </Synopsis>
+    
+    <DetailedDescription>
+      <para>The Orchard PowerShell provider lets you manage the data and configuration of Orchard CMS application instances. The provider implements separate path hierarchies for different classes of Orchard objects, such as commands, features, modules, content types, content items, etc.
+        
+The OrchardPs application automatically mounts a PowerShell drive for the Orchard application at the location of the OrchardPs.exe file. This drive is named Orchard:.
+        
+The Orchard:\Sites directory contains one directory for each Orchard tenant. Tenant-specific content is nested inside these directories.
+        
+The Orchard:\Sites\SiteName\Commands directory contains legacy Orchard commands (for orchard.exe application). The Invoke-OrchardCommand cmdlet can be used to invoke these commands from PowerShell.
+        
+The Orchard:\Sites\SiteName\Modules directory contains all Orchard modules which are installed for the tenant. Additionally, each module has nested features which it implements.
+        
+The Orchard:\Sites\SiteName\Features directory contains all Orchard features which are available for the tenant. The Enable-OrchardFeature and Disable-OrchardFeature cmdlets can be used to enable and disable features for the tenant.
+
+The Get-OrchardPsCommand cmdlet can be used to discover Orchard-specific cmdlets, which are implemented in the Orchard PowerShell provider and loaded Orchard modules. Additionally, the Get-OrchardPsCommand cmdlet can be used to discover which cmdlets are supported for the child items of the specified directory in the Orchard file system.</para>
+    </DetailedDescription>
+    
+    <Capabilities>
+	    <para>ShouldProcess</para>
+    </Capabilities>
+    
+    <Notes />
+    
+    <Tasks>
+      <Task>
+        <Title>
+          Navigating Orchard: paths
+        </Title>
+        <Description>
+          <para></para>
+        </Description>
+        <Examples>
+          <Example>
+            <Title>
+              -------------------------- EXAMPLE 1 --------------------------
+            </Title>
+            <Introduction>
+              <para>This example uses the Set-Location cmdlet to change the path to the root folder of the Default tenant.</para>
+            </Introduction>
+            <Code>
+              Set-Location Orchard:\Sites\Default
+            </Code>
+            <Remarks>
+              <para></para>
+            </Remarks>
+          </Example>
+          <Example>
+            <Title>
+              -------------------------- EXAMPLE 2 --------------------------
+            </Title>
+            <Introduction>
+              <para>This example uses Get-OrchardPsCommand cmdlet to get all Orchard-related cmdlets.</para>
+            </Introduction>
+            <Code>
+              Get-OrchardPsCommand -All
+            </Code>
+            <Remarks>
+              <para></para>
+            </Remarks>
+          </Example>
+          <Example>
+            <Title>
+              -------------------------- EXAMPLE 3 --------------------------
+            </Title>
+            <Introduction>
+              <para>This example uses Get-OrchardPsCommand cmdlet to get all cmdlets supported for Orchard feature items.</para>
+            </Introduction>
+            <Code>
+              Set-Location Orchard:\Sites\Default\Features
+Get-OrchardPsCommand
+            </Code>
+            <Remarks>
+              <para></para>
+            </Remarks>
+          </Example>
+        </Examples>
+      </Task>
+    </Tasks>
+    
+    <RelatedLinks>
+      <navigationLink>
+        <linkText>about_provider</linkText>
+        <uri/>
+      </navigationLink>
+    </RelatedLinks>
+  
+  </providerHelp>
+</helpItems>

@@ -215,6 +215,22 @@ namespace Orchard.Management.PsProvider
                 new NamedParameter("orchardRoot", driveParameters.OrchardRoot));
             orchardDrive.Initialize();
 
+            var color = System.Console.ForegroundColor;
+            System.Console.ForegroundColor = ConsoleColor.White;
+            System.Console.WriteLine("                    Welcome to Orchard PowerShell!");
+            System.Console.ForegroundColor = color;
+
+            System.Console.WriteLine();
+            System.Console.WriteLine(
+                "To get a list of all Orchard-related cmdlets, type Get-OrchardPsCommand -All.");
+            System.Console.WriteLine(
+                "To get a list of all supported cmdlets for the current location type Get-OrchardPsCommand.");
+            System.Console.WriteLine(
+                "To get help about a specific cmdlet, type Get-Help CommandName.");
+            System.Console.WriteLine(
+                "To get more help about the Orchard PowerShell provider, type Get-Help Orchard.");
+            System.Console.WriteLine();
+
             return orchardDrive;
         }
     }
