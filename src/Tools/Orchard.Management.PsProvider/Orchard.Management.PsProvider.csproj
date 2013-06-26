@@ -61,11 +61,11 @@
     <Compile Include="Agents\AgentAttribute.cs" />
     <Compile Include="Agents\AgentBase.cs" />
     <Compile Include="Agents\ContainerManager.cs" />
+    <Compile Include="Agents\IAgent.cs" />
     <Compile Include="Agents\IContainerManager.cs" />
     <Compile Include="CmdletAliasAttribute.cs" />
     <Compile Include="Cmdlets\GetOrchardPsCommand.cs" />
     <Compile Include="ErrorIds.cs" />
-    <Compile Include="Agents\AgentProxy.cs" />
     <Compile Include="Agents\AgentManager.cs" />
     <Compile Include="Agents\IAgentManager.cs" />
     <Compile Include="GlobalSuppressions.cs" />

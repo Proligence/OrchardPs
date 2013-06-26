@@ -18,7 +18,7 @@ namespace Proligence.PowerShell.Agents
     /// <summary>
     /// Implements the agent which exposes Orchard modules and features.
     /// </summary>
-    public class ModulesAgent : AgentBase
+    public class ModulesAgent : AgentBase, IModulesAgent
     {
         /// <summary>
         /// Gets all modules for the specified site.

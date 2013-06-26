@@ -16,6 +16,6 @@ namespace Orchard.Management.PsProvider.Agents
         /// </summary>
         /// <typeparam name="TAgent">The type of the agent to get.</typeparam>
         /// <returns>The agent proxy instance.</returns>
-        TAgent GetAgent<TAgent>() where TAgent : AgentProxy;
+        TAgent GetAgent<TAgent>() where TAgent : IAgent;
     }
 }

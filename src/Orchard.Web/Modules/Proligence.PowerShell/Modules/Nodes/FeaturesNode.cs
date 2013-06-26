@@ -24,16 +24,16 @@ namespace Proligence.PowerShell.Modules.Nodes
     public class FeaturesNode : ContainerNode
     {
         /// <summary>
-        /// The command agent proxy instance.
+        /// The command agent instance.
         /// </summary>
-        private readonly ModulesAgentProxy modulesAgent;
+        private readonly IModulesAgent modulesAgent;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FeaturesNode"/> class.
         /// </summary>
         /// <param name="vfs">The Orchard VFS instance which the node belongs to.</param>
-        /// <param name="modulesAgent">The modules agent proxy instance.</param>
-        public FeaturesNode(IPowerShellVfs vfs, ModulesAgentProxy modulesAgent)
+        /// <param name="modulesAgent">The modules agent instance.</param>
+        public FeaturesNode(IPowerShellVfs vfs, IModulesAgent modulesAgent)
             : base(vfs, "Features") 
         {
             this.modulesAgent = modulesAgent;

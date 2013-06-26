@@ -16,7 +16,7 @@ namespace Proligence.PowerShell.Agents
     /// <summary>
     /// Implements the the agent which exposes Orchard sites (tenants).
     /// </summary>
-    public class TenantAgent : AgentBase 
+    public class TenantAgent : AgentBase, ITenantAgent
     {
         /// <summary>
         /// Gets sites (tenants) configured in the Orchard installation.

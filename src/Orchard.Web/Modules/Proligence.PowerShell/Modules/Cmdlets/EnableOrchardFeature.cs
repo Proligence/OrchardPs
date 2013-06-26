@@ -25,7 +25,7 @@ namespace Proligence.PowerShell.Modules.Cmdlets
         /// <summary>
         /// The modules agent proxy instance.
         /// </summary>
-        private ModulesAgentProxy modulesAgent;
+        private IModulesAgent modulesAgent;
 
         /// <summary>
         /// Cached list of all Orchard features for each site.
@@ -65,7 +65,7 @@ namespace Proligence.PowerShell.Modules.Cmdlets
         protected override void BeginProcessing()
         {
             base.BeginProcessing();
-            this.modulesAgent = this.AgentManager.GetAgent<ModulesAgentProxy>();
+            this.modulesAgent = this.AgentManager.GetAgent<IModulesAgent>();
             this.features = new Dictionary<string, OrchardFeature[]>();
         }
 

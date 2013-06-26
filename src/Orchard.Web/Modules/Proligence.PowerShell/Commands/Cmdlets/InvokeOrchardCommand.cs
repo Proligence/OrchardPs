@@ -28,7 +28,7 @@ namespace Proligence.PowerShell.Commands.Cmdlets
         /// <summary>
         /// The command agent proxy instance.
         /// </summary>
-        private CommandAgentProxy commandAgent;
+        private ICommandAgent commandAgent;
 
         /// <summary>
         /// Gets or sets the name and arguments of the command to execute.
@@ -63,7 +63,7 @@ namespace Proligence.PowerShell.Commands.Cmdlets
         protected override void BeginProcessing() 
         {
             base.BeginProcessing();
-            this.commandAgent = this.AgentManager.GetAgent<CommandAgentProxy>();
+            this.commandAgent = this.AgentManager.GetAgent<ICommandAgent>();
         }
 
         /// <summary>

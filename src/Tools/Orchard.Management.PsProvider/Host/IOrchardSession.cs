@@ -6,6 +6,7 @@
 
 namespace Orchard.Management.PsProvider.Host 
 {
+    using System;
     using Orchard.Management.PsProvider.Agents;
 
     /// <summary>
@@ -27,7 +28,8 @@ namespace Orchard.Management.PsProvider.Host
         /// Creates a proxy for an agent of the specified type.
         /// </summary>
         /// <typeparam name="T">The type of the agent to create.</typeparam>
+        /// <param name="agentType">The type of the agent to create.</param>
         /// <returns>The created agent proxy instance.</returns>
-        T CreateAgent<T>() where T : AgentProxy;
+        T CreateAgent<T>(Type agentType) where T : IAgent;
     }
 }

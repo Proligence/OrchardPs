@@ -6,6 +6,10 @@
 
 namespace Orchard.Management.PsProvider.Agents 
 {
+    using System;
+    using System.Runtime.Remoting.Lifetime;
+    using System.Security;
+    using System.Web.Hosting;
     using System.Web.Mvc;
     using System.Web.Routing;
     using Autofac;
@@ -15,7 +19,7 @@ namespace Orchard.Management.PsProvider.Agents
     /// The base class for classes which implement agents which expose features outside Orchard's web application
     /// AppDomain.
     /// </summary>
-    public class AgentBase 
+    public class AgentBase : MarshalByRefObject, IAgent, IDisposable
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AgentBase"/> class.
@@ -41,15 +45,8 @@ namespace Orchard.Management.PsProvider.Agents
         /// </summary>
         public void Dispose() 
         {
-            if (this.HostContainer != null) 
-            {
-                this.HostContainer.Dispose();
-            }
-
-            if (this.ContainerManager != null) 
-            {
-                this.ContainerManager.Dispose();
-            }
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -64,6 +61,57 @@ namespace Orchard.Management.PsProvider.Agents
             builder.Register(ctx => ViewEngines.Engines).SingleInstance();
 
             builder.RegisterType<ContainerManager>().As<IContainerManager>().SingleInstance();
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing">
+        /// <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged
+        /// resources.
+        /// </param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (this.HostContainer != null)
+                {
+                    this.HostContainer.Dispose();
+                }
+
+                if (this.ContainerManager != null)
+                {
+                    this.ContainerManager.Dispose();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Obtains a lifetime service object to control the lifetime policy for this instance.
+        /// </summary>
+        /// <returns>
+        /// An object of type <see cref="ILease"/> used to control the lifetime policy for this instance. This is the
+        /// current lifetime service object for this instance if one exists; otherwise, a new lifetime service object
+        /// initialized to the value of the <see cref="LifetimeServices.LeaseManagerPollTime"/> property.
+        /// </returns>
+        [SecurityCritical]
+        public override object InitializeLifetimeService()
+        {
+            // never expire the license
+            return null;
+        }
+
+        /// <summary>
+        /// Requests a registered object to unregister.
+        /// </summary>
+        /// <param name="immediate">
+        /// <c>true</c> to indicate the registered object should unregister from the hosting environment before
+        /// returning; otherwise, <c>false</c>.
+        /// </param>
+        [SecuritySafeCritical]
+        public void Stop(bool immediate)
+        {
+            HostingEnvironment.UnregisterObject(this);
         }
     }
 }

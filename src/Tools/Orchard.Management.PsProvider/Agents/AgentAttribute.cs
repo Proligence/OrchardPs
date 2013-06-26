@@ -9,24 +9,31 @@ namespace Orchard.Management.PsProvider.Agents
     using System;
 
     /// <summary>
-    /// Specifies that a class implements a proxy to an agent which exposes features outside Orchard's web application
-    /// AppDomain.
+    /// Specifies the class that implements an agent interfaces.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-    public sealed class AgentAttribute : Attribute 
+    [AttributeUsage(AttributeTargets.Interface, AllowMultiple = false, Inherited = false)]
+    public sealed class AgentAttribute : Attribute
     {
+        /// <summary>
+        /// The type which implements the agent.
+        /// </summary>
+        private readonly Type type;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AgentAttribute"/> class.
         /// </summary>
-        /// <param name="typeName">The full name of the type which implements the agent.</param>
-        public AgentAttribute(string typeName) 
+        /// <param name="type">The type which implements the agent.</param>
+        public AgentAttribute(Type type)
         {
-            this.TypeName = typeName;
+            this.type = type;
         }
 
         /// <summary>
-        /// Gets the full name of the type which implements the agent.
+        /// Gets the type which implements the agent.
         /// </summary>
-        public string TypeName { get; private set; }
+        public Type Type
+        {
+            get { return this.type; }
+        }
     }
 }

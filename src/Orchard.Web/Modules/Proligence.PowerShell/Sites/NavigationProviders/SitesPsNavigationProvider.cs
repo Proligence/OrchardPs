@@ -9,7 +9,6 @@ namespace Proligence.PowerShell.Sites.NavigationProviders
     using Orchard.Management.PsProvider.Agents;
     using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Sites.Nodes;
-    using Proligence.PowerShell.Vfs;
     using Proligence.PowerShell.Vfs.Navigation;
 
     /// <summary>
@@ -28,7 +27,7 @@ namespace Proligence.PowerShell.Sites.NavigationProviders
         public override void Initialize()
         {
             this.NodeType = NodeType.Global;
-            this.Node = new SitesNode(this.Vfs, this.AgentManager.GetAgent<TenantAgentProxy>());
+            this.Node = new SitesNode(this.Vfs, this.AgentManager.GetAgent<ITenantAgent>());
         }
     }
 }

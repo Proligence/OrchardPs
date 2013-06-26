@@ -19,7 +19,7 @@ namespace Proligence.PowerShell.Agents
     /// <summary>
     /// Implements the agent which exposes legacy Orchard commands.
     /// </summary>
-    public class CommandAgent : AgentBase 
+    public class CommandAgent : AgentBase, ICommandAgent
     {
         /// <summary>
         /// Gets all legacy commands which are available for the specified Orchard site.

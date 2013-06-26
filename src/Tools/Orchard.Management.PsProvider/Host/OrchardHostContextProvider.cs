@@ -8,6 +8,7 @@ namespace Orchard.Management.PsProvider.Host
 {
     using System;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -91,19 +92,29 @@ namespace Orchard.Management.PsProvider.Host
         /// Creates a proxy for an agent of the specified type.
         /// </summary>
         /// <typeparam name="T">The type of the agent to get proxy for.</typeparam>
+        /// <param name="agentType">The type which implements the agent.</param>
         /// <returns>The created agent proxy instance.</returns>
         [SecurityCritical]
-        public T CreateAgent<T>() where T : AgentProxy
+        [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands",
+            Justification = "By design.")]
+        public T CreateAgent<T>(Type agentType) where T : IAgent
         {
+            T agent;
+
             AppDomain.CurrentDomain.AssemblyResolve += this.AssemblyResolveHandler;
             try
             {
-                return (T)clientBuildManager.CreateObject(typeof(T), false);
+                agent = (T)clientBuildManager.CreateObject(agentType, false);
             }
             finally
             {
                 AppDomain.CurrentDomain.AssemblyResolve -= this.AssemblyResolveHandler;
             }
+
+            // ReSharper disable once AssignNullToNotNullAttribute
+            HostingEnvironment.RegisterObject(agent);
+
+            return agent;
         }
 
         /// <summary>

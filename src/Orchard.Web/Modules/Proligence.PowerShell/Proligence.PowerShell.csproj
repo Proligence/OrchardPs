@@ -68,12 +68,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Agents\CommandAgent.cs" />
-    <Compile Include="Agents\CommandAgentProxy.cs" />
-    <Compile Include="Agents\ModulesAgentProxy.cs" />
+    <Compile Include="Agents\ICommandAgent.cs" />
+    <Compile Include="Agents\IModulesAgent.cs" />
+    <Compile Include="Agents\ITenantAgent.cs" />
     <Compile Include="Agents\ModulesAgent.cs" />
-    <Compile Include="Agents\TenantAgentProxy.cs" />
     <Compile Include="Agents\ContentAgent.cs" />
-    <Compile Include="Agents\ContentAgentProxy.cs" />
     <Compile Include="Agents\TenantAgent.cs" />
     <Compile Include="Commands\Cmdlets\InvokeOrchardCommand.cs" />
     <Compile Include="Commands\Items\OrchardCommand.cs" />

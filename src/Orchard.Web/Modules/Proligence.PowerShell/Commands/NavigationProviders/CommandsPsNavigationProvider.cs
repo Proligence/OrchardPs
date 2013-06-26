@@ -9,7 +9,6 @@ namespace Proligence.PowerShell.Commands.NavigationProviders
     using Orchard.Management.PsProvider.Agents;
     using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Commands.Nodes;
-    using Proligence.PowerShell.Vfs;
     using Proligence.PowerShell.Vfs.Navigation;
 
     /// <summary>
@@ -28,7 +27,7 @@ namespace Proligence.PowerShell.Commands.NavigationProviders
         public override void Initialize()
         {
             this.NodeType = NodeType.Site;
-            this.Node = new CommandsNode(this.Vfs, this.AgentManager.GetAgent<CommandAgentProxy>());
+            this.Node = new CommandsNode(this.Vfs, this.AgentManager.GetAgent<ICommandAgent>());
         }
     }
 }

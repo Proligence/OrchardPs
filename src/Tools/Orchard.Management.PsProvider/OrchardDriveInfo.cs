@@ -10,7 +10,6 @@ namespace Orchard.Management.PsProvider
     using System.Management.Automation;
     using Autofac;
     using Orchard.Management.PsProvider.Host;
-    using Proligence.PowerShell.Vfs;
     using Proligence.PowerShell.Vfs.Provider;
 
     /// <summary>

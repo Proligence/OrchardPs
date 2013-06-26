@@ -14,7 +14,6 @@ namespace Orchard.Management.PsProvider
     using System.Management.Automation.Provider;
     using System.Reflection;
     using Autofac;
-    using Proligence.PowerShell.Vfs;
     using Proligence.PowerShell.Vfs.Provider;
 
     /// <summary>

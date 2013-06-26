@@ -11,7 +11,6 @@ namespace Proligence.PowerShell.Sites.Nodes
     using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Common.Items;
     using Proligence.PowerShell.Sites.Items;
-    using Proligence.PowerShell.Vfs;
     using Proligence.PowerShell.Vfs.Core;
     using Proligence.PowerShell.Vfs.Navigation;
 
@@ -21,16 +20,16 @@ namespace Proligence.PowerShell.Sites.Nodes
     public class SitesNode : ContainerNode 
     {
         /// <summary>
-        /// The tenant agent proxy instance.
+        /// The tenant agent instance.
         /// </summary>
-        private readonly TenantAgentProxy tenantAgent;
+        private readonly ITenantAgent tenantAgent;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SitesNode"/> class.
         /// </summary>
         /// <param name="vfs">The Orchard VFS instance which the node belongs to.</param>
-        /// <param name="tenantAgent">The tenant agent proxy instance.</param>
-        public SitesNode(IPowerShellVfs vfs, TenantAgentProxy tenantAgent) 
+        /// <param name="tenantAgent">The tenant agent instance.</param>
+        public SitesNode(IPowerShellVfs vfs, ITenantAgent tenantAgent) 
             : base(vfs, "Sites") 
         {
             this.tenantAgent = tenantAgent;

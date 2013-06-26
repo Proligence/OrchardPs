@@ -23,16 +23,16 @@ namespace Proligence.PowerShell.Commands.Nodes
     public class CommandsNode : ContainerNode 
     {
         /// <summary>
-        /// The command agent proxy instance.
+        /// The command agent instance.
         /// </summary>
-        private readonly CommandAgentProxy commandAgent;
+        private readonly ICommandAgent commandAgent;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandsNode"/> class.
         /// </summary>
         /// <param name="vfs">The Orchard VFS instance which the node belongs to.</param>
-        /// <param name="commandAgent">The command agent proxy instance.</param>
-        public CommandsNode(IPowerShellVfs vfs, CommandAgentProxy commandAgent)
+        /// <param name="commandAgent">The command agent instance.</param>
+        public CommandsNode(IPowerShellVfs vfs, ICommandAgent commandAgent)
             : base(vfs, "Commands") 
         {
             this.commandAgent = commandAgent;

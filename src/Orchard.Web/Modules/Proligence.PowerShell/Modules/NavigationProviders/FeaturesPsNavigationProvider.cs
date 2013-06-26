@@ -27,7 +27,7 @@ namespace Proligence.PowerShell.Modules.NavigationProviders
         public override void Initialize()
         {
             this.NodeType = NodeType.Site;
-            this.Node = new FeaturesNode(this.Vfs, this.AgentManager.GetAgent<ModulesAgentProxy>());
+            this.Node = new FeaturesNode(this.Vfs, this.AgentManager.GetAgent<IModulesAgent>());
         }
     }
 }
