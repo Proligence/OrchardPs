@@ -50,6 +50,34 @@ namespace Orchard.Management.PsProvider.Agents
         }
 
         /// <summary>
+        /// Obtains a lifetime service object to control the lifetime policy for this instance.
+        /// </summary>
+        /// <returns>
+        /// An object of type <see cref="ILease"/> used to control the lifetime policy for this instance. This is the
+        /// current lifetime service object for this instance if one exists; otherwise, a new lifetime service object
+        /// initialized to the value of the <see cref="LifetimeServices.LeaseManagerPollTime"/> property.
+        /// </returns>
+        [SecurityCritical]
+        public override object InitializeLifetimeService()
+        {
+            // never expire the license
+            return null;
+        }
+
+        /// <summary>
+        /// Requests a registered object to unregister.
+        /// </summary>
+        /// <param name="immediate">
+        /// <c>true</c> to indicate the registered object should unregister from the hosting environment before
+        /// returning; otherwise, <c>false</c>.
+        /// </param>
+        [SecuritySafeCritical]
+        public void Stop(bool immediate)
+        {
+            HostingEnvironment.UnregisterObject(this);
+        }
+
+        /// <summary>
         /// Registers types in the <see cref="HostContainer"/> dependency injection container.
         /// </summary>
         /// <param name="builder">The container builder.</param>
@@ -84,34 +112,6 @@ namespace Orchard.Management.PsProvider.Agents
                     this.ContainerManager.Dispose();
                 }
             }
-        }
-
-        /// <summary>
-        /// Obtains a lifetime service object to control the lifetime policy for this instance.
-        /// </summary>
-        /// <returns>
-        /// An object of type <see cref="ILease"/> used to control the lifetime policy for this instance. This is the
-        /// current lifetime service object for this instance if one exists; otherwise, a new lifetime service object
-        /// initialized to the value of the <see cref="LifetimeServices.LeaseManagerPollTime"/> property.
-        /// </returns>
-        [SecurityCritical]
-        public override object InitializeLifetimeService()
-        {
-            // never expire the license
-            return null;
-        }
-
-        /// <summary>
-        /// Requests a registered object to unregister.
-        /// </summary>
-        /// <param name="immediate">
-        /// <c>true</c> to indicate the registered object should unregister from the hosting environment before
-        /// returning; otherwise, <c>false</c>.
-        /// </param>
-        [SecuritySafeCritical]
-        public void Stop(bool immediate)
-        {
-            HostingEnvironment.UnregisterObject(this);
         }
     }
 }

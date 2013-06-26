@@ -94,7 +94,7 @@ namespace Proligence.PowerShell.Commands.Cmdlets
         /// <summary>
         /// Invokes the Orchard command using the 'Default' parameters set.
         /// </summary>
-        /// <param name="siteName">The name of the Orchard site on which the command will be execited.</param>
+        /// <param name="siteName">The name of the Orchard site on which the command will be executed.</param>
         /// <param name="commandName">The name and arguments of the command to execute.</param>
         /// <param name="parameters">The switches which will be passed to the executed command.</param>
         /// <param name="directConsole">
@@ -117,7 +117,7 @@ namespace Proligence.PowerShell.Commands.Cmdlets
         /// <summary>
         /// Invokes the Orchard command using the 'CommandObject' parameters set.
         /// </summary>
-        /// <param name="siteName">The name of the Orchard site on which the command will be execited.</param>
+        /// <param name="siteName">The name of the Orchard site on which the command will be executed.</param>
         /// <param name="command">
         /// The <see cref="OrchardCommand"/> object which represents the orchard command to execute.
         /// </param>
@@ -136,7 +136,7 @@ namespace Proligence.PowerShell.Commands.Cmdlets
         /// <summary>
         /// Invokes a legacy Orchard command.
         /// </summary>
-        /// <param name="siteName">The name of the Orchard site on which the command will be execited.</param>
+        /// <param name="siteName">The name of the Orchard site on which the command will be executed.</param>
         /// <param name="arguments">The name and arguments of the command to execute.</param>
         /// <param name="switches">The switches which will be passed to the executed command.</param>
         /// <param name="parameters">The command parameters to parse.</param>
@@ -188,7 +188,7 @@ namespace Proligence.PowerShell.Commands.Cmdlets
         /// <param name="arguments">Parsed arguments.</param>
         /// <param name="switches">Parsed switches.</param>
         /// <returns>
-        /// <c>true</c> if all arguments and switches were parsed successfully or <c>false</c> if an error ocurred.
+        /// <c>true</c> if all arguments and switches were parsed successfully or <c>false</c> if an error occurred.
         /// </returns>
         private bool ParseParameters(
             IEnumerable<string> args, 

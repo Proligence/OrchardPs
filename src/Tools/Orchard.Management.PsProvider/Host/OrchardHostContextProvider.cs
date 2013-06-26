@@ -225,10 +225,12 @@ namespace Orchard.Management.PsProvider.Host
         /// <returns>Resolved assembly.</returns>
         /// <remarks>
         /// This is a workaround for what seems to be a bug in the .NET framework. Without this event handler an
-        /// exception is thrown, which says that the returned object cannot be cast to the agnet proxy type.
+        /// exception is thrown, which says that the returned object cannot be cast to the agent proxy type.
         /// More details:
+        /// <c>
         /// http://stackoverflow.com/questions/1437831/appdomain-createinstancefromandunwrap-unable-to-cast-transparent-proxy
         /// http://www.west-wind.com/weblog/posts/2009/Jan/19/Assembly-Loading-across-AppDomains
+        /// </c>
         /// </remarks>
         private Assembly AssemblyResolveHandler(object sender, ResolveEventArgs args)
         {

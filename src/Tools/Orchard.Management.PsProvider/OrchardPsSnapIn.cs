@@ -222,7 +222,7 @@ namespace Orchard.Management.PsProvider
         /// <summary>
         /// Discovers the cmdlets defined in Orchard module assemblies.
         /// </summary>
-        /// <param name="cmdletsCollection">The collection to which the discovered assemlies will be added.</param>
+        /// <param name="cmdletsCollection">The collection to which the discovered assemblies will be added.</param>
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "By design")]
         private void LoadCmdlets(ICollection<CmdletConfigurationEntry> cmdletsCollection)
         {

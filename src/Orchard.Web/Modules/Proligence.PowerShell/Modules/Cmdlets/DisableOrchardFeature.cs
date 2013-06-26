@@ -92,7 +92,7 @@ namespace Proligence.PowerShell.Modules.Cmdlets
 
             if (this.ParameterSetName == "Default")
             {
-                feature = GetOrchardFeature(siteName, this.Name);
+                feature = this.GetOrchardFeature(siteName, this.Name);
                 if (feature == null)
                 {
                     this.WriteError(
@@ -119,7 +119,7 @@ namespace Proligence.PowerShell.Modules.Cmdlets
         /// <summary>
         /// Gets the <see cref="OrchardFeature"/> object for the specified feature.
         /// </summary>
-        /// <param name="siteName">The name ot the site for which to get feature.</param>
+        /// <param name="siteName">The name to the site for which to get feature.</param>
         /// <param name="featureName">The name of the feature to get.</param>
         /// <returns>The <see cref="OrchardFeature"/> object for the specified feature.</returns>
         private OrchardFeature GetOrchardFeature(string siteName, string featureName)

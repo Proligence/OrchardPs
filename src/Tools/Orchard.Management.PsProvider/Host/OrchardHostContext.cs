@@ -32,7 +32,7 @@ namespace Orchard.Management.PsProvider.Host
         public ReturnCode StartSessionResult { get; set; }
 
         /// <summary>
-        /// Gets or sets the result of retring the latest session start.
+        /// Gets or sets the result of retrying the latest session start.
         /// </summary>
         public ReturnCode RetryResult { get; set; }
 

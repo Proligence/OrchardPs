@@ -15,7 +15,7 @@ namespace Proligence.PowerShell.Modules.Items
     public class OrchardModule
     {
         /// <summary>
-        /// Gets or set the folder name under virtual path base.
+        /// Gets or sets the folder name under virtual path base.
         /// </summary>
         public string Id { get; set; }
 

@@ -47,7 +47,7 @@ namespace Proligence.PowerShell.Agents
         /// <summary>
         /// Executes the specified legacy command.
         /// </summary>
-        /// <param name="siteName">The name of the site on which the command will be exectued.</param>
+        /// <param name="siteName">The name of the site on which the command will be executed.</param>
         /// <param name="args">Command name and arguments.</param>
         /// <param name="switches">Command switches.</param>
         /// <param name="directConsole">
@@ -77,7 +77,6 @@ namespace Proligence.PowerShell.Agents
                         return writer.ToString();
                     }
                 }
-                
             }
             finally 
             {

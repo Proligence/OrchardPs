@@ -42,7 +42,7 @@ namespace Proligence.PowerShell.Common.Items
         public string Description { get; set; }
 
         /// <summary>
-        /// Gets the groupd items.
+        /// Gets the grouped items.
         /// </summary>
         public IEnumerable Items 
         {
