@@ -14,6 +14,7 @@ namespace Orchard.Management.PsProvider.Cmdlets
     /// <summary>
     /// Implements the <c>Get-OrchardPsCommand</c> cmdlet.
     /// </summary>
+    [CmdletAlias("gopc")]
     [Cmdlet(VerbsCommon.Get, "OrchardPsCommand", DefaultParameterSetName = "Default", SupportsShouldProcess = false, ConfirmImpact = ConfirmImpact.None)]
     public class GetOrchardPsCommand : OrchardCmdlet
     {
