@@ -33,7 +33,7 @@ namespace Proligence.PowerShell.Agents
                 s => new OrchardSite 
                 {
                     Name = s.Name,
-                    State = s.State.CurrentState,
+                    State = s.State,
                     DataConnectionString = s.DataConnectionString,
                     DataProvider = s.DataProvider,
                     DataTablePrefix = s.DataTablePrefix,

@@ -24,7 +24,7 @@ namespace Proligence.PowerShell.Sites.Items
         /// <summary>
         /// Gets or sets the current state of the site.
         /// </summary>
-        public TenantState.State State { get; set; }
+        public TenantState State { get; set; }
 
         /// <summary>
         /// Gets or sets the connection string to the site's database.
