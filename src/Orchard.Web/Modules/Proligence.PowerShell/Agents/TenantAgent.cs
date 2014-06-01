@@ -28,25 +28,28 @@ namespace Proligence.PowerShell.Agents
         /// </returns>
         public OrchardTenant[] GetTenants() 
         {
-            IShellSettingsManager tenantManager = HostContainer.Resolve<IShellSettingsManager>();
+            var tenantManager = HostContainer.Resolve<IShellSettingsManager>();
             IEnumerable<ShellSettings> settings = tenantManager.LoadSettings();
-            IEnumerable<OrchardTenant> tenants = settings.Select(
-                s => new OrchardTenant 
-                {
-                    Name = s.Name,
-                    State = s.State,
-                    DataConnectionString = s.DataConnectionString,
-                    DataProvider = s.DataProvider,
-                    DataTablePrefix = s.DataTablePrefix,
-                    EncryptionAlgorithm = s.EncryptionAlgorithm,
-                    EncryptionKey = s.EncryptionKey,
-                    HashAlgorithm = s.HashAlgorithm,
-                    HashKey = s.HashKey,
-                    RequestUrlHost = s.RequestUrlHost,
-                    RequestUrlPrefix = s.RequestUrlPrefix
-                });
+            IEnumerable<OrchardTenant> tenants = settings.Select(ShellSettingsToOrchardTenant);
 
             return tenants.ToArray();
+        }
+
+        /// <summary>
+        /// Gets the tenant with the specified name.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="OrchardTenant"/> object which represent the tenant with the specified name or <c>null</c>.
+        /// </returns>
+        public OrchardTenant GetTenant(string name)
+        {
+            var tenantManager = HostContainer.Resolve<IShellSettingsManager>();
+
+            return tenantManager
+                .LoadSettings()
+                .Where(t => t.Name == name)
+                .Select(ShellSettingsToOrchardTenant)
+                .FirstOrDefault();
         }
 
         /// <summary>
@@ -97,6 +100,29 @@ namespace Proligence.PowerShell.Agents
                 tenant.State = TenantState.Disabled;
                 shellSettingsManager.SaveSettings(tenant);
             }
+        }
+
+        /// <summary>
+        /// Creates a <see cref="OrchardTenant"/> object from a <see cref="ShellSettings"/> object.
+        /// </summary>
+        /// <param name="shellSettings">The tenant's shell settings.</param>
+        /// <returns>The created <see cref="OrchardTenant"/> object.</returns>
+        private static OrchardTenant ShellSettingsToOrchardTenant(ShellSettings shellSettings)
+        {
+            return new OrchardTenant
+            {
+                Name = shellSettings.Name,
+                State = shellSettings.State,
+                DataConnectionString = shellSettings.DataConnectionString,
+                DataProvider = shellSettings.DataProvider,
+                DataTablePrefix = shellSettings.DataTablePrefix,
+                EncryptionAlgorithm = shellSettings.EncryptionAlgorithm,
+                EncryptionKey = shellSettings.EncryptionKey,
+                HashAlgorithm = shellSettings.HashAlgorithm,
+                HashKey = shellSettings.HashKey,
+                RequestUrlHost = shellSettings.RequestUrlHost,
+                RequestUrlPrefix = shellSettings.RequestUrlPrefix
+            };
         }
     }
 }

@@ -101,6 +101,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tenants\Cmdlets\DisableTenant.cs" />
     <Compile Include="Tenants\Cmdlets\EnableTenant.cs" />
+    <Compile Include="Tenants\Cmdlets\GetTenant.cs" />
     <Compile Include="Tenants\Items\OrchardTenant.cs" />
     <Compile Include="Tenants\Nodes\TenantNode.cs" />
     <Compile Include="Tenants\Nodes\TenantsNode.cs" />
@@ -140,6 +141,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Tenants\Cmdlets\Enable-Tenant-help.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Tenants\Cmdlets\Get-Tenant-help.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="web.config" />
