@@ -67,8 +67,11 @@ namespace Proligence.PowerShell.Agents
                 throw new InvalidOperationException("Cannot enable default tenant.");
             }
 
-            tenant.State = TenantState.Running;
-            shellSettingsManager.SaveSettings(tenant);
+            if (tenant.State != TenantState.Running)
+            {
+                tenant.State = TenantState.Running;
+                shellSettingsManager.SaveSettings(tenant);
+            }
         }
 
         /// <summary>
@@ -89,8 +92,11 @@ namespace Proligence.PowerShell.Agents
                 throw new InvalidOperationException("Cannot disable default tenant.");
             }
 
-            tenant.State = TenantState.Disabled;
-            shellSettingsManager.SaveSettings(tenant);
+            if (tenant.State != TenantState.Disabled)
+            {
+                tenant.State = TenantState.Disabled;
+                shellSettingsManager.SaveSettings(tenant);
+            }
         }
     }
 }
