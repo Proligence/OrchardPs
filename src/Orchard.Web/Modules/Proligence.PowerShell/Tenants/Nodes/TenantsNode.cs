@@ -1,23 +1,23 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SitesNode.cs" company="Proligence">
+// <copyright file="TenantsNode.cs" company="Proligence">
 //   Proligence Confidential, All Rights Reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Proligence.PowerShell.Sites.Nodes 
+namespace Proligence.PowerShell.Tenants.Nodes 
 {
     using System.Collections.Generic;
     using System.Linq;
     using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Common.Items;
-    using Proligence.PowerShell.Sites.Items;
+    using Proligence.PowerShell.Tenants.Items;
     using Proligence.PowerShell.Vfs.Core;
     using Proligence.PowerShell.Vfs.Navigation;
 
     /// <summary>
-    /// Implements a VFS node which groups <see cref="SiteNode"/> nodes for a single Orchard installation.
+    /// Implements a VFS node which groups <see cref="TenantNode"/> nodes for a single Orchard installation.
     /// </summary>
-    public class SitesNode : ContainerNode 
+    public class TenantsNode : ContainerNode 
     {
         /// <summary>
         /// The tenant agent instance.
@@ -25,19 +25,19 @@ namespace Proligence.PowerShell.Sites.Nodes
         private readonly ITenantAgent tenantAgent;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SitesNode"/> class.
+        /// Initializes a new instance of the <see cref="TenantsNode"/> class.
         /// </summary>
         /// <param name="vfs">The Orchard VFS instance which the node belongs to.</param>
         /// <param name="tenantAgent">The tenant agent instance.</param>
-        public SitesNode(IPowerShellVfs vfs, ITenantAgent tenantAgent) 
-            : base(vfs, "Sites") 
+        public TenantsNode(IPowerShellVfs vfs, ITenantAgent tenantAgent) 
+            : base(vfs, "Tenants") 
         {
             this.tenantAgent = tenantAgent;
 
             this.Item = new CollectionItem(this) 
             {
-                Name = "Sites",
-                Description = "Contains all sites (tenants) of the Orchard instance."
+                Name = "Tenants",
+                Description = "Contains all tenants of the Orchard instance."
             };
         }
 
@@ -49,8 +49,8 @@ namespace Proligence.PowerShell.Sites.Nodes
         /// </returns>
         public override IEnumerable<VfsNode> GetVirtualNodes() 
         {
-            OrchardSite[] sites = this.tenantAgent.GetSites();
-            return sites.Select(site => new SiteNode(Vfs, site));
+            OrchardTenant[] tenants = this.tenantAgent.GetTenants();
+            return tenants.Select(tenant => new TenantNode(Vfs, tenant));
         }
     }
 }

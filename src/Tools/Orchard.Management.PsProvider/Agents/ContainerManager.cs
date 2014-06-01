@@ -20,7 +20,7 @@ namespace Orchard.Management.PsProvider.Agents
     {
         private readonly IShellSettingsManager shellSettingsManager;
         private readonly IShellContextFactory shellContextFactory;
-        private readonly Dictionary<string, ShellContext> siteShells;
+        private readonly Dictionary<string, ShellContext> tenantShells;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ContainerManager"/> class.
@@ -31,23 +31,23 @@ namespace Orchard.Management.PsProvider.Agents
         {
             this.shellSettingsManager = shellSettingsManager;
             this.shellContextFactory = shellContextFactory;
-            this.siteShells = new Dictionary<string, ShellContext>();
+            this.tenantShells = new Dictionary<string, ShellContext>();
         }
 
         /// <summary>
-        /// Gets the dependency injection container for the specified site (tenant).
+        /// Gets the dependency injection container for the specified tenant.
         /// </summary>
-        /// <param name="siteName">The name of the site.</param>
+        /// <param name="tenantName">The name of the tenant.</param>
         /// <returns>The dependency injection lifetime scope instance.</returns>
-        public ILifetimeScope GetSiteContainer(string siteName) 
+        public ILifetimeScope GetTenantContainer(string tenantName) 
         {
             ShellContext shellContext;
-            lock (this.siteShells) 
+            lock (this.tenantShells) 
             {
-                if (!this.siteShells.TryGetValue(siteName, out shellContext)) 
+                if (!this.tenantShells.TryGetValue(tenantName, out shellContext)) 
                 {
-                    shellContext = this.CreateShellContext(siteName);
-                    this.siteShells.Add(siteName, shellContext);
+                    shellContext = this.CreateShellContext(tenantName);
+                    this.tenantShells.Add(tenantName, shellContext);
                 }
             }
             
@@ -74,30 +74,30 @@ namespace Orchard.Management.PsProvider.Agents
         {
             if (disposing)
             {
-                lock (this.siteShells)
+                lock (this.tenantShells)
                 {
-                    foreach (ShellContext shellContext in this.siteShells.Values)
+                    foreach (ShellContext shellContext in this.tenantShells.Values)
                     {
                         shellContext.LifetimeScope.Dispose();
                     }
 
-                    this.siteShells.Clear();
+                    this.tenantShells.Clear();
                 }
             }
         }
 
         /// <summary>
-        /// Creates a <see cref="ShellContext"/> object for the specified site.
+        /// Creates a <see cref="ShellContext"/> object for the specified tenant.
         /// </summary>
-        /// <param name="siteName">The name of the site.</param>
+        /// <param name="tenantName">The name of the tenant.</param>
         /// <returns>The created <see cref="ShellContext"/> object.</returns>
-        private ShellContext CreateShellContext(string siteName) 
+        private ShellContext CreateShellContext(string tenantName) 
         {
             IEnumerable<ShellSettings> shellSettings = this.shellSettingsManager.LoadSettings();
-            ShellSettings settings = shellSettings.FirstOrDefault(s => s.Name == siteName);
+            ShellSettings settings = shellSettings.FirstOrDefault(s => s.Name == tenantName);
             if (settings == null) 
             {
-                throw new ArgumentException("Failed to find site '" + siteName + "'.", "siteName");
+                throw new ArgumentException("Failed to find tenant '" + tenantName + "'.", "tenantName");
             }
 
             return this.shellContextFactory.CreateShellContext(settings);

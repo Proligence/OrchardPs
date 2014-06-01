@@ -55,8 +55,8 @@ namespace Proligence.PowerShell.Modules.Items
         public bool Enabled { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the Orchard site which the feature belongs to.
+        /// Gets or sets the name of the Orchard tenant which the feature belongs to.
         /// </summary>
-        public string SiteName { get; set; }
+        public string TenantName { get; set; }
     }
 }

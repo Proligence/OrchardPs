@@ -11,7 +11,7 @@ namespace Proligence.PowerShell.Configuration
     using Proligence.PowerShell.Vfs.Navigation;
 
     /// <summary>
-    /// Implements a VFS node which groups configuration-related nodes for a single Orchard site.
+    /// Implements a VFS node which groups configuration-related nodes for a single Orchard tenant.
     /// </summary>
     public class ConfigurationNode : ContainerNode
     {

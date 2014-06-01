@@ -17,7 +17,7 @@ namespace Proligence.PowerShell.Commands.Nodes
     using Proligence.PowerShell.Vfs.Navigation;
 
     /// <summary>
-    /// Implements a VFS node which groups <see cref="CommandNode"/> nodes for a single Orchard site.
+    /// Implements a VFS node which groups <see cref="CommandNode"/> nodes for a single Orchard tenant.
     /// </summary>
     [SupportedCmdlet("Invoke-OrchardCommand")]
     public class CommandsNode : ContainerNode 
@@ -40,7 +40,7 @@ namespace Proligence.PowerShell.Commands.Nodes
             this.Item = new CollectionItem(this) 
             {
                 Name = "Commands",
-                Description = "Contains all legacy Orchard commands available in the current site."
+                Description = "Contains all legacy Orchard commands available in the current tenant."
             };
         }
 
@@ -50,13 +50,13 @@ namespace Proligence.PowerShell.Commands.Nodes
         /// <returns>A sequence of child nodes.</returns>
         public override IEnumerable<VfsNode> GetVirtualNodes() 
         {
-            string siteName = this.GetCurrentSiteName();
-            if (siteName == null) 
+            string tenantName = this.GetCurrentTenantName();
+            if (tenantName == null) 
             {
                 return new VfsNode[0];
             }
 
-            OrchardCommand[] commands = this.commandAgent.GetCommands(siteName);
+            OrchardCommand[] commands = this.commandAgent.GetCommands(tenantName);
             return commands.Select(command => new CommandNode(Vfs, command));
         }
     }

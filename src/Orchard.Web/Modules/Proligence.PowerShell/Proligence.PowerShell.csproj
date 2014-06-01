@@ -99,11 +99,11 @@
     <Compile Include="Modules\Nodes\ModuleNode.cs" />
     <Compile Include="Modules\Nodes\ModulesNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sites\Cmdlets\EnableTenant.cs" />
-    <Compile Include="Sites\Items\OrchardSite.cs" />
-    <Compile Include="Sites\Nodes\SiteNode.cs" />
-    <Compile Include="Sites\Nodes\SitesNode.cs" />
-    <Compile Include="Sites\NavigationProviders\SitesPsNavigationProvider.cs" />
+    <Compile Include="Tenants\Cmdlets\EnableTenant.cs" />
+    <Compile Include="Tenants\Items\OrchardTenant.cs" />
+    <Compile Include="Tenants\Nodes\TenantNode.cs" />
+    <Compile Include="Tenants\Nodes\TenantsNode.cs" />
+    <Compile Include="Tenants\NavigationProviders\TenantsPsNavigationProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Commands\Cmdlets\Invoke-OrchardCommand-help.xml">
@@ -129,11 +129,13 @@
     <Content Include="Modules\Cmdlets\Get-OrchardFeature-help.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Modules\Cmdlets\Disable-OrchardFeature-help.xml" />
+    <Content Include="Modules\Cmdlets\Disable-OrchardFeature-help.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Modules\Cmdlets\Enable-OrchardFeature-help.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Sites\Cmdlets\Enable-Tenant-help.xml">
+    <Content Include="Tenants\Cmdlets\Enable-Tenant-help.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="web.config" />
@@ -144,7 +146,7 @@
     <Content Include="Modules\Modules.format.ps1xml">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Sites\Sites.format.ps1xml" />
+    <None Include="Tenants\Sites.format.ps1xml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

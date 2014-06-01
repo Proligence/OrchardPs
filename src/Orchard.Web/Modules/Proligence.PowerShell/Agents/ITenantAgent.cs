@@ -7,27 +7,27 @@
 namespace Proligence.PowerShell.Agents
 {
     using Orchard.Management.PsProvider.Agents;
-    using Proligence.PowerShell.Sites.Items;
+    using Proligence.PowerShell.Tenants.Items;
 
     /// <summary>
-    /// Defines the interface for the agent which exposes Orchard sites (tenants).
+    /// Defines the interface for the agent which exposes Orchard tenants.
     /// </summary>
     [Agent(typeof(TenantAgent))]
     public interface ITenantAgent : IAgent
     {
         /// <summary>
-        /// Gets sites (tenants) configured in the Orchard installation.
+        /// Gets the tenants configured in the Orchard installation.
         /// </summary>
         /// <returns>
-        /// An array of <see cref="OrchardSite"/> objects which represent the sites configured in the Orchard
+        /// An array of <see cref="OrchardTenant"/> objects which represent the tenants configured in the Orchard
         /// installation.
         /// </returns>
-        OrchardSite[] GetSites();
+        OrchardTenant[] GetTenants();
 
         /// <summary>
-        /// Enables the site (tenant) with the specified name.
+        /// Enables the tenant with the specified name.
         /// </summary>
-        /// <param name="name">The name of the site to enable.</param>
+        /// <param name="name">The name of the tenant to enable.</param>
         void EnableTenant(string name);
     }
 }

@@ -135,7 +135,7 @@
           -------------------------- EXAMPLE 2 --------------------------
         </maml:title>
         <maml:introduction>
-          <maml:para>Orchard:\Sites\Default\Commands&gt;</maml:para>
+          <maml:para>Orchard:\Tenants\Default\Commands&gt;</maml:para>
         </maml:introduction>
         <dev:code>
           Get-OrchardPsCommand
@@ -143,7 +143,7 @@
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>Gets all cmdlets which are supported for child items of Orchard:\Sites\Default\Commands.</maml:para>
+          <maml:para>Gets all cmdlets which are supported for child items of Orchard:\Tenants\Default\Commands.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
@@ -164,12 +164,12 @@
           <maml:para>Orchard:\&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          Get-OrchardPsCommand -Path 'Sites\Default\Commands\help commands'
+          Get-OrchardPsCommand -Path 'Tenants\Default\Commands\help commands'
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>Gets all cmdlets which are supported for the 'Orchard:\Sites\Default\Commands\help commands' item.</maml:para>
+          <maml:para>Gets all cmdlets which are supported for the 'Orchard:\Tenants\Default\Commands\help commands' item.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>

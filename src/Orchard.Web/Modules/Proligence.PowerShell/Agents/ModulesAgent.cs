@@ -21,14 +21,14 @@ namespace Proligence.PowerShell.Agents
     public class ModulesAgent : AgentBase, IModulesAgent
     {
         /// <summary>
-        /// Gets all modules for the specified site.
+        /// Gets all modules for the specified tenant.
         /// </summary>
-        /// <param name="site">The name of the site which modules will be get.</param>
+        /// <param name="tenant">The name of the tenant which modules will be get.</param>
         /// <returns>An array of objects representing the modules.</returns>
-        public OrchardModule[] GetModules(string site)
+        public OrchardModule[] GetModules(string tenant)
         {
-            IExtensionManager extensionManager = this.GetExtensionManager(site);
-            IFeatureManager featureManager = this.GetFeatureManager(site);
+            IExtensionManager extensionManager = this.GetExtensionManager(tenant);
+            IFeatureManager featureManager = this.GetFeatureManager(tenant);
             IEnumerable<ExtensionDescriptor> extensionDescriptors = extensionManager.AvailableExtensions();
             IEnumerable<FeatureDescriptor> enabledFeatures = featureManager.GetEnabledFeatures().ToArray();
 
@@ -39,7 +39,7 @@ namespace Proligence.PowerShell.Agents
                 {
                     orchardFeature.Module = orchardModule;
                     orchardFeature.Enabled = enabledFeatures.Any(f => f.Name == orchardFeature.Name);
-                    orchardFeature.SiteName = site;
+                    orchardFeature.TenantName = tenant;
                 }
             }
 
@@ -47,14 +47,14 @@ namespace Proligence.PowerShell.Agents
         }
 
         /// <summary>
-        /// Gets all features for the specified site.
+        /// Gets all features for the specified tenant.
         /// </summary>
-        /// <param name="site">The name of the site which modules will be get.</param>
+        /// <param name="tenant">The name of the tenant which modules will be get.</param>
         /// <returns>An array of objects representing the modules.</returns>
-        public OrchardFeature[] GetFeatures(string site)
+        public OrchardFeature[] GetFeatures(string tenant)
         {
-            IExtensionManager extensionManager = this.GetExtensionManager(site);
-            IFeatureManager featureManager = this.GetFeatureManager(site);
+            IExtensionManager extensionManager = this.GetExtensionManager(tenant);
+            IFeatureManager featureManager = this.GetFeatureManager(tenant);
             IEnumerable<FeatureDescriptor> featureDescriptors = extensionManager.AvailableFeatures();
             IEnumerable<ExtensionDescriptor> extensions = extensionManager.AvailableExtensions().ToArray();
             IEnumerable<FeatureDescriptor> enabledFeatures = featureManager.GetEnabledFeatures().ToArray();
@@ -77,7 +77,7 @@ namespace Proligence.PowerShell.Agents
 
             foreach (OrchardFeature orchardFeature in features)
             {
-                orchardFeature.SiteName = site;
+                orchardFeature.TenantName = tenant;
             }
 
             return features.ToArray();
@@ -86,47 +86,47 @@ namespace Proligence.PowerShell.Agents
         /// <summary>
         /// Enables the specified feature.
         /// </summary>
-        /// <param name="site">The name of the site for which the feature will be enabled.</param>
+        /// <param name="tenant">The name of the tenant for which the feature will be enabled.</param>
         /// <param name="name">The name of the feature to enable.</param>
         /// <param name="includeDependencies">True to enable dependant features; otherwise, false.</param>
-        public void EnableFeature(string site, string name, bool includeDependencies)
+        public void EnableFeature(string tenant, string name, bool includeDependencies)
         {
-            IFeatureManager featureManager = this.GetFeatureManager(site);
+            IFeatureManager featureManager = this.GetFeatureManager(tenant);
             featureManager.EnableFeatures(new[] { name }, includeDependencies);
         }
 
         /// <summary>
         /// Disables the specified feature.
         /// </summary>
-        /// <param name="site">The name of the site for which the feature will be disabled.</param>
+        /// <param name="tenant">The name of the tenant for which the feature will be disabled.</param>
         /// <param name="name">The name of the feature to disable.</param>
         /// <param name="includeDependencies">True to disable dependant features; otherwise, false.</param>
-        public void DisableFeature(string site, string name, bool includeDependencies)
+        public void DisableFeature(string tenant, string name, bool includeDependencies)
         {
-            IFeatureManager featureManager = this.GetFeatureManager(site);
+            IFeatureManager featureManager = this.GetFeatureManager(tenant);
             featureManager.DisableFeatures(new[] { name }, includeDependencies);
         }
 
         /// <summary>
-        /// Gets the <see cref="IExtensionManager"/> instance for the specified site.
+        /// Gets the <see cref="IExtensionManager"/> instance for the specified tenant.
         /// </summary>
-        /// <param name="site">The name of the site.</param>
-        /// <returns>The <see cref="IExtensionManager"/> instance for the specified site.</returns>
-        private IExtensionManager GetExtensionManager(string site)
+        /// <param name="tenant">The name of the tenant.</param>
+        /// <returns>The <see cref="IExtensionManager"/> instance for the specified tenant.</returns>
+        private IExtensionManager GetExtensionManager(string tenant)
         {
-            ILifetimeScope siteContainer = this.ContainerManager.GetSiteContainer(site);
-            return siteContainer.Resolve<IExtensionManager>();
+            ILifetimeScope tenantContainer = this.ContainerManager.GetTenantContainer(tenant);
+            return tenantContainer.Resolve<IExtensionManager>();
         }
 
         /// <summary>
-        /// Gets the <see cref="IFeatureManager"/> instance for the specified site.
+        /// Gets the <see cref="IFeatureManager"/> instance for the specified tenant.
         /// </summary>
-        /// <param name="site">The name of the site.</param>
-        /// <returns>The <see cref="IFeatureManager"/> instance for the specified site.</returns>
-        private IFeatureManager GetFeatureManager(string site)
+        /// <param name="tenant">The name of the tenant.</param>
+        /// <returns>The <see cref="IFeatureManager"/> instance for the specified tenant.</returns>
+        private IFeatureManager GetFeatureManager(string tenant)
         {
-            ILifetimeScope siteContainer = this.ContainerManager.GetSiteContainer(site);
-            return siteContainer.Resolve<IFeatureManager>();
+            ILifetimeScope tenantContainer = this.ContainerManager.GetTenantContainer(tenant);
+            return tenantContainer.Resolve<IFeatureManager>();
         }
 
         /// <summary>

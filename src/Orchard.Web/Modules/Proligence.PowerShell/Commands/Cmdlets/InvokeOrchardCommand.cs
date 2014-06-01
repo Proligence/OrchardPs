@@ -16,7 +16,7 @@ namespace Proligence.PowerShell.Commands.Cmdlets
     using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Commands.Items;
     using Proligence.PowerShell.Common.Extensions;
-    using Proligence.PowerShell.Sites.Items;
+    using Proligence.PowerShell.Tenants.Items;
 
     /// <summary>
     /// Implements the <c>Invoke-OrchardCommand</c> cmdlet.
@@ -71,17 +71,17 @@ namespace Proligence.PowerShell.Commands.Cmdlets
         /// </summary>
         protected override void ProcessRecord() 
         {
-            OrchardSite site = this.GetCurrentSite();
-            string siteName = site != null ? site.Name : "Default";
+            OrchardTenant tenant = this.GetCurrentTenant();
+            string tenantName = tenant != null ? tenant.Name : "Default";
 
             string output = null;
             switch (this.ParameterSetName) 
             {
                 case "Default":
-                    output = this.InvokeDefault(siteName, this.Name, this.Parameters, this.DirectConsole);
+                    output = this.InvokeDefault(tenantName, this.Name, this.Parameters, this.DirectConsole);
                     break;
                 case "CommandObject":
-                    output = this.InvokeCommandObject(siteName, this.Command, this.Parameters, this.DirectConsole);
+                    output = this.InvokeCommandObject(tenantName, this.Command, this.Parameters, this.DirectConsole);
                     break;
             }
 
@@ -94,14 +94,14 @@ namespace Proligence.PowerShell.Commands.Cmdlets
         /// <summary>
         /// Invokes the Orchard command using the 'Default' parameters set.
         /// </summary>
-        /// <param name="siteName">The name of the Orchard site on which the command will be executed.</param>
+        /// <param name="tenantName">The name of the Orchard tenant on which the command will be executed.</param>
         /// <param name="commandName">The name and arguments of the command to execute.</param>
         /// <param name="parameters">The switches which will be passed to the executed command.</param>
         /// <param name="directConsole">
         /// <c>true</c> to force orchard output directly into <see cref="Console.Out"/>; otherwise, <c>false</c>.
         /// </param>
         /// <returns>The command's output.</returns>
-        private string InvokeDefault(string siteName, string commandName, ArrayList parameters, bool directConsole) 
+        private string InvokeDefault(string tenantName, string commandName, ArrayList parameters, bool directConsole) 
         {
             var arguments = new List<string>();
             var switches = new Dictionary<string, string>();
@@ -111,13 +111,13 @@ namespace Proligence.PowerShell.Commands.Cmdlets
                 arguments.Add(commandName);
             }
 
-            return this.InvokeWithParameters(siteName, arguments, switches, parameters, directConsole);
+            return this.InvokeWithParameters(tenantName, arguments, switches, parameters, directConsole);
         }
 
         /// <summary>
         /// Invokes the Orchard command using the 'CommandObject' parameters set.
         /// </summary>
-        /// <param name="siteName">The name of the Orchard site on which the command will be executed.</param>
+        /// <param name="tenantName">The name of the Orchard tenant on which the command will be executed.</param>
         /// <param name="command">
         /// The <see cref="OrchardCommand"/> object which represents the orchard command to execute.
         /// </param>
@@ -126,17 +126,17 @@ namespace Proligence.PowerShell.Commands.Cmdlets
         /// <c>true</c> to force orchard output directly into <see cref="Console.Out"/>; otherwise, <c>false</c>.
         /// </param>
         /// <returns>The command's output.</returns>
-        private string InvokeCommandObject(string siteName, OrchardCommand command, ArrayList parameters, bool directConsole) 
+        private string InvokeCommandObject(string tenantName, OrchardCommand command, ArrayList parameters, bool directConsole) 
         {
             var arguments = new List<string>(command.CommandName.Split(new[] { ' ' }));
             var switches = new Dictionary<string, string>();
-            return this.InvokeWithParameters(siteName, arguments, switches, parameters, directConsole);
+            return this.InvokeWithParameters(tenantName, arguments, switches, parameters, directConsole);
         }
 
         /// <summary>
         /// Invokes a legacy Orchard command.
         /// </summary>
-        /// <param name="siteName">The name of the Orchard site on which the command will be executed.</param>
+        /// <param name="tenantName">The name of the Orchard tenant on which the command will be executed.</param>
         /// <param name="arguments">The name and arguments of the command to execute.</param>
         /// <param name="switches">The switches which will be passed to the executed command.</param>
         /// <param name="parameters">The command parameters to parse.</param>
@@ -145,7 +145,7 @@ namespace Proligence.PowerShell.Commands.Cmdlets
         /// </param>
         /// <returns>The command's output.</returns>
         private string InvokeWithParameters(
-            string siteName, 
+            string tenantName, 
             List<string> arguments, 
             Dictionary<string, string> switches, 
             ArrayList parameters,
@@ -169,10 +169,10 @@ namespace Proligence.PowerShell.Commands.Cmdlets
                 }
             }
 
-            if (this.ShouldProcess("Site: " + siteName, "Invoke Command '" + string.Join(" ", arguments) + "'")) 
+            if (this.ShouldProcess("Tenant: " + tenantName, "Invoke Command '" + string.Join(" ", arguments) + "'")) 
             {
                 return this.commandAgent.ExecuteCommand(
-                    siteName,
+                    tenantName,
                     arguments.ToArray(),
                     new Dictionary<string, string>(switches),
                     directConsole);

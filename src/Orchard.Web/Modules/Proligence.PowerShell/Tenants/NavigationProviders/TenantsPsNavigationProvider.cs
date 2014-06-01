@@ -1,20 +1,20 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SitesPsNavigationProvider.cs" company="Proligence">
+// <copyright file="TenantsPsNavigationProvider.cs" company="Proligence">
 //   Proligence Confidential, All Rights Reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Proligence.PowerShell.Sites.NavigationProviders 
+namespace Proligence.PowerShell.Tenants.NavigationProviders 
 {
     using Orchard.Management.PsProvider.Agents;
     using Proligence.PowerShell.Agents;
-    using Proligence.PowerShell.Sites.Nodes;
+    using Proligence.PowerShell.Tenants.Nodes;
     using Proligence.PowerShell.Vfs.Navigation;
 
     /// <summary>
-    /// Implements the navigation provider which adds the <see cref="SitesNode"/> site node to the Orchard VFS.
+    /// Implements the navigation provider which adds the <see cref="TenantsNode"/> node to the Orchard VFS.
     /// </summary>
-    public class SitesPsNavigationProvider : PsNavigationProvider 
+    public class TenantsPsNavigationProvider : PsNavigationProvider 
     {
         /// <summary>
         /// Gets or sets the Orchard agent manager.
@@ -27,7 +27,7 @@ namespace Proligence.PowerShell.Sites.NavigationProviders
         public override void Initialize()
         {
             this.NodeType = NodeType.Global;
-            this.Node = new SitesNode(this.Vfs, this.AgentManager.GetAgent<ITenantAgent>());
+            this.Node = new TenantsNode(this.Vfs, this.AgentManager.GetAgent<ITenantAgent>());
         }
     }
 }

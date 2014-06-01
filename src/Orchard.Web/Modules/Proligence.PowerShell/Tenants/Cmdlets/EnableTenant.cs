@@ -4,13 +4,13 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Proligence.PowerShell.Sites.Cmdlets
+namespace Proligence.PowerShell.Tenants.Cmdlets
 {
     using System;
     using System.Management.Automation;
     using Orchard.Management.PsProvider;
     using Proligence.PowerShell.Agents;
-    using Proligence.PowerShell.Sites.Items;
+    using Proligence.PowerShell.Tenants.Items;
 
     /// <summary>
     /// Implements the <c>Enable-Tenant</c> cmdlet.
@@ -34,7 +34,7 @@ namespace Proligence.PowerShell.Sites.Cmdlets
         /// Gets or sets the tenant to enable.
         /// </summary>
         [Parameter(ParameterSetName = "TenantObject", ValueFromPipeline = true)]
-        public OrchardSite Tenant { get; set; }
+        public OrchardTenant Tenant { get; set; }
 
         /// <summary>
         /// Provides a one-time, preprocessing functionality for the cmdlet.

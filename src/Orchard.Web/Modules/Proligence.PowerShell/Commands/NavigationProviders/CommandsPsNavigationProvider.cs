@@ -12,7 +12,7 @@ namespace Proligence.PowerShell.Commands.NavigationProviders
     using Proligence.PowerShell.Vfs.Navigation;
 
     /// <summary>
-    /// Implements the navigation provider which adds the <see cref="CommandsNode"/> site node to the Orchard VFS.
+    /// Implements the navigation provider which adds the <see cref="CommandsNode"/> tenant node to the Orchard VFS.
     /// </summary>
     public class CommandsPsNavigationProvider : PsNavigationProvider 
     {

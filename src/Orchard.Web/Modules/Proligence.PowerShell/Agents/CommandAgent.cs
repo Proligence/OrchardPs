@@ -22,23 +22,23 @@ namespace Proligence.PowerShell.Agents
     public class CommandAgent : AgentBase, ICommandAgent
     {
         /// <summary>
-        /// Gets all legacy commands which are available for the specified Orchard site.
+        /// Gets all legacy commands which are available for the specified Orchard tenant.
         /// </summary>
-        /// <param name="site">The name of the site.</param>
+        /// <param name="tenant">The name of the tenant.</param>
         /// <returns>
         /// An array of <see cref="OrchardCommand"/> objects which represent the Orchard commands which are available
-        /// at the specified site.
+        /// at the specified tenant.
         /// </returns>
-        public OrchardCommand[] GetCommands(string site) 
+        public OrchardCommand[] GetCommands(string tenant) 
         {
-            ICommandManager commandManager = this.GetCommandManager(site);
+            ICommandManager commandManager = this.GetCommandManager(tenant);
             IEnumerable<CommandDescriptor> commandDescriptors = commandManager.GetCommandDescriptors();
             IEnumerable<OrchardCommand> commands = commandDescriptors.Select(
                 command => new OrchardCommand 
                 {
                     CommandName = command.Name,
                     HelpText = command.HelpText,
-                    SiteName = site
+                    TenantName = tenant
                 });
 
             return commands.ToArray();
@@ -47,7 +47,7 @@ namespace Proligence.PowerShell.Agents
         /// <summary>
         /// Executes the specified legacy command.
         /// </summary>
-        /// <param name="siteName">The name of the site on which the command will be executed.</param>
+        /// <param name="tenantName">The name of the tenant on which the command will be executed.</param>
         /// <param name="args">Command name and arguments.</param>
         /// <param name="switches">Command switches.</param>
         /// <param name="directConsole">
@@ -55,7 +55,7 @@ namespace Proligence.PowerShell.Agents
         /// </param>
         /// <returns>The command's output.</returns>
         public string ExecuteCommand(
-            string siteName,
+            string tenantName,
             string[] args,
             Dictionary<string, string> switches,
             bool directConsole) 
@@ -66,14 +66,14 @@ namespace Proligence.PowerShell.Agents
             {
                 if (directConsole)
                 {
-                    agent.RunCommand(Console.In, Console.Out, siteName, args, switches);
+                    agent.RunCommand(Console.In, Console.Out, tenantName, args, switches);
                     return null;
                 }
                 else
                 {
                     using (TextWriter writer = new StringWriter(CultureInfo.CurrentCulture))
                     {
-                        agent.RunCommand(Console.In, writer, siteName, args, switches);
+                        agent.RunCommand(Console.In, writer, tenantName, args, switches);
                         return writer.ToString();
                     }
                 }
@@ -85,14 +85,14 @@ namespace Proligence.PowerShell.Agents
         }
 
         /// <summary>
-        /// Gets the <see cref="ICommandManager"/> instance for the specified site.
+        /// Gets the <see cref="ICommandManager"/> instance for the specified tenant.
         /// </summary>
-        /// <param name="site">The name of the site.</param>
-        /// <returns>The <see cref="ICommandManager"/> instance for the specified site.</returns>
-        private ICommandManager GetCommandManager(string site) 
+        /// <param name="tenant">The name of the tenant.</param>
+        /// <returns>The <see cref="ICommandManager"/> instance for the specified tenant.</returns>
+        private ICommandManager GetCommandManager(string tenant) 
         {
-            ILifetimeScope siteContainer = this.ContainerManager.GetSiteContainer(site);
-            return siteContainer.Resolve<ICommandManager>();
+            ILifetimeScope tenantContainer = this.ContainerManager.GetTenantContainer(tenant);
+            return tenantContainer.Resolve<ICommandManager>();
         }
     }
 }

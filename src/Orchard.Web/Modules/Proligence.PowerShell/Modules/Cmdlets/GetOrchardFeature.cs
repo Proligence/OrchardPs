@@ -14,7 +14,7 @@ namespace Proligence.PowerShell.Modules.Cmdlets
     using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Common.Extensions;
     using Proligence.PowerShell.Modules.Items;
-    using Proligence.PowerShell.Sites.Items;
+    using Proligence.PowerShell.Tenants.Items;
 
     /// <summary>
     /// Implements the <c>Get-OrchardFeature</c> cmdlet.
@@ -28,48 +28,48 @@ namespace Proligence.PowerShell.Modules.Cmdlets
         private IModulesAgent modulesAgent;
 
         /// <summary>
-        /// All available Orchard sites.
+        /// All available Orchard tenants.
         /// </summary>
-        private OrchardSite[] allSites;
+        private OrchardTenant[] allTenants;
 
         /// <summary>
         /// Gets or sets the name of the Orchard feature to get.
         /// </summary>
         [Parameter(ParameterSetName = "Name", Mandatory = true, Position = 1)]
-        [Parameter(ParameterSetName = "SiteObject", Mandatory = false, Position = 1)]
-        [Parameter(ParameterSetName = "AllSites", Mandatory = false)]
+        [Parameter(ParameterSetName = "TenantObject", Mandatory = false, Position = 1)]
+        [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the site for which the feature will be enabled.
+        /// Gets or sets the name of the tenant for which the feature will be enabled.
         /// </summary>
         [Parameter(ParameterSetName = "Name", Mandatory = false)]        
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
-        public string Site { get; set; }
+        public string Tenant { get; set; }
 
-        [Parameter(ParameterSetName = "SiteObject", Mandatory = true, ValueFromPipeline = true)]
-        public OrchardSite SiteObject { get; set; }
+        [Parameter(ParameterSetName = "TenantObject", Mandatory = true, ValueFromPipeline = true)]
+        public OrchardTenant TenantObject { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether features should be get from all tenants.
         /// </summary>
-        [Parameter(ParameterSetName = "AllSites", Mandatory = true)]
-        public SwitchParameter FromAllSites { get; set; }
+        [Parameter(ParameterSetName = "AllTenants", Mandatory = true)]
+        public SwitchParameter FromAllTenants { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether only enabled features should be get.
         /// </summary>
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
-        [Parameter(ParameterSetName = "SiteObject", Mandatory = false)]
-        [Parameter(ParameterSetName = "AllSites", Mandatory = false)]
+        [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]
+        [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
         public SwitchParameter Enabled { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether only disabled features should be get.
         /// </summary>
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
-        [Parameter(ParameterSetName = "SiteObject", Mandatory = false)]
-        [Parameter(ParameterSetName = "AllSites", Mandatory = false)]
+        [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]
+        [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
         public SwitchParameter Disabled { get; set; }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Proligence.PowerShell.Modules.Cmdlets
         {
             base.BeginProcessing();
             this.modulesAgent = this.AgentManager.GetAgent<IModulesAgent>();
-            this.allSites = this.AgentManager.GetAgent<ITenantAgent>().GetSites();
+            this.allTenants = this.AgentManager.GetAgent<ITenantAgent>().GetTenants();
         }
 
         /// <summary>
@@ -87,14 +87,14 @@ namespace Proligence.PowerShell.Modules.Cmdlets
         /// </summary>
         protected override void ProcessRecord()
         {
-            IEnumerable<OrchardSite> sites = this.GetSitesFromParameters();
+            IEnumerable<OrchardTenant> tenants = this.GetTenantsFromParameters();
 
             var features = new List<OrchardFeature>();
 
-            foreach (OrchardSite site in sites)
+            foreach (OrchardTenant tenant in tenants)
             {
-                OrchardFeature[] siteFeatures = this.modulesAgent.GetFeatures(site.Name);
-                features.AddRange(siteFeatures);
+                OrchardFeature[] tenantFeatures = this.modulesAgent.GetFeatures(tenant.Name);
+                features.AddRange(tenantFeatures);
             }
 
             if (!string.IsNullOrEmpty(this.Name))
@@ -119,61 +119,61 @@ namespace Proligence.PowerShell.Modules.Cmdlets
         }
 
         /// <summary>
-        /// Gets a list of Orchard sites from which features should be returned.
+        /// Gets a list of Orchard tenants from which features should be returned.
         /// </summary>
-        /// <returns>A sequence of <see cref="OrchardSite"/> objects.</returns>
-        private IEnumerable<OrchardSite> GetSitesFromParameters()
+        /// <returns>A sequence of <see cref="OrchardTenant"/> objects.</returns>
+        private IEnumerable<OrchardTenant> GetTenantsFromParameters()
         {
-            var sites = new List<OrchardSite>();
+            var tenants = new List<OrchardTenant>();
 
-            if (this.FromAllSites.ToBool())
+            if (this.FromAllTenants.ToBool())
             {
-                sites.AddRange(this.allSites);
+                tenants.AddRange(this.allTenants);
             }
-            else if (!string.IsNullOrEmpty(this.Site))
+            else if (!string.IsNullOrEmpty(this.Tenant))
             {
-                OrchardSite namedSite = this.allSites.SingleOrDefault(
-                    s => s.Name.Equals(this.Site, StringComparison.OrdinalIgnoreCase));
+                OrchardTenant namedTenant = this.allTenants.SingleOrDefault(
+                    s => s.Name.Equals(this.Tenant, StringComparison.OrdinalIgnoreCase));
 
-                if (namedSite != null)
+                if (namedTenant != null)
                 {
-                    sites.Add(namedSite);
+                    tenants.Add(namedTenant);
                 }
                 else
                 {
-                    var ex = new ArgumentException("Failed to find site with name '" + this.Site + "'.");
-                    this.WriteError(ex, "FailedToFindSite", ErrorCategory.InvalidArgument);
+                    var ex = new ArgumentException("Failed to find tenant with name '" + this.Tenant + "'.");
+                    this.WriteError(ex, "FailedToFindTenant", ErrorCategory.InvalidArgument);
                 }
             }
-            else if (this.SiteObject != null)
+            else if (this.TenantObject != null)
             {
-                sites.Add(this.SiteObject);
+                tenants.Add(this.TenantObject);
             }
             else
             {
-                OrchardSite site = this.GetCurrentSite();
-                if (site != null)
+                OrchardTenant tenant = this.GetCurrentTenant();
+                if (tenant != null)
                 {
-                    sites.Add(site);
+                    tenants.Add(tenant);
                 }
                 else
                 {
-                    OrchardSite defaultSite = this.allSites.SingleOrDefault(
+                    OrchardTenant defaultTenant = this.allTenants.SingleOrDefault(
                         s => s.Name.Equals("Default", StringComparison.OrdinalIgnoreCase));
 
-                    if (defaultSite != null)
+                    if (defaultTenant != null)
                     {
-                        sites.Add(defaultSite);
+                        tenants.Add(defaultTenant);
                     }
                     else
                     {
-                        var ex = new ArgumentException("Failed to find site with name 'Default'.");
-                        this.WriteError(ex, "FailedToFindSite", ErrorCategory.InvalidArgument);
+                        var ex = new ArgumentException("Failed to find tenant with name 'Default'.");
+                        this.WriteError(ex, "FailedToFindTenant", ErrorCategory.InvalidArgument);
                     }
                 }
             }
 
-            return sites;
+            return tenants;
         }
     }
 }

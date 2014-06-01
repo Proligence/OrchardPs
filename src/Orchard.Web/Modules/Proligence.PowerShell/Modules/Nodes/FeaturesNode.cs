@@ -17,7 +17,7 @@ namespace Proligence.PowerShell.Modules.Nodes
     using Proligence.PowerShell.Vfs.Navigation;
 
     /// <summary>
-    /// Implements a VFS node which groups <see cref="FeatureNode"/> nodes for a single Orchard site.
+    /// Implements a VFS node which groups <see cref="FeatureNode"/> nodes for a single Orchard tenant.
     /// </summary>
     [SupportedCmdlet("Enable-OrchardFeature")]
     [SupportedCmdlet("Disable-OrchardFeature")]
@@ -41,7 +41,7 @@ namespace Proligence.PowerShell.Modules.Nodes
             this.Item = new CollectionItem(this) 
             {
                 Name = "Features",
-                Description = "Contains all features available in the current site."
+                Description = "Contains all features available in the current tenant."
             };
         }
 
@@ -51,13 +51,13 @@ namespace Proligence.PowerShell.Modules.Nodes
         /// <returns>A sequence of child nodes.</returns>
         public override IEnumerable<VfsNode> GetVirtualNodes() 
         {
-            string siteName = this.GetCurrentSiteName();
-            if (siteName == null) 
+            string tenantName = this.GetCurrentTenantName();
+            if (tenantName == null) 
             {
                 return new VfsNode[0];
             }
 
-            OrchardFeature[] features = this.modulesAgent.GetFeatures(siteName);
+            OrchardFeature[] features = this.modulesAgent.GetFeatures(tenantName);
             return features.Select(feature => new FeatureNode(this.Vfs, feature));
         }
     }

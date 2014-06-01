@@ -8,9 +8,8 @@ namespace Proligence.PowerShell.Common.Extensions
 {
     using System;
     using Orchard.Management.PsProvider;
-    using Proligence.PowerShell.Sites.Items;
-    using Proligence.PowerShell.Sites.Nodes;
-    using Proligence.PowerShell.Vfs;
+    using Proligence.PowerShell.Tenants.Items;
+    using Proligence.PowerShell.Tenants.Nodes;
     using Proligence.PowerShell.Vfs.Navigation;
 
     /// <summary>
@@ -19,14 +18,14 @@ namespace Proligence.PowerShell.Common.Extensions
     public static class OrchardCmdletExtensions 
     {
         /// <summary>
-        /// Gets the Orchard site from which the cmdlet was invoked.
+        /// Gets the Orchard tenant from which the cmdlet was invoked.
         /// </summary>
         /// <param name="cmdlet">The cmdlet instance.</param>
         /// <returns>
-        /// The <see cref="OrchardSite"/> object which represents the current site or <c>null</c> if the cmdlet was
-        /// invoked from a path which is not under any Orchard site.
+        /// The <see cref="OrchardTenant"/> object which represents the current tenant or <c>null</c> if the cmdlet was
+        /// invoked from a path which is not under any Orchard tenant.
         /// </returns>
-        public static OrchardSite GetCurrentSite(this OrchardCmdlet cmdlet) 
+        public static OrchardTenant GetCurrentTenant(this OrchardCmdlet cmdlet) 
         {
             if (cmdlet == null)
             {
@@ -36,10 +35,10 @@ namespace Proligence.PowerShell.Common.Extensions
             VfsNode currentNode = cmdlet.CurrentNode;
             while (currentNode != null) 
             {
-                var siteNode = currentNode as SiteNode;
-                if (siteNode != null) 
+                var tenantNode = currentNode as TenantNode;
+                if (tenantNode != null) 
                 {
-                    return siteNode.Item as OrchardSite;
+                    return tenantNode.Item as OrchardTenant;
                 }
                 
                 currentNode = currentNode.Parent;

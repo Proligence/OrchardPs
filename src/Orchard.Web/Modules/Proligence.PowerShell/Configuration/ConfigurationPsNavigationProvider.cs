@@ -6,11 +6,11 @@
 
 namespace Proligence.PowerShell.Configuration 
 {
-    using Proligence.PowerShell.Vfs;
     using Proligence.PowerShell.Vfs.Navigation;
 
     /// <summary>
-    /// Implements the navigation provider which adds the <see cref="ConfigurationNode"/> site node to the Orchard VFS.
+    /// Implements the navigation provider which adds the <see cref="ConfigurationNode"/> tenant node to the
+    /// Orchard VFS.
     /// </summary>
     public class ConfigurationPsNavigationProvider : PsNavigationProvider 
     {

@@ -12,26 +12,26 @@ namespace Proligence.PowerShell.Agents
     using Autofac;
     using Orchard.Environment.Configuration;
     using Orchard.Management.PsProvider.Agents;
-    using Proligence.PowerShell.Sites.Items;
+    using Proligence.PowerShell.Tenants.Items;
 
     /// <summary>
-    /// Implements the the agent which exposes Orchard sites (tenants).
+    /// Implements the the agent which exposes Orchard tenants.
     /// </summary>
     public class TenantAgent : AgentBase, ITenantAgent
     {
         /// <summary>
-        /// Gets sites (tenants) configured in the Orchard installation.
+        /// Gets the tenants configured in the Orchard installation.
         /// </summary>
         /// <returns>
-        /// An array of <see cref="OrchardSite"/> objects which represent the sites configured in the Orchard
+        /// An array of <see cref="OrchardTenant"/> objects which represent the tenants configured in the Orchard
         /// installation.
         /// </returns>
-        public OrchardSite[] GetSites() 
+        public OrchardTenant[] GetTenants() 
         {
             IShellSettingsManager tenantManager = HostContainer.Resolve<IShellSettingsManager>();
             IEnumerable<ShellSettings> settings = tenantManager.LoadSettings();
-            IEnumerable<OrchardSite> sites = settings.Select(
-                s => new OrchardSite 
+            IEnumerable<OrchardTenant> tenants = settings.Select(
+                s => new OrchardTenant 
                 {
                     Name = s.Name,
                     State = s.State,
@@ -46,13 +46,13 @@ namespace Proligence.PowerShell.Agents
                     RequestUrlPrefix = s.RequestUrlPrefix
                 });
 
-            return sites.ToArray();
+            return tenants.ToArray();
         }
 
         /// <summary>
-        /// Enables the site (tenant) with the specified name.
+        /// Enables the tenant with the specified name.
         /// </summary>
-        /// <param name="name">The name of the site to enable.</param>
+        /// <param name="name">The name of the tenant to enable.</param>
         public void EnableTenant(string name)
         {
             var shellSettingsManager = HostContainer.Resolve<IShellSettingsManager>();

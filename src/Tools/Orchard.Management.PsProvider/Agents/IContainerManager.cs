@@ -15,10 +15,10 @@ namespace Orchard.Management.PsProvider.Agents
     public interface IContainerManager : IDisposable 
     {
         /// <summary>
-        /// Gets the dependency injection container for the specified site (tenant).
+        /// Gets the dependency injection container for the specified tenant.
         /// </summary>
-        /// <param name="siteName">The name of the site.</param>
+        /// <param name="tenantName">The name of the tenant.</param>
         /// <returns>The dependency injection lifetime scope instance.</returns>
-        ILifetimeScope GetSiteContainer(string siteName);
+        ILifetimeScope GetTenantContainer(string tenantName);
     }
 }

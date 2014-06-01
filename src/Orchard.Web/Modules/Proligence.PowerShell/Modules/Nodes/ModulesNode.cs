@@ -16,7 +16,7 @@ namespace Proligence.PowerShell.Modules.Nodes
     using Proligence.PowerShell.Vfs.Navigation;
 
     /// <summary>
-    /// Implements a VFS node which groups <see cref="ModuleNode"/> nodes for a single Orchard site.
+    /// Implements a VFS node which groups <see cref="ModuleNode"/> nodes for a single Orchard tenant.
     /// </summary>
     public class ModulesNode : ContainerNode
     {
@@ -38,7 +38,7 @@ namespace Proligence.PowerShell.Modules.Nodes
             this.Item = new CollectionItem(this) 
             {
                 Name = "Modules",
-                Description = "Contains all modules available in the current site."
+                Description = "Contains all modules available in the current tenant."
             };
         }
 
@@ -48,13 +48,13 @@ namespace Proligence.PowerShell.Modules.Nodes
         /// <returns>A sequence of child nodes.</returns>
         public override IEnumerable<VfsNode> GetVirtualNodes() 
         {
-            string siteName = this.GetCurrentSiteName();
-            if (siteName == null) 
+            string tenantName = this.GetCurrentTenantName();
+            if (tenantName == null) 
             {
                 return new VfsNode[0];
             }
 
-            OrchardModule[] modules = this.modulesAgent.GetModules(siteName);
+            OrchardModule[] modules = this.modulesAgent.GetModules(tenantName);
             return modules.Select(module => new ModuleNode(this.Vfs, module));
         }
     }

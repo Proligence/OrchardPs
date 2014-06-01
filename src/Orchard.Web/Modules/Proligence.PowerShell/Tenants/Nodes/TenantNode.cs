@@ -1,37 +1,36 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SiteNode.cs" company="Proligence">
+// <copyright file="TenantNode.cs" company="Proligence">
 //   Proligence Confidential, All Rights Reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Proligence.PowerShell.Sites.Nodes 
+namespace Proligence.PowerShell.Tenants.Nodes 
 {
     using System;
     using System.Collections.Generic;
-    using Proligence.PowerShell.Sites.Items;
-    using Proligence.PowerShell.Vfs;
+    using Proligence.PowerShell.Tenants.Items;
     using Proligence.PowerShell.Vfs.Core;
     using Proligence.PowerShell.Vfs.Navigation;
 
     /// <summary>
-    /// Implements a VFS node which represents an Orchard site.
+    /// Implements a VFS node which represents an Orchard tenant.
     /// </summary>
-    public class SiteNode : ContainerNode 
+    public class TenantNode : ContainerNode 
     {
         /// <summary>
-        /// Cached subnodes of the site node.
+        /// Cached subnodes of the tenant node.
         /// </summary>
-        private List<VfsNode> siteNodes;
+        private List<VfsNode> tenantNodes;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SiteNode"/> class.
+        /// Initializes a new instance of the <see cref="Proligence.PowerShell.Tenants.Nodes.TenantNode"/> class.
         /// </summary>
         /// <param name="vfs">The Orchard VFS instance which the node belongs to.</param>
-        /// <param name="site">The <see cref="OrchardSite"/> object of the site represented by the node.</param>
-        public SiteNode(IPowerShellVfs vfs, OrchardSite site) 
-            : base(vfs, site.Name) 
+        /// <param name="tenant">The <see cref="OrchardTenant"/> object of the tenant represented by the node.</param>
+        public TenantNode(IPowerShellVfs vfs, OrchardTenant tenant) 
+            : base(vfs, tenant.Name) 
         {
-            this.Item = site;
+            this.Item = tenant;
         }
 
         /// <summary>
@@ -40,26 +39,26 @@ namespace Proligence.PowerShell.Sites.Nodes
         /// <returns>A sequence of child nodes.</returns>
         public override IEnumerable<VfsNode> GetVirtualNodes() 
         {
-            if (this.siteNodes == null) 
+            if (this.tenantNodes == null) 
             {
-                this.siteNodes = new List<VfsNode>();
+                this.tenantNodes = new List<VfsNode>();
 
-                IEnumerable<IPsNavigationProvider> siteNavigationProviders = 
+                IEnumerable<IPsNavigationProvider> tenantNavigationProviders = 
                     this.Vfs.NavigationProviderManager.GetProviders(NodeType.Site);
                 
-                foreach (IPsNavigationProvider navigationProvider in siteNavigationProviders) 
+                foreach (IPsNavigationProvider navigationProvider in tenantNavigationProviders) 
                 {
                     if (navigationProvider.Path != "\\") 
                     {
                         throw new NotSupportedException(
-                            "Only root paths are supported for site navigation providers.");
+                            "Only root paths are supported for tenant navigation providers.");
                     }
 
-                    this.siteNodes.Add(navigationProvider.Node);
+                    this.tenantNodes.Add(navigationProvider.Node);
                 }
             }
 
-            return this.siteNodes.ToArray();
+            return this.tenantNodes.ToArray();
         }
     }
 }

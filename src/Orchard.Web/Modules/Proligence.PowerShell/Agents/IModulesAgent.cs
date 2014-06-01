@@ -16,33 +16,33 @@ namespace Proligence.PowerShell.Agents
     public interface IModulesAgent : IAgent
     {
         /// <summary>
-        /// Gets all modules for the specified site.
+        /// Gets all modules for the specified tenant.
         /// </summary>
-        /// <param name="site">The name of the site which modules will be get.</param>
+        /// <param name="tenant">The name of the tenant which modules will be get.</param>
         /// <returns>An array of objects representing the modules.</returns>
-        OrchardModule[] GetModules(string site);
+        OrchardModule[] GetModules(string tenant);
 
         /// <summary>
-        /// Gets all features for the specified site.
+        /// Gets all features for the specified tenant.
         /// </summary>
-        /// <param name="site">The name of the site which modules will be get.</param>
+        /// <param name="tenant">The name of the tenant which modules will be get.</param>
         /// <returns>An array of objects representing the modules.</returns>
-        OrchardFeature[] GetFeatures(string site);
+        OrchardFeature[] GetFeatures(string tenant);
 
         /// <summary>
         /// Enables the specified feature.
         /// </summary>
-        /// <param name="site">The name of the site for which the feature will be enabled.</param>
+        /// <param name="tenant">The name of the tenant for which the feature will be enabled.</param>
         /// <param name="name">The name of the feature to enable.</param>
         /// <param name="includeDependencies">True to enable dependant features; otherwise, false.</param>
-        void EnableFeature(string site, string name, bool includeDependencies);
+        void EnableFeature(string tenant, string name, bool includeDependencies);
 
         /// <summary>
         /// Disables the specified feature.
         /// </summary>
-        /// <param name="site">The name of the site for which the feature will be disabled.</param>
+        /// <param name="tenant">The name of the tenant for which the feature will be disabled.</param>
         /// <param name="name">The name of the feature to disable.</param>
         /// <param name="includeDependencies">True to disable dependant features; otherwise, false.</param>
-        void DisableFeature(string site, string name, bool includeDependencies);
+        void DisableFeature(string tenant, string name, bool includeDependencies);
     }
 }

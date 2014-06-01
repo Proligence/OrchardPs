@@ -25,8 +25,8 @@ namespace Proligence.PowerShell.Commands.Items
         public string HelpText { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the Orchard site which the command belongs to.
+        /// Gets or sets the name of the Orchard tenant which the command belongs to.
         /// </summary>
-        public string SiteName { get; set; }
+        public string TenantName { get; set; }
     }
 }

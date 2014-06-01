@@ -18,19 +18,19 @@ namespace Proligence.PowerShell.Agents
     public interface ICommandAgent : IAgent
     {
         /// <summary>
-        /// Gets all legacy commands which are available for the specified Orchard site.
+        /// Gets all legacy commands which are available for the specified Orchard tenant.
         /// </summary>
-        /// <param name="site">The name of the site.</param>
+        /// <param name="tenant">The name of the tenant.</param>
         /// <returns>
         /// An array of <see cref="OrchardCommand"/> objects which represent the Orchard commands which are available
-        /// at the specified site.
+        /// at the specified tenant.
         /// </returns>
-        OrchardCommand[] GetCommands(string site);
+        OrchardCommand[] GetCommands(string tenant);
 
         /// <summary>
         /// Executes the specified legacy command.
         /// </summary>
-        /// <param name="siteName">The name of the site on which the command will be executed.</param>
+        /// <param name="tenantName">The name of the tenant on which the command will be executed.</param>
         /// <param name="args">Command name and arguments.</param>
         /// <param name="switches">Command switches.</param>
         /// <param name="directConsole">
@@ -38,7 +38,7 @@ namespace Proligence.PowerShell.Agents
         /// </param>
         /// <returns>The command's output.</returns>
         string ExecuteCommand(
-            string siteName,
+            string tenantName,
             string[] args,
             Dictionary<string, string> switches,
             bool directConsole);

@@ -14,7 +14,7 @@ namespace Proligence.PowerShell.Modules.Cmdlets
     using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Common.Extensions;
     using Proligence.PowerShell.Modules.Items;
-    using Proligence.PowerShell.Sites.Items;
+    using Proligence.PowerShell.Tenants.Items;
 
     /// <summary>
     /// Implements the <c>Disable-OrchardFeature</c> cmdlet.
@@ -28,7 +28,7 @@ namespace Proligence.PowerShell.Modules.Cmdlets
         private IModulesAgent modulesAgent;
 
         /// <summary>
-        /// Cached list of all Orchard features for each site.
+        /// Cached list of all Orchard features for each tenant.
         /// </summary>
         private IDictionary<string, OrchardFeature[]> features;
 
@@ -40,10 +40,10 @@ namespace Proligence.PowerShell.Modules.Cmdlets
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the site for which the feature will be disabled.
+        /// Gets or sets the name of the tenant for which the feature will be disabled.
         /// </summary>
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
-        public string Site { get; set; }
+        public string Tenant { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="OrchardFeature"/> object which represents the orchard feature to disable.
@@ -74,25 +74,25 @@ namespace Proligence.PowerShell.Modules.Cmdlets
         /// </summary>
         protected override void ProcessRecord()
         {
-            string siteName = null;
+            string tenantName = null;
 
-            if ((this.ParameterSetName != "FeatureObject") && string.IsNullOrEmpty(this.Site))
+            if ((this.ParameterSetName != "FeatureObject") && string.IsNullOrEmpty(this.Tenant))
             {
-                // Get feature for current site if site name not specified
-                OrchardSite site = this.GetCurrentSite();
-                siteName = site != null ? site.Name : "Default";
+                // Get feature for current tenant if tenant name not specified
+                OrchardTenant tenant = this.GetCurrentTenant();
+                tenantName = tenant != null ? tenant.Name : "Default";
             }
             
-            if (!string.IsNullOrEmpty(this.Site))
+            if (!string.IsNullOrEmpty(this.Tenant))
             {
-                siteName = this.Site;
+                tenantName = this.Tenant;
             }
 
             OrchardFeature feature = null;
 
             if (this.ParameterSetName == "Default")
             {
-                feature = this.GetOrchardFeature(siteName, this.Name);
+                feature = this.GetOrchardFeature(tenantName, this.Name);
                 if (feature == null)
                 {
                     this.WriteError(
@@ -104,14 +104,14 @@ namespace Proligence.PowerShell.Modules.Cmdlets
             else if (this.ParameterSetName == "FeatureObject")
             {
                 feature = this.Feature;
-                siteName = this.Feature.SiteName;
+                tenantName = this.Feature.TenantName;
             }
 
             if (feature != null)
             {
-                if (this.ShouldProcess("Feature: " + feature.Id + ", Site: " + siteName, "Disable Feature"))
+                if (this.ShouldProcess("Feature: " + feature.Id + ", Tenant: " + tenantName, "Disable Feature"))
                 {
-                    this.modulesAgent.DisableFeature(siteName, feature.Id, !this.WithoutDependencies.ToBool());
+                    this.modulesAgent.DisableFeature(tenantName, feature.Id, !this.WithoutDependencies.ToBool());
                 }
             }
         }
@@ -119,20 +119,20 @@ namespace Proligence.PowerShell.Modules.Cmdlets
         /// <summary>
         /// Gets the <see cref="OrchardFeature"/> object for the specified feature.
         /// </summary>
-        /// <param name="siteName">The name to the site for which to get feature.</param>
+        /// <param name="tenantName">The name to the tenant for which to get feature.</param>
         /// <param name="featureName">The name of the feature to get.</param>
         /// <returns>The <see cref="OrchardFeature"/> object for the specified feature.</returns>
-        private OrchardFeature GetOrchardFeature(string siteName, string featureName)
+        private OrchardFeature GetOrchardFeature(string tenantName, string featureName)
         {
-            OrchardFeature[] siteFeatures;
+            OrchardFeature[] tenantFeatures;
 
-            if (!this.features.TryGetValue(siteName, out siteFeatures))
+            if (!this.features.TryGetValue(tenantName, out tenantFeatures))
             {
-                siteFeatures = this.modulesAgent.GetFeatures(siteName).ToArray();
-                this.features.Add(siteName, siteFeatures);
+                tenantFeatures = this.modulesAgent.GetFeatures(tenantName).ToArray();
+                this.features.Add(tenantName, tenantFeatures);
             }
 
-            return siteFeatures.FirstOrDefault(
+            return tenantFeatures.FirstOrDefault(
                 f => f.Name.Equals(featureName, StringComparison.CurrentCultureIgnoreCase));
         }
     }
