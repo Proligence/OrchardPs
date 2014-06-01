@@ -7,6 +7,7 @@
 namespace Orchard.Management.PsProvider 
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using Autofac;
     using Orchard.Management.PsProvider.Agents;
     using Orchard.Management.PsProvider.Host;
@@ -31,6 +32,7 @@ namespace Orchard.Management.PsProvider
         /// Gets the dependency injection container for the Orchard PS provider.
         /// </summary>
         /// <returns>The dependency injection container instance.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public static IContainer GetContainer() 
         {
             if (container == null) 

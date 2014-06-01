@@ -7,6 +7,7 @@
 namespace Proligence.PowerShell.Modules.Nodes 
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using Proligence.PowerShell.Modules.Items;
     using Proligence.PowerShell.Vfs.Core;
@@ -22,6 +23,7 @@ namespace Proligence.PowerShell.Modules.Nodes
         /// </summary>
         /// <param name="vfs">The Orchard VFS instance which the node belongs to.</param>
         /// <param name="module">The object of the legacy Orchard module represented by the node.</param>
+        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods")]
         public ModuleNode(IPowerShellVfs vfs, OrchardModule module)
             : base(vfs, module.Name, GetSubNodes(vfs, module))
         {

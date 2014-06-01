@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="Proligence Rules" Description="This rule set contains all rules for Proligence projects." ToolsVersion="10.0">
+<RuleSet Name="Proligence Rules" Description="This rule set contains all rules for Proligence projects." ToolsVersion="12.0">
   <Localization ResourceAssembly="Microsoft.VisualStudio.CodeAnalysis.RuleSets.Strings.dll" ResourceBaseName="Microsoft.VisualStudio.CodeAnalysis.RuleSets.Strings.Localized">
     <Name Resource="AllRules_Name" />
     <Description Resource="AllRules_Description" />
@@ -9,6 +9,10 @@
     <Rule Id="CA1020" Action="None" />
     <Rule Id="CA1026" Action="None" />
     <Rule Id="CA1303" Action="None" />
+    <Rule Id="CA1704" Action="None" />
+    <Rule Id="CA1709" Action="None" />
+    <Rule Id="CA1819" Action="None" />
     <Rule Id="CA1822" Action="None" />
+    <Rule Id="CA2210" Action="None" />
   </Rules>
 </RuleSet>

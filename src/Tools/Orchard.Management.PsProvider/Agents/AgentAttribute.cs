@@ -7,6 +7,7 @@
 namespace Orchard.Management.PsProvider.Agents 
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Specifies the class that implements an agent interfaces.
@@ -31,6 +32,7 @@ namespace Orchard.Management.PsProvider.Agents
         /// <summary>
         /// Gets the type which implements the agent.
         /// </summary>
+        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods")]
         public Type Type
         {
             get { return this.type; }

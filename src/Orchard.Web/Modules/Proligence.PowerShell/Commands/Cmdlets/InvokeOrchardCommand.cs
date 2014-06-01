@@ -9,6 +9,7 @@ namespace Proligence.PowerShell.Commands.Cmdlets
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
@@ -46,6 +47,7 @@ namespace Proligence.PowerShell.Commands.Cmdlets
         /// <summary>
         /// Gets or sets the switches which will be passed to the executed command.
         /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [Parameter(ParameterSetName = "Default", Position = 2, ValueFromRemainingArguments = true)]
         [Parameter(ParameterSetName = "CommandObject", Position = 2, ValueFromRemainingArguments = true)]
         public ArrayList Parameters { get; set; }

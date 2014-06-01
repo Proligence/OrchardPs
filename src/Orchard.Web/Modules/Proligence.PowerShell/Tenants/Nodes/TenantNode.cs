@@ -8,6 +8,7 @@ namespace Proligence.PowerShell.Tenants.Nodes
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using Orchard.Management.PsProvider;
     using Proligence.PowerShell.Tenants.Items;
     using Proligence.PowerShell.Vfs.Core;
@@ -30,6 +31,7 @@ namespace Proligence.PowerShell.Tenants.Nodes
         /// </summary>
         /// <param name="vfs">The Orchard VFS instance which the node belongs to.</param>
         /// <param name="tenant">The <see cref="OrchardTenant"/> object of the tenant represented by the node.</param>
+        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods")]
         public TenantNode(IPowerShellVfs vfs, OrchardTenant tenant) 
             : base(vfs, tenant.Name) 
         {

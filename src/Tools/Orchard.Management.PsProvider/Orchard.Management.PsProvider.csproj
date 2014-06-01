@@ -71,7 +71,6 @@
     <Compile Include="ErrorIds.cs" />
     <Compile Include="Agents\AgentManager.cs" />
     <Compile Include="Agents\IAgentManager.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Host\OrchardHostContext.cs" />
     <Compile Include="Host\OrchardHostContextProvider.cs" />
     <Compile Include="Host\ReturnCode.cs" />

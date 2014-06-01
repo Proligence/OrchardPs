@@ -7,6 +7,7 @@
 namespace Orchard.Management.PsProvider.Tests
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using NUnit.Framework;
 
     /// <summary>
@@ -20,8 +21,9 @@ namespace Orchard.Management.PsProvider.Tests
         /// <see cref="ArgumentNullException"/> when the specified alias is <c>null</c> or empty.
         /// </summary>
         /// <param name="alias">The tested alias.</param>
-        [TestCase(null)]
         [TestCase("")]
+        [TestCase(null)]
+        [SuppressMessage("Microsoft.Usage", "CA1806:DoNotIgnoreMethodResults")]
         public void TestConstructorWhenAliasNullOrEmpty(string alias)
         {
             ArgumentNullException exception = Assert.Throws<ArgumentNullException>(

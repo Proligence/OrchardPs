@@ -134,6 +134,7 @@ namespace Orchard.Management.PsProvider.Host
         /// <param name="physicalPath">The physical path for the web application.</param>
         /// <returns>The created <see cref="OrchardHost"/> object.</returns>
         [SecurityCritical]
+        [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
         private static OrchardHost CreateOrchardHost(string virtualPath, string physicalPath) 
         {
             clientBuildManager = new ClientBuildManager(virtualPath, physicalPath);

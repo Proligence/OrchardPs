@@ -8,6 +8,7 @@ namespace Orchard.Management.PsProvider
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Management.Automation;
     using System.Management.Automation.Host;
@@ -202,6 +203,7 @@ namespace Orchard.Management.PsProvider
         /// <param name="drive">The drive to initialize.</param>
         /// <param name="driveParameters">The dynamic parameters passed to the <c>New-PSDrive</c> cmdlet.</param>
         /// <returns>The <see cref="OrchardDriveInfo"/> object which represents the initialized drive.</returns>
+        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly")]
         private OrchardDriveInfo InitializeOrchardDrive(PSDriveInfo drive, OrchardDriveParameters driveParameters) 
         {
             this.Console.WriteVerbose("Initializing Orchard session. (This might take a few seconds...)");

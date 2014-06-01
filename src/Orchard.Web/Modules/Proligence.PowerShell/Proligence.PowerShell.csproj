@@ -86,7 +86,6 @@
     <Compile Include="Common\Extensions\VfsNodeExtensions.cs" />
     <Compile Include="Configuration\ConfigurationPsNavigationProvider.cs" />
     <Compile Include="Configuration\ConfigurationNode.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Modules\Cmdlets\DisableOrchardFeature.cs" />
     <Compile Include="Modules\Cmdlets\EnableOrchardFeature.cs" />
     <Compile Include="Modules\Cmdlets\GetOrchardFeature.cs" />

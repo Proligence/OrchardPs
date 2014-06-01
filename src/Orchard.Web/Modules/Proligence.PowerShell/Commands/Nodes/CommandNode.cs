@@ -6,6 +6,7 @@
 
 namespace Proligence.PowerShell.Commands.Nodes 
 {
+    using System.Diagnostics.CodeAnalysis;
     using Orchard.Management.PsProvider;
     using Proligence.PowerShell.Commands.Items;
     using Proligence.PowerShell.Vfs.Core;
@@ -22,6 +23,7 @@ namespace Proligence.PowerShell.Commands.Nodes
         /// </summary>
         /// <param name="vfs">The Orchard VFS instance which the node belongs to.</param>
         /// <param name="command">The object of the legacy Orchard command represented by the node.</param>
+        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods")]
         public CommandNode(IPowerShellVfs vfs, OrchardCommand command) 
             : base(vfs, command.CommandName, command)
         {
