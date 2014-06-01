@@ -8,6 +8,7 @@ namespace Proligence.PowerShell.Tenants.Nodes
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Orchard.Management.PsProvider;
     using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Common.Items;
     using Proligence.PowerShell.Tenants.Items;
@@ -17,6 +18,7 @@ namespace Proligence.PowerShell.Tenants.Nodes
     /// <summary>
     /// Implements a VFS node which groups <see cref="TenantNode"/> nodes for a single Orchard installation.
     /// </summary>
+    [SupportedCmdlet("Enable-Tenant")]
     public class TenantsNode : ContainerNode 
     {
         /// <summary>
