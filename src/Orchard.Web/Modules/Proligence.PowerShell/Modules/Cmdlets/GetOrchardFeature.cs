@@ -47,6 +47,9 @@ namespace Proligence.PowerShell.Modules.Cmdlets
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         public string Tenant { get; set; }
 
+        /// <summary>
+        /// Gets or sets the Orchard tenant for which features will be returned.
+        /// </summary>
         [Parameter(ParameterSetName = "TenantObject", Mandatory = true, ValueFromPipeline = true)]
         public OrchardTenant TenantObject { get; set; }
 

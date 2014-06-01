@@ -27,6 +27,7 @@ namespace Proligence.PowerShell.Agents
         /// <summary>
         /// Gets the tenant with the specified name.
         /// </summary>
+        /// <param name="name">The name of the tenant to get.</param>
         /// <returns>
         /// A <see cref="OrchardTenant"/> object which represent the tenant with the specified name or <c>null</c>.
         /// </returns>
