@@ -29,5 +29,11 @@ namespace Proligence.PowerShell.Agents
         /// </summary>
         /// <param name="name">The name of the tenant to enable.</param>
         void EnableTenant(string name);
+
+        /// <summary>
+        /// Disables the tenant with the specified name.
+        /// </summary>
+        /// <param name="name">The name of the tenant to disable.</param>
+        void DisableTenant(string name);
     }
 }

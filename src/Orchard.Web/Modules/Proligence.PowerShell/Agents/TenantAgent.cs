@@ -70,5 +70,27 @@ namespace Proligence.PowerShell.Agents
             tenant.State = TenantState.Running;
             shellSettingsManager.SaveSettings(tenant);
         }
+
+        /// <summary>
+        /// Disables the tenant with the specified name.
+        /// </summary>
+        /// <param name="name">The name of the tenant to disable.</param>
+        public void DisableTenant(string name)
+        {
+            var shellSettingsManager = HostContainer.Resolve<IShellSettingsManager>();
+            ShellSettings tenant = shellSettingsManager.LoadSettings().FirstOrDefault(x => x.Name == name);
+            if (tenant == null)
+            {
+                throw new ArgumentException("Failed to find tenant '" + name + "'.");
+            }
+
+            if (tenant.Name == ShellSettings.DefaultName)
+            {
+                throw new InvalidOperationException("Cannot disable default tenant.");
+            }
+
+            tenant.State = TenantState.Disabled;
+            shellSettingsManager.SaveSettings(tenant);
+        }
     }
 }

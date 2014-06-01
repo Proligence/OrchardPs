@@ -17,6 +17,7 @@ namespace Proligence.PowerShell.Tenants.Nodes
     /// Implements a VFS node which represents an Orchard tenant.
     /// </summary>
     [SupportedCmdlet("Enable-Tenant")]
+    [SupportedCmdlet("Disable-Tenant")]
     public class TenantNode : ContainerNode 
     {
         /// <summary>
