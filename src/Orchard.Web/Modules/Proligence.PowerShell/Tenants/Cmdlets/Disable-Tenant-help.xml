@@ -46,7 +46,7 @@
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true" position="1">
           <maml:name>Tenant</maml:name>
           <maml:description>
-            <maml:para>Specifies the object which represents the Orchard tenant to disable. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents. This parameter is required.</maml:para>
+            <maml:para>Specifies the object which represents the Orchard tenant to disable. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet. This parameter is required.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">OrchardTenant</command:parameterValue>
         </command:parameter>
@@ -74,7 +74,7 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true" position="1">
         <maml:name>Tenant</maml:name>
         <maml:description>
-          <maml:para>Specifies the object which represents the Orchard tenant to disable. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents. This parameter is required.</maml:para>
+          <maml:para>Specifies the object which represents the Orchard tenant to disable. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet. This parameter is required.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">OrchardTenant</command:parameterValue>
         <dev:type>
@@ -96,7 +96,7 @@
           <maml:description />
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe instances of the OrchardTenant class to Disable-Tenant. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents.</maml:para>
+          <maml:para>You can pipe instances of the OrchardTenant class to Disable-Tenant. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
         </maml:description>
       </command:inputType>
     </command:inputTypes>
@@ -148,6 +148,32 @@
           </command:commandLine>
         </command:commandLines>
       </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>Orchard:\&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Get-Tenant -Enabled | Disable-Tenant
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command disables all Orchard tenants that are currently enabled.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
       
     </command:examples>
 
@@ -155,6 +181,8 @@
 
     <RelatedLinks>
       <navigationLink>
+        <linkText>Enable-Tenant</linkText>
+        <linkText>Get-Tenant</linkText>
         <linkText>Get-ChildItem</linkText>
         <uri/>
       </navigationLink>
