@@ -8,6 +8,7 @@ namespace Proligence.PowerShell.Sites.Items
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+    using Microsoft.PowerShell.Commands;
     using Orchard.Environment.Configuration;
 
     /// <summary>
@@ -72,5 +73,14 @@ namespace Proligence.PowerShell.Sites.Items
         /// </summary>
         [SuppressMessage("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings", Justification = "By design")]
         public string RequestUrlPrefix { get; set; }
+
+        /// <summary>
+        /// Returns a <see cref="string" /> that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="string" /> that represents this instance.</returns>
+        public override string ToString()
+        {
+            return this.Name;
+        }
     }
 }

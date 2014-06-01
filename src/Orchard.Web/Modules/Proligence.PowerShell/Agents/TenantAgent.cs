@@ -6,6 +6,7 @@
 
 namespace Proligence.PowerShell.Agents 
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Autofac;
@@ -46,6 +47,28 @@ namespace Proligence.PowerShell.Agents
                 });
 
             return sites.ToArray();
+        }
+
+        /// <summary>
+        /// Enables the site (tenant) with the specified name.
+        /// </summary>
+        /// <param name="name">The name of the site to enable.</param>
+        public void EnableTenant(string name)
+        {
+            var shellSettingsManager = HostContainer.Resolve<IShellSettingsManager>();
+            ShellSettings tenant = shellSettingsManager.LoadSettings().FirstOrDefault(x => x.Name == name);
+            if (tenant == null)
+            {
+                throw new ArgumentException("Failed to find tenant '" + name + "'.");
+            }
+
+            if (tenant.Name == ShellSettings.DefaultName)
+            {
+                throw new InvalidOperationException("Cannot enable default tenant.");
+            }
+
+            tenant.State = TenantState.Running;
+            shellSettingsManager.SaveSettings(tenant);
         }
     }
 }

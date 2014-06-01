@@ -99,6 +99,7 @@
     <Compile Include="Modules\Nodes\ModuleNode.cs" />
     <Compile Include="Modules\Nodes\ModulesNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sites\Cmdlets\EnableTenant.cs" />
     <Compile Include="Sites\Items\OrchardSite.cs" />
     <Compile Include="Sites\Nodes\SiteNode.cs" />
     <Compile Include="Sites\Nodes\SitesNode.cs" />
@@ -130,6 +131,9 @@
     </Content>
     <Content Include="Modules\Cmdlets\Disable-OrchardFeature-help.xml" />
     <Content Include="Modules\Cmdlets\Enable-OrchardFeature-help.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Sites\Cmdlets\Enable-Tenant-help.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="web.config" />

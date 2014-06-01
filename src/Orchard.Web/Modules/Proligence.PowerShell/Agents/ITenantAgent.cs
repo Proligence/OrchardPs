@@ -23,5 +23,11 @@ namespace Proligence.PowerShell.Agents
         /// installation.
         /// </returns>
         OrchardSite[] GetSites();
+
+        /// <summary>
+        /// Enables the site (tenant) with the specified name.
+        /// </summary>
+        /// <param name="name">The name of the site to enable.</param>
+        void EnableTenant(string name);
     }
 }
