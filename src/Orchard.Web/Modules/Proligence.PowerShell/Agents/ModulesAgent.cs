@@ -6,9 +6,11 @@
 
 namespace Proligence.PowerShell.Agents
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Autofac;
+    using Orchard.Data.Migration;
     using Orchard.Environment.Extensions;
     using Orchard.Environment.Extensions.Models;
     using Orchard.Environment.Features;
@@ -108,6 +110,32 @@ namespace Proligence.PowerShell.Agents
         }
 
         /// <summary>
+        /// Gets all themes for the specified tenant.
+        /// </summary>
+        /// <param name="tenant">The name of the tenant.</param>
+        /// <returns>An array of objects representing themes from the specified tenant.</returns>
+        public OrchardTheme[] GetThemes(string tenant)
+        {
+            IDataMigrationManager dataMigrationManager = this.GetDataMigrationManager(tenant);
+            IEnumerable<string> featuresThatNeedUpdate = dataMigrationManager.GetFeaturesThatNeedUpdate();
+
+            IExtensionManager extensionManager = this.GetExtensionManager(tenant);
+            
+            return extensionManager.AvailableExtensions()
+                .Where(d => DefaultExtensionTypes.IsTheme(d.ExtensionType))
+                .Where(d => d.Tags != null && d.Tags.Split(',').Any(
+                    t => t.Trim().Equals("hidden", StringComparison.OrdinalIgnoreCase)) == false)
+                .Select(
+                    d => new OrchardTheme
+                    {
+                        Module = MapDescriptorToOrchardModule(d),
+                        Enabled = this.GetFeatures(tenant).Any(f => f.Id == d.Id && f.Enabled),
+                        NeedsUpdate = featuresThatNeedUpdate.Contains(d.Id)
+                    })
+                .ToArray();
+        }
+
+        /// <summary>
         /// Gets the <see cref="IExtensionManager"/> instance for the specified tenant.
         /// </summary>
         /// <param name="tenant">The name of the tenant.</param>
@@ -127,6 +155,17 @@ namespace Proligence.PowerShell.Agents
         {
             ILifetimeScope tenantContainer = this.ContainerManager.GetTenantContainer(tenant);
             return tenantContainer.Resolve<IFeatureManager>();
+        }
+
+        /// <summary>
+        /// Gets the <see cref="IDataMigrationManager"/> instance for the specified tenant.
+        /// </summary>
+        /// <param name="tenant">The name of the tenant.</param>
+        /// <returns>The <see cref="IDataMigrationManager"/> instance for the specified tenant.</returns>
+        private IDataMigrationManager GetDataMigrationManager(string tenant)
+        {
+            ILifetimeScope tenantContainer = this.ContainerManager.GetTenantContainer(tenant);
+            return tenantContainer.Resolve<IDataMigrationManager>();
         }
 
         /// <summary>

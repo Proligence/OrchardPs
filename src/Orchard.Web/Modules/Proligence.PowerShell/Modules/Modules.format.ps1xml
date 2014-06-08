@@ -108,13 +108,57 @@
         </TableRowEntries>
       </TableControl>
     </View>
+    <View>
+      <Name>CollectionItemView</Name>
+      <ViewSelectedBy>
+        <TypeName>Proligence.PowerShell.Modules.Items.OrchardTheme</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>50</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Module</Label>
+            <Width>50</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Enabled</Label>
+            <Width>20</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Width>20</Width>
+            <Label>NeedsUpdate</Label>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>if ($_.Module) { $_.Module.Name } else { 'Core' }</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Enabled</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>NeedsUpdate</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
   </ViewDefinitions>
 </Configuration>
 <!-- SIG # Begin signature block -->
 <!-- MIIFsAYJKoZIhvcNAQcCoIIFoTCCBZ0CAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB -->
 <!-- gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR -->
-<!-- AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUYjhzI5ui8zNVOg0FJqPPrHO6 -->
-<!-- EIOgggM6MIIDNjCCAiKgAwIBAgIQQaB/8txRJqtGHUmnID7OxzAJBgUrDgMCHQUA -->
+<!-- AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUpn1zUjYfzjGYUESCP3YhQkCT -->
+<!-- fd2gggM6MIIDNjCCAiKgAwIBAgIQQaB/8txRJqtGHUmnID7OxzAJBgUrDgMCHQUA -->
 <!-- MCsxKTAnBgNVBAMTIE9yY2hhcmRQcyBMb2NhbCBDZXJ0aWZpY2F0ZSBSb290MB4X -->
 <!-- DTEzMDYyNjA4MTk0MloXDTM5MTIzMTIzNTk1OVowFDESMBAGA1UEAxMJT3JjaGFy -->
 <!-- ZFBzMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArNiyrLbE2VGmEUDV -->
@@ -135,11 +179,11 @@
 <!-- ZFBzIExvY2FsIENlcnRpZmljYXRlIFJvb3QCEEGgf/LcUSarRh1JpyA+zscwCQYF -->
 <!-- Kw4DAhoFAKB4MBgGCisGAQQBgjcCAQwxCjAIoAKAAKECgAAwGQYJKoZIhvcNAQkD -->
 <!-- MQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIBCzEOMAwGCisGAQQBgjcCARUwIwYJ -->
-<!-- KoZIhvcNAQkEMRYEFAy73oBG2BAEHg6i9pDnK2IesxCsMA0GCSqGSIb3DQEBAQUA -->
-<!-- BIIBAFwPY0caiW50zDlaF864wfxOUw7ayM8RI6MOGiI1YqCAVc26Ob108zYa/MpJ -->
-<!-- u/HtS6x9cZHiTUMcuk/f0PqYx/gsjta53R13EspfrVCPicDqb5VpFyhTODFCUzYm -->
-<!-- +6Beky0niq8nZccrvvGu8hNX2kMGt2A+BoLqTDCoIAN7LGs+I6SDfwtyAyzb6UN8 -->
-<!-- xxRmvqN6WTDQrcfUH1d8UVM/zdJRYiu0mjKG7lQUHCGjFz+wcjQzwMRc3UPebK8i -->
-<!-- Pgo49J4909Vr/UrO/Tt9nR0yR2uFm/uryT8t3Ajp5CcEY6snCPRaSybFzvK0HRMQ -->
-<!-- 36ELR2fqwcqgi+972BFYF0I6ZlI= -->
+<!-- KoZIhvcNAQkEMRYEFF6qZhfHCXULWyU4y2JJSydAeiS2MA0GCSqGSIb3DQEBAQUA -->
+<!-- BIIBAGpiywqklWdHjNeM0JDJYVC5Z0WzpjLHyAQ0P+lS2S1p2t7G1YOMBNURXbn9 -->
+<!-- 33KUqRM+Hm1RcdYbBctpR+GBPAKvVKtbi/Wx532myHOkYtQkNp2Ou6wI6oNgidz0 -->
+<!-- hIaN5g6nlKQBW9H9+QOHOGfBsZYULSkFNEtpWtW3lX9PbK+MYvSwGf/fWi/wwVTJ -->
+<!-- HqSGk0pyrW9t3MLmSpeGyK7rQAa1eBJS24LgGzWA6pL8eGqDyeXh3hn2kx/T1swI -->
+<!-- BoUJjpG9Eh3zI5ECnIPcUGpTeoS3XLB5ADt98E/u4sZzRNPqIqu/ATwC7DrEhtp4 -->
+<!-- eVxHTWV3sOKM5zIExds22OBXKn8= -->
 <!-- SIG # End signature block -->

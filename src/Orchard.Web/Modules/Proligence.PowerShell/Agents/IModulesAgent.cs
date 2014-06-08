@@ -44,5 +44,12 @@ namespace Proligence.PowerShell.Agents
         /// <param name="name">The name of the feature to disable.</param>
         /// <param name="includeDependencies">True to disable dependant features; otherwise, false.</param>
         void DisableFeature(string tenant, string name, bool includeDependencies);
+
+        /// <summary>
+        /// Gets all themes for the specified tenant.
+        /// </summary>
+        /// <param name="tenant">The name of the tenant.</param>
+        /// <returns>An array of objects representing themes from the specified tenant.</returns>
+        OrchardTheme[] GetThemes(string tenant);
     }
 }
