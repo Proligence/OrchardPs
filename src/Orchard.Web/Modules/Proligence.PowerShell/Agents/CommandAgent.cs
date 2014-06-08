@@ -11,7 +11,6 @@ namespace Proligence.PowerShell.Agents
     using System.Globalization;
     using System.IO;
     using System.Linq;
-    using Autofac;
     using Orchard.Commands;
     using Orchard.Management.PsProvider.Agents;
     using Proligence.PowerShell.Commands.Items;
@@ -31,7 +30,7 @@ namespace Proligence.PowerShell.Agents
         /// </returns>
         public OrchardCommand[] GetCommands(string tenant) 
         {
-            ICommandManager commandManager = this.GetCommandManager(tenant);
+            var commandManager = this.Resolve<ICommandManager>(tenant);
             IEnumerable<CommandDescriptor> commandDescriptors = commandManager.GetCommandDescriptors();
             IEnumerable<OrchardCommand> commands = commandDescriptors.Select(
                 command => new OrchardCommand 
@@ -82,17 +81,6 @@ namespace Proligence.PowerShell.Agents
             {
                 agent.StopHost(Console.In, Console.Out);
             }
-        }
-
-        /// <summary>
-        /// Gets the <see cref="ICommandManager"/> instance for the specified tenant.
-        /// </summary>
-        /// <param name="tenant">The name of the tenant.</param>
-        /// <returns>The <see cref="ICommandManager"/> instance for the specified tenant.</returns>
-        private ICommandManager GetCommandManager(string tenant) 
-        {
-            ILifetimeScope tenantContainer = this.ContainerManager.GetTenantContainer(tenant);
-            return tenantContainer.Resolve<ICommandManager>();
         }
     }
 }

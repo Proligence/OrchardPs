@@ -28,7 +28,7 @@ namespace Proligence.PowerShell.Agents
         /// </returns>
         public OrchardTenant[] GetTenants() 
         {
-            var tenantManager = HostContainer.Resolve<IShellSettingsManager>();
+            var tenantManager = this.HostContainer.Resolve<IShellSettingsManager>();
             IEnumerable<ShellSettings> settings = tenantManager.LoadSettings();
             IEnumerable<OrchardTenant> tenants = settings.Select(ShellSettingsToOrchardTenant);
 
@@ -44,7 +44,7 @@ namespace Proligence.PowerShell.Agents
         /// </returns>
         public OrchardTenant GetTenant(string name)
         {
-            var tenantManager = HostContainer.Resolve<IShellSettingsManager>();
+            var tenantManager = this.HostContainer.Resolve<IShellSettingsManager>();
 
             return tenantManager
                 .LoadSettings()
@@ -59,7 +59,7 @@ namespace Proligence.PowerShell.Agents
         /// <param name="name">The name of the tenant to enable.</param>
         public void EnableTenant(string name)
         {
-            var shellSettingsManager = HostContainer.Resolve<IShellSettingsManager>();
+            var shellSettingsManager = this.HostContainer.Resolve<IShellSettingsManager>();
             ShellSettings tenant = shellSettingsManager.LoadSettings().FirstOrDefault(x => x.Name == name);
             if (tenant == null)
             {
@@ -84,7 +84,7 @@ namespace Proligence.PowerShell.Agents
         /// <param name="name">The name of the tenant to disable.</param>
         public void DisableTenant(string name)
         {
-            var shellSettingsManager = HostContainer.Resolve<IShellSettingsManager>();
+            var shellSettingsManager = this.HostContainer.Resolve<IShellSettingsManager>();
             ShellSettings tenant = shellSettingsManager.LoadSettings().FirstOrDefault(x => x.Name == name);
             if (tenant == null)
             {
