@@ -41,26 +41,26 @@ namespace Proligence.PowerShell.Modules.Cmdlets
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the tenant for which the feature will be enabled.
+        /// Gets or sets the name of the tenant for which the feature will be retrieved.
         /// </summary>
         [Parameter(ParameterSetName = "Name", Mandatory = false)]        
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         public string Tenant { get; set; }
 
         /// <summary>
-        /// Gets or sets the Orchard tenant for which features will be returned.
+        /// Gets or sets the Orchard tenant for which features will be retrieved.
         /// </summary>
         [Parameter(ParameterSetName = "TenantObject", Mandatory = true, ValueFromPipeline = true)]
         public OrchardTenant TenantObject { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether features should be get from all tenants.
+        /// Gets or sets a value indicating whether features should be retrieved from all tenants.
         /// </summary>
         [Parameter(ParameterSetName = "AllTenants", Mandatory = true)]
         public SwitchParameter FromAllTenants { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether only enabled features should be get.
+        /// Gets or sets a value indicating whether only enabled features should be retrieved.
         /// </summary>
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]
@@ -68,7 +68,7 @@ namespace Proligence.PowerShell.Modules.Cmdlets
         public SwitchParameter Enabled { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether only disabled features should be get.
+        /// Gets or sets a value indicating whether only disabled features should be retrieved.
         /// </summary>
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]

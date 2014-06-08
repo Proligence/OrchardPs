@@ -95,7 +95,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="true">
           <maml:name>TenantObject</maml:name>
           <maml:description>
-            <maml:para>Specifies the object that represents the Orchard tenant to get features from. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents. This parameter is required.</maml:para>
+            <maml:para>Specifies the object that represents the Orchard tenant to get features from. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet. This parameter is required.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
         </command:parameter>
@@ -177,7 +177,7 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true">
         <maml:name>TenantObject</maml:name>
         <maml:description>
-          <maml:para>Specifies the object that represents the Orchard tenant to get features from. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents.</maml:para>
+          <maml:para>Specifies the object that represents the Orchard tenant to get features from. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">OrchardTenant</command:parameterValue>
         <dev:type>
@@ -223,7 +223,7 @@
           <maml:description />
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe instances of the OrchardTenant class to Get-OrchardFeature. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents.</maml:para>
+          <maml:para>You can pipe instances of the OrchardTenant class to Get-OrchardFeature. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
         </maml:description>
       </command:inputType>
     </command:inputTypes>
@@ -351,7 +351,7 @@
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>This command gets the 'Alias' from all available Orchard tenants.</maml:para>
+          <maml:para>This command gets the 'Alias' feature from all available Orchard tenants.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
