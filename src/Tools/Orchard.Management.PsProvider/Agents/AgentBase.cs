@@ -92,6 +92,28 @@ namespace Orchard.Management.PsProvider.Agents
         }
 
         /// <summary>
+        /// Gets the <see cref="T"/> instance for the specified tenant.
+        /// </summary>
+        /// <param name="tenant">The name of the tenant.</param>
+        /// <returns>The <see cref="T"/> instance for the specified tenant.</returns>
+        protected T Resolve<T>(string tenant)
+        {
+            ILifetimeScope tenantContainer = this.ContainerManager.GetTenantContainer(tenant);
+            return tenantContainer.Resolve<T>();
+        }
+
+        /// <summary>
+        /// Creates a work context scope for the specified tenant.
+        /// </summary>
+        /// <param name="tenant">The name of the tenant.</param>
+        /// <returns>The created <see cref="IWorkContextScope"/>.</returns>
+        protected IWorkContextScope CreateWorkContextScope(string tenant)
+        {
+            ILifetimeScope tenantContainer = this.ContainerManager.GetTenantContainer(tenant);
+            return tenantContainer.CreateWorkContextScope();
+        }
+
+        /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
         /// <param name="disposing">
