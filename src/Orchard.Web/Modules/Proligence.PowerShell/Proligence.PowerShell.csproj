@@ -88,6 +88,7 @@
     <Compile Include="Configuration\ConfigurationNode.cs" />
     <Compile Include="Modules\Cmdlets\DisableOrchardFeature.cs" />
     <Compile Include="Modules\Cmdlets\EnableOrchardFeature.cs" />
+    <Compile Include="Modules\Cmdlets\GetOrchardTheme.cs" />
     <Compile Include="Modules\Cmdlets\GetOrchardFeature.cs" />
     <Compile Include="Modules\Items\OrchardFeature.cs" />
     <Compile Include="Modules\Items\OrchardModule.cs" />
@@ -131,6 +132,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Modules\Cmdlets\Get-OrchardTheme-help.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Modules\Cmdlets\Get-OrchardFeature-help.xml">
       <SubType>Designer</SubType>
     </Content>
