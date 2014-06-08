@@ -51,5 +51,12 @@ namespace Proligence.PowerShell.Agents
         /// <param name="tenant">The name of the tenant.</param>
         /// <returns>An array of objects representing themes from the specified tenant.</returns>
         OrchardTheme[] GetThemes(string tenant);
+
+        /// <summary>
+        /// Enables the specified theme for a tenant.
+        /// </summary>
+        /// <param name="tenant">The name of the tenant for which the theme will be enabled.</param>
+        /// <param name="id">The identifier of the theme to enable.</param>
+        void EnableTheme(string tenant, string id);
     }
 }

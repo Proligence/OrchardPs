@@ -7,6 +7,7 @@
 namespace Proligence.PowerShell.Modules.Nodes
 {
     using System.Diagnostics.CodeAnalysis;
+    using Orchard.Management.PsProvider;
     using Proligence.PowerShell.Modules.Items;
     using Proligence.PowerShell.Vfs.Core;
     using Proligence.PowerShell.Vfs.Navigation;
@@ -14,6 +15,7 @@ namespace Proligence.PowerShell.Modules.Nodes
     /// <summary>
     /// Implements a VFS node which represents an Orchard theme.
     /// </summary>
+    [SupportedCmdlet("Enable-OrchardTheme")]
     public class ThemeNode : ObjectNode
     {
         /// <summary>

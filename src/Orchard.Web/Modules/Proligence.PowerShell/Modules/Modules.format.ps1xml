@@ -117,18 +117,22 @@
         <TableHeaders>
           <TableColumnHeader>
             <Label>Name</Label>
-            <Width>50</Width>
+            <Width>40</Width>
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>Module</Label>
-            <Width>50</Width>
+            <Width>40</Width>
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>Enabled</Label>
             <Width>20</Width>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Width>20</Width>
+            <Label>Activated</Label>
+            <Width>15</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Width>15</Width>
             <Label>NeedsUpdate</Label>
           </TableColumnHeader>
         </TableHeaders>
@@ -145,6 +149,9 @@
                 <PropertyName>Enabled</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
+                <PropertyName>Activated</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
                 <PropertyName>NeedsUpdate</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
@@ -157,8 +164,8 @@
 <!-- SIG # Begin signature block -->
 <!-- MIIFsAYJKoZIhvcNAQcCoIIFoTCCBZ0CAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB -->
 <!-- gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR -->
-<!-- AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUpn1zUjYfzjGYUESCP3YhQkCT -->
-<!-- fd2gggM6MIIDNjCCAiKgAwIBAgIQQaB/8txRJqtGHUmnID7OxzAJBgUrDgMCHQUA -->
+<!-- AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUyDmI8K2PvxBd6gWwJoDB94WS -->
+<!-- 5wGgggM6MIIDNjCCAiKgAwIBAgIQQaB/8txRJqtGHUmnID7OxzAJBgUrDgMCHQUA -->
 <!-- MCsxKTAnBgNVBAMTIE9yY2hhcmRQcyBMb2NhbCBDZXJ0aWZpY2F0ZSBSb290MB4X -->
 <!-- DTEzMDYyNjA4MTk0MloXDTM5MTIzMTIzNTk1OVowFDESMBAGA1UEAxMJT3JjaGFy -->
 <!-- ZFBzMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArNiyrLbE2VGmEUDV -->
@@ -179,11 +186,11 @@
 <!-- ZFBzIExvY2FsIENlcnRpZmljYXRlIFJvb3QCEEGgf/LcUSarRh1JpyA+zscwCQYF -->
 <!-- Kw4DAhoFAKB4MBgGCisGAQQBgjcCAQwxCjAIoAKAAKECgAAwGQYJKoZIhvcNAQkD -->
 <!-- MQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIBCzEOMAwGCisGAQQBgjcCARUwIwYJ -->
-<!-- KoZIhvcNAQkEMRYEFF6qZhfHCXULWyU4y2JJSydAeiS2MA0GCSqGSIb3DQEBAQUA -->
-<!-- BIIBAGpiywqklWdHjNeM0JDJYVC5Z0WzpjLHyAQ0P+lS2S1p2t7G1YOMBNURXbn9 -->
-<!-- 33KUqRM+Hm1RcdYbBctpR+GBPAKvVKtbi/Wx532myHOkYtQkNp2Ou6wI6oNgidz0 -->
-<!-- hIaN5g6nlKQBW9H9+QOHOGfBsZYULSkFNEtpWtW3lX9PbK+MYvSwGf/fWi/wwVTJ -->
-<!-- HqSGk0pyrW9t3MLmSpeGyK7rQAa1eBJS24LgGzWA6pL8eGqDyeXh3hn2kx/T1swI -->
-<!-- BoUJjpG9Eh3zI5ECnIPcUGpTeoS3XLB5ADt98E/u4sZzRNPqIqu/ATwC7DrEhtp4 -->
-<!-- eVxHTWV3sOKM5zIExds22OBXKn8= -->
+<!-- KoZIhvcNAQkEMRYEFIBhSd4ODgqZbBFQvAr0LIrTFw/qMA0GCSqGSIb3DQEBAQUA -->
+<!-- BIIBADrS677Xekx9/6SB8TCKpoyP+b/BfjhyYb5iwslqvt5zMpw7GCpB2+eacH0p -->
+<!-- 65RSQNLtajLu58gGYXmQ4ZPnAmltKXlCq/L22QweUqB4CST8lAd731t9ApzQW92F -->
+<!-- juxH7XWipMqLwtudawZroyIHgPyp77XIhxN3jmY6C+g3iigmLrMPPWqUB/J6PfHd -->
+<!-- Xk1kEE0leBrE22q2ixdq4dgcyzSOFtIAqjnxJ98+3kpA/RKlSNmkjpoYHPf8BNpO -->
+<!-- cmm7Jau1iC2hBoxraXr2I/EFfkOM0WlCxHH++7MdS8pqKN6WlUWxETNGCd+U+Lad -->
+<!-- O+6GyGH1oePTBUor89OqPVDFVCY= -->
 <!-- SIG # End signature block -->

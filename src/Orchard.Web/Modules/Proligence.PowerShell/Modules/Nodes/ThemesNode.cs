@@ -8,6 +8,7 @@ namespace Proligence.PowerShell.Modules.Nodes
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Orchard.Management.PsProvider;
     using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Common.Extensions;
     using Proligence.PowerShell.Common.Items;
@@ -18,6 +19,7 @@ namespace Proligence.PowerShell.Modules.Nodes
     /// <summary>
     /// Implements a VFS node which groups <see cref="ThemeNode"/> nodes for a single Orchard tenant.
     /// </summary>
+    [SupportedCmdlet("Enable-OrchardTheme")]
     public class ThemesNode : ContainerNode
     {
         /// <summary>

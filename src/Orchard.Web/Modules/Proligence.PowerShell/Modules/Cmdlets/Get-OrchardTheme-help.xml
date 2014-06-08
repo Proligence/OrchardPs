@@ -373,6 +373,10 @@
         <linkText>Get-ChildItem</linkText>
         <uri/>
       </navigationLink>
+      <navigationLink>
+        <linkText>Enable-OrchardTheme</linkText>
+        <uri/>
+      </navigationLink>
     </RelatedLinks>
 
   </command:command>

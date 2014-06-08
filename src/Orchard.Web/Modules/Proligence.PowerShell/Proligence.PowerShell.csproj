@@ -86,6 +86,7 @@
     <Compile Include="Common\Extensions\VfsNodeExtensions.cs" />
     <Compile Include="Modules\Cmdlets\DisableOrchardFeature.cs" />
     <Compile Include="Modules\Cmdlets\EnableOrchardFeature.cs" />
+    <Compile Include="Modules\Cmdlets\EnableOrchardTheme.cs" />
     <Compile Include="Modules\Cmdlets\GetOrchardTheme.cs" />
     <Compile Include="Modules\Cmdlets\GetOrchardFeature.cs" />
     <Compile Include="Modules\Items\OrchardFeature.cs" />
@@ -116,6 +117,10 @@
     <Content Include="Module.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\ProligenceBase\Proligence\TestSystem\Orchard\src\Orchard.Web\Modules\Orchard.Themes\Orchard.Themes.csproj">
+      <Project>{cde24a24-01d3-403c-84b9-37722e18dfb7}</Project>
+      <Name>Orchard.Themes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">
       <Project>{2D1D92BB-4555-4CBE-8D0E-63563D6CE4C6}</Project>
       <Name>Orchard.Framework</Name>
@@ -130,6 +135,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Modules\Cmdlets\Enable-OrchardTheme-help.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Modules\Cmdlets\Get-OrchardTheme-help.xml">
       <SubType>Designer</SubType>
     </Content>

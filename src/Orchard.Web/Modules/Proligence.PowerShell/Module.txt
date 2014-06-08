@@ -5,3 +5,9 @@ Version: 1.0.0
 OrchardVersion: 1.3.0
 Description: Enables PowerShell management support for Orchard.
 Category: Management
+Features:
+    Proligence.PowerShell:
+        Name: PowerShell
+        Description: Enables PowerShell management support for Orchard.
+        Category: Management
+        Dependencies: Orchard.Themes

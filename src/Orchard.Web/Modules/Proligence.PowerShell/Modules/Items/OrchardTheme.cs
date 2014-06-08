@@ -20,6 +20,17 @@ namespace Proligence.PowerShell.Modules.Items
         public OrchardModule Module { get; set; }
 
         /// <summary>
+        /// Gets the identifier of the theme.
+        /// </summary>
+        public string Id
+        {
+            get
+            {
+                return this.Module.Id;
+            }
+        }
+
+        /// <summary>
         /// Gets the theme's name.
         /// </summary>
         public string Name
@@ -36,9 +47,19 @@ namespace Proligence.PowerShell.Modules.Items
         public bool Enabled { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether the theme is currently activated.
+        /// </summary>
+        public bool Activated { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether the theme needs a data update / migration.
         /// </summary>
         public bool NeedsUpdate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the Orchard tenant which the feature belongs to.
+        /// </summary>
+        public string TenantName { get; set; }
 
         /// <summary>
         /// Returns a <see cref="string" /> that represents this instance.

@@ -9,12 +9,15 @@ namespace Proligence.PowerShell.Agents
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Autofac;
+    using Orchard;
+    using Orchard.ContentManagement;
     using Orchard.Data.Migration;
     using Orchard.Environment.Extensions;
     using Orchard.Environment.Extensions.Models;
     using Orchard.Environment.Features;
     using Orchard.Management.PsProvider.Agents;
+    using Orchard.Themes.Models;
+    using Orchard.Themes.Services;
     using Proligence.PowerShell.Modules.Items;
 
     /// <summary>
@@ -29,8 +32,8 @@ namespace Proligence.PowerShell.Agents
         /// <returns>An array of objects representing the modules.</returns>
         public OrchardModule[] GetModules(string tenant)
         {
-            IExtensionManager extensionManager = this.GetExtensionManager(tenant);
-            IFeatureManager featureManager = this.GetFeatureManager(tenant);
+            var extensionManager = this.Resolve<IExtensionManager>(tenant);
+            var featureManager = this.Resolve<IFeatureManager>(tenant);
             IEnumerable<ExtensionDescriptor> extensionDescriptors = extensionManager.AvailableExtensions();
             IEnumerable<FeatureDescriptor> enabledFeatures = featureManager.GetEnabledFeatures().ToArray();
 
@@ -55,8 +58,8 @@ namespace Proligence.PowerShell.Agents
         /// <returns>An array of objects representing the modules.</returns>
         public OrchardFeature[] GetFeatures(string tenant)
         {
-            IExtensionManager extensionManager = this.GetExtensionManager(tenant);
-            IFeatureManager featureManager = this.GetFeatureManager(tenant);
+            var extensionManager = this.Resolve<IExtensionManager>(tenant);
+            var featureManager = this.Resolve<IFeatureManager>(tenant);
             IEnumerable<FeatureDescriptor> featureDescriptors = extensionManager.AvailableFeatures();
             IEnumerable<ExtensionDescriptor> extensions = extensionManager.AvailableExtensions().ToArray();
             IEnumerable<FeatureDescriptor> enabledFeatures = featureManager.GetEnabledFeatures().ToArray();
@@ -93,7 +96,7 @@ namespace Proligence.PowerShell.Agents
         /// <param name="includeDependencies">True to enable dependant features; otherwise, false.</param>
         public void EnableFeature(string tenant, string name, bool includeDependencies)
         {
-            IFeatureManager featureManager = this.GetFeatureManager(tenant);
+            var featureManager = this.Resolve<IFeatureManager>(tenant);
             featureManager.EnableFeatures(new[] { name }, includeDependencies);
         }
 
@@ -105,7 +108,7 @@ namespace Proligence.PowerShell.Agents
         /// <param name="includeDependencies">True to disable dependant features; otherwise, false.</param>
         public void DisableFeature(string tenant, string name, bool includeDependencies)
         {
-            IFeatureManager featureManager = this.GetFeatureManager(tenant);
+            var featureManager = this.Resolve<IFeatureManager>(tenant);
             featureManager.DisableFeatures(new[] { name }, includeDependencies);
         }
 
@@ -116,56 +119,60 @@ namespace Proligence.PowerShell.Agents
         /// <returns>An array of objects representing themes from the specified tenant.</returns>
         public OrchardTheme[] GetThemes(string tenant)
         {
-            IDataMigrationManager dataMigrationManager = this.GetDataMigrationManager(tenant);
-            IEnumerable<string> featuresThatNeedUpdate = dataMigrationManager.GetFeaturesThatNeedUpdate();
+            using (IWorkContextScope workContext = this.CreateWorkContextScope(tenant))
+            {
+                var dataMigrationManager = workContext.Resolve<IDataMigrationManager>();
+                IEnumerable<string> featuresThatNeedUpdate = dataMigrationManager.GetFeaturesThatNeedUpdate();
 
-            IExtensionManager extensionManager = this.GetExtensionManager(tenant);
-            
-            return extensionManager.AvailableExtensions()
-                .Where(d => DefaultExtensionTypes.IsTheme(d.ExtensionType))
-                .Where(d => d.Tags != null && d.Tags.Split(',').Any(
-                    t => t.Trim().Equals("hidden", StringComparison.OrdinalIgnoreCase)) == false)
-                .Select(
-                    d => new OrchardTheme
-                    {
-                        Module = MapDescriptorToOrchardModule(d),
-                        Enabled = this.GetFeatures(tenant).Any(f => f.Id == d.Id && f.Enabled),
-                        NeedsUpdate = featuresThatNeedUpdate.Contains(d.Id)
-                    })
-                .ToArray();
+                var extensionManager = workContext.Resolve<IExtensionManager>();
+                OrchardFeature[] tenantFeatures = this.GetFeatures(tenant);
+
+                var services = workContext.Resolve<IOrchardServices>();
+                string currentThemeId = services.WorkContext.CurrentSite.As<ThemeSiteSettingsPart>().CurrentThemeName;
+
+                return extensionManager.AvailableExtensions()
+                    .Where(d => DefaultExtensionTypes.IsTheme(d.ExtensionType))
+                    .Where(d => d.Tags != null && d.Tags.Split(',').Any(
+                        t => t.Trim().Equals("hidden", StringComparison.OrdinalIgnoreCase)) == false)
+                    .Select(
+                        d => new OrchardTheme
+                        {
+                            Module = MapDescriptorToOrchardModule(d),
+                            Enabled = tenantFeatures.Any(f => f.Id == d.Id && f.Enabled),
+                            Activated = d.Id == currentThemeId,
+                            NeedsUpdate = featuresThatNeedUpdate.Contains(d.Id),
+                            TenantName = tenant
+                        })
+                    .ToArray();
+            }
         }
 
         /// <summary>
-        /// Gets the <see cref="IExtensionManager"/> instance for the specified tenant.
+        /// Enables the specified theme for a tenant.
         /// </summary>
-        /// <param name="tenant">The name of the tenant.</param>
-        /// <returns>The <see cref="IExtensionManager"/> instance for the specified tenant.</returns>
-        private IExtensionManager GetExtensionManager(string tenant)
+        /// <param name="tenant">The name of the tenant for which the theme will be enabled.</param>
+        /// <param name="id">The identifier of the theme to enable.</param>
+        public void EnableTheme(string tenant, string id)
         {
-            ILifetimeScope tenantContainer = this.ContainerManager.GetTenantContainer(tenant);
-            return tenantContainer.Resolve<IExtensionManager>();
-        }
+            using (IWorkContextScope workContext = this.CreateWorkContextScope(tenant))
+            {
+                var extensionManager = workContext.Resolve<IExtensionManager>();
+                ExtensionDescriptor theme = extensionManager.AvailableExtensions().FirstOrDefault(x => x.Id == id);
+                if (theme == null)
+                {
+                    throw new ArgumentException("Could not find theme '" + id + "'.", "id");
+                }
 
-        /// <summary>
-        /// Gets the <see cref="IFeatureManager"/> instance for the specified tenant.
-        /// </summary>
-        /// <param name="tenant">The name of the tenant.</param>
-        /// <returns>The <see cref="IFeatureManager"/> instance for the specified tenant.</returns>
-        private IFeatureManager GetFeatureManager(string tenant)
-        {
-            ILifetimeScope tenantContainer = this.ContainerManager.GetTenantContainer(tenant);
-            return tenantContainer.Resolve<IFeatureManager>();
-        }
+                var featureManager = workContext.Resolve<IFeatureManager>();
+                if (featureManager.GetEnabledFeatures().All(sf => sf.Id != theme.Id))
+                {
+                    var themeService = workContext.Resolve<IThemeService>();
+                    themeService.EnableThemeFeatures(theme.Id);
+                }
 
-        /// <summary>
-        /// Gets the <see cref="IDataMigrationManager"/> instance for the specified tenant.
-        /// </summary>
-        /// <param name="tenant">The name of the tenant.</param>
-        /// <returns>The <see cref="IDataMigrationManager"/> instance for the specified tenant.</returns>
-        private IDataMigrationManager GetDataMigrationManager(string tenant)
-        {
-            ILifetimeScope tenantContainer = this.ContainerManager.GetTenantContainer(tenant);
-            return tenantContainer.Resolve<IDataMigrationManager>();
+                var siteThemeService = workContext.Resolve<ISiteThemeService>();
+                siteThemeService.SetSiteTheme(theme.Id);
+            }
         }
 
         /// <summary>
