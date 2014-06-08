@@ -118,7 +118,7 @@
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false">
           <maml:name>FromAllTenants</maml:name>
           <maml:description>
-            <maml:para>Specifies that the command should get themes from all Orchard tenants.</maml:para>
+            <maml:para>Specifies that the command should get themes from all running Orchard tenants.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="1">
@@ -190,7 +190,7 @@
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
         <maml:name>FromAllTenants</maml:name>
         <maml:description>
-          <maml:para>Specifies that the command should get themes from all Orchard tenants.</maml:para>
+          <maml:para>Specifies that the command should get themes from all running Orchard tenants.</maml:para>
         </maml:description>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
@@ -351,7 +351,7 @@
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>This command gets the 'The Theme Machine' theme from all available Orchard tenants.</maml:para>
+          <maml:para>This command gets the 'The Theme Machine' theme from all running Orchard tenants.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>

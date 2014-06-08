@@ -10,6 +10,7 @@ namespace Proligence.PowerShell.Modules.Cmdlets
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
+    using Orchard.Environment.Configuration;
     using Orchard.Management.PsProvider;
     using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Common.Extensions;
@@ -82,7 +83,11 @@ namespace Proligence.PowerShell.Modules.Cmdlets
         {
             base.BeginProcessing();
             this.modulesAgent = this.AgentManager.GetAgent<IModulesAgent>();
-            this.allTenants = this.AgentManager.GetAgent<ITenantAgent>().GetTenants();
+
+            this.allTenants = this.AgentManager.GetAgent<ITenantAgent>()
+                .GetTenants()
+                .Where(t => t.State == TenantState.Running)
+                .ToArray();
         }
 
         /// <summary>
