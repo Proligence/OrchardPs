@@ -78,6 +78,8 @@
     <Compile Include="Host\IOrchardSession.cs" />
     <Compile Include="Host\OrchardSession.cs" />
     <Compile Include="IOrchardCmdlet.cs" />
+    <Compile Include="IPropertyMapper.cs" />
+    <Compile Include="MappableAttribute.cs" />
     <Compile Include="OrchardCmdlet.cs" />
     <Compile Include="OrchardCmdletExtensions.cs" />
     <Compile Include="OrchardDriveInfo.cs" />
@@ -90,6 +92,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyMapper.cs" />
     <Compile Include="SupportedCmdletAttribute.cs" />
     <Compile Include="ThrowHelper.cs" />
   </ItemGroup>
