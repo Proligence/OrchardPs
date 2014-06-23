@@ -94,6 +94,7 @@ namespace Orchard.Management.PsProvider.Agents
         /// <summary>
         /// Gets the <see cref="T"/> instance for the specified tenant.
         /// </summary>
+        /// <typeparam name="T">The type to resolve.</typeparam>
         /// <param name="tenant">The name of the tenant.</param>
         /// <returns>The <see cref="T"/> instance for the specified tenant.</returns>
         protected T Resolve<T>(string tenant)
