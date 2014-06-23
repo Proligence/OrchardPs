@@ -44,5 +44,11 @@ namespace Proligence.PowerShell.Agents
         /// </summary>
         /// <param name="name">The name of the tenant to disable.</param>
         void DisableTenant(string name);
+
+        /// <summary>
+        /// Creates a new tenant.
+        /// </summary>
+        /// <param name="tenant">The new tenant to create.</param>
+        void CreateTenant(OrchardTenant tenant);
     }
 }

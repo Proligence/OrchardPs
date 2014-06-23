@@ -9,6 +9,7 @@ namespace Proligence.PowerShell.Agents
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text.RegularExpressions;
     using Autofac;
     using Orchard.Environment.Configuration;
     using Orchard.Management.PsProvider.Agents;
@@ -101,6 +102,54 @@ namespace Proligence.PowerShell.Agents
                 tenant.State = TenantState.Disabled;
                 shellSettingsManager.SaveSettings(tenant);
             }
+        }
+
+        /// <summary>
+        /// Creates a new tenant.
+        /// </summary>
+        /// <param name="tenant">The new tenant to create.</param>
+        public void CreateTenant(OrchardTenant tenant) 
+        {
+            if (tenant == null)
+            {
+                throw new ArgumentNullException("tenant");
+            }
+
+            if (!string.IsNullOrEmpty(tenant.Name) && !Regex.IsMatch(tenant.Name, @"^\w+$"))
+            {
+                throw new InvalidOperationException(
+                    "Invalid tenant name. Must contain characters only and no spaces.");
+            }
+
+            if (tenant.Name == ShellSettings.DefaultName)
+            {
+                throw new InvalidOperationException("Invalid tenant name.");
+            }
+
+            var manager = this.HostContainer.Resolve<IShellSettingsManager>();
+
+            ShellSettings defaultTenant = manager.LoadSettings().FirstOrDefault(
+                x => x.Name == ShellSettings.DefaultName);
+
+            if (defaultTenant == null)
+            {
+                throw new InvalidOperationException("Failed to find default tenant.");
+            }
+
+            var newTenantSettings = new ShellSettings
+            {
+                Name = tenant.Name,
+                RequestUrlHost = tenant.RequestUrlHost,
+                RequestUrlPrefix = tenant.RequestUrlPrefix,
+                DataProvider = tenant.DataProvider,
+                DataConnectionString = tenant.DataConnectionString,
+                DataTablePrefix = tenant.DataTablePrefix,
+                State = TenantState.Uninitialized,
+                Themes = defaultTenant.Themes,
+                Modules = defaultTenant.Modules
+            };
+
+            manager.SaveSettings(newTenantSettings);
         }
 
         /// <summary>
