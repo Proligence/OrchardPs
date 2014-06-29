@@ -239,6 +239,7 @@
         <linkText>Disable-Tenant</linkText>
         <linkText>Enable-Tenant</linkText>
         <linkText>Get-Tenant</linkText>
+        <linkText>Remove-Tenant</linkText>
         <uri/>
       </navigationLink>
     </RelatedLinks>

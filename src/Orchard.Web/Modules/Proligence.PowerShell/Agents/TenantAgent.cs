@@ -8,10 +8,12 @@ namespace Proligence.PowerShell.Agents
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
     using Autofac;
     using Orchard.Environment.Configuration;
+    using Orchard.FileSystems.AppData;
     using Orchard.Management.PsProvider.Agents;
     using Proligence.PowerShell.Tenants.Items;
 
@@ -150,6 +152,34 @@ namespace Proligence.PowerShell.Agents
             };
 
             manager.SaveSettings(newTenantSettings);
+        }
+
+        /// <summary>
+        /// Removes an existing tenant.
+        /// </summary>
+        /// <param name="tenantName">The name of the tenant to remove.</param>
+        public void RemoveTenant(string tenantName)
+        {
+            if (string.IsNullOrEmpty(tenantName))
+            {
+                throw new ArgumentNullException("tenantName");
+            }
+
+            if (tenantName == ShellSettings.DefaultName)
+            {
+                throw new InvalidOperationException("Cannot remove default tenant.");
+            }
+
+            var manager = this.HostContainer.Resolve<IShellSettingsManager>();
+            var settings = manager.LoadSettings().FirstOrDefault(x => x.Name == tenantName);
+            if (settings == null)
+            {
+                throw new ArgumentException("Failed to find tenant '" + tenantName + "'.", "tenantName");
+            }
+
+            var appDataFolder = this.HostContainer.Resolve<IAppDataFolder>();
+            string filePath = Path.Combine(Path.Combine("Sites", settings.Name), "Settings.txt");
+            appDataFolder.DeleteFile(filePath);
         }
 
         /// <summary>
