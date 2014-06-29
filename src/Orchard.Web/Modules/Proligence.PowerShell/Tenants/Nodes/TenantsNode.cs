@@ -21,6 +21,7 @@ namespace Proligence.PowerShell.Tenants.Nodes
     [SupportedCmdlet("Enable-Tenant")]
     [SupportedCmdlet("Disable-Tenant")]
     [SupportedCmdlet("Remove-Tenant")]
+    [SupportedCmdlet("Edit-Tenant")]
     public class TenantsNode : ContainerNode 
     {
         /// <summary>

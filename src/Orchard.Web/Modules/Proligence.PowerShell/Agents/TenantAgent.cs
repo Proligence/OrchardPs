@@ -155,6 +155,33 @@ namespace Proligence.PowerShell.Agents
         }
 
         /// <summary>
+        /// Updates an existing tenant.
+        /// </summary>
+        /// <param name="tenant">The updated tenant.</param>
+        public void UpdateTenant(OrchardTenant tenant)
+        {
+            if (tenant == null)
+            {
+                throw new ArgumentNullException("tenant");
+            }
+
+            var manager = this.HostContainer.Resolve<IShellSettingsManager>();
+
+            ShellSettings settings = manager.LoadSettings().FirstOrDefault(x => x.Name == tenant.Name);
+            if (settings == null)
+            {
+                throw new ArgumentException("Failed to find tenant '" + tenant.Name + "'.", "tenant");
+            }
+
+            settings.RequestUrlHost = tenant.RequestUrlHost;
+            settings.RequestUrlPrefix = tenant.RequestUrlPrefix;
+            settings.DataProvider = tenant.DataProvider;
+            settings.DataConnectionString = tenant.DataConnectionString;
+            settings.DataTablePrefix = tenant.DataTablePrefix;
+            manager.SaveSettings(settings);
+        }
+
+        /// <summary>
         /// Removes an existing tenant.
         /// </summary>
         /// <param name="tenantName">The name of the tenant to remove.</param>

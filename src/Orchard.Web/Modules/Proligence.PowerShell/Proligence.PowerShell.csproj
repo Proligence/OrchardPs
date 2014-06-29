@@ -105,6 +105,7 @@
     <Compile Include="Tenants\Cmdlets\DisableTenant.cs" />
     <Compile Include="Tenants\Cmdlets\EnableTenant.cs" />
     <Compile Include="Tenants\Cmdlets\GetTenant.cs" />
+    <Compile Include="Tenants\Cmdlets\EditTenant.cs" />
     <Compile Include="Tenants\Cmdlets\NewTenant.cs" />
     <Compile Include="Tenants\Cmdlets\RemoveTenant.cs" />
     <Compile Include="Tenants\Items\OrchardTenant.cs" />
@@ -153,6 +154,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Tenants\Cmdlets\Disable-Tenant-help.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Tenants\Cmdlets\Edit-Tenant-help.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Tenants\Cmdlets\Remove-Tenant-help.xml">

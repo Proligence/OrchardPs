@@ -52,6 +52,12 @@ namespace Proligence.PowerShell.Agents
         void CreateTenant(OrchardTenant tenant);
 
         /// <summary>
+        /// Updates an existing tenant.
+        /// </summary>
+        /// <param name="tenant">The updated tenant.</param>
+        void UpdateTenant(OrchardTenant tenant);
+
+        /// <summary>
         /// Removes an existing tenant.
         /// </summary>
         /// <param name="tenantName">The name of the tenant to remove.</param>

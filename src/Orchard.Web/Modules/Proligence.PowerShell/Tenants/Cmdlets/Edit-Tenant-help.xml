@@ -1,0 +1,309 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<helpItems xmlns="http://msh" schema="maml">
+  <command:command 
+    xmlns:maml="http://schemas.microsoft.com/maml/2004/10"
+    xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10"
+    xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+
+    <!-- Cmdlet details section-->
+    
+    <command:details>
+      <command:name>Edit-Tenant</command:name>
+      <maml:description>
+        <maml:para>Edits the settings of an Orchard tenant.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Edit</command:verb>
+      <command:noun>Tenant</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+
+    <!-- Cmdlet description section-->
+    
+    <maml:description>
+      <maml:para>The Edit-Tenant cmdlet edits the settings of an existing Orchard tenant.</maml:para>
+      <maml:para>Only the explicitly specified Tenant properties are modified. Tenant properties for unspecified parameters remain unchanged.</maml:para>
+    </maml:description>
+
+    <!-- Cmdlet syntax section-->
+    
+    <command:syntax>
+      
+      <command:syntaxItem>
+        <maml:name>Edit-Tenant</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the tenant which will be edited.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>RequestUrlHost</maml:name>
+          <maml:description>
+            <maml:para>Specifies the new host name of the edited tenant. Example: If host is "orchardproject.net", the tenant site URL is "http://orchardproject.net/". You may define multiple domains using the comma (,) as a separator. Use the '*.' prefix to map all subdomains.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>RequestUrlPrefix</maml:name>
+          <maml:description>
+            <maml:para>Specifies the new URL prefix of the edited tenant. Example: If prefix is "site1", the tenant URL prefix is "http://orchardproject.net/site1".</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>DataConnectionString</maml:name>
+          <maml:description>
+            <maml:para>Specifies the new connection string to the database of the edited tenant.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>DataProvider</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the new data provider of the edited tenant.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>DataTablePrefix</maml:name>
+          <maml:description>
+            <maml:para>Specifies the new data table prefix of the edited tenant.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      
+      <command:syntaxItem>
+        <maml:name>Edit-Tenant</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true">
+          <maml:name>Tenant</maml:name>
+          <maml:description>
+            <maml:para>Specifies the object which represents the Orchard tenant to edit. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">OrchardTenant</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>RequestUrlHost</maml:name>
+          <maml:description>
+            <maml:para>Specifies the new host name of the edited tenant. Example: If host is "orchardproject.net", the tenant site URL is "http://orchardproject.net/". You may define multiple domains using the comma (,) as a separator. Use the '*.' prefix to map all subdomains.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>RequestUrlPrefix</maml:name>
+          <maml:description>
+            <maml:para>Specifies the new URL prefix of the edited tenant. Example: If prefix is "site1", the tenant URL prefix is "http://orchardproject.net/site1".</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>DataConnectionString</maml:name>
+          <maml:description>
+            <maml:para>Specifies the new connection string to the database of the edited tenant.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>DataProvider</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the new data provider of the edited tenant.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>DataTablePrefix</maml:name>
+          <maml:description>
+            <maml:para>Specifies the new data table prefix of the edited tenant.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      
+    </command:syntax>
+
+    <!-- Cmdlet parameters section-->
+    
+    <command:parameters>
+      
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the tenant which will be edited.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true">
+        <maml:name>Tenant</maml:name>
+        <maml:description>
+          <maml:para>Specifies the object which represents the Orchard tenant to edit. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">OrchardTenant</command:parameterValue>
+        <dev:type>
+          <maml:name>OrchardTenant</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>RequestUrlHost</maml:name>
+        <maml:description>
+          <maml:para>Specifies the new host name of the edited tenant. Example: If host is "orchardproject.net", the tenant site URL is "http://orchardproject.net/". You may define multiple domains using the comma (,) as a separator. Use the '*.' prefix to map all subdomains.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>RequestUrlPrefix</maml:name>
+        <maml:description>
+          <maml:para>Specifies the new URL prefix of the edited tenant. Example: If prefix is "site1", the tenant URL prefix is "http://orchardproject.net/site1".</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>DataConnectionString</maml:name>
+        <maml:description>
+          <maml:para>Specifies the new connection string to the database of the edited tenant.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>DataProvider</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the new data provider of the edited tenant.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>DataTablePrefix</maml:name>
+        <maml:description>
+          <maml:para>Specifies the new data table prefix of the edited tenant.</maml:para>
+        </maml:description>
+        <command:parameterValue required="fase" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      
+    </command:parameters>
+
+    <!-- Input - Output section-->
+    
+    <command:inputTypes />
+    <command:returnValues />
+
+    <!-- Error section-->
+    
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+
+    <!-- Notes section  -->
+
+    <maml:alertSet />
+
+    <!-- Example section  -->
+    
+    <command:examples>
+      
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>Orchard:\&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Edit-Tenant foo -RequestUrlHost foo.local.orchardps
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command sets 'foo.local.orchardps' as the request URL host of the tenant named 'foo'.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>Orchard:\&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Edit-Tenant foo -RequestUrlHost foo.local.orchardps -DataTablePrefix bar
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command sets 'foo.local.orchardps' as the request URL host of the tenant named 'foo', and sets 'bar' as the data table prefix for that tenat.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+    </command:examples>
+
+    <!-- Related links section  -->
+
+    <RelatedLinks>
+      <navigationLink>
+        <linkText>Get-Tenant</linkText>
+        <linkText>New-Tenant</linkText>
+        <linkText>Get-ChildItem</linkText>
+        <uri/>
+      </navigationLink>
+    </RelatedLinks>
+
+  </command:command>
+</helpItems>
