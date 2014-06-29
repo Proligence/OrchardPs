@@ -107,7 +107,7 @@ namespace Proligence.PowerShell.Modules.Cmdlets
 
             if (!string.IsNullOrEmpty(this.Name))
             {
-                features = features.Where(f => f.Name.Equals(this.Name, StringComparison.OrdinalIgnoreCase)).ToList();
+                features = features.Where(f => f.Name.WildcardEquals(this.Name)).ToList();
             }
 
             if (this.Enabled.ToBool())
