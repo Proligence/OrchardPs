@@ -58,7 +58,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="1">
           <maml:name>Name</maml:name>
           <maml:description>
-            <maml:para>Specifies the name of the Orchard theme to get. This parameter is required.</maml:para>
+            <maml:para>Specifies the name of the Orchard theme to get. This parameter is required. Wildcards are permitted.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="true">string</command:parameterValue>
         </command:parameter>
@@ -88,7 +88,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
           <maml:name>Name</maml:name>
           <maml:description>
-            <maml:para>Specifies the name of the Orchard theme to get.</maml:para>
+            <maml:para>Specifies the name of the Orchard theme to get. Wildcards are permitted.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
         </command:parameter>
@@ -124,7 +124,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="1">
           <maml:name>Name</maml:name>
           <maml:description>
-            <maml:para>Specifies the name of the Orchard theme to get.</maml:para>
+            <maml:para>Specifies the name of the Orchard theme to get. Wildcards are permitted.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
         </command:parameter>
@@ -151,7 +151,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
         <maml:name>Name</maml:name>
         <maml:description>
-          <maml:para>Specifies the name of the Orchard theme to get.</maml:para>
+          <maml:para>Specifies the name of the Orchard theme to get. Wildcards are permitted.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
         <dev:type>
