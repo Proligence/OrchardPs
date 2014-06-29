@@ -71,18 +71,14 @@ namespace Proligence.PowerShell.Tenants.Cmdlets
         /// <returns>Sequence of <see cref="OrchardTenant"/> objects.</returns>
         private IEnumerable<OrchardTenant> GetTenantsFromParameters()
         {
+            IEnumerable<OrchardTenant> tenants = this.tenantAgent.GetTenants();
+
             if (!string.IsNullOrEmpty(this.Name))
             {
-                OrchardTenant tenant = this.tenantAgent.GetTenant(this.Name);
-                if (tenant != null)
-                {
-                    yield return tenant;
-                }
+                tenants = tenants.Where(t => t.Name.WildcardEquals(this.Name));
             }
             else
             {
-                IEnumerable<OrchardTenant> tenants = this.tenantAgent.GetTenants();
-
                 if (this.Enabled.ToBool())
                 {
                     tenants = tenants.Where(t => t.State == TenantState.Running);
@@ -92,12 +88,9 @@ namespace Proligence.PowerShell.Tenants.Cmdlets
                 {
                     tenants = tenants.Where(t => t.State == TenantState.Disabled);
                 }
-
-                foreach (OrchardTenant tenant in tenants)
-                {
-                    yield return tenant;
-                }
             }
+
+            return tenants;
         }
     }
 }
