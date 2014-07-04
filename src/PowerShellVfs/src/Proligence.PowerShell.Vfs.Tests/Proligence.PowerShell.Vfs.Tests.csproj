@@ -57,9 +57,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SolutionInfo.cs">
-      <Link>SolutionInfo.cs</Link>
-    </Compile>
     <Compile Include="ExceptionExtensionsTests.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="DefaultPathValidatorTests.cs" />
