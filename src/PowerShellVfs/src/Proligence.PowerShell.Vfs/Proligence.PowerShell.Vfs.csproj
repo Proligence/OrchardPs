@@ -50,9 +50,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SolutionInfo.cs">
-      <Link>SolutionInfo.cs</Link>
-    </Compile>
     <Compile Include="Navigation\ContainerNode.cs" />
     <Compile Include="Navigation\DefaultPathValidator.cs" />
     <Compile Include="Navigation\PowerShellExtensionContainerAttribute.cs" />
