@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D0E90084-E1B3-49DA-8841-B1A1970EC2DD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Proligence.PowerShell.Vfs</RootNamespace>
+    <AssemblyName>Proligence.PowerShell.Vfs</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;CODE_ANALYSIS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>..\PowerShellVfs.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>..\PowerShellVfs.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Autofac">
+      <HintPath>..\..\lib\autofac\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Management.Automation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\lib\powershell\System.Management.Automation.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SolutionInfo.cs">
+      <Link>SolutionInfo.cs</Link>
+    </Compile>
+    <Compile Include="Navigation\ContainerNode.cs" />
+    <Compile Include="Navigation\DefaultPathValidator.cs" />
+    <Compile Include="Navigation\PowerShellExtensionContainerAttribute.cs" />
+    <Compile Include="Utils\ErrorIds.cs" />
+    <Compile Include="Utils\ExceptionExtensions.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Navigation\INavigationProviderManager.cs" />
+    <Compile Include="Navigation\IPathValidator.cs" />
+    <Compile Include="Core\IPowerShellConsole.cs" />
+    <Compile Include="Core\IPowerShellVfs.cs" />
+    <Compile Include="Navigation\IPsNavigationProvider.cs">
+      <SubType>
+      </SubType>
+    </Compile>
+    <Compile Include="Navigation\NavigationProviderManager.cs">
+      <SubType>
+      </SubType>
+    </Compile>
+    <Compile Include="Navigation\NodeType.cs" />
+    <Compile Include="Navigation\ObjectNode.cs" />
+    <Compile Include="PowerShellVfsModule.cs" />
+    <Compile Include="Utils\ThrowHelper.cs" />
+    <Compile Include="Provider\VfsProviderExtensions.cs" />
+    <Compile Include="Provider\VfsProviderInfo.cs" />
+    <Compile Include="Provider\VfsDriveInfo.cs" />
+    <Compile Include="Provider\VfsProviderException.cs" />
+    <Compile Include="Provider\VfsProvider.cs" />
+    <Compile Include="Core\PowerShellVfs.cs" />
+    <Compile Include="Navigation\VfsNode.cs" />
+    <Compile Include="Core\PowerShellConsole.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Navigation\PsNavigationProvider.cs" />
+    <Compile Include="Navigation\PsNavigationProviderExtensions.cs" />
+    <Compile Include="Navigation\RootVfsNode.cs" />
+    <Compile Include="Navigation\SymbolicLinkNode.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
