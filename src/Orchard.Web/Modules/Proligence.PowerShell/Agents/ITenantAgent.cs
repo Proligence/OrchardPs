@@ -6,6 +6,8 @@
 
 namespace Proligence.PowerShell.Agents
 {
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using Orchard.Management.PsProvider.Agents;
     using Proligence.PowerShell.Tenants.Items;
 
@@ -62,5 +64,28 @@ namespace Proligence.PowerShell.Agents
         /// </summary>
         /// <param name="tenantName">The name of the tenant to remove.</param>
         void RemoveTenant(string tenantName);
+
+        /// <summary>
+        /// Gets the names of all supported tenant settings.
+        /// </summary>
+        /// <returns>A sequence of setting names.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
+        IEnumerable<string> GetTenantSettingNames();
+
+        /// <summary>
+        /// Gets the value of the specified tenant setting.
+        /// </summary>
+        /// <param name="tenantName">The name of the tenant.</param>
+        /// <param name="settingName">The name of the setting to get.</param>
+        /// <returns>The value of the tenant setting.</returns>
+        object GetTenantSetting(string tenantName, string settingName);
+
+        /// <summary>
+        /// Updates the value of the specified tenant setting.
+        /// </summary>
+        /// <param name="tenantName">The name of the tenant.</param>
+        /// <param name="settingName">The name of the setting to update.</param>
+        /// <param name="value">The new value for the tenant setting.</param>
+        void UpdateTenantSetting(string tenantName, string settingName, object value);
     }
 }

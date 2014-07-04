@@ -10,11 +10,14 @@ namespace Proligence.PowerShell.Agents
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Text.RegularExpressions;
     using Autofac;
+    using Orchard;
     using Orchard.Environment.Configuration;
     using Orchard.FileSystems.AppData;
     using Orchard.Management.PsProvider.Agents;
+    using Orchard.Settings;
     using Proligence.PowerShell.Tenants.Items;
 
     /// <summary>
@@ -207,6 +210,59 @@ namespace Proligence.PowerShell.Agents
             var appDataFolder = this.HostContainer.Resolve<IAppDataFolder>();
             string filePath = Path.Combine(Path.Combine("Sites", settings.Name), "Settings.txt");
             appDataFolder.DeleteFile(filePath);
+        }
+
+        /// <summary>
+        /// Gets the names of all supported tenant settings.
+        /// </summary>
+        /// <returns>A sequence of setting names.</returns>
+        public IEnumerable<string> GetTenantSettingNames()
+        {
+            return typeof(ISite).GetProperties().Select(p => p.Name).ToArray();
+        }
+
+        /// <summary>
+        /// Gets the value of the specified tenant setting.
+        /// </summary>
+        /// <param name="tenantName">The name of the tenant.</param>
+        /// <param name="settingName">The name of the setting to get.</param>
+        /// <returns>The value of the tenant setting.</returns>
+        public object GetTenantSetting(string tenantName, string settingName)
+        {
+            using (IWorkContextScope scope = this.CreateWorkContextScope(tenantName))
+            {
+                ISite currentSite = scope.WorkContext.CurrentSite;
+
+                PropertyInfo property = currentSite.GetType().GetProperty(settingName);
+                if (property == null)
+                {
+                    throw new ArgumentException("Invalid tenant setting: " + settingName, "settingName");
+                }
+
+                return property.GetValue(currentSite);
+            }
+        }
+
+        /// <summary>
+        /// Updates the value of the specified tenant setting.
+        /// </summary>
+        /// <param name="tenantName">The name of the tenant.</param>
+        /// <param name="settingName">The name of the setting to update.</param>
+        /// <param name="value">The new value for the tenant setting.</param>
+        public void UpdateTenantSetting(string tenantName, string settingName, object value)
+        {
+            using (IWorkContextScope scope = this.CreateWorkContextScope(tenantName))
+            {
+                ISite currentSite = scope.WorkContext.CurrentSite;
+                
+                PropertyInfo property = currentSite.GetType().GetProperty(settingName);
+                if (property == null)
+                {
+                    throw new ArgumentException("Invalid tenant setting: " + settingName, "settingName");
+                }
+
+                property.SetValue(currentSite, value);
+            }
         }
 
         /// <summary>

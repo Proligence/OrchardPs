@@ -106,6 +106,8 @@
     <Compile Include="Tenants\Cmdlets\NewTenant.cs" />
     <Compile Include="Tenants\Cmdlets\RemoveTenant.cs" />
     <Compile Include="Tenants\Items\OrchardTenant.cs" />
+    <Compile Include="Tenants\NavigationProviders\TenantConfigurationPsNavigationProvider.cs" />
+    <Compile Include="Tenants\Nodes\TenantConfigurationNode.cs" />
     <Compile Include="Tenants\Nodes\TenantNode.cs" />
     <Compile Include="Tenants\Nodes\TenantsNode.cs" />
     <Compile Include="Tenants\NavigationProviders\TenantsPsNavigationProvider.cs" />
