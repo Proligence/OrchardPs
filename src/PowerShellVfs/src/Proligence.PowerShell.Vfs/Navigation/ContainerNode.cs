@@ -187,8 +187,8 @@ namespace Proligence.PowerShell.Vfs.Navigation
 
                 if (nextNode == null) 
                 {
-                    IEnumerable<VfsNode> virtualNodes = containerNode.GetVirtualNodes();
-                    if (virtualNodes != null) 
+                    IEnumerable<VfsNode> virtualNodes = containerNode.GetVirtualNodes().ToArray();
+                    if (virtualNodes.Any()) 
                     {
                         nextNode = virtualNodes.FirstOrDefault(
                             n => n.Name.Equals(pathParts[index], StringComparison.Ordinal));

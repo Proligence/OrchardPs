@@ -10,7 +10,7 @@ namespace Proligence.PowerShell.Vfs.Core
     using System.Management.Automation;
 
     /// <summary>
-    /// Provides access to the PowerShell-controled console output.
+    /// Provides access to the PowerShell-controlled console output.
     /// </summary>
     public interface IPowerShellConsole 
     {

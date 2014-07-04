@@ -6,7 +6,6 @@
 
 namespace Proligence.PowerShell.Vfs.Tests
 {
-    using System.Runtime.InteropServices;
     using NUnit.Framework;
     using Proligence.PowerShell.Vfs.Navigation;
 

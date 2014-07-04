@@ -34,7 +34,7 @@ namespace Proligence.PowerShell.Vfs.Provider
                 throw new ArgumentNullException("node");
             }
 
-            provider.WriteItemObject(node.Item, node.GetPath(), node is ContainerNode);
+            provider.WriteItemObject(node.Item ?? node.Name, node.GetPath(), node is ContainerNode);
         }
 
         /// <summary>
