@@ -50,9 +50,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Navigation\CachedPropertyStoreNode.cs" />
     <Compile Include="Navigation\ContainerNode.cs" />
     <Compile Include="Navigation\DefaultPathValidator.cs" />
     <Compile Include="Navigation\PowerShellExtensionContainerAttribute.cs" />
+    <Compile Include="Navigation\PropertyNode.cs" />
+    <Compile Include="Navigation\PropertyStoreNode.cs" />
     <Compile Include="Utils\ErrorIds.cs" />
     <Compile Include="Utils\ExceptionExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
