@@ -12,7 +12,7 @@ namespace Proligence.PowerShell.Vfs.Navigation
     public interface IPathValidator
     {
         /// <summary>
-        /// Determines whether the specified path is syntatically valid.
+        /// Determines whether the specified path is syntactically valid.
         /// </summary>
         /// <param name="path">The path to validate.</param>
         /// <returns><c>true</c> if the specified path is valid path; otherwise, <c>false</c>.</returns>

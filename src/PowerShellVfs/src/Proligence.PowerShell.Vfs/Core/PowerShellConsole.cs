@@ -13,7 +13,7 @@ namespace Proligence.PowerShell.Vfs.Core
     using Proligence.PowerShell.Vfs.Provider;
 
     /// <summary>
-    /// Provides access to the PowerShell-controled console output.
+    /// Provides access to the PowerShell-controlled console output.
     /// </summary>
     public class PowerShellConsole : IPowerShellConsole 
     {
