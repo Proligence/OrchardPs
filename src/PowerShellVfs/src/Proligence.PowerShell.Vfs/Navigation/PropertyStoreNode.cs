@@ -47,24 +47,24 @@ namespace Proligence.PowerShell.Vfs.Navigation
         }
 
         /// <summary>
+        /// Gets the keys of the property store.
+        /// </summary>
+        /// <returns>A sequence of key names.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
+        public abstract IEnumerable<string> GetKeys();
+
+        /// <summary>
         /// Sets the value of the specified key.
         /// </summary>
         /// <param name="name">The name of the key to set.</param>
         /// <param name="value">The value to set.</param>
-        protected internal abstract void SetValue(string name, object value);
+        public abstract void SetValue(string name, object value);
 
         /// <summary>
         /// Gets the value of the specified key.
         /// </summary>
         /// <param name="name">The name of the key.</param>
         /// <returns>The value of the specified key.</returns>
-        protected abstract object GetValue(string name);
-
-        /// <summary>
-        /// Gets the keys of the property store.
-        /// </summary>
-        /// <returns>A sequence of key names.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
-        protected abstract IEnumerable<string> GetKeys();
+        public abstract object GetValue(string name);
     }
 }

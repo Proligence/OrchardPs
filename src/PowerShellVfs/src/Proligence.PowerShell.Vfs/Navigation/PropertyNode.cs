@@ -25,6 +25,10 @@ namespace Proligence.PowerShell.Vfs.Navigation
             : base(parent.Vfs, name, new DictionaryEntry(name, value))
         {
             this.SetItemHandler = (node, v) => parent.SetValue(node.Name, v);
+            this.ClearItemHandler = node => parent.SetValue(node.Name, null);
+            this.SetContentHandler = node => new PropertyContentWriter(node.Name, parent);
+            this.GetContentHandler = node => new PropertyContentReader(node.Name, parent);
+            this.ClearContentHandler = node => parent.SetValue(node.Name, null);
         }
     }
 }
