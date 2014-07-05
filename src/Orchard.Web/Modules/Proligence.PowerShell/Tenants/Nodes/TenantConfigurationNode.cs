@@ -54,7 +54,7 @@ namespace Proligence.PowerShell.Tenants.Nodes
         /// Gets the keys of the property store.
         /// </summary>
         /// <returns>A sequence of key names.</returns>
-        protected override IEnumerable<string> GetKeys()
+        public override IEnumerable<string> GetKeys()
         {
             // ReSharper disable once ConvertIfStatementToNullCoalescingExpression
             if (this.keys == null)
