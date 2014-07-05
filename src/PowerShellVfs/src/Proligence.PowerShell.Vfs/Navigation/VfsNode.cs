@@ -50,7 +50,7 @@ namespace Proligence.PowerShell.Vfs.Navigation
         /// <summary>
         /// Gets or sets the node's parent node.
         /// </summary>
-        public VfsNode Parent { get; protected internal set; }
+        public VfsNode Parent { get; set; }
 
         /// <summary>
         /// Gets or sets the item encapsulated by the node.
