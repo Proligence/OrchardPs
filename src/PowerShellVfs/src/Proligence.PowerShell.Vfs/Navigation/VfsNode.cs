@@ -8,6 +8,7 @@ namespace Proligence.PowerShell.Vfs.Navigation
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+    using System.Management.Automation.Provider;
     using Proligence.PowerShell.Vfs.Core;
 
     /// <summary>
@@ -31,6 +32,9 @@ namespace Proligence.PowerShell.Vfs.Navigation
             this.MoveItemName = "Move item";
             this.RemoveItemName = "Remove item";
             this.RenameItemName = "Rename item";
+            this.GetContentName = "Get content";
+            this.SetContentName = "Set content";
+            this.ClearContentName = "Clear content";
         }
 
         /// <summary>
@@ -122,6 +126,54 @@ namespace Proligence.PowerShell.Vfs.Navigation
         /// Gets or sets the name of the action performed by the <c>Rename-Item</c> cmdlet.
         /// </summary>
         public string RenameItemName { get; protected set; }
+
+        /// <summary>
+        /// Gets or sets the function which implements the <c>Get-Content</c> cmdlet.
+        /// </summary>
+        public Func<VfsNode, IContentReader> GetContentHandler { get; protected set; }
+
+        /// <summary>
+        /// Gets or sets the name of the action performed by the <c>Get-Content</c> cmdlet.
+        /// </summary>
+        public string GetContentName { get; protected set; }
+
+        /// <summary>
+        /// Gets or sets the function which returns an object with additional parameters for the <c>Get-Content</c>
+        /// cmdlet.
+        /// </summary>
+        public Func<VfsNode, object> GetContentDynamicParametersHandler { get; protected set; }
+
+        /// <summary>
+        /// Gets or sets the function which implements the <c>Set-Content</c> cmdlet.
+        /// </summary>
+        public Func<VfsNode, IContentWriter> SetContentHandler { get; protected set; }
+
+        /// <summary>
+        /// Gets or sets the name of the action performed by the <c>Set-Content</c> cmdlet.
+        /// </summary>
+        public string SetContentName { get; protected set; }
+
+        /// <summary>
+        /// Gets or sets the function which returns an object with additional parameters for the <c>Set-Content</c>
+        /// cmdlet.
+        /// </summary>
+        public Func<VfsNode, object> SetContentDynamicParametersHandler { get; protected set; }
+
+        /// <summary>
+        /// Gets or sets the action which implements the <c>Clear-Content</c> cmdlet.
+        /// </summary>
+        public Action<VfsNode> ClearContentHandler { get; protected set; }
+
+        /// <summary>
+        /// Gets or sets the name of the action performed by the <c>Clear-Content</c> cmdlet.
+        /// </summary>
+        public string ClearContentName { get; protected set; }
+
+        /// <summary>
+        /// Gets or sets the function which returns an object with additional parameters for the <c>Clear-Content</c>
+        /// cmdlet.
+        /// </summary>
+        public Func<VfsNode, object> ClearContentDynamicParametersHandler { get; protected set; }
 
         /// <summary>
         /// Gets the full path of the node.

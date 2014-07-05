@@ -19,7 +19,7 @@ namespace Proligence.PowerShell.Vfs.Provider
     /// <summary>
     /// Implements the VFS PS Provider.
     /// </summary>
-    public abstract class VfsProvider : NavigationCmdletProvider 
+    public abstract class VfsProvider : NavigationCmdletProvider, IContentCmdletProvider
     {
         /// <summary>
         /// The objects which provides access to the PowerShell-controlled console.
@@ -73,6 +73,120 @@ namespace Proligence.PowerShell.Vfs.Provider
 
                 return this.console;
             }
+        }
+
+        /// <summary>
+        /// Gets a content reader for the specified item.
+        /// </summary>
+        /// <param name="path">Path to the item to be read.</param>
+        /// <returns>An <see cref="IContentReader"/> interface for the content reader.</returns>
+        public IContentReader GetContentReader(string path)
+        {
+            this.Trace("GetContentReader(Path='{0}')", path);
+
+            IContentReader reader = this.InvokeHandler<VfsNode, IContentReader>(
+                node => node.GetContentHandler,
+                node => node.GetContentName,
+                path);
+
+            if (reader == null)
+            {
+                throw new NotSupportedException();
+            }
+
+            return reader;
+        }
+
+        /// <summary>
+        /// Retrieves any additional parameters required by this implementation of the <c>Get-Content</c> cmdlet.
+        /// </summary>
+        /// <param name="path">Path to the item whose content is to be read.</param>
+        /// <returns>
+        /// An object that has properties and fields decorated with parsing attributes similar to a cmdlet class.
+        /// </returns>
+        public object GetContentReaderDynamicParameters(string path)
+        {
+            this.Trace("GetContentReaderDynamicParameters(Path='{0}')", path);
+
+            return this.InvokeHandler<VfsNode, object>(
+                node => node.GetContentDynamicParametersHandler,
+                null,
+                path);
+        }
+
+        /// <summary>
+        /// Gets a content writer for the specified item.
+        /// </summary>
+        /// <param name="path">Path to the item to be written to.</param>
+        /// <returns>An <see cref="IContentWriter"/> interface for the content writer.</returns>
+        public IContentWriter GetContentWriter(string path)
+        {
+            this.Trace("GetContentWriter(Path='{0}')", path);
+
+            IContentWriter writer = this.InvokeHandler<VfsNode, IContentWriter>(
+                node => node.SetContentHandler,
+                node => node.SetContentName,
+                path);
+
+            if (writer == null)
+            {
+                throw new NotSupportedException();
+            }
+
+            return writer;
+        }
+
+        /// <summary>
+        /// Retrieves any additional parameters that are required by this implementation of the <c>Set-Content</c>
+        /// cmdlet.
+        /// </summary>
+        /// <param name="path">Path to the item to be written to.</param>
+        /// <returns>
+        /// An object that has properties and fields decorated with parsing attributes similar to a cmdlet class.
+        /// </returns>
+        public object GetContentWriterDynamicParameters(string path)
+        {
+            this.Trace("GetContentWriterDynamicParameters(Path='{0}')", path);
+
+            return this.InvokeHandler<VfsNode, object>(
+                node => node.SetContentDynamicParametersHandler,
+                null,
+                path);
+        }
+
+        /// <summary>
+        /// Clears the content of the specified item.
+        /// </summary>
+        /// <param name="path">The path to the item to be cleared.</param>
+        public void ClearContent(string path)
+        {
+            this.Trace("ClearContent(Path='{0}')", path);
+
+            if (!this.InvokeHandler(
+                node => node.ClearContentHandler,
+                node => node.ClearContentName,
+                path))
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+        /// <summary>
+        /// Retrieves any additional parameters that are required by this implementation of the <c>Clear-Item</c>
+        /// cmdlet.
+        /// </summary>
+        /// <param name="path">Path to the item to be cleared.</param>
+        /// <returns>
+        /// An object that has properties and fields decorated with parsing attributes similar to a cmdlet class.
+        /// </returns>
+        public object ClearContentDynamicParameters(string path)
+        {
+            this.Trace("ClearContentDynamicParameters(Path='{0}')", path);
+
+            return this.InvokeHandler<VfsNode, object>(
+                node => node.ClearContentDynamicParametersHandler,
+                null,
+                path);
         }
 
         /// <summary>
@@ -681,6 +795,48 @@ namespace Proligence.PowerShell.Vfs.Provider
         /// Invokes a node handler.
         /// </summary>
         /// <typeparam name="TNode">The type of the VFS node on which the handler will be invoked.</typeparam>
+        /// <typeparam name="TResult">The type of the handler's result.</typeparam>
+        /// <param name="handlerSelector">The function which returns the action to invoke.</param>
+        /// <param name="actionNameSelector">The name of the invoked action.</param>
+        /// <param name="path">The VFS path.</param>
+        /// <returns><c>true</c> if a handler was invoked; otherwise, <c>false</c>.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
+        protected TResult InvokeHandler<TNode, TResult>(
+            Func<TNode, Func<TNode, TResult>> handlerSelector,
+            Func<TNode, string> actionNameSelector,
+            string path)
+            where TNode : VfsNode
+        {
+            return this.InvokeHandlerGeneric(
+                path,
+                actionNameSelector,
+                node =>
+                {
+                    Func<TNode, TResult> handler = handlerSelector(node);
+                    if (handler == null)
+                    {
+                        return default(TResult);
+                    }
+
+                    TResult result = default(TResult);
+
+                    this.Try(
+                        () =>
+                        {
+                            result = handler(node);
+                        },
+                        ErrorIds.HandlerError,
+                        ErrorCategory.NotSpecified,
+                        node);
+
+                    return result;
+                });
+        }
+
+        /// <summary>
+        /// Invokes a node handler.
+        /// </summary>
+        /// <typeparam name="TNode">The type of the VFS node on which the handler will be invoked.</typeparam>
         /// <typeparam name="T1">The type of the first argument for the handler.</typeparam>
         /// <typeparam name="T2">The type of the second argument for the handler.</typeparam>
         /// <param name="handlerSelector">The function which returns the action to invoke.</param>
@@ -765,6 +921,53 @@ namespace Proligence.PowerShell.Vfs.Provider
                 });
 
             return handled;
+        }
+
+        /// <summary>
+        /// Invokes a node handler.
+        /// </summary>
+        /// <typeparam name="TNode">The type of the VFS node on which the handler will be invoked.</typeparam>
+        /// <typeparam name="TResult">The type of the handler's result.</typeparam>
+        /// <param name="path">The path of the node on which the handler will be invoked.</param>
+        /// <param name="actionNameSelector">The name of the invoked action.</param>
+        /// <param name="action">The handler action to invoke.</param>
+        /// <returns><c>true</c> if a handler was invoked; otherwise, <c>false</c>.</returns>
+        protected TResult InvokeHandlerGeneric<TNode, TResult>(
+            string path,
+            Func<TNode, string> actionNameSelector,
+            Func<TNode, TResult> action)
+            where TNode : VfsNode
+        {
+            TResult result = default(TResult);
+
+            this.ForNode(
+                path,
+                node =>
+                {
+                    var typedNode = node as TNode;
+                    if (typedNode == null)
+                    {
+                        this.WriteError(
+                            new InvalidOperationException("The operation is not valid for this item."),
+                            ErrorIds.HandlerError,
+                            ErrorCategory.InvalidArgument,
+                            node);
+
+                        return;
+                    }
+
+                    if (actionNameSelector != null)
+                    {
+                        if (!this.ShouldProcess(node.Name, actionNameSelector(typedNode)))
+                        {
+                            return;
+                        }
+                    }
+
+                    result = action(typedNode);
+                });
+
+            return result;
         }
     }
 }
