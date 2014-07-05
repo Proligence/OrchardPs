@@ -62,6 +62,7 @@ namespace Proligence.PowerShell.Tenants.Nodes
                     }
 
                     this.tenantNodes.Add(navigationProvider.Node);
+                    navigationProvider.Node.Parent = this;
                 }
             }
 
