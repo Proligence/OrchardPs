@@ -69,7 +69,7 @@ namespace Proligence.PowerShell.Vfs.Navigation
         /// </summary>
         /// <param name="name">The name of the key to set.</param>
         /// <param name="value">The value to set.</param>
-        protected internal override void SetValue(string name, object value)
+        public override void SetValue(string name, object value)
         {
             this.SetValueInternal(name, value);
             this.cache.Remove(name);
@@ -80,7 +80,7 @@ namespace Proligence.PowerShell.Vfs.Navigation
         /// </summary>
         /// <param name="name">The name of the key.</param>
         /// <returns>The value of the specified key.</returns>
-        protected override object GetValue(string name)
+        public override object GetValue(string name)
         {
             PropertyNode propertyNode;
             if (this.cache.TryGetValue(name, out propertyNode))

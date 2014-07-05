@@ -54,6 +54,8 @@
     <Compile Include="Navigation\ContainerNode.cs" />
     <Compile Include="Navigation\DefaultPathValidator.cs" />
     <Compile Include="Navigation\PowerShellExtensionContainerAttribute.cs" />
+    <Compile Include="Navigation\PropertyContentReader.cs" />
+    <Compile Include="Navigation\PropertyContentWriter.cs" />
     <Compile Include="Navigation\PropertyNode.cs" />
     <Compile Include="Navigation\PropertyStoreNode.cs" />
     <Compile Include="Utils\ErrorIds.cs" />
