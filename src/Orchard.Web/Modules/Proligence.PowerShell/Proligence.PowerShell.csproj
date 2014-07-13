@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="Agents\CommandAgent.cs" />
     <Compile Include="Agents\ICommandAgent.cs" />
+    <Compile Include="Agents\IContentAgent.cs" />
     <Compile Include="Agents\IModulesAgent.cs" />
     <Compile Include="Agents\ITenantAgent.cs" />
     <Compile Include="Agents\ModulesAgent.cs" />
@@ -82,6 +83,14 @@
     <Compile Include="Common\Items\CollectionItem.cs" />
     <Compile Include="Common\Extensions\VfsNodeExtensions.cs" />
     <Compile Include="Common\Items\DescriptionItem.cs" />
+    <Compile Include="Content\Items\OrchardContentFieldDefinition.cs" />
+    <Compile Include="Content\Items\OrchardContentPartDefinition.cs" />
+    <Compile Include="Content\NavigationProviders\ContentPsNavigationProvider.cs" />
+    <Compile Include="Content\Nodes\ContentPartNode.cs" />
+    <Compile Include="Content\Nodes\ContentFieldNode.cs" />
+    <Compile Include="Content\Nodes\ContentFieldsNode.cs" />
+    <Compile Include="Content\Nodes\ContentNode.cs" />
+    <Compile Include="Content\Nodes\ContentPartsNode.cs" />
     <Compile Include="Modules\Cmdlets\DisableOrchardFeature.cs" />
     <Compile Include="Modules\Cmdlets\EnableOrchardFeature.cs" />
     <Compile Include="Modules\Cmdlets\EnableOrchardTheme.cs" />
@@ -181,6 +190,9 @@
     <None Include="Commands\Commands.format.ps1xml" />
     <None Include="Common\Common.format.ps1xml" />
     <Content Include="Modules\Modules.format.ps1xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\Content.format.ps1xml">
       <SubType>Designer</SubType>
     </Content>
     <None Include="Tenants\Sites.format.ps1xml" />
