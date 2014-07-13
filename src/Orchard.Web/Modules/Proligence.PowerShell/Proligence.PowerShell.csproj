@@ -81,6 +81,7 @@
     <Compile Include="Common\Extensions\OrchardCmdletExtensions.cs" />
     <Compile Include="Common\Items\CollectionItem.cs" />
     <Compile Include="Common\Extensions\VfsNodeExtensions.cs" />
+    <Compile Include="Common\Items\DescriptionItem.cs" />
     <Compile Include="Modules\Cmdlets\DisableOrchardFeature.cs" />
     <Compile Include="Modules\Cmdlets\EnableOrchardFeature.cs" />
     <Compile Include="Modules\Cmdlets\EnableOrchardTheme.cs" />

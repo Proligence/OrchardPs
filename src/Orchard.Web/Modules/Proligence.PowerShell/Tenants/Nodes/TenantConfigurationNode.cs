@@ -11,6 +11,7 @@ namespace Proligence.PowerShell.Tenants.Nodes
     using Orchard.Management.PsProvider;
     using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Common.Extensions;
+    using Proligence.PowerShell.Common.Items;
     using Proligence.PowerShell.Vfs.Core;
     using Proligence.PowerShell.Vfs.Navigation;
 
@@ -37,6 +38,12 @@ namespace Proligence.PowerShell.Tenants.Nodes
             : base(vfs, "Settings")
         {
             this.agent = agent;
+            
+            this.Item = new DescriptionItem
+            {
+                Name = "Settings",
+                Description = "Contains the settings of the current tenant."
+            };
         }
 
         /// <summary>

@@ -5,6 +5,7 @@
       <Name>CollectionItemView</Name>
       <ViewSelectedBy>
         <TypeName>Proligence.PowerShell.Common.Items.CollectionItem</TypeName>
+        <TypeName>Proligence.PowerShell.Common.Items.DescriptionItem</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
@@ -34,8 +35,8 @@
 <!-- SIG # Begin signature block -->
 <!-- MIIFsAYJKoZIhvcNAQcCoIIFoTCCBZ0CAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB -->
 <!-- gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR -->
-<!-- AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU4rpkmC17Axq3lE93OrwISZnR -->
-<!-- wEOgggM6MIIDNjCCAiKgAwIBAgIQQaB/8txRJqtGHUmnID7OxzAJBgUrDgMCHQUA -->
+<!-- AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUTvEVDQJ9Orz0u2igP7TNPRpJ -->
+<!-- g+agggM6MIIDNjCCAiKgAwIBAgIQQaB/8txRJqtGHUmnID7OxzAJBgUrDgMCHQUA -->
 <!-- MCsxKTAnBgNVBAMTIE9yY2hhcmRQcyBMb2NhbCBDZXJ0aWZpY2F0ZSBSb290MB4X -->
 <!-- DTEzMDYyNjA4MTk0MloXDTM5MTIzMTIzNTk1OVowFDESMBAGA1UEAxMJT3JjaGFy -->
 <!-- ZFBzMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArNiyrLbE2VGmEUDV -->
@@ -56,11 +57,11 @@
 <!-- ZFBzIExvY2FsIENlcnRpZmljYXRlIFJvb3QCEEGgf/LcUSarRh1JpyA+zscwCQYF -->
 <!-- Kw4DAhoFAKB4MBgGCisGAQQBgjcCAQwxCjAIoAKAAKECgAAwGQYJKoZIhvcNAQkD -->
 <!-- MQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIBCzEOMAwGCisGAQQBgjcCARUwIwYJ -->
-<!-- KoZIhvcNAQkEMRYEFOP3DeAOzdPZ4rwBXBT+co3GunmJMA0GCSqGSIb3DQEBAQUA -->
-<!-- BIIBAIotG/DCMYPJEOJenAID1FyiD0oUeOpxFKAD7RmCqXAO0MwDKjsfUuVhCZ9B -->
-<!-- XdQTgD3uhP7BFNrf5KdiwKroa3auF+i3QdYoVjckzt/YDRjMGLp5j/6S1tu7O84W -->
-<!-- 0OrdPuyzyvNRkR828oJ6A+gu1DuVPMTDNVBkD7JkYjeBD4CI6L+5pQYzaSi0+tSM -->
-<!-- S93sK+EBK+T7w5XwHfe53fGH2elgr2kZ57iief0Y3AQn2m/pK0tOZF1g+6ShnHPC -->
-<!-- jEnl5m0dcgy2Y3eEqRz3cXZeL5kz/rzEmumtgVIywpaUKbUir3jBx1XbHmzPU/Fq -->
-<!-- O06mU0agnCvyNPzIhiDh1kSjzwA= -->
+<!-- KoZIhvcNAQkEMRYEFL5Mt9O6k4SXc3tXuNs1NyJDsOQuMA0GCSqGSIb3DQEBAQUA -->
+<!-- BIIBAIQDEK24UC+PxCFiZ26tcr+F4/G99HS0AIKeMr8Qv5G6BAWnzYfBrE34RLXr -->
+<!-- aulds/rMd9pzW2POmAaFyq7cB5wAfkkYxmIEFHSB7M98PamO4ZIEH3sjmeQBiMW6 -->
+<!-- BkhUIw3K2SjSk1Veyime4DEIzadKuBjrxfsjMvG+DcGqIsBwbG1/Vh9L9SfarWPR -->
+<!-- 5dzj6t3csgDdCfg2RdwXiIbe4UbT6IObaCu1LUnhbWySHjtE4tn0AIsuk+njnwWh -->
+<!-- 2zMiUxstSKTc2CIrngTVL3haJWktZJ882wvZaTlfSiDSxB6HAluNrqdK1i9MKBCk -->
+<!-- x0XkZq5kPib63KseomaBlji36fU= -->
 <!-- SIG # End signature block -->
