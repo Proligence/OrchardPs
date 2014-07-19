@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DisableOrchardFeature.cs" company="Proligence">
-//   Proligence Confidential, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Proligence.PowerShell.Modules.Cmdlets
+﻿namespace Proligence.PowerShell.Modules.Cmdlets
 {
     using System;
     using System.Collections.Generic;

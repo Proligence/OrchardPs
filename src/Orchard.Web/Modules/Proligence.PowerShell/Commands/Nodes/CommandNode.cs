@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CommandNode.cs" company="Proligence">
-//   Proligence Confidential, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Proligence.PowerShell.Commands.Nodes 
+﻿namespace Proligence.PowerShell.Commands.Nodes 
 {
     using System.Diagnostics.CodeAnalysis;
     using Orchard.Management.PsProvider;

@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ContentFieldsNode.cs" company="Proligence">
-//   Proligence Confidential, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Proligence.PowerShell.Content.Nodes
+﻿namespace Proligence.PowerShell.Content.Nodes
 {
     using System.Collections.Generic;
     using System.Linq;

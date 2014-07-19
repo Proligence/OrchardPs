@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="OrchardContentPartDefinition.cs" company="Proligence">
-//   Proligence Confidential, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Proligence.PowerShell.Content.Items
+﻿namespace Proligence.PowerShell.Content.Items
 {
     using System;
     using System.Collections.Generic;

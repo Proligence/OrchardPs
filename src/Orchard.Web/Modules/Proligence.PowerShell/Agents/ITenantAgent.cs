@@ -1,9 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ITenantAgent.cs" company="Proligence">
-//   Copyright (c) 2011 Proligence, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace Proligence.PowerShell.Agents
 {
     using System.Collections.Generic;

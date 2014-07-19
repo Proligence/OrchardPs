@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ModuleNode.cs" company="Proligence">
-//   Proligence Confidential, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Proligence.PowerShell.Modules.Nodes 
+﻿namespace Proligence.PowerShell.Modules.Nodes 
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;

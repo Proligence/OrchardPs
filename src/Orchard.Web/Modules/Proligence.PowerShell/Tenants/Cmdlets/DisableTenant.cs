@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DisableTenant.cs" company="Proligence">
-//   Proligence Confidential, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Proligence.PowerShell.Tenants.Cmdlets
+﻿namespace Proligence.PowerShell.Tenants.Cmdlets
 {
     using System;
     using System.Management.Automation;

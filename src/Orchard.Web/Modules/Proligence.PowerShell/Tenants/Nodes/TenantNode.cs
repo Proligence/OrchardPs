@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TenantNode.cs" company="Proligence">
-//   Proligence Confidential, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Proligence.PowerShell.Tenants.Nodes 
+﻿namespace Proligence.PowerShell.Tenants.Nodes 
 {
     using System;
     using System.Collections.Generic;

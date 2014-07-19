@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="InvokeOrchardCommand.cs" company="Proligence">
-//   Proligence Confidential, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Proligence.PowerShell.Commands.Cmdlets 
+﻿namespace Proligence.PowerShell.Commands.Cmdlets 
 {
     using System;
     using System.Collections;

@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Program.cs" company="Proligence">
-//   Copyright (c) 2011 Proligence, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace OrchardPs 
+﻿namespace OrchardPs 
 {
     using System;
     using System.Collections.Generic;

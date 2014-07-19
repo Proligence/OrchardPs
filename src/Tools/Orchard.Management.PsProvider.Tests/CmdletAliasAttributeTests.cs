@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CmdletAliasAttributeTests.cs" company="Proligence">
-//   Copyright (c) 2011 Proligence, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Orchard.Management.PsProvider.Tests
+﻿namespace Orchard.Management.PsProvider.Tests
 {
     using System;
     using System.Diagnostics.CodeAnalysis;

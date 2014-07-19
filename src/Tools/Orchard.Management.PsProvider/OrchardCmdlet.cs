@@ -1,15 +1,8 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="OrchardCmdlet.cs" company="Proligence">
-//   Copyright (c) 2011 Proligence, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Orchard.Management.PsProvider 
+﻿namespace Orchard.Management.PsProvider 
 {
     using System.Management.Automation;
     using Autofac;
     using Orchard.Management.PsProvider.Agents;
-    using Proligence.PowerShell.Vfs;
     using Proligence.PowerShell.Vfs.Navigation;
 
     /// <summary>

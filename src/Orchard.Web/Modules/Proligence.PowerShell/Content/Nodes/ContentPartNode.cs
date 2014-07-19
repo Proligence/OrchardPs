@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ContentPartNode.cs" company="Proligence">
-//   Proligence Confidential, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Proligence.PowerShell.Content.Nodes
+﻿namespace Proligence.PowerShell.Content.Nodes
 {
     using System.Diagnostics.CodeAnalysis;
     using Proligence.PowerShell.Content.Items;

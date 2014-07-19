@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="FeaturesPsNavigationProvider.cs" company="Proligence">
-//   Proligence Confidential, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Proligence.PowerShell.Modules.NavigationProviders 
+﻿namespace Proligence.PowerShell.Modules.NavigationProviders 
 {
     using Orchard.Management.PsProvider.Agents;
     using Proligence.PowerShell.Agents;

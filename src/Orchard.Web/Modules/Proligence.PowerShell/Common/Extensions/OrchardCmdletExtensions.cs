@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="OrchardCmdletExtensions.cs" company="Proligence">
-//   Proligence Confidential, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Proligence.PowerShell.Common.Extensions 
+﻿namespace Proligence.PowerShell.Common.Extensions 
 {
     using System;
     using Orchard.Management.PsProvider;

@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="GetTenant.cs" company="Proligence">
-//   Proligence Confidential, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Proligence.PowerShell.Tenants.Cmdlets
+﻿namespace Proligence.PowerShell.Tenants.Cmdlets
 {
     using System.Collections.Generic;
     using System.Linq;

@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AgentBase.cs" company="Proligence">
-//   Copyright (c) 2011 Proligence, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Orchard.Management.PsProvider.Agents 
+﻿namespace Orchard.Management.PsProvider.Agents 
 {
     using System;
     using System.Runtime.Remoting.Lifetime;

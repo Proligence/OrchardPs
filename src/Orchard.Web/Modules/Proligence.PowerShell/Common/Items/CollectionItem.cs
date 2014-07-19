@@ -1,14 +1,7 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CollectionItem.cs" company="Proligence">
-//   Proligence Confidential, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Proligence.PowerShell.Common.Items 
+﻿namespace Proligence.PowerShell.Common.Items 
 {
     using System.Collections;
     using System.Linq;
-    using Proligence.PowerShell.Vfs;
     using Proligence.PowerShell.Vfs.Navigation;
 
     /// <summary>

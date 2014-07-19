@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IAgentManager.cs" company="Proligence">
-//   Copyright (c) 2011 Proligence, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Orchard.Management.PsProvider.Agents 
+﻿namespace Orchard.Management.PsProvider.Agents 
 {
     /// <summary>
     /// Manages agent classes which expose features outside Orchard's web application AppDomain.

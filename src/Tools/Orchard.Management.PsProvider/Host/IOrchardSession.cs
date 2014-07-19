@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IOrchardSession.cs" company="Proligence">
-//   Copyright (c) 2011 Proligence, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Orchard.Management.PsProvider.Host 
+﻿namespace Orchard.Management.PsProvider.Host 
 {
     using System;
     using Orchard.Management.PsProvider.Agents;

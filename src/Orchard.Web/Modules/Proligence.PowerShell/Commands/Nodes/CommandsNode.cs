@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CommandsNode.cs" company="Proligence">
-//   Proligence Confidential, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Proligence.PowerShell.Commands.Nodes 
+﻿namespace Proligence.PowerShell.Commands.Nodes 
 {
     using System.Collections.Generic;
     using System.Linq;

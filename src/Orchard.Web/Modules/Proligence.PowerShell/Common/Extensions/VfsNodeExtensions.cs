@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="VfsNodeExtensions.cs" company="Proligence">
-//   Proligence Confidential, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Proligence.PowerShell.Common.Extensions 
+﻿namespace Proligence.PowerShell.Common.Extensions 
 {
     using Proligence.PowerShell.Tenants.Items;
     using Proligence.PowerShell.Tenants.Nodes;

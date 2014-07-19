@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DescriptionItem.cs" company="Proligence">
-//   Proligence Confidential, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Proligence.PowerShell.Common.Items
+﻿namespace Proligence.PowerShell.Common.Items
 {
     /// <summary>
     /// Implements a generic Orchard VFS item object which contains a description.

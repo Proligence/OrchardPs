@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="GetOrchardPsCommand.cs" company="Proligence">
-//   Copyright (c) 2011 Proligence, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Orchard.Management.PsProvider.Cmdlets
+﻿namespace Orchard.Management.PsProvider.Cmdlets
 {
     using System;
     using System.Linq;

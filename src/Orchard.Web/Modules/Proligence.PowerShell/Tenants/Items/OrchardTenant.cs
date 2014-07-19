@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="OrchardTenant.cs" company="Proligence">
-//   Proligence Confidential, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Proligence.PowerShell.Tenants.Items 
+﻿namespace Proligence.PowerShell.Tenants.Items 
 {
     using System;
     using System.Diagnostics.CodeAnalysis;

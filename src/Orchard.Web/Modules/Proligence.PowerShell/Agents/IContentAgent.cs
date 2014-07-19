@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IContentAgent.cs" company="Proligence">
-//   Copyright (c) 2011 Proligence, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Proligence.PowerShell.Agents
+﻿namespace Proligence.PowerShell.Agents
 {
     using Orchard.Management.PsProvider.Agents;
     using Proligence.PowerShell.Content.Items;

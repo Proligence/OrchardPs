@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ThemeNode.cs" company="Proligence">
-//   Proligence Confidential, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Proligence.PowerShell.Modules.Nodes
+﻿namespace Proligence.PowerShell.Modules.Nodes
 {
     using System.Diagnostics.CodeAnalysis;
     using Orchard.Management.PsProvider;
