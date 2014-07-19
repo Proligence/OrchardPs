@@ -63,6 +63,7 @@
     <Compile Include="Agents\ContainerManager.cs" />
     <Compile Include="Agents\IAgent.cs" />
     <Compile Include="Agents\IContainerManager.cs" />
+    <Compile Include="ArgumentList.cs" />
     <Compile Include="CmdletAliasAttribute.cs" />
     <Compile Include="Cmdlets\GetOrchardPsCommand.cs" />
     <Compile Include="ErrorIds.cs" />

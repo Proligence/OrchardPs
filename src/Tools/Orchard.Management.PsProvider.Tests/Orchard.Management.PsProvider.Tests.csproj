@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArgumentListTests.cs" />
     <Compile Include="CmdletAliasAttributeTests.cs" />
     <Compile Include="OrchardCmdletExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
