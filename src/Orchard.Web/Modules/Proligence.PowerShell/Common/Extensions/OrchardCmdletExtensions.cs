@@ -40,5 +40,29 @@
 
             return null;
         }
+
+        /// <summary>
+        /// Gets the name of the Orchard tenant from which the cmdlet was invoked.
+        /// </summary>
+        /// <param name="cmdlet">The cmdlet instance.</param>
+        /// <returns>
+        /// The name of the current tenant or <c>null</c> if the cmdlet was invoked from a path which is not under any
+        /// Orchard tenant.
+        /// </returns>
+        public static string GetCurrentTenantName(this OrchardCmdlet cmdlet)
+        {
+            if (cmdlet == null)
+            {
+                throw new ArgumentNullException("cmdlet");
+            }
+
+            OrchardTenant tenant = cmdlet.GetCurrentTenant();
+            if (tenant != null)
+            {
+                return tenant.Name;
+            }
+
+            return null;
+        }
     }
 }
