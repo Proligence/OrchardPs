@@ -1,21 +1,20 @@
 ﻿namespace Proligence.PowerShell.Modules.Cmdlets
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using Orchard.Environment.Configuration;
     using Orchard.Management.PsProvider;
     using Proligence.PowerShell.Agents;
-    using Proligence.PowerShell.Common.Extensions;
     using Proligence.PowerShell.Modules.Items;
     using Proligence.PowerShell.Tenants.Items;
+    using Proligence.PowerShell.Utilities;
 
     /// <summary>
     /// Implements the <c>Get-OrchardFeature</c> cmdlet.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "OrchardFeature", DefaultParameterSetName = "Default", ConfirmImpact = ConfirmImpact.None)]
-    public class GetOrchardFeature : OrchardCmdlet
+    public class GetOrchardFeature : OrchardCmdlet, ITenantFilterCmdlet
     {
         /// <summary>
         /// The modules agent instance.
@@ -25,7 +24,7 @@
         /// <summary>
         /// All available Orchard tenants.
         /// </summary>
-        private OrchardTenant[] allTenants;
+        private OrchardTenant[] tenants;
 
         /// <summary>
         /// Gets or sets the name of the Orchard feature to get.
@@ -78,7 +77,7 @@
             base.BeginProcessing();
             this.modulesAgent = this.AgentManager.GetAgent<IModulesAgent>();
             
-            this.allTenants = this.AgentManager.GetAgent<ITenantAgent>()
+            this.tenants = this.AgentManager.GetAgent<ITenantAgent>()
                 .GetTenants()
                 .Where(t => t.State == TenantState.Running)
                 .ToArray();
@@ -89,11 +88,11 @@
         /// </summary>
         protected override void ProcessRecord()
         {
-            IEnumerable<OrchardTenant> tenants = this.GetTenantsFromParameters();
+            IEnumerable<OrchardTenant> filteredTenants = CmdletHelper.FilterTenants(this, this.tenants);
 
             var features = new List<OrchardFeature>();
 
-            foreach (OrchardTenant tenant in tenants)
+            foreach (OrchardTenant tenant in filteredTenants)
             {
                 OrchardFeature[] tenantFeatures = this.modulesAgent.GetFeatures(tenant.Name);
                 features.AddRange(tenantFeatures);
@@ -118,64 +117,6 @@
             {
                 this.WriteObject(feature);
             }
-        }
-
-        /// <summary>
-        /// Gets a list of Orchard tenants from which features should be returned.
-        /// </summary>
-        /// <returns>A sequence of <see cref="OrchardTenant"/> objects.</returns>
-        private IEnumerable<OrchardTenant> GetTenantsFromParameters()
-        {
-            var tenants = new List<OrchardTenant>();
-
-            if (this.FromAllTenants.ToBool())
-            {
-                tenants.AddRange(this.allTenants);
-            }
-            else if (!string.IsNullOrEmpty(this.Tenant))
-            {
-                OrchardTenant namedTenant = this.allTenants.SingleOrDefault(
-                    s => s.Name.Equals(this.Tenant, StringComparison.OrdinalIgnoreCase));
-
-                if (namedTenant != null)
-                {
-                    tenants.Add(namedTenant);
-                }
-                else
-                {
-                    var ex = new ArgumentException("Failed to find tenant with name '" + this.Tenant + "'.");
-                    this.WriteError(ex, "FailedToFindTenant", ErrorCategory.InvalidArgument);
-                }
-            }
-            else if (this.TenantObject != null)
-            {
-                tenants.Add(this.TenantObject);
-            }
-            else
-            {
-                OrchardTenant tenant = this.GetCurrentTenant();
-                if (tenant != null)
-                {
-                    tenants.Add(tenant);
-                }
-                else
-                {
-                    OrchardTenant defaultTenant = this.allTenants.SingleOrDefault(
-                        s => s.Name.Equals("Default", StringComparison.OrdinalIgnoreCase));
-
-                    if (defaultTenant != null)
-                    {
-                        tenants.Add(defaultTenant);
-                    }
-                    else
-                    {
-                        var ex = new ArgumentException("Failed to find tenant with name 'Default'.");
-                        this.WriteError(ex, "FailedToFindTenant", ErrorCategory.InvalidArgument);
-                    }
-                }
-            }
-
-            return tenants;
         }
     }
 }
