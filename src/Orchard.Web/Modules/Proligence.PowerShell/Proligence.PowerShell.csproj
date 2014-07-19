@@ -94,6 +94,7 @@
     <Compile Include="Modules\Cmdlets\DisableOrchardFeature.cs" />
     <Compile Include="Modules\Cmdlets\EnableOrchardFeature.cs" />
     <Compile Include="Modules\Cmdlets\EnableOrchardTheme.cs" />
+    <Compile Include="Content\Cmdlets\GetContentPartDefinition.cs" />
     <Compile Include="Modules\Cmdlets\GetOrchardTheme.cs" />
     <Compile Include="Modules\Cmdlets\GetOrchardFeature.cs" />
     <Compile Include="Modules\Items\OrchardFeature.cs" />
@@ -126,6 +127,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Commands\Cmdlets\Invoke-OrchardCommand-help.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\Cmdlets\Get-ContentPartDefinition-help.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Module.txt" />
