@@ -121,6 +121,8 @@
     <Compile Include="Tenants\Nodes\TenantNode.cs" />
     <Compile Include="Tenants\Nodes\TenantsNode.cs" />
     <Compile Include="Tenants\NavigationProviders\TenantsPsNavigationProvider.cs" />
+    <Compile Include="Utilities\CmdletHelper.cs" />
+    <Compile Include="Utilities\ITenantFilterCmdlet.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Commands\Cmdlets\Invoke-OrchardCommand-help.xml">
