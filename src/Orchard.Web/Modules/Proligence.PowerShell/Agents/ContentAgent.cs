@@ -1,5 +1,6 @@
 ﻿namespace Proligence.PowerShell.Agents 
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Orchard;
@@ -42,12 +43,41 @@
                     .Select(part => 
                         new OrchardContentPartDefinition
                         {
+                            Tenant = tenant,
                             Name = part.Name,
                             Fields = part.Fields.Select(
                                 field => new OrchardContentFieldDefinition { Name = field.Name }).ToArray(),
                             Settings = new Dictionary<string, string>(part.Settings)
                         })
                     .ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Updates the specified content part definition.
+        /// </summary>
+        /// <param name="definition">The content part definition to update.</param>
+        public void UpdateContentPartDefinition(OrchardContentPartDefinition definition)
+        {
+            if (definition == null)
+            {
+                throw new ArgumentNullException("definition");
+            }
+
+            if (definition.Settings != null)
+            {
+                using (IWorkContextScope scope = this.CreateWorkContextScope(definition.Tenant))
+                {
+                    scope.Resolve<IContentDefinitionManager>().AlterPartDefinition(
+                        definition.Name,
+                        part =>
+                        {
+                            foreach (KeyValuePair<string, string> setting in definition.Settings)
+                            {
+                                part.WithSetting(setting.Key, setting.Value);
+                            }
+                        });
+                }
             }
         }
     }

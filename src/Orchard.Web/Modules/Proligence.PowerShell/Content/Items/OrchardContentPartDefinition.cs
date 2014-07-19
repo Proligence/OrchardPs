@@ -11,6 +11,11 @@
     public class OrchardContentPartDefinition
     {
         /// <summary>
+        /// Gets or sets the name of the tenant to which the content part definition belongs.
+        /// </summary>
+        public string Tenant { get; set; }
+
+        /// <summary>
         /// Gets or sets the name of the content part.
         /// </summary>
         public string Name { get; set; }

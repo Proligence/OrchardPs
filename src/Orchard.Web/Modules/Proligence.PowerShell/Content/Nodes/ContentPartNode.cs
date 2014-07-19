@@ -1,6 +1,7 @@
 ﻿namespace Proligence.PowerShell.Content.Nodes
 {
     using System.Diagnostics.CodeAnalysis;
+    using Orchard.Management.PsProvider;
     using Proligence.PowerShell.Content.Items;
     using Proligence.PowerShell.Vfs.Core;
     using Proligence.PowerShell.Vfs.Navigation;
@@ -8,6 +9,7 @@
     /// <summary>
     /// Implements a VFS node which represents an Orchard content part definition.
     /// </summary>
+    [SupportedCmdlet("Edit-ContentPartDefinition")]
     public class ContentPartNode : ObjectNode
     {
         /// <summary>
