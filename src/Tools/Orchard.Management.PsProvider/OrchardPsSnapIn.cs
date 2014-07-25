@@ -20,8 +20,7 @@
         private Collection<CmdletConfigurationEntry> cmdlets;
         private Collection<FormatConfigurationEntry> formats;
         private Collection<string> helpFiles;
-        private IDictionary<string, string> aliases;
-        
+
         /// <summary>
         /// Gets the name of the snap-in.
         /// </summary>
@@ -55,25 +54,7 @@
         /// </summary>
         public override Collection<ProviderConfigurationEntry> Providers 
         {
-            get 
-            {
-                if (this.providers == null) 
-                {
-                    if (this.helpFiles == null)
-                    {
-                        this.LoadHelpFiles();
-                    }
-
-                    string helpFilePath = this.GetHelpFile("Orchard.Management.PsProvider.dll");
-
-                    this.providers = new Collection<ProviderConfigurationEntry> 
-                    {
-                        new ProviderConfigurationEntry("Orchard", typeof(OrchardProvider), helpFilePath)
-                    };
-                }
-                
-                return this.providers;
-            }
+            get { return this.providers; }
         }
 
         /// <summary>
@@ -81,16 +62,7 @@
         /// </summary>
         public override Collection<CmdletConfigurationEntry> Cmdlets 
         {
-            get 
-            {
-                if (this.cmdlets == null) 
-                {
-                    this.cmdlets = new Collection<CmdletConfigurationEntry>();
-                    this.LoadCmdlets(this.cmdlets);
-                }
-
-                return this.cmdlets;
-            }
+            get { return this.cmdlets; }
         }
 
         /// <summary>
@@ -98,44 +70,45 @@
         /// </summary>
         public override Collection<FormatConfigurationEntry> Formats 
         {
-            get 
-            {
-                if (this.formats == null) 
-                {
-                    this.formats = new Collection<FormatConfigurationEntry>();
-                    
-                    DirectoryInfo orchardDirectory = this.GetOrchardDirectory();
-                    if (orchardDirectory != null) 
-                    {
-                        this.LoadFormatDataFiles(orchardDirectory.FullName, this.formats);
-                    }
-                }
-
-                return this.formats;
-            }
+            get { return this.formats; }
         }
 
         /// <summary>
         /// Gets a dictionary of command aliases which will be automatically created.
         /// </summary>
-        public IDictionary<string, string> Aliases 
-        {
-            get 
-            {
-                if (this.aliases == null) 
-                {
-                    this.aliases = new Dictionary<string, string>();
-                }
+        public IDictionary<string, string> Aliases { get; private set; }
 
-                return this.aliases;
+        /// <summary>
+        /// Initializes the snap-in and fills its collections.
+        /// </summary>
+        public void Initialize()
+        {
+            this.LoadHelpFiles();
+            
+            string helpFilePath = this.GetHelpFile("Orchard.Management.PsProvider.dll");
+
+            this.providers = new Collection<ProviderConfigurationEntry>
+            {
+                new ProviderConfigurationEntry("Orchard", typeof(OrchardProvider), helpFilePath)
+            };
+
+            this.cmdlets = new Collection<CmdletConfigurationEntry>();
+            this.LoadCmdlets(this.cmdlets);
+
+            this.formats = new Collection<FormatConfigurationEntry>();
+            DirectoryInfo orchardDirectory = this.GetOrchardDirectory();
+            if (orchardDirectory != null)
+            {
+                this.LoadFormatDataFiles(orchardDirectory.FullName, this.formats);
             }
+
+            this.Aliases = new Dictionary<string, string>();
         }
 
         /// <summary>
         /// Discovers the cmdlets defined in Orchard module assemblies.
         /// </summary>
         /// <param name="cmdletsCollection">The collection to which the discovered assemblies will be added.</param>
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "By design")]
         private void LoadCmdlets(ICollection<CmdletConfigurationEntry> cmdletsCollection)
         {
             Type cmdletType = typeof(Cmdlet);
@@ -218,7 +191,6 @@
         /// </summary>
         /// <param name="directory">The Orchard's root directory.</param>
         /// <param name="formatsCollection">The collection to which the discovered format files will be added.</param>
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "By design")]
         private void LoadFormatDataFiles(string directory, Collection<FormatConfigurationEntry> formatsCollection) 
         {
             string[] fileNames;

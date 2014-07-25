@@ -2,6 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Management.Automation.Runspaces;
+    using Orchard.Management.PsProvider.Console;
 
     /// <summary>
     /// Manages the sessions of the PowerShell engine hosted in the Orchard application.
@@ -28,7 +30,46 @@
                 this.host.Initialize();
             }
 
-            var session = new PsSession();
+            RunspaceConfiguration configuration;
+            try
+            {
+                configuration = RunspaceConfiguration.Create();
+
+                foreach (ProviderConfigurationEntry provider in this.host.SnapIn.Providers)
+                {
+                    configuration.Providers.Append(provider);
+                }
+
+                foreach (CmdletConfigurationEntry cmdlet in this.host.SnapIn.Cmdlets)
+                {
+                    configuration.Cmdlets.Append(cmdlet);
+                }
+
+                foreach (FormatConfigurationEntry format in this.host.SnapIn.Formats)
+                {
+                    configuration.Formats.Append(format);
+                }
+
+                configuration.InitializationScripts.Append(
+                    new ScriptConfigurationEntry(
+                        "NavigateToOrchardDrive",
+                        "if (Test-Path Orchard:) { Set-Location Orchard: }"));
+
+                foreach (KeyValuePair<string, string> alias in this.host.SnapIn.Aliases)
+                {
+                    configuration.InitializationScripts.Append(
+                        new ScriptConfigurationEntry(
+                            "Alias-" + alias.Key,
+                            "New-Alias '" + alias.Key + "' " + alias.Value));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("Failed to create runspace configuration. " + ex.Message, ex);
+            }
+
+            var consoleHost = new ConsoleHost(configuration);
+            var session = new PsSession(consoleHost);
             this.sessions.Add(session);
             
             return session;

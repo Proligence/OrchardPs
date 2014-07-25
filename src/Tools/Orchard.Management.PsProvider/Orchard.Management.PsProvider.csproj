@@ -58,6 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Console\ConsoleHost.cs" />
+    <Compile Include="Console\ConsoleHostRawUserInterface.cs" />
+    <Compile Include="Console\ConsoleHostUserInterface.cs" />
     <Compile Include="ContainerManager.cs" />
     <Compile Include="IContainerManager.cs" />
     <Compile Include="ArgumentList.cs" />
