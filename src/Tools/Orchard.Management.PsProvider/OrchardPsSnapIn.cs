@@ -21,9 +21,7 @@
         private Collection<FormatConfigurationEntry> formats;
         private Collection<string> helpFiles;
         private IDictionary<string, string> aliases;
-        private Collection<Assembly> orchardModuleAssemblies;
-        private bool assembliesLoaded;
-
+        
         /// <summary>
         /// Gets the name of the snap-in.
         /// </summary>
@@ -85,8 +83,6 @@
         {
             get 
             {
-                this.LoadOrchardAssemblies();
-
                 if (this.cmdlets == null) 
                 {
                     this.cmdlets = new Collection<CmdletConfigurationEntry>();
@@ -136,84 +132,6 @@
         }
 
         /// <summary>
-        /// Verifies that the specified directory contains an Orchard installation.
-        /// </summary>
-        /// <param name="directory">The directory to verify.</param>
-        /// <returns>
-        /// <c>true</c> if the specified directory contains an Orchard installation; otherwise, <c>false</c>.
-        /// </returns>
-        internal static bool VerifyOrchardDirectory(string directory) 
-        {
-            if (!File.Exists(Path.Combine(directory, "web.config"))) 
-            {
-                return false;
-            }
-
-            if (!Directory.Exists(Path.Combine(directory, "bin")))
-            {
-                return false;
-            }
-
-            if (!File.Exists(Path.Combine(directory, "bin\\Orchard.Framework.dll")))
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Loads the assemblies of all Orchard modules into the current AppDomain.
-        /// </summary>
-        [SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", 
-            MessageId = "System.Reflection.Assembly.LoadFrom", Justification = "By design")]
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "By design")]
-        private void LoadOrchardAssemblies()
-        {
-            if (this.assembliesLoaded) 
-            {
-                return;
-            }
-
-            string orchardRoot = Directory.GetParent(Environment.CurrentDirectory).FullName;
-            if (!VerifyOrchardDirectory(orchardRoot)) 
-            {
-                throw new InvalidOperationException("The current directory does not contain an Orchard installation.");
-            }
-
-            this.orchardModuleAssemblies = new Collection<Assembly>();
-            foreach (string directory in Directory.GetDirectories(Path.Combine(orchardRoot, "Modules"))) 
-            {
-                var moduleDirectory = new DirectoryInfo(directory);
-                if (moduleDirectory.Exists) 
-                {
-                    string moduleName = moduleDirectory.Name;
-                    string assemblyPath = Path.Combine(
-                        moduleDirectory.FullName, 
-                        Path.Combine("bin", moduleName + ".dll"));
-                    
-                    if (File.Exists(assemblyPath)) 
-                    {
-                        try 
-                        {
-                            Assembly assembly = Assembly.LoadFrom(assemblyPath);
-                            this.orchardModuleAssemblies.Add(assembly);
-                        }
-                        catch (Exception ex) 
-                        {
-                            Trace.WriteLine("Failed to load assembly '" + assemblyPath + "'. " + ex.Message);
-                        }
-                    }
-                }
-            }
-
-            // Add Orchard.Management.PsProvider assembly as core module
-            this.orchardModuleAssemblies.Add(this.GetType().Assembly);
-
-            this.assembliesLoaded = true;
-        }
-
-        /// <summary>
         /// Discovers the cmdlets defined in Orchard module assemblies.
         /// </summary>
         /// <param name="cmdletsCollection">The collection to which the discovered assemblies will be added.</param>
@@ -222,7 +140,7 @@
         {
             Type cmdletType = typeof(Cmdlet);
 
-            foreach (Assembly assembly in this.orchardModuleAssemblies)
+            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 try
                 {
@@ -281,19 +199,18 @@
         /// </returns>
         private DirectoryInfo GetOrchardDirectory() 
         {
-            string directoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            if (directoryName != null) 
+            var directoryInfo = new DirectoryInfo(Assembly.GetExecutingAssembly().Location);
+            while ((directoryInfo != null) && (directoryInfo.Name != "Orchard.Web"))
             {
-                var directoryInfo = new DirectoryInfo(directoryName);
-                while ((directoryInfo != null) && !VerifyOrchardDirectory(directoryInfo.FullName)) 
-                {
-                    directoryInfo = directoryInfo.Parent;
-                }
-
-                return directoryInfo;
+                directoryInfo = directoryInfo.Parent;
             }
 
-            return null;
+            if (directoryInfo == null)
+            {
+                throw new InvalidOperationException("Failed to find Orchard root directory.");
+            }
+
+            return directoryInfo;
         }
 
         /// <summary>

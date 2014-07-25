@@ -3,7 +3,7 @@
     using System;
     using System.Linq;
     using System.Management.Automation;
-    using Proligence.PowerShell.Vfs.Navigation;
+    using Orchard.Management.PsProvider.Vfs.Navigation;
 
     /// <summary>
     /// Implements the <c>Get-OrchardPsCommand</c> cmdlet.

@@ -1,4 +1,4 @@
-﻿namespace Orchard.Management.PsProvider.Agents 
+﻿namespace Orchard.Management.PsProvider
 {
     using System;
     using Autofac;

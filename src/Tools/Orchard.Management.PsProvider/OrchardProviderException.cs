@@ -3,7 +3,7 @@
     using System;
     using System.Management.Automation;
     using System.Runtime.Serialization;
-    using Proligence.PowerShell.Vfs.Provider;
+    using Orchard.Management.PsProvider.Vfs.Provider;
 
     /// <summary>
     /// Implements an exception which represent errors reported by the Orchard PS provider.

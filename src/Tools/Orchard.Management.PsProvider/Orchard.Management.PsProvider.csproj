@@ -58,33 +58,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Agents\AgentAttribute.cs" />
-    <Compile Include="Agents\AgentBase.cs" />
-    <Compile Include="Agents\ContainerManager.cs" />
-    <Compile Include="Agents\IAgent.cs" />
-    <Compile Include="Agents\IContainerManager.cs" />
+    <Compile Include="ContainerManager.cs" />
+    <Compile Include="IContainerManager.cs" />
     <Compile Include="ArgumentList.cs" />
     <Compile Include="CmdletAliasAttribute.cs" />
     <Compile Include="Cmdlets\GetOrchardPsCommand.cs" />
     <Compile Include="ErrorIds.cs" />
-    <Compile Include="Agents\AgentManager.cs" />
-    <Compile Include="Agents\IAgentManager.cs" />
     <Compile Include="StringExtensions.cs" />
-    <Compile Include="Host\OrchardHostContext.cs" />
-    <Compile Include="Host\OrchardHostContextProvider.cs" />
-    <Compile Include="Host\ReturnCode.cs" />
-    <Compile Include="Host\OrchardHost.cs" />
-    <Compile Include="Host\IOrchardSession.cs" />
-    <Compile Include="Host\OrchardSession.cs" />
     <Compile Include="IOrchardCmdlet.cs" />
     <Compile Include="IPropertyMapper.cs" />
     <Compile Include="MappableAttribute.cs" />
     <Compile Include="OrchardCmdlet.cs" />
     <Compile Include="OrchardCmdletExtensions.cs" />
     <Compile Include="OrchardDriveInfo.cs" />
-    <Compile Include="OrchardDriveParameters.cs" />
     <Compile Include="OrchardProvider.cs" />
-    <Compile Include="OrchardProviderContainer.cs" />
     <Compile Include="OrchardProviderException.cs" />
     <Compile Include="OrchardProviderInfo.cs" />
     <Compile Include="OrchardPsSnapIn.cs">
@@ -94,15 +81,41 @@
     <Compile Include="PropertyMapper.cs" />
     <Compile Include="SupportedCmdletAttribute.cs" />
     <Compile Include="ThrowHelper.cs" />
+    <Compile Include="Vfs\Core\IPowerShellConsole.cs" />
+    <Compile Include="Vfs\Core\IPowerShellVfs.cs" />
+    <Compile Include="Vfs\Core\PowerShellConsole.cs" />
+    <Compile Include="Vfs\Core\PowerShellVfs.cs" />
+    <Compile Include="Vfs\Navigation\CachedPropertyStoreNode.cs" />
+    <Compile Include="Vfs\Navigation\ContainerNode.cs" />
+    <Compile Include="Vfs\Navigation\DefaultPathValidator.cs" />
+    <Compile Include="Vfs\Navigation\INavigationProviderManager.cs" />
+    <Compile Include="Vfs\Navigation\IPathValidator.cs" />
+    <Compile Include="Vfs\Navigation\IPsNavigationProvider.cs" />
+    <Compile Include="Vfs\Navigation\NavigationProviderManager.cs" />
+    <Compile Include="Vfs\Navigation\NodeType.cs" />
+    <Compile Include="Vfs\Navigation\ObjectNode.cs" />
+    <Compile Include="Vfs\Navigation\PowerShellExtensionContainerAttribute.cs" />
+    <Compile Include="Vfs\Navigation\PropertyContentReader.cs" />
+    <Compile Include="Vfs\Navigation\PropertyContentWriter.cs" />
+    <Compile Include="Vfs\Navigation\PropertyNode.cs" />
+    <Compile Include="Vfs\Navigation\PropertyStoreNode.cs" />
+    <Compile Include="Vfs\Navigation\PsNavigationProvider.cs" />
+    <Compile Include="Vfs\Navigation\PsNavigationProviderExtensions.cs" />
+    <Compile Include="Vfs\Navigation\RootVfsNode.cs" />
+    <Compile Include="Vfs\Navigation\SymbolicLinkNode.cs" />
+    <Compile Include="Vfs\Navigation\VfsNode.cs" />
+    <Compile Include="Vfs\PowerShellVfsModule.cs" />
+    <Compile Include="Vfs\Provider\VfsDriveInfo.cs" />
+    <Compile Include="Vfs\Provider\VfsProvider.cs" />
+    <Compile Include="Vfs\Provider\VfsProviderException.cs" />
+    <Compile Include="Vfs\Provider\VfsProviderExtensions.cs" />
+    <Compile Include="Vfs\Provider\VfsProviderInfo.cs" />
+    <Compile Include="ExceptionExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Orchard\Orchard.Framework.csproj">
       <Project>{2D1D92BB-4555-4CBE-8D0E-63563D6CE4C6}</Project>
       <Name>Orchard.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Proligence.PowerShell.Vfs\Proligence.PowerShell.Vfs.csproj">
-      <Project>{d0e90084-e1b3-49da-8841-b1a1970ec2dd}</Project>
-      <Name>Proligence.PowerShell.Vfs</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

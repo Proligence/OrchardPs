@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using Proligence.PowerShell.Vfs.Navigation;
+using Orchard.Management.PsProvider.Vfs.Navigation;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information

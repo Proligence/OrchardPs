@@ -3,7 +3,7 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Management.Automation;
     using Autofac;
-    using Proligence.PowerShell.Vfs.Provider;
+    using Orchard.Management.PsProvider.Vfs.Provider;
 
     /// <summary>
     /// Represents the state of a single instance of the Orchard PS provider.

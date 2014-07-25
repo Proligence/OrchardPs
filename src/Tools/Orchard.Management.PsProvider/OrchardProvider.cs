@@ -9,7 +9,7 @@
     using System.Management.Automation.Provider;
     using System.Reflection;
     using Autofac;
-    using Proligence.PowerShell.Vfs.Provider;
+    using Orchard.Management.PsProvider.Vfs.Provider;
 
     /// <summary>
     /// Implements the Orchard PS Provider.
@@ -34,7 +34,7 @@
         /// <returns>The <see cref="IContainer"/> instance.</returns>
         protected override IContainer GetContainer()
         {
-            return OrchardProviderContainer.GetContainer();
+            return null;
         }
 
         /// <summary>
@@ -76,41 +76,13 @@
                 return (VfsDriveInfo)drive;
             }
 
-            var driveParameters = (OrchardDriveParameters)DynamicParameters;
-            if (driveParameters == null)
-            {
-                return null;
-            }
-
-            if (!OrchardPsSnapIn.VerifyOrchardDirectory(driveParameters.OrchardRoot))
-            {
-                this.WriteError(
-                    ThrowHelper.InvalidRootPathException(driveParameters.OrchardRoot),
-                    ErrorIds.InvalidRootDirectory,
-                    ErrorCategory.InvalidArgument,
-                    drive);
-
-                return null;
-            }
-
             VfsDriveInfo orchardDrive = null;
             this.TryCritical(
-                () => orchardDrive = this.InitializeOrchardDrive(drive, driveParameters),
+                () => orchardDrive = this.InitializeOrchardDrive(drive),
                 ErrorIds.OrchardInitFailed,
                 ErrorCategory.OpenError);
 
             return orchardDrive;
-        }
-
-        /// <summary>
-        /// Returns any additional parameters required by this instance of the New-Drive cmdlet. 
-        /// </summary>
-        /// <returns>
-        /// An object that has properties and fields with parsing attributes similar to a cmdlet class.
-        /// </returns>
-        protected override object NewDriveDynamicParameters() 
-        {
-            return new OrchardDriveParameters();
         }
 
         /// <summary>
@@ -132,13 +104,14 @@
 
                     for (var di = new DirectoryInfo(path); di != null; di = di.Parent) 
                     {
+                        /*
                         if (OrchardPsSnapIn.VerifyOrchardDirectory(di.FullName)) 
                         {
                             var drive = new PSDriveInfo("Orchard", ProviderInfo, "\\", "Orchard drive", Credential);
                             var driveParameters = new OrchardDriveParameters { OrchardRoot = di.FullName };
                             drives.Add(InitializeOrchardDrive(drive, driveParameters));
                             break;
-                        }
+                        }*/
                     }
                 }, 
                 ErrorIds.DefaultDrivesInitFailed, 
@@ -195,19 +168,14 @@
         /// Initializes the specified Orchard drive.
         /// </summary>
         /// <param name="drive">The drive to initialize.</param>
-        /// <param name="driveParameters">The dynamic parameters passed to the <c>New-PSDrive</c> cmdlet.</param>
         /// <returns>The <see cref="OrchardDriveInfo"/> object which represents the initialized drive.</returns>
         [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly")]
-        private OrchardDriveInfo InitializeOrchardDrive(PSDriveInfo drive, OrchardDriveParameters driveParameters) 
+        private OrchardDriveInfo InitializeOrchardDrive(PSDriveInfo drive) 
         {
             this.Console.WriteVerbose("Initializing Orchard session. (This might take a few seconds...)");
             this.Console.WriteLine();
             
-            ILifetimeScope lifetimeScope = OrchardProviderInfo.Container.BeginLifetimeScope();
-
-            var orchardDrive = lifetimeScope.Resolve<OrchardDriveInfo>(
-                new NamedParameter("driveInfo", drive),
-                new NamedParameter("orchardRoot", driveParameters.OrchardRoot));
+            var orchardDrive = new OrchardDriveInfo(drive);
             orchardDrive.Initialize();
 
             var color = System.Console.ForegroundColor;
