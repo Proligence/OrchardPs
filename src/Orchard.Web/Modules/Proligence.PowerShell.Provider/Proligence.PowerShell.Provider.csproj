@@ -92,9 +92,9 @@
     <Compile Include="ArgumentList.cs" />
     <Compile Include="CmdletAliasAttribute.cs" />
     <Compile Include="Cmdlets\GetOrchardPsCommand.cs" />
-    <Compile Include="Console\ConsoleHost.cs" />
-    <Compile Include="Console\ConsoleHostRawUserInterface.cs" />
-    <Compile Include="Console\ConsoleHostUserInterface.cs" />
+    <Compile Include="Console\SignalRConsoleHost.cs" />
+    <Compile Include="Console\SignalRConsoleHostRawUserInterface.cs" />
+    <Compile Include="Console\SignalRConsoleHostUserInterface.cs" />
     <Compile Include="ContainerManager.cs" />
     <Compile Include="ErrorIds.cs" />
     <Compile Include="ExceptionExtensions.cs" />

@@ -7,15 +7,15 @@
     using System.Management.Automation.Host;
     using System.Security;
 
-    public class ConsoleHostUserInterface : PSHostUserInterface
+    public class SignalRConsoleHostUserInterface : PSHostUserInterface
     {
-        private readonly ConsoleHost consoleHost;
-        private readonly ConsoleHostRawUserInterface rawUi;
+        private readonly SignalRConsoleHost consoleHost;
+        private readonly SignalRConsoleHostRawUserInterface rawUi;
 
-        public ConsoleHostUserInterface(ConsoleHost consoleHost)
+        public SignalRConsoleHostUserInterface(SignalRConsoleHost consoleHost)
         {
             this.consoleHost = consoleHost;
-            this.rawUi = new ConsoleHostRawUserInterface(this);
+            this.rawUi = new SignalRConsoleHostRawUserInterface(this);
         }
 
         public override PSHostRawUserInterface RawUI

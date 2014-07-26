@@ -11,6 +11,6 @@
         /// <summary>
         /// Gets the console host which provides input/output to the PowerShell engine.
         /// </summary>
-        ConsoleHost ConsoleHost { get; }
+        SignalRConsoleHost ConsoleHost { get; }
     }
 }

@@ -8,7 +8,7 @@
     /// </summary>
     public class PsSession : IPsSession
     {
-        public PsSession(ConsoleHost consoleHost)
+        public PsSession(SignalRConsoleHost consoleHost)
         {
             this.ConsoleHost = consoleHost;
         }
@@ -16,7 +16,7 @@
         /// <summary>
         /// Gets the console host which provides input/output to the PowerShell engine.
         /// </summary>
-        public ConsoleHost ConsoleHost { get; private set; }
+        public SignalRConsoleHost ConsoleHost { get; private set; }
 
         public void Dispose()
         {

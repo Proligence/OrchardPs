@@ -68,7 +68,7 @@
                 throw new InvalidOperationException("Failed to create runspace configuration. " + ex.Message, ex);
             }
 
-            var consoleHost = new ConsoleHost(configuration);
+            var consoleHost = new SignalRConsoleHost(configuration);
             var session = new PsSession(consoleHost);
             this.sessions.Add(session);
             

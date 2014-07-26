@@ -6,7 +6,7 @@
     using System.Management.Automation.Runspaces;
     using System.Threading;
 
-    public class ConsoleHost : PSHost, IDisposable, IHostSupportsInteractiveSession
+    public class SignalRConsoleHost : PSHost, IDisposable, IHostSupportsInteractiveSession
     {
         private readonly RunspaceConfiguration configuration;
         private readonly Guid instanceId;
@@ -14,13 +14,13 @@
         private readonly CultureInfo currentUiCulture;
         private readonly PSHostUserInterface ui;
 
-        public ConsoleHost(RunspaceConfiguration configuration)
+        public SignalRConsoleHost(RunspaceConfiguration configuration)
         {
             this.instanceId = Guid.NewGuid();
             this.configuration = configuration;
             this.currentCulture = Thread.CurrentThread.CurrentCulture;
             this.currentUiCulture = Thread.CurrentThread.CurrentUICulture;
-            this.ui = new ConsoleHostUserInterface(this);
+            this.ui = new SignalRConsoleHostUserInterface(this);
         }
 
         public override string Name
@@ -35,7 +35,7 @@
         {
             get
             {
-                return typeof(ConsoleHost).Assembly.GetName().Version;
+                return typeof(SignalRConsoleHost).Assembly.GetName().Version;
             }
         }
 
