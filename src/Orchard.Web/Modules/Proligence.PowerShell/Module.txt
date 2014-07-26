@@ -10,4 +10,4 @@ Features:
         Name: PowerShell
         Description: Enables PowerShell management support for Orchard.
         Category: Management
-        Dependencies: Orchard.Themes
+        Dependencies: Proligence.PowerShell.Provider, Orchard.Themes

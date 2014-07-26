@@ -1,7 +1,7 @@
 ﻿namespace Proligence.PowerShell.Host
 {
     using Orchard;
-    using Orchard.Management.PsProvider;
+    using Proligence.PowerShell.Provider;
 
     /// <summary>
     /// Encapsulates the logic of hosting the PowerShell engine inside Orchard.

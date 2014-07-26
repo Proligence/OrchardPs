@@ -1,0 +1,12 @@
+﻿Name: PowerShell Provider
+AntiForgery: enabled
+Author: Marek Dzikiewicz / Piotr Szmyd
+Version: 1.0.0
+OrchardVersion: 1.3.0
+Description: Hosts the PowerShell execution engine inside Orchard.
+Category: Management
+Features:
+    Proligence.PowerShell.Provider:
+        Name: PowerShell Provider
+        Description: Hosts the PowerShell execution engine inside Orchard.
+        Category: Management

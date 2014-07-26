@@ -1,7 +1,7 @@
 ﻿namespace Proligence.PowerShell.Host
 {
     using System;
-    using Orchard.Management.PsProvider.Console;
+    using Proligence.PowerShell.Provider.Console;
 
     /// <summary>
     /// Represents a PowerShell user session.

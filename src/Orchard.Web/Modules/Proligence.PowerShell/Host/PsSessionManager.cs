@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Management.Automation.Runspaces;
-    using Orchard.Management.PsProvider.Console;
+    using Proligence.PowerShell.Provider.Console;
 
     /// <summary>
     /// Manages the sessions of the PowerShell engine hosted in the Orchard application.
