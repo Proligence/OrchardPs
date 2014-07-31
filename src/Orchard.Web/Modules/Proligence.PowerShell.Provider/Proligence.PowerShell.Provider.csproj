@@ -51,6 +51,9 @@
     <Reference Include="Autofac">
       <HintPath>..\..\..\..\lib\autofac\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core">
+      <HintPath>..\Proligence.SignalR\lib\signalr\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations">
@@ -67,11 +70,10 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Cmdlets\Get-OrchardPsCommand-help.xml" />
     <Content Include="Module.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\ProligenceBase\Proligence\TestSystem\Orchard\src\Orchard.Web\Modules\Orchard.Themes\Orchard.Themes.csproj">
+    <ProjectReference Include="..\Orchard.Themes\Orchard.Themes.csproj">
       <Project>{cde24a24-01d3-403c-84b9-37722e18dfb7}</Project>
       <Name>Orchard.Themes</Name>
     </ProjectReference>
@@ -83,6 +85,10 @@
       <Project>{9916839C-39FC-4CEB-A5AF-89CA7E87119F}</Project>
       <Name>Orchard.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Proligence.SignalR\Proligence.SignalR.csproj">
+      <Project>{36a35e6c-f1ef-4a5a-85c1-07f6b3270578}</Project>
+      <Name>Proligence.SignalR</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Proligence.PowerShell.Provider.dll-help.xml" />
@@ -91,13 +97,21 @@
   <ItemGroup>
     <Compile Include="ArgumentList.cs" />
     <Compile Include="CmdletAliasAttribute.cs" />
-    <Compile Include="Cmdlets\GetOrchardPsCommand.cs" />
-    <Compile Include="Console\SignalRConsoleHost.cs" />
-    <Compile Include="Console\SignalRConsoleHostRawUserInterface.cs" />
-    <Compile Include="Console\SignalRConsoleHostUserInterface.cs" />
+    <Compile Include="Console\CommandLineException.cs" />
+    <Compile Include="Console\Host\ConsoleHost.cs" />
+    <Compile Include="Console\UI\CommandStreamConnection.cs" />
+    <Compile Include="Console\UI\ConsoleHostRawUserInterface.cs" />
+    <Compile Include="Console\UI\ConsoleHostUserInterface.cs" />
+    <Compile Include="Console\UI\OutputData.cs" />
     <Compile Include="ContainerManager.cs" />
     <Compile Include="ErrorIds.cs" />
     <Compile Include="ExceptionExtensions.cs" />
+    <Compile Include="Console\Host\IPsHost.cs" />
+    <Compile Include="Console\IPsSession.cs" />
+    <Compile Include="Console\IPsSessionManager.cs" />
+    <Compile Include="Console\Host\PsHost.cs" />
+    <Compile Include="Console\PsSession.cs" />
+    <Compile Include="Console\PsSessionManager.cs" />
     <Compile Include="IContainerManager.cs" />
     <Compile Include="IOrchardCmdlet.cs" />
     <Compile Include="IPropertyMapper.cs" />
@@ -145,6 +159,9 @@
     <Compile Include="Vfs\Provider\VfsProviderException.cs" />
     <Compile Include="Vfs\Provider\VfsProviderExtensions.cs" />
     <Compile Include="Vfs\Provider\VfsProviderInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

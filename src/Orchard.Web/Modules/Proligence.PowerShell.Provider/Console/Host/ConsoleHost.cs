@@ -1,26 +1,43 @@
-﻿namespace Proligence.PowerShell.Provider.Console
-{
-    using System;
-    using System.Globalization;
-    using System.Management.Automation.Host;
-    using System.Management.Automation.Runspaces;
-    using System.Threading;
+﻿using System;
+using System.Globalization;
+using System.Management.Automation.Host;
+using System.Management.Automation.Runspaces;
+using System.Threading;
+using Proligence.PowerShell.Provider.Console.UI;
 
-    public class SignalRConsoleHost : PSHost, IDisposable, IHostSupportsInteractiveSession
+namespace Proligence.PowerShell.Provider.Console.Host
+{
+    public class ConsoleHost : PSHost, IDisposable, IHostSupportsInteractiveSession
     {
         private readonly RunspaceConfiguration configuration;
         private readonly Guid instanceId;
         private readonly CultureInfo currentCulture;
         private readonly CultureInfo currentUiCulture;
         private readonly PSHostUserInterface ui;
+        private IPsSession _session;
 
-        public SignalRConsoleHost(RunspaceConfiguration configuration)
+        public ConsoleHost(RunspaceConfiguration configuration)
         {
             this.instanceId = Guid.NewGuid();
             this.configuration = configuration;
             this.currentCulture = Thread.CurrentThread.CurrentCulture;
             this.currentUiCulture = Thread.CurrentThread.CurrentUICulture;
-            this.ui = new SignalRConsoleHostUserInterface(this);
+            this.ui = new ConsoleHostUserInterface(this);
+        }
+
+        public IPsSession Session {
+            get { return _session; }
+            internal set {
+                _session = value;
+
+                // Echo testing code
+                //---------------------------
+                //_session.DataReceived += (sender, args) => {
+                //    this.ui.Write(ConsoleColor.DarkBlue, ConsoleColor.Cyan, "A oto Twój tekst: ");
+                //    this.ui.WriteLine(ConsoleColor.Black, ConsoleColor.Green, ((IPsSession) sender).ReadInputBuffer());
+                //    this.ui.WriteErrorLine("This is an error!");
+                //};
+            }
         }
 
         public override string Name
@@ -35,7 +52,7 @@
         {
             get
             {
-                return typeof(SignalRConsoleHost).Assembly.GetName().Version;
+                return typeof(ConsoleHost).Assembly.GetName().Version;
             }
         }
 

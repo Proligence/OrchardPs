@@ -1,13 +1,13 @@
-namespace Proligence.PowerShell.Provider.Console
+using System;
+using System.Management.Automation.Host;
+
+namespace Proligence.PowerShell.Provider.Console.UI
 {
-    using System;
-    using System.Management.Automation.Host;
-
-    public class SignalRConsoleHostRawUserInterface : PSHostRawUserInterface
+    public class ConsoleHostRawUserInterface : PSHostRawUserInterface
     {
-        private readonly SignalRConsoleHostUserInterface consoleHostUserInterface;
+        private readonly ConsoleHostUserInterface consoleHostUserInterface;
 
-        public SignalRConsoleHostRawUserInterface(SignalRConsoleHostUserInterface consoleHostUserInterface)
+        public ConsoleHostRawUserInterface(ConsoleHostUserInterface consoleHostUserInterface)
         {
             this.consoleHostUserInterface = consoleHostUserInterface;
         }

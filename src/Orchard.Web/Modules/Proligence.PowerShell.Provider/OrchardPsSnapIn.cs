@@ -1,4 +1,6 @@
-﻿namespace Proligence.PowerShell.Provider
+﻿using System.Web.Hosting;
+
+namespace Proligence.PowerShell.Provider
 {
     using System;
     using System.Collections.Generic;
@@ -172,18 +174,7 @@
         /// </returns>
         private DirectoryInfo GetOrchardDirectory() 
         {
-            var directoryInfo = new DirectoryInfo(Assembly.GetExecutingAssembly().Location);
-            while ((directoryInfo != null) && (directoryInfo.Name != "Orchard.Web"))
-            {
-                directoryInfo = directoryInfo.Parent;
-            }
-
-            if (directoryInfo == null)
-            {
-                throw new InvalidOperationException("Failed to find Orchard root directory.");
-            }
-
-            return directoryInfo;
+            return new DirectoryInfo(HostingEnvironment.ApplicationPhysicalPath);
         }
 
         /// <summary>
