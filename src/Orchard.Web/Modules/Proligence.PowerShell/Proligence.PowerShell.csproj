@@ -51,6 +51,9 @@
     <Reference Include="Autofac">
       <HintPath>..\..\..\..\lib\autofac\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core">
+      <HintPath>..\Proligence.SignalR\lib\signalr\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations">
@@ -67,21 +70,18 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\TestController.cs" />
-    <Compile Include="Host\IPsHost.cs" />
-    <Compile Include="Host\IPsSession.cs" />
-    <Compile Include="Host\IPsSessionManager.cs" />
-    <Compile Include="Host\PsHost.cs" />
-    <Compile Include="Host\PsSession.cs" />
-    <Compile Include="Host\PsSessionManager.cs" />
+    <Compile Include="Cmdlets\GetOrchardPsCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Routes.cs" />
+    <Compile Include="AdminMenu.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="ResourceManifest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Cmdlets\Get-OrchardPsCommand-help.xml" />
     <Content Include="Module.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\ProligenceBase\Proligence\TestSystem\Orchard\src\Orchard.Web\Modules\Orchard.Themes\Orchard.Themes.csproj">
+    <ProjectReference Include="..\Orchard.Themes\Orchard.Themes.csproj">
       <Project>{cde24a24-01d3-403c-84b9-37722e18dfb7}</Project>
       <Name>Orchard.Themes</Name>
     </ProjectReference>
@@ -94,14 +94,47 @@
       <Name>Orchard.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Proligence.PowerShell.Provider\Proligence.PowerShell.Provider.csproj">
-      <Project>{2C286142-7875-44C6-A44B-332397A59FD4}</Project>
+      <Project>{2c286142-7875-44c6-a44b-332397a59fd4}</Project>
       <Name>Proligence.PowerShell.Provider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Proligence.SignalR\Proligence.SignalR.csproj">
+      <Project>{36a35e6c-f1ef-4a5a-85c1-07f6b3270578}</Project>
+      <Name>Proligence.SignalR</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\console.min.js">
+      <DependentUpon>console.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jquery.console.min.js">
+      <DependentUpon>jquery.console.js</DependentUpon>
+    </Content>
+    <Content Include="Styles\console.min.css">
+      <DependentUpon>console.css</DependentUpon>
+    </Content>
     <Content Include="web.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Scripts\jquery.console.js" />
+    <Content Include="Scripts\console.js" />
+    <Content Include="Styles\console.css" />
+    <Content Include="web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\Web.config" />
+    <Content Include="Styles\Web.config" />
+    <Content Include="Views\Admin\Console.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\console.min.js.map">
+      <DependentUpon>console.min.js</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\jquery.console.min.js.map">
+      <DependentUpon>jquery.console.min.js</DependentUpon>
+    </Content>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
