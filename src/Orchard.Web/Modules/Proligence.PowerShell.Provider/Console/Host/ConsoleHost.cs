@@ -7,14 +7,14 @@ using Proligence.PowerShell.Provider.Console.UI;
 
 namespace Proligence.PowerShell.Provider.Console.Host
 {
-    public class ConsoleHost : PSHost, IDisposable, IHostSupportsInteractiveSession
+    public class ConsoleHost : PSHost, IDisposable
     {
         private readonly RunspaceConfiguration configuration;
         private readonly Guid instanceId;
         private readonly CultureInfo currentCulture;
         private readonly CultureInfo currentUiCulture;
         private readonly PSHostUserInterface ui;
-        private IPsSession _session;
+        private IPsSession session;
 
         public ConsoleHost(RunspaceConfiguration configuration)
         {
@@ -25,10 +25,13 @@ namespace Proligence.PowerShell.Provider.Console.Host
             this.ui = new ConsoleHostUserInterface(this);
         }
 
-        public IPsSession Session {
-            get { return _session; }
-            internal set {
-                _session = value;
+        public IPsSession Session 
+        {
+            get { return session; }
+            
+            internal set 
+            {
+                session = value;
 
                 // Echo testing code
                 //---------------------------
@@ -44,7 +47,7 @@ namespace Proligence.PowerShell.Provider.Console.Host
         {
             get
             {
-                return "Orchard Provider ConsoleHost";
+                return "OrchardConsoleHost";
             }
         }
 
@@ -52,7 +55,7 @@ namespace Proligence.PowerShell.Provider.Console.Host
         {
             get
             {
-                return typeof(ConsoleHost).Assembly.GetName().Version;
+                return GetType().Assembly.GetName().Version;
             }
         }
 
@@ -76,48 +79,64 @@ namespace Proligence.PowerShell.Provider.Console.Host
             get { return this.currentUiCulture; }
         }
 
-        public bool IsRunspacePushed { get; private set; }
-
-        public Runspace Runspace { get; private set; }
-
+        /// <summary>
+        /// When overridden in a derived class, requests to end the current runspace. The Windows PowerShell engine
+        /// calls this method to request that the host application shut down and terminate the host root runspace.
+        /// </summary>
+        /// <param name="exitCode">The exit code that is used to set the host's process exit code.</param>
         public override void SetShouldExit(int exitCode)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// When overridden in a derived class, instructs the host to interrupt the currently running pipeline and
+        /// start a new nested input loop.
+        /// </summary>
         public override void EnterNestedPrompt()
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
+        /// <summary>
+        /// When overridden in a derived class, instructs the host to exit the currently running input loop.
+        /// </summary>
         public override void ExitNestedPrompt()
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
+        /// <summary>
+        /// When overridden in a derived class, notifies the host that the Windows PowerShell runtime is about to
+        /// execute a legacy command-line application. A legacy application is defined as a console-mode executable
+        /// that can perform any of the following operations: read from stdin, write to stdout, write to stderr, or
+        /// use any of the Windows console functions.
+        /// </summary>
         public override void NotifyBeginApplication()
         {
-            throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// When overridden in a derived class, notifies the host that the Windows PowerShell engine has completed
+        /// the execution of a legacy command. A legacy application is defined as a console-mode executable that can
+        /// perform any of the following operations: read from stdin, write to stdout, write to stderr, or use any of
+        /// the Windows console functions.
+        /// </summary>
         public override void NotifyEndApplication()
         {
-            throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
-            throw new NotImplementedException();
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
-        public void PushRunspace(Runspace runspace)
+        protected virtual void Dispose(bool disposing)
         {
-            throw new NotImplementedException();
-        }
-
-        public void PopRunspace()
-        {
-            throw new NotImplementedException();
         }
     }
 }
