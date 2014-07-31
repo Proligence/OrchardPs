@@ -1,46 +1,36 @@
-﻿using System;
-using System.Globalization;
-using System.Management.Automation.Host;
-using System.Management.Automation.Runspaces;
-using System.Threading;
-using Proligence.PowerShell.Provider.Console.UI;
-
-namespace Proligence.PowerShell.Provider.Console.Host
+﻿namespace Proligence.PowerShell.Provider.Console.Host
 {
+    using System;
+    using System.Globalization;
+    using System.Management.Automation.Host;
+    using System.Management.Automation.Runspaces;
+    using System.Threading;
+    using Proligence.PowerShell.Provider.Console.UI;
+
     public class ConsoleHost : PSHost, IDisposable
     {
-        private readonly RunspaceConfiguration configuration;
         private readonly Guid instanceId;
         private readonly CultureInfo currentCulture;
         private readonly CultureInfo currentUiCulture;
+        private readonly RunspaceConfiguration configuration;
+        private readonly Runspace runspace;
         private readonly PSHostUserInterface ui;
         private IPsSession session;
+        private ICommandExecutor executor;
 
         public ConsoleHost(RunspaceConfiguration configuration)
         {
             this.instanceId = Guid.NewGuid();
-            this.configuration = configuration;
             this.currentCulture = Thread.CurrentThread.CurrentCulture;
             this.currentUiCulture = Thread.CurrentThread.CurrentUICulture;
+            this.configuration = configuration;
+            this.runspace = RunspaceFactory.CreateRunspace(this, configuration);
             this.ui = new ConsoleHostUserInterface(this);
         }
 
         public IPsSession Session 
         {
-            get { return session; }
-            
-            internal set 
-            {
-                session = value;
-
-                // Echo testing code
-                //---------------------------
-                //_session.DataReceived += (sender, args) => {
-                //    this.ui.Write(ConsoleColor.DarkBlue, ConsoleColor.Cyan, "A oto Twój tekst: ");
-                //    this.ui.WriteLine(ConsoleColor.Black, ConsoleColor.Green, ((IPsSession) sender).ReadInputBuffer());
-                //    this.ui.WriteErrorLine("This is an error!");
-                //};
-            }
+            get { return this.session; }
         }
 
         public override string Name
@@ -79,6 +69,29 @@ namespace Proligence.PowerShell.Provider.Console.Host
             get { return this.currentUiCulture; }
         }
 
+        public RunspaceConfiguration RunspaceConfiguration
+        {
+            get { return this.configuration; }
+        }
+
+        public Runspace Runspace
+        {
+            get { return this.runspace; }
+        }
+
+        public void Initialize(IPsSession session)
+        {
+            if (session == null)
+            {
+                throw new ArgumentNullException("session");
+            }
+
+            this.session = session;
+            this.runspace.Open();
+            this.executor = new CommandExecutor(this.session);
+            this.executor.Start();
+        }
+
         /// <summary>
         /// When overridden in a derived class, requests to end the current runspace. The Windows PowerShell engine
         /// calls this method to request that the host application shut down and terminate the host root runspace.
@@ -86,7 +99,8 @@ namespace Proligence.PowerShell.Provider.Console.Host
         /// <param name="exitCode">The exit code that is used to set the host's process exit code.</param>
         public override void SetShouldExit(int exitCode)
         {
-            throw new NotImplementedException();
+            this.executor.Exit();
+            this.runspace.Close();
         }
 
         /// <summary>
@@ -137,6 +151,10 @@ namespace Proligence.PowerShell.Provider.Console.Host
 
         protected virtual void Dispose(bool disposing)
         {
+            if (disposing)
+            {
+                this.runspace.Dispose();
+            }
         }
     }
 }

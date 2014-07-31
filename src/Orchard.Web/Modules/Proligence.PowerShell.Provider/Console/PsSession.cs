@@ -1,40 +1,52 @@
-﻿using System;
-using System.Collections.Concurrent;
-using Proligence.PowerShell.Provider.Console.Host;
-
-namespace Proligence.PowerShell.Provider.Console
+﻿namespace Proligence.PowerShell.Provider.Console
 {
-    public class DataReceivedEventArgs : EventArgs 
-    {
-    }
+    using System;
+    using System.Collections.Concurrent;
+    using System.Management.Automation;
+    using System.Management.Automation.Runspaces;
+    using Proligence.PowerShell.Provider.Console.Host;
 
     /// <summary>
     /// Represents a PowerShell user session.
     /// </summary>
-    public class PsSession : IPsSession {
-        private readonly ConcurrentQueue<string> _queue;
+    public class PsSession : IPsSession 
+    {
+        private readonly ConcurrentQueue<string> queue;
+
+        public PsSession(ConsoleHost consoleHost, string connectionId, Action<dynamic> sender)
+        {
+            this.Sender = sender;
+            this.ConsoleHost = consoleHost;
+            this.ConnectionId = connectionId;
+
+            this.queue = new ConcurrentQueue<string>();
+        }
 
         public event EventHandler<DataReceivedEventArgs> DataReceived;
-
-        protected virtual void OnDataReceived(DataReceivedEventArgs e) {
-            EventHandler<DataReceivedEventArgs> handler = DataReceived;
-            if (handler != null) {
-                handler(this, e);
-            }
-        }
-
-        public PsSession(ConsoleHost consoleHost, string connectionId, Action<dynamic> sender) {
-            Sender = sender;
-            ConsoleHost = consoleHost;
-            ConnectionId = connectionId;
-
-            _queue = new ConcurrentQueue<string>();
-        }
 
         /// <summary>
         /// Gets the console host which provides input/output to the PowerShell engine.
         /// </summary>
         public ConsoleHost ConsoleHost { get; private set; }
+
+        /// <summary>
+        /// Gets the PowerShell runspace associated with the session.
+        /// </summary>
+        public Runspace Runspace
+        {
+            get { return this.ConsoleHost.Runspace; }
+        }
+
+        /// <summary>
+        /// Gets the current path in the session's runspace.
+        /// </summary>
+        public PathIntrinsics Path
+        {
+            get
+            {
+                return this.Runspace.SessionStateProxy.Path;
+            }
+        }
 
         /// <summary>
         ///  Delegate used for sending messages up to the user console.
@@ -52,7 +64,7 @@ namespace Proligence.PowerShell.Provider.Console
         /// <returns></returns>
         public string ReadInputBuffer() {
             string result;
-            if (_queue.TryDequeue(out result)) {
+            if (this.queue.TryDequeue(out result)) {
                 return result;
             }
 
@@ -64,7 +76,7 @@ namespace Proligence.PowerShell.Provider.Console
         /// </summary>
         /// <returns></returns>
         public void WriteInputBuffer(string line) {
-            _queue.Enqueue(line);
+            this.queue.Enqueue(line);
             OnDataReceived(new DataReceivedEventArgs());
         }
 
@@ -84,6 +96,15 @@ namespace Proligence.PowerShell.Provider.Console
 
             if (ConsoleHost != null) {
                 ConsoleHost.Dispose();
+            }
+        }
+
+        protected virtual void OnDataReceived(DataReceivedEventArgs e)
+        {
+            EventHandler<DataReceivedEventArgs> handler = DataReceived;
+            if (handler != null)
+            {
+                handler(this, e);
             }
         }
     }

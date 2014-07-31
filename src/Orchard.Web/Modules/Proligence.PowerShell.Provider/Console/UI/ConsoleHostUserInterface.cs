@@ -16,7 +16,6 @@ namespace Proligence.PowerShell.Provider.Console.UI
         public ConsoleHostUserInterface(ConsoleHost consoleHost)
         {
             this.consoleHost = consoleHost;
-            this.rawUi = new ConsoleHostRawUserInterface(this);
         }
 
         public override PSHostRawUserInterface RawUI

@@ -49,22 +49,6 @@
         }
 
         /// <summary>
-        /// Starts the specified provider. This method is called by the Windows PowerShell runtime to initialize the
-        /// provider when the provider is loaded into a session.
-        /// </summary>
-        /// <param name="providerInfo">
-        /// A <see cref="ProviderInfo"/> object that describes the provider to be initialized.
-        /// </param>
-        /// <returns>A <see cref="ProviderInfo"/> object that contains information about the provider.</returns>
-        protected override ProviderInfo Start(ProviderInfo providerInfo)
-        {
-            // Increase console window size
-            this.IncreaseWindowSize(120, 50);
-
-            return base.Start(providerInfo);
-        }
-
-        /// <summary>
         /// Initializes the specified VFS drive.
         /// </summary>
         /// <param name="drive">The drive to initialize.</param>

@@ -98,7 +98,10 @@
     <Compile Include="ArgumentList.cs" />
     <Compile Include="CmdletAliasAttribute.cs" />
     <Compile Include="Console\CommandLineException.cs" />
+    <Compile Include="Console\DataReceivedEventArgs.cs" />
+    <Compile Include="Console\Host\CommandExecutor.cs" />
     <Compile Include="Console\Host\ConsoleHost.cs" />
+    <Compile Include="Console\Host\ICommandExecutor.cs" />
     <Compile Include="Console\UI\CommandStreamConnection.cs" />
     <Compile Include="Console\UI\ConsoleHostRawUserInterface.cs" />
     <Compile Include="Console\UI\ConsoleHostUserInterface.cs" />

@@ -81,7 +81,7 @@ namespace Proligence.PowerShell.Provider.Console
                 consoleHost, 
                 connectionId, data => ConnectionExtensions.Send(ctx.Connection, connectionId, data).Wait());
 
-            consoleHost.Session = session;
+            consoleHost.Initialize(session);
 
             sessions.GetOrAdd(connectionId, session);
             

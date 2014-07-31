@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Management.Automation.Runspaces;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Infrastructure;
 using Proligence.PowerShell.Provider.Console.Host;
@@ -16,6 +17,11 @@ namespace Proligence.PowerShell.Provider.Console
         /// Gets the console host which provides input/output to the PowerShell engine.
         /// </summary>
         ConsoleHost ConsoleHost { get; }
+
+        /// <summary>
+        /// Gets the PowerShell runspace associated with the session.
+        /// </summary>
+        Runspace Runspace { get; }
 
         /// <summary>
         ///  Delegate used for sending messages up to the user console.
