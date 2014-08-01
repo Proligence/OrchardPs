@@ -48,7 +48,7 @@ function LoadConsole() {
 
     connection.start({
         waitForPageLoad: true,
-        transport: "auto"
+        transport: "longPolling"
     });
 
 
