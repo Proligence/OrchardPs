@@ -4,9 +4,11 @@
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Management.Automation;
-    using Orchard.Management.PsProvider;
+
+    using Orchard.Environment.Configuration;
+
     using Proligence.PowerShell.Agents;
-    using Proligence.PowerShell.Tenants.Items;
+    using Proligence.PowerShell.Provider;
 
     /// <summary>
     /// Implements the <c>Edit-Tenant</c> cmdlet.
@@ -31,7 +33,7 @@
         /// </summary>
         [ValidateNotNull]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = true, ValueFromPipeline = true)]
-        public OrchardTenant Tenant { get; set; }
+        public ShellSettings Tenant { get; set; }
 
         /// <summary>
         /// Gets or sets the tenant's new request URL host.
@@ -71,15 +73,6 @@
         public string DataTablePrefix { get; set; }
 
         /// <summary>
-        /// Provides a one-time, preprocessing functionality for the cmdlet.
-        /// </summary>
-        protected override void BeginProcessing()
-        {
-            base.BeginProcessing();
-            this.tenantAgent = this.AgentManager.GetAgent<ITenantAgent>();
-        }
-
-        /// <summary>
         /// Provides a record-by-record processing functionality for the cmdlet. 
         /// </summary>
         protected override void ProcessRecord()
@@ -96,7 +89,7 @@
 
             if (tenantName != null)
             {
-                OrchardTenant tenant = this.tenantAgent.GetTenant(tenantName);
+                ShellSettings tenant = this.tenantAgent.GetTenant(tenantName);
                 if (tenant != null)
                 {
                     if (this.RequestUrlHost != null)
@@ -143,7 +136,7 @@
         /// Invokes the tenants agent to create a new tenant.
         /// </summary>
         /// <param name="tenant">The tenant to create.</param>
-        private void InvokeUpdateTenant(OrchardTenant tenant)
+        private void InvokeUpdateTenant(ShellSettings tenant)
         {
             if (this.ShouldProcess("Tenant: " + tenant.Name, this.GetActionString()))
             {

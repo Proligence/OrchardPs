@@ -4,10 +4,11 @@
     using System.Linq;
     using System.Management.Automation;
     using Orchard.Environment.Configuration;
-    using Orchard.Management.PsProvider;
+    using Orchard.Environment.Extensions.Models;
+
     using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Modules.Items;
-    using Proligence.PowerShell.Tenants.Items;
+    using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Utilities;
 
     /// <summary>
@@ -22,9 +23,14 @@
         private IModulesAgent modulesAgent;
 
         /// <summary>
+        /// The tenants agent instance.
+        /// </summary>
+        private ITenantAgent tenantsAgent;
+
+        /// <summary>
         /// All available Orchard tenants.
         /// </summary>
-        private OrchardTenant[] tenants;
+        private ShellSettings[] tenants;
 
         /// <summary>
         /// Gets or sets the name of the Orchard feature to get.
@@ -45,7 +51,7 @@
         /// Gets or sets the Orchard tenant for which features will be retrieved.
         /// </summary>
         [Parameter(ParameterSetName = "TenantObject", Mandatory = true, ValueFromPipeline = true)]
-        public OrchardTenant TenantObject { get; set; }
+        public ShellSettings TenantObject { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether features should be retrieved from all tenants.
@@ -75,9 +81,8 @@
         protected override void BeginProcessing()
         {
             base.BeginProcessing();
-            this.modulesAgent = this.AgentManager.GetAgent<IModulesAgent>();
             
-            this.tenants = this.AgentManager.GetAgent<ITenantAgent>()
+            this.tenants = tenantsAgent
                 .GetTenants()
                 .Where(t => t.State == TenantState.Running)
                 .ToArray();
@@ -88,13 +93,13 @@
         /// </summary>
         protected override void ProcessRecord()
         {
-            IEnumerable<OrchardTenant> filteredTenants = CmdletHelper.FilterTenants(this, this.tenants);
+            IEnumerable<ShellSettings> filteredTenants = CmdletHelper.FilterTenants(this, this.tenants);
 
-            var features = new List<OrchardFeature>();
+            var features = new List<FeatureDescriptor>();
 
-            foreach (OrchardTenant tenant in filteredTenants)
+            foreach (ShellSettings tenant in filteredTenants)
             {
-                OrchardFeature[] tenantFeatures = this.modulesAgent.GetFeatures(tenant.Name);
+                var tenantFeatures = this.modulesAgent.GetFeatures(tenant.Name);
                 features.AddRange(tenantFeatures);
             }
 
@@ -103,17 +108,17 @@
                 features = features.Where(f => f.Name.WildcardEquals(this.Name)).ToList();
             }
 
-            if (this.Enabled.ToBool())
-            {
-                features = features.Where(f => f.Enabled).ToList();
-            }
+            //if (this.Enabled.ToBool())
+            //{
+            //    features = features.Where(f => f.Enabled).ToList();
+            //}
 
-            if (this.Disabled.ToBool())
-            {
-                features = features.Where(f => !f.Enabled).ToList();
-            }
+            //if (this.Disabled.ToBool())
+            //{
+            //    features = features.Where(f => !f.Enabled).ToList();
+            //}
 
-            foreach (OrchardFeature feature in features)
+            foreach (FeatureDescriptor feature in features)
             {
                 this.WriteObject(feature);
             }

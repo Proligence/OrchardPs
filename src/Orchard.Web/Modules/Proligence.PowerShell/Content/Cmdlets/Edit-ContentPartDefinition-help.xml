@@ -83,7 +83,7 @@
           <maml:description>
             <maml:para>Specifies the object that represents the Orchard tenant to which the modified content part belongs. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">OrchardTenant</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">ShellSettings</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>Description</maml:name>
@@ -177,9 +177,9 @@
         <maml:description>
           <maml:para>Specifies the object that represents the Orchard tenant to which the modified content part belongs. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">OrchardTenant</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">ShellSettings</command:parameterValue>
         <dev:type>
-          <maml:name>OrchardTenant</maml:name>
+          <maml:name>ShellSettings</maml:name>
           <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
@@ -231,12 +231,12 @@
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <maml:name>Proligence.PowerShell.Tenants.Items.OrchardTenant</maml:name>
+          <maml:name>Proligence.PowerShell.Tenants.Items.ShellSettings</maml:name>
           <maml:uri/>
           <maml:description />
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe instances of the OrchardTenant class to Edit-ContentPartDefinition. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
+          <maml:para>You can pipe instances of the ShellSettings class to Edit-ContentPartDefinition. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>

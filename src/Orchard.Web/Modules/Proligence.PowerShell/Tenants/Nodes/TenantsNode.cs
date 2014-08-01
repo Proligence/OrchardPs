@@ -2,12 +2,14 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Orchard.Management.PsProvider;
+
+    using Orchard.Environment.Configuration;
+
     using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Common.Items;
-    using Proligence.PowerShell.Tenants.Items;
-    using Proligence.PowerShell.Vfs.Core;
-    using Proligence.PowerShell.Vfs.Navigation;
+    using Proligence.PowerShell.Provider;
+    using Proligence.PowerShell.Provider.Vfs.Core;
+    using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>
     /// Implements a VFS node which groups <see cref="TenantNode"/> nodes for a single Orchard installation.
@@ -48,7 +50,7 @@
         /// </returns>
         public override IEnumerable<VfsNode> GetVirtualNodes() 
         {
-            OrchardTenant[] tenants = this.tenantAgent.GetTenants();
+            ShellSettings[] tenants = this.tenantAgent.GetTenants();
             return tenants.Select(tenant => new TenantNode(Vfs, tenant));
         }
     }

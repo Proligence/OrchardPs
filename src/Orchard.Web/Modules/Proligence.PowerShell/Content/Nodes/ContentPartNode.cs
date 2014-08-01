@@ -1,10 +1,11 @@
 ﻿namespace Proligence.PowerShell.Content.Nodes
 {
     using System.Diagnostics.CodeAnalysis;
-    using Orchard.Management.PsProvider;
-    using Proligence.PowerShell.Content.Items;
-    using Proligence.PowerShell.Vfs.Core;
-    using Proligence.PowerShell.Vfs.Navigation;
+
+    using Orchard.ContentManagement.MetaData.Models;
+    using Proligence.PowerShell.Provider;
+    using Proligence.PowerShell.Provider.Vfs.Core;
+    using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>
     /// Implements a VFS node which represents an Orchard content part definition.
@@ -18,7 +19,7 @@
         /// <param name="vfs">The Orchard VFS instance which the node belongs to.</param>
         /// <param name="definition">The object which represents the content part definition.</param>
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods")]
-        public ContentPartNode(IPowerShellVfs vfs, OrchardContentPartDefinition definition)
+        public ContentPartNode(IPowerShellVfs vfs, ContentPartDefinition definition)
             : base(vfs, definition.Name, definition)
         {
         }

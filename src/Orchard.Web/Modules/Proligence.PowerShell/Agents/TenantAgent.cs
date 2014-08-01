@@ -6,33 +6,37 @@
     using System.Linq;
     using System.Reflection;
     using System.Text.RegularExpressions;
-    using Autofac;
     using Orchard;
     using Orchard.Environment.Configuration;
     using Orchard.FileSystems.AppData;
-    using Orchard.Management.PsProvider.Agents;
     using Orchard.Settings;
-    using Proligence.PowerShell.Tenants.Items;
 
     /// <summary>
     /// Implements the the agent which exposes Orchard tenants.
     /// </summary>
-    public class TenantAgent : AgentBase, ITenantAgent
+    public class TenantAgent : ITenantAgent
     {
+        private readonly IShellSettingsManager manager;
+        private readonly IAppDataFolder appDataFolder;
+        private readonly IOrchardServices services;
+
+        public TenantAgent(IShellSettingsManager manager, IAppDataFolder appDataFolder, IOrchardServices services) 
+        {
+            this.manager = manager;
+            this.appDataFolder = appDataFolder;
+            this.services = services;
+        }
+
         /// <summary>
         /// Gets the tenants configured in the Orchard installation.
         /// </summary>
         /// <returns>
-        /// An array of <see cref="OrchardTenant"/> objects which represent the tenants configured in the Orchard
+        /// An array of <see cref="ShellSettings"/> objects which represent the tenants configured in the Orchard
         /// installation.
         /// </returns>
-        public OrchardTenant[] GetTenants() 
+        public ShellSettings[] GetTenants() 
         {
-            var tenantManager = this.HostContainer.Resolve<IShellSettingsManager>();
-            IEnumerable<ShellSettings> settings = tenantManager.LoadSettings();
-            IEnumerable<OrchardTenant> tenants = settings.Select(ShellSettingsToOrchardTenant);
-
-            return tenants.ToArray();
+            return manager.LoadSettings().ToArray();
         }
 
         /// <summary>
@@ -40,17 +44,11 @@
         /// </summary>
         /// <param name="name">The name of the tenant to get.</param>
         /// <returns>
-        /// A <see cref="OrchardTenant"/> object which represent the tenant with the specified name or <c>null</c>.
+        /// A <see cref="ShellSettings"/> object which represent the tenant with the specified name or <c>null</c>.
         /// </returns>
-        public OrchardTenant GetTenant(string name)
+        public ShellSettings GetTenant(string name)
         {
-            var tenantManager = this.HostContainer.Resolve<IShellSettingsManager>();
-
-            return tenantManager
-                .LoadSettings()
-                .Where(t => t.Name == name)
-                .Select(ShellSettingsToOrchardTenant)
-                .FirstOrDefault();
+            return manager.LoadSettings().FirstOrDefault(t => t.Name == name);
         }
 
         /// <summary>
@@ -59,8 +57,7 @@
         /// <param name="name">The name of the tenant to enable.</param>
         public void EnableTenant(string name)
         {
-            var shellSettingsManager = this.HostContainer.Resolve<IShellSettingsManager>();
-            ShellSettings tenant = shellSettingsManager.LoadSettings().FirstOrDefault(x => x.Name == name);
+            ShellSettings tenant = manager.LoadSettings().FirstOrDefault(x => x.Name == name);
             if (tenant == null)
             {
                 throw new ArgumentException("Failed to find tenant '" + name + "'.");
@@ -74,7 +71,7 @@
             if (tenant.State != TenantState.Running)
             {
                 tenant.State = TenantState.Running;
-                shellSettingsManager.SaveSettings(tenant);
+                manager.SaveSettings(tenant);
             }
         }
 
@@ -84,8 +81,7 @@
         /// <param name="name">The name of the tenant to disable.</param>
         public void DisableTenant(string name)
         {
-            var shellSettingsManager = this.HostContainer.Resolve<IShellSettingsManager>();
-            ShellSettings tenant = shellSettingsManager.LoadSettings().FirstOrDefault(x => x.Name == name);
+            ShellSettings tenant = manager.LoadSettings().FirstOrDefault(x => x.Name == name);
             if (tenant == null)
             {
                 throw new ArgumentException("Failed to find tenant '" + name + "'.");
@@ -99,7 +95,7 @@
             if (tenant.State != TenantState.Disabled)
             {
                 tenant.State = TenantState.Disabled;
-                shellSettingsManager.SaveSettings(tenant);
+                manager.SaveSettings(tenant);
             }
         }
 
@@ -107,7 +103,7 @@
         /// Creates a new tenant.
         /// </summary>
         /// <param name="tenant">The new tenant to create.</param>
-        public void CreateTenant(OrchardTenant tenant) 
+        public void CreateTenant(ShellSettings tenant) 
         {
             if (tenant == null)
             {
@@ -125,8 +121,6 @@
                 throw new InvalidOperationException("Invalid tenant name.");
             }
 
-            var manager = this.HostContainer.Resolve<IShellSettingsManager>();
-
             ShellSettings defaultTenant = manager.LoadSettings().FirstOrDefault(
                 x => x.Name == ShellSettings.DefaultName);
 
@@ -135,34 +129,23 @@
                 throw new InvalidOperationException("Failed to find default tenant.");
             }
 
-            var newTenantSettings = new ShellSettings
-            {
-                Name = tenant.Name,
-                RequestUrlHost = tenant.RequestUrlHost,
-                RequestUrlPrefix = tenant.RequestUrlPrefix,
-                DataProvider = tenant.DataProvider,
-                DataConnectionString = tenant.DataConnectionString,
-                DataTablePrefix = tenant.DataTablePrefix,
-                State = TenantState.Uninitialized,
-                Themes = defaultTenant.Themes,
-                Modules = defaultTenant.Modules
-            };
+            tenant.State = TenantState.Uninitialized;
+            tenant.Themes = defaultTenant.Themes;
+            tenant.Modules = defaultTenant.Modules;
 
-            manager.SaveSettings(newTenantSettings);
+            manager.SaveSettings(tenant);
         }
 
         /// <summary>
         /// Updates an existing tenant.
         /// </summary>
         /// <param name="tenant">The updated tenant.</param>
-        public void UpdateTenant(OrchardTenant tenant)
+        public void UpdateTenant(ShellSettings tenant)
         {
             if (tenant == null)
             {
                 throw new ArgumentNullException("tenant");
             }
-
-            var manager = this.HostContainer.Resolve<IShellSettingsManager>();
 
             ShellSettings settings = manager.LoadSettings().FirstOrDefault(x => x.Name == tenant.Name);
             if (settings == null)
@@ -194,14 +177,12 @@
                 throw new InvalidOperationException("Cannot remove default tenant.");
             }
 
-            var manager = this.HostContainer.Resolve<IShellSettingsManager>();
             var settings = manager.LoadSettings().FirstOrDefault(x => x.Name == tenantName);
             if (settings == null)
             {
                 throw new ArgumentException("Failed to find tenant '" + tenantName + "'.", "tenantName");
             }
 
-            var appDataFolder = this.HostContainer.Resolve<IAppDataFolder>();
             string filePath = Path.Combine(Path.Combine("Sites", settings.Name), "Settings.txt");
             appDataFolder.DeleteFile(filePath);
         }
@@ -223,18 +204,15 @@
         /// <returns>The value of the tenant setting.</returns>
         public object GetTenantSetting(string tenantName, string settingName)
         {
-            using (IWorkContextScope scope = this.CreateWorkContextScope(tenantName))
+            ISite currentSite = services.WorkContext.CurrentSite;
+
+            PropertyInfo property = currentSite.GetType().GetProperty(settingName);
+            if (property == null)
             {
-                ISite currentSite = scope.WorkContext.CurrentSite;
-
-                PropertyInfo property = currentSite.GetType().GetProperty(settingName);
-                if (property == null)
-                {
-                    throw new ArgumentException("Invalid tenant setting: " + settingName, "settingName");
-                }
-
-                return property.GetValue(currentSite);
+                throw new ArgumentException("Invalid tenant setting: " + settingName, "settingName");
             }
+
+            return property.GetValue(currentSite);
         }
 
         /// <summary>
@@ -245,41 +223,15 @@
         /// <param name="value">The new value for the tenant setting.</param>
         public void UpdateTenantSetting(string tenantName, string settingName, object value)
         {
-            using (IWorkContextScope scope = this.CreateWorkContextScope(tenantName))
-            {
-                ISite currentSite = scope.WorkContext.CurrentSite;
+            ISite currentSite = services.WorkContext.CurrentSite;
                 
-                PropertyInfo property = currentSite.GetType().GetProperty(settingName);
-                if (property == null)
-                {
-                    throw new ArgumentException("Invalid tenant setting: " + settingName, "settingName");
-                }
-
-                property.SetValue(currentSite, value);
-            }
-        }
-
-        /// <summary>
-        /// Creates a <see cref="OrchardTenant"/> object from a <see cref="ShellSettings"/> object.
-        /// </summary>
-        /// <param name="shellSettings">The tenant's shell settings.</param>
-        /// <returns>The created <see cref="OrchardTenant"/> object.</returns>
-        private static OrchardTenant ShellSettingsToOrchardTenant(ShellSettings shellSettings)
-        {
-            return new OrchardTenant
+            PropertyInfo property = currentSite.GetType().GetProperty(settingName);
+            if (property == null)
             {
-                Name = shellSettings.Name,
-                State = shellSettings.State,
-                DataConnectionString = shellSettings.DataConnectionString,
-                DataProvider = shellSettings.DataProvider,
-                DataTablePrefix = shellSettings.DataTablePrefix,
-                EncryptionAlgorithm = shellSettings.EncryptionAlgorithm,
-                EncryptionKey = shellSettings.EncryptionKey,
-                HashAlgorithm = shellSettings.HashAlgorithm,
-                HashKey = shellSettings.HashKey,
-                RequestUrlHost = shellSettings.RequestUrlHost,
-                RequestUrlPrefix = shellSettings.RequestUrlPrefix
-            };
+                throw new ArgumentException("Invalid tenant setting: " + settingName, "settingName");
+            }
+
+            property.SetValue(currentSite, value);
         }
     }
 }

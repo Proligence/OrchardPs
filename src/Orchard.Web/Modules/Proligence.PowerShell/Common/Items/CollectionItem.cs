@@ -2,7 +2,8 @@
 {
     using System.Collections;
     using System.Linq;
-    using Proligence.PowerShell.Vfs.Navigation;
+
+    using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>
     /// Implements a generic Orchard VFS item object which groups a collection of items in a

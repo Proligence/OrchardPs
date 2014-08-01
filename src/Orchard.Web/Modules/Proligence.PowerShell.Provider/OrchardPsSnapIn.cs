@@ -87,7 +87,7 @@ namespace Proligence.PowerShell.Provider
         {
             this.LoadHelpFiles();
             
-            string helpFilePath = this.GetHelpFile("Orchard.Management.PsProvider.dll");
+            string helpFilePath = this.GetHelpFile("Proligence.PowerShell.Provider.dll");
 
             this.providers = new Collection<ProviderConfigurationEntry>
             {

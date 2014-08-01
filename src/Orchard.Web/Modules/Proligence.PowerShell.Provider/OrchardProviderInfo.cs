@@ -16,8 +16,8 @@
         /// <param name="providerInfo">The <see cref="ProviderInfo"/> object of the PS provider.</param>
         /// <param name="container">The dependency injection container of the PS provider.</param>
         [ExcludeFromCodeCoverage]
-        internal OrchardProviderInfo(ProviderInfo providerInfo, IContainer container) 
-            : base(providerInfo, container)
+        internal OrchardProviderInfo(ProviderInfo providerInfo) 
+            : base(providerInfo)
         {
         }
     }

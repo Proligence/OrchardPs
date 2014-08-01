@@ -6,14 +6,20 @@
     using System.IO;
     using System.Linq;
     using Orchard.Commands;
-    using Orchard.Management.PsProvider.Agents;
     using Proligence.PowerShell.Commands.Items;
 
     /// <summary>
     /// Implements the agent which exposes legacy Orchard commands.
     /// </summary>
-    public class CommandAgent : AgentBase, ICommandAgent
+    public class CommandAgent : ICommandAgent
     {
+        private readonly ICommandManager manager;
+
+        public CommandAgent(ICommandManager manager) 
+        {
+            this.manager = manager;
+        }
+
         /// <summary>
         /// Gets all legacy commands which are available for the specified Orchard tenant.
         /// </summary>
@@ -24,8 +30,7 @@
         /// </returns>
         public OrchardCommand[] GetCommands(string tenant) 
         {
-            var commandManager = this.Resolve<ICommandManager>(tenant);
-            IEnumerable<CommandDescriptor> commandDescriptors = commandManager.GetCommandDescriptors();
+            IEnumerable<CommandDescriptor> commandDescriptors = manager.GetCommandDescriptors();
             IEnumerable<OrchardCommand> commands = commandDescriptors.Select(
                 command => new OrchardCommand 
                 {

@@ -14,7 +14,7 @@
         /// </summary>
         /// <param name="driveInfo">The <see cref="DriveInfo"/> object for the Orchard drive.</param>
         public OrchardDriveInfo(PSDriveInfo driveInfo)
-            : base(driveInfo, null)
+            : base(driveInfo)
         {
         }
 

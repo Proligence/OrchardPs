@@ -7,11 +7,13 @@
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
-    using Orchard.Management.PsProvider;
+
+    using Orchard.Environment.Configuration;
+
     using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Commands.Items;
     using Proligence.PowerShell.Common.Extensions;
-    using Proligence.PowerShell.Tenants.Items;
+    using Proligence.PowerShell.Provider;
 
     /// <summary>
     /// Implements the <c>Invoke-OrchardCommand</c> cmdlet.
@@ -54,20 +56,11 @@
         public SwitchParameter DirectConsole { get; set; }
 
         /// <summary>
-        /// Provides a one-time, preprocessing functionality for the cmdlet.
-        /// </summary>
-        protected override void BeginProcessing() 
-        {
-            base.BeginProcessing();
-            this.commandAgent = this.AgentManager.GetAgent<ICommandAgent>();
-        }
-
-        /// <summary>
         /// Provides a record-by-record processing functionality for the cmdlet. 
         /// </summary>
         protected override void ProcessRecord() 
         {
-            OrchardTenant tenant = this.GetCurrentTenant();
+            ShellSettings tenant = this.GetCurrentTenant();
             string tenantName = tenant != null ? tenant.Name : "Default";
 
             string output = null;

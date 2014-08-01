@@ -2,13 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
-    using Orchard.Management.PsProvider.Agents;
     using Proligence.PowerShell.Commands.Items;
 
     /// <summary>
     /// Defines the interface for the legacy commands agent.
     /// </summary>
-    [Agent(typeof(CommandAgent))]
     public interface ICommandAgent : IAgent
     {
         /// <summary>

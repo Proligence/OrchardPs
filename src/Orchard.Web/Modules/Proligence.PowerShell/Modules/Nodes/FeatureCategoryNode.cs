@@ -8,10 +8,12 @@ namespace Proligence.PowerShell.Modules.Nodes
 {
     using System.Collections.Generic;
     using System.Linq;
+
+    using Orchard.Environment.Extensions.Models;
+
     using Proligence.PowerShell.Common.Items;
-    using Proligence.PowerShell.Modules.Items;
-    using Proligence.PowerShell.Vfs.Core;
-    using Proligence.PowerShell.Vfs.Navigation;
+    using Proligence.PowerShell.Provider.Vfs.Core;
+    using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>
     /// Implements a VFS node which groups <see cref="FeatureNode"/> nodes of a single feature category.
@@ -21,7 +23,7 @@ namespace Proligence.PowerShell.Modules.Nodes
         /// <summary>
         /// The encapsulated Orchard features.
         /// </summary>
-        private readonly OrchardFeature[] features;
+        private readonly FeatureDescriptor[] features;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FeatureCategoryNode"/> class.
@@ -29,7 +31,7 @@ namespace Proligence.PowerShell.Modules.Nodes
         /// <param name="vfs">The Orchard VFS instance which the node belongs to.</param>
         /// <param name="categoryName">The name of the feature category.</param>
         /// <param name="features">The objects which represent the Orchard features to encapsulate.</param>
-        public FeatureCategoryNode(IPowerShellVfs vfs, string categoryName, OrchardFeature[] features)
+        public FeatureCategoryNode(IPowerShellVfs vfs, string categoryName, FeatureDescriptor[] features)
             : base(vfs, categoryName)
         {
             this.features = features;

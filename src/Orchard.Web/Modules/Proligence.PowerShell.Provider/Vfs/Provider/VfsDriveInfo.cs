@@ -16,29 +16,17 @@
         /// </summary>
         /// <param name="driveInfo">The <see cref="DriveInfo"/> object for the VFS drive.</param>
         /// <param name="scope">The drive's dependency injection lifetime scope.</param>
-        public VfsDriveInfo(PSDriveInfo driveInfo, ILifetimeScope scope)
+        public VfsDriveInfo(PSDriveInfo driveInfo)
             : base(driveInfo)
         {
-            this.LifetimeScope = scope;
-            this.Console = this.LifetimeScope.Resolve<IPowerShellConsole>();
-            this.NavigationProviderManager = this.LifetimeScope.Resolve<INavigationProviderManager>(
-                new NamedParameter("scope", this.LifetimeScope));
+            this.NavigationProviderManager = new NavigationProviderManager();
         }
 
-        /// <summary>
-        /// Gets the drive's dependency injection lifetime scope.
-        /// </summary>
-        public ILifetimeScope LifetimeScope { get; private set; }
 
         /// <summary>
         /// Gets the drive's PowerShell virtual file system (VFS) instance.
         /// </summary>
         public IPowerShellVfs Vfs { get; private set; }
-
-        /// <summary>
-        /// Gets the object which exposes the PowerShell console.
-        /// </summary>
-        public IPowerShellConsole Console { get; private set; }
 
         /// <summary>
         /// Gets the object which exposes the navigation providers for the drive.
@@ -58,7 +46,6 @@
         /// </summary>
         public virtual void Close()
         {
-            this.LifetimeScope.Dispose();
         }
 
         /// <summary>
@@ -66,8 +53,7 @@
         /// </summary>
         private void InitializeVfs() 
         {
-            IPowerShellVfs vfs = this.LifetimeScope.Resolve<IPowerShellVfs>(
-                new NamedParameter("drive", this));
+            IPowerShellVfs vfs = new PowerShellVfs(this, this.NavigationProviderManager, new DefaultPathValidator());
             vfs.Initialize();
             this.Vfs = vfs;
         }

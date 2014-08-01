@@ -2,13 +2,15 @@ namespace Proligence.PowerShell.Content.Nodes
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Orchard.Management.PsProvider;
+
+    using Orchard.ContentManagement.MetaData.Models;
+
     using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Common.Extensions;
     using Proligence.PowerShell.Common.Items;
-    using Proligence.PowerShell.Content.Items;
-    using Proligence.PowerShell.Vfs.Core;
-    using Proligence.PowerShell.Vfs.Navigation;
+    using Proligence.PowerShell.Provider;
+    using Proligence.PowerShell.Provider.Vfs.Core;
+    using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>
     /// Implements a VFS node which contains content part definitions for an Orchard tenant.
@@ -50,7 +52,7 @@ namespace Proligence.PowerShell.Content.Nodes
                 return new VfsNode[0];
             }
 
-            OrchardContentPartDefinition[] parts = this.contentAgent.GetContentPartDefinitions(tenantName);
+            ContentPartDefinition[] parts = this.contentAgent.GetContentPartDefinitions(tenantName);
             return parts.Select(definition => new ContentPartNode(this.Vfs, definition));
         }
     }

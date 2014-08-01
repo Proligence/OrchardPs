@@ -6,6 +6,8 @@
     using System.Management.Automation;
     using System.Management.Automation.Provider;
     using Autofac;
+
+    using Proligence.PowerShell.Provider.Console;
     using Proligence.PowerShell.Provider.Vfs.Core;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
 
@@ -40,31 +42,9 @@
         /// </summary>
         public IPathValidator PathValidator
         {
-            get
-            {
-                if (this.pathValidator == null)
-                {
-                    this.pathValidator = this.VfsProviderInfo.Container.Resolve<IPathValidator>();
-                }
-
-                return this.pathValidator;
-            }
-        }
-
-        /// <summary>
-        /// Gets the object which can be used to access the PowerShell-controlled output console.
-        /// </summary>
-        public IPowerShellConsole Console 
-        { 
             get 
             {
-                if (this.console == null) 
-                {
-                    this.console = this.VfsProviderInfo.Container.Resolve<IPowerShellConsole>(
-                        new NamedParameter("provider", this));
-                }
-
-                return this.console;
+                return this.pathValidator ?? (this.pathValidator = new DefaultPathValidator());
             }
         }
 
@@ -183,35 +163,22 @@
         }
 
         /// <summary>
-        /// Gets the dependency injection container for the provider.
-        /// </summary>
-        /// <returns>The <see cref="IContainer"/> instance.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "By design.")]
-        protected abstract IContainer GetContainer();
-
-        /// <summary>
         /// Creates the <see cref="VfsProviderInfo"/> object for the provider.
         /// </summary>
         /// <param name="providerInfo">
         /// A <see cref="ProviderInfo"/> object that describes the provider to be initialized.
         /// </param>
-        /// <param name="container">The dependency injection container.</param>
         /// <returns>The created <see cref="VfsProviderInfo"/> object.</returns>
-        protected abstract VfsProviderInfo CreateProviderInfo(ProviderInfo providerInfo, IContainer container);
+        protected abstract VfsProviderInfo CreateProviderInfo(ProviderInfo providerInfo);
 
         /// <summary>
         /// Initializes the specified VFS drive.
         /// </summary>
         /// <param name="drive">The drive to initialize.</param>
         /// <returns>The <see cref="VfsDriveInfo"/> object which represents the initialized drive.</returns>
-        protected virtual VfsDriveInfo InitializeNewDrive(PSDriveInfo drive)
+        protected virtual VfsDriveInfo InitializeNewDrive(PSDriveInfo drive) 
         {
-            ILifetimeScope lifetimeScope = this.VfsProviderInfo.Container.BeginLifetimeScope();
-
-            VfsDriveInfo vfsDrive = lifetimeScope.Resolve<VfsDriveInfo>(new NamedParameter("driveInfo", drive));
-            vfsDrive.Initialize();
-
-            return vfsDrive;
+            return (VfsDriveInfo)drive;
         }
 
         /// <summary>
@@ -224,7 +191,7 @@
         /// <returns>A <see cref="ProviderInfo"/> object that contains information about the provider.</returns>
         protected override ProviderInfo Start(ProviderInfo providerInfo) 
         {
-            return this.CreateProviderInfo(providerInfo, this.GetContainer());
+            return this.CreateProviderInfo(providerInfo);
         }
 
         /// <summary>
@@ -234,11 +201,6 @@
         /// </summary>
         protected override void Stop() 
         {
-            IContainer container = this.VfsProviderInfo.Container;
-            if (container != null)
-            {
-                container.Dispose();
-            }
         }
 
         /// <summary>

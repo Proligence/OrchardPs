@@ -1,8 +1,9 @@
 ﻿namespace Proligence.PowerShell.Common.Extensions 
 {
-    using Proligence.PowerShell.Tenants.Items;
+    using Orchard.Environment.Configuration;
+
+    using Proligence.PowerShell.Provider.Vfs.Navigation;
     using Proligence.PowerShell.Tenants.Nodes;
-    using Proligence.PowerShell.Vfs.Navigation;
 
     /// <summary>
     /// Implements extension methods for the <see cref="VfsNode"/> class.
@@ -24,7 +25,7 @@
                 var tenantNode = node as TenantNode;
                 if (tenantNode != null) 
                 {
-                    return ((OrchardTenant)tenantNode.Item).Name;
+                    return ((ShellSettings)tenantNode.Item).Name;
                 }
 
                 node = node.Parent;

@@ -2,13 +2,13 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Orchard.Management.PsProvider;
     using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Common.Extensions;
     using Proligence.PowerShell.Common.Items;
     using Proligence.PowerShell.Modules.Items;
-    using Proligence.PowerShell.Vfs.Core;
-    using Proligence.PowerShell.Vfs.Navigation;
+    using Proligence.PowerShell.Provider;
+    using Proligence.PowerShell.Provider.Vfs.Core;
+    using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>
     /// Implements a VFS node which groups <see cref="FeatureNode"/> nodes for a single Orchard tenant.
@@ -51,7 +51,7 @@
                 return new VfsNode[0];
             }
 
-            OrchardFeature[] features = this.modulesAgent.GetFeatures(tenantName);
+            var features = this.modulesAgent.GetFeatures(tenantName);
             return features.Select(feature => new FeatureNode(this.Vfs, feature));
         }
     }

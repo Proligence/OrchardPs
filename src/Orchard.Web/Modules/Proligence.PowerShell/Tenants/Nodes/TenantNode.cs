@@ -3,10 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using Orchard.Management.PsProvider;
-    using Proligence.PowerShell.Tenants.Items;
-    using Proligence.PowerShell.Vfs.Core;
-    using Proligence.PowerShell.Vfs.Navigation;
+
+    using Orchard.Environment.Configuration;
+
+    using Proligence.PowerShell.Provider;
+    using Proligence.PowerShell.Provider.Vfs.Core;
+    using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>
     /// Implements a VFS node which represents an Orchard tenant.
@@ -26,9 +28,9 @@
         /// Initializes a new instance of the <see cref="Proligence.PowerShell.Tenants.Nodes.TenantNode"/> class.
         /// </summary>
         /// <param name="vfs">The Orchard VFS instance which the node belongs to.</param>
-        /// <param name="tenant">The <see cref="OrchardTenant"/> object of the tenant represented by the node.</param>
+        /// <param name="tenant">The <see cref="ShellSettings"/> object of the tenant represented by the node.</param>
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods")]
-        public TenantNode(IPowerShellVfs vfs, OrchardTenant tenant) 
+        public TenantNode(IPowerShellVfs vfs, ShellSettings tenant) 
             : base(vfs, tenant.Name) 
         {
             this.Item = tenant;

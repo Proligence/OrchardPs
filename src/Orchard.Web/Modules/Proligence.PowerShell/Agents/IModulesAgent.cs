@@ -1,12 +1,12 @@
 namespace Proligence.PowerShell.Agents
 {
-    using Orchard.Management.PsProvider.Agents;
+    using Orchard.Environment.Extensions.Models;
+
     using Proligence.PowerShell.Modules.Items;
 
     /// <summary>
     /// Defines the interfaces for the agent which exposes Orchard modules and features.
     /// </summary>
-    [Agent(typeof(ModulesAgent))]
     public interface IModulesAgent : IAgent
     {
         /// <summary>
@@ -14,14 +14,14 @@ namespace Proligence.PowerShell.Agents
         /// </summary>
         /// <param name="tenant">The name of the tenant which modules will be get.</param>
         /// <returns>An array of objects representing the modules.</returns>
-        OrchardModule[] GetModules(string tenant);
+        ExtensionDescriptor[] GetModules(string tenant);
 
         /// <summary>
         /// Gets all features for the specified tenant.
         /// </summary>
         /// <param name="tenant">The name of the tenant which modules will be get.</param>
         /// <returns>An array of objects representing the modules.</returns>
-        OrchardFeature[] GetFeatures(string tenant);
+        FeatureDescriptor[] GetFeatures(string tenant);
 
         /// <summary>
         /// Enables the specified feature.

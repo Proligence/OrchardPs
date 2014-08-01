@@ -3,8 +3,8 @@
     using System.Collections.Generic;
     using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Common.Items;
-    using Proligence.PowerShell.Vfs.Core;
-    using Proligence.PowerShell.Vfs.Navigation;
+    using Proligence.PowerShell.Provider.Vfs.Core;
+    using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>
     /// Implements a VFS node which contains content-related items of an Orchard tenant.

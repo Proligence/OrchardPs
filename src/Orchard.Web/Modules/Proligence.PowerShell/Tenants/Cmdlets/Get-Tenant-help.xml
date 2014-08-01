@@ -101,7 +101,7 @@
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>Proligence.PowerShell.Tenants.Items.OrchardTenant</maml:name>
+          <maml:name>Proligence.PowerShell.Tenants.Items.ShellSettings</maml:name>
           <maml:uri></maml:uri>
           <maml:description>
             <maml:para />

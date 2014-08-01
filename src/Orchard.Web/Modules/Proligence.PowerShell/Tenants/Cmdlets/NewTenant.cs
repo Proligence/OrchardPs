@@ -3,9 +3,11 @@
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Management.Automation;
-    using Orchard.Management.PsProvider;
+
+    using Orchard.Environment.Configuration;
+
     using Proligence.PowerShell.Agents;
-    using Proligence.PowerShell.Tenants.Items;
+    using Proligence.PowerShell.Provider;
 
     /// <summary>
     /// Implements the <c>New-Tenant</c> cmdlet.
@@ -65,16 +67,7 @@
         /// Gets or sets the tenant to enable.
         /// </summary>
         [Parameter(ParameterSetName = "TenantObject", Mandatory = true)]
-        public OrchardTenant Tenant { get; set; }
-
-        /// <summary>
-        /// Provides a one-time, preprocessing functionality for the cmdlet.
-        /// </summary>
-        protected override void BeginProcessing()
-        {
-            base.BeginProcessing();
-            this.tenantAgent = this.AgentManager.GetAgent<ITenantAgent>();
-        }
+        public ShellSettings Tenant { get; set; }
 
         /// <summary>
         /// Provides a record-by-record processing functionality for the cmdlet. 
@@ -83,7 +76,7 @@
         {
             if (this.ParameterSetName == "Default")
             {
-                var tenant = new OrchardTenant();
+                var tenant = new ShellSettings();
                 PropertyMapper.Instance.MapProperties(this, tenant);
 
                 this.InvokeCreateTenant(tenant);
@@ -98,7 +91,7 @@
         /// Invokes the tenants agent to create a new tenant.
         /// </summary>
         /// <param name="tenant">The tenant to create.</param>
-        private void InvokeCreateTenant(OrchardTenant tenant)
+        private void InvokeCreateTenant(ShellSettings tenant)
         {
             if (this.ShouldProcess("Tenant: " + tenant.Name, "Create"))
             {

@@ -18,32 +18,9 @@
     public class NavigationProviderManager : INavigationProviderManager 
     {
         /// <summary>
-        /// The object which exposes the PowerShell-controlled console.
-        /// </summary>
-        private readonly IPowerShellConsole console;
-
-        /// <summary>
-        /// The dependency injection container for the VFS drive which the manager belongs to.
-        /// </summary>
-        private readonly ILifetimeScope scope;
-
-        /// <summary>
         /// Caches discovered PS navigation providers.
         /// </summary>
         private IPsNavigationProvider[] navigationProviders;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NavigationProviderManager"/> class.
-        /// </summary>
-        /// <param name="console">The object which exposes the PowerShell-controlled console.</param>
-        /// <param name="scope">
-        /// The dependency injection container for the VFS drive which the manager belongs to.
-        /// </param>
-        public NavigationProviderManager(IPowerShellConsole console, ILifetimeScope scope) 
-        {
-            this.console = console;
-            this.scope = scope;
-        }
 
         /// <summary>
         /// Gets all registered PS navigation providers.
@@ -72,8 +49,8 @@
 
                         var exception = new VfsProviderException(
                             message, ex, false, ErrorIds.CreateNavigationProviderFailed);
-                        
-                        this.console.WriteError(exception, exception.ErrorId, ErrorCategory.NotSpecified);
+
+                        throw exception;
                     }
                 }
 
@@ -184,7 +161,6 @@
         private IPsNavigationProvider CreateNavigationProvider(Type providerType) 
         {
             IPsNavigationProvider provider = (IPsNavigationProvider)Activator.CreateInstance(providerType);
-            this.scope.InjectUnsetProperties(provider);
             provider.Initialize();
             
             return provider;

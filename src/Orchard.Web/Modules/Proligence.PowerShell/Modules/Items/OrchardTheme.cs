@@ -1,7 +1,9 @@
 ﻿namespace Proligence.PowerShell.Modules.Items
 {
     using System;
-    
+
+    using Orchard.Environment.Extensions.Models;
+
     /// <summary>
     /// Represents a theme.
     /// </summary>
@@ -11,7 +13,7 @@
         /// <summary>
         /// Gets or sets the Orchard module which provides the theme.
         /// </summary>
-        public OrchardModule Module { get; set; }
+        public ExtensionDescriptor Module { get; set; }
 
         /// <summary>
         /// Gets the identifier of the theme.

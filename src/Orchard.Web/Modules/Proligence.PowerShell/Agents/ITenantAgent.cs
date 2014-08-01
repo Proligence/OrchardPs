@@ -2,32 +2,31 @@ namespace Proligence.PowerShell.Agents
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using Orchard.Management.PsProvider.Agents;
-    using Proligence.PowerShell.Tenants.Items;
+
+    using Orchard.Environment.Configuration;
 
     /// <summary>
     /// Defines the interface for the agent which exposes Orchard tenants.
     /// </summary>
-    [Agent(typeof(TenantAgent))]
     public interface ITenantAgent : IAgent
     {
         /// <summary>
         /// Gets the tenants configured in the Orchard installation.
         /// </summary>
         /// <returns>
-        /// An array of <see cref="OrchardTenant"/> objects which represent the tenants configured in the Orchard
+        /// An array of <see cref="ShellSettings"/> objects which represent the tenants configured in the Orchard
         /// installation.
         /// </returns>
-        OrchardTenant[] GetTenants();
+        ShellSettings[] GetTenants();
 
         /// <summary>
         /// Gets the tenant with the specified name.
         /// </summary>
         /// <param name="name">The name of the tenant to get.</param>
         /// <returns>
-        /// A <see cref="OrchardTenant"/> object which represent the tenant with the specified name or <c>null</c>.
+        /// A <see cref="ShellSettings"/> object which represent the tenant with the specified name or <c>null</c>.
         /// </returns>
-        OrchardTenant GetTenant(string name);
+        ShellSettings GetTenant(string name);
 
         /// <summary>
         /// Enables the tenant with the specified name.
@@ -45,13 +44,13 @@ namespace Proligence.PowerShell.Agents
         /// Creates a new tenant.
         /// </summary>
         /// <param name="tenant">The new tenant to create.</param>
-        void CreateTenant(OrchardTenant tenant);
+        void CreateTenant(ShellSettings tenant);
 
         /// <summary>
         /// Updates an existing tenant.
         /// </summary>
         /// <param name="tenant">The updated tenant.</param>
-        void UpdateTenant(OrchardTenant tenant);
+        void UpdateTenant(ShellSettings tenant);
 
         /// <summary>
         /// Removes an existing tenant.

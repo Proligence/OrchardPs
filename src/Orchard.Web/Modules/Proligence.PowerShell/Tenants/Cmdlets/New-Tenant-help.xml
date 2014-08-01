@@ -83,7 +83,7 @@
           <maml:description>
             <maml:para>Specifies the object which represents the Orchard tenant to create.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">OrchardTenant</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">ShellSettings</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
       
@@ -176,9 +176,9 @@
         <maml:description>
           <maml:para>Specifies the object which represents the Orchard tenant to create.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">OrchardTenant</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">ShellSettings</command:parameterValue>
         <dev:type>
-          <maml:name>OrchardTenant</maml:name>
+          <maml:name>ShellSettings</maml:name>
           <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>

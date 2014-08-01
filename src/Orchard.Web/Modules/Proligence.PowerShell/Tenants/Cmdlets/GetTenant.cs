@@ -4,9 +4,8 @@
     using System.Linq;
     using System.Management.Automation;
     using Orchard.Environment.Configuration;
-    using Orchard.Management.PsProvider;
     using Proligence.PowerShell.Agents;
-    using Proligence.PowerShell.Tenants.Items;
+    using Proligence.PowerShell.Provider;
 
     /// <summary>
     /// Implements the <c>Get-Tenant</c> cmdlet.
@@ -39,21 +38,12 @@
         public SwitchParameter Disabled { get; set; }
 
         /// <summary>
-        /// Provides a one-time, preprocessing functionality for the cmdlet.
-        /// </summary>
-        protected override void BeginProcessing()
-        {
-            base.BeginProcessing();
-            this.tenantAgent = this.AgentManager.GetAgent<ITenantAgent>();
-        }
-
-        /// <summary>
         /// Provides a record-by-record processing functionality for the cmdlet. 
         /// </summary>
         protected override void ProcessRecord()
         {
-            IEnumerable<OrchardTenant> tenants = this.GetTenantsFromParameters();
-            foreach (OrchardTenant tenant in tenants)
+            IEnumerable<ShellSettings> tenants = this.GetTenantsFromParameters();
+            foreach (var tenant in tenants)
             {
                 this.WriteObject(tenant);
             }
@@ -62,10 +52,10 @@
         /// <summary>
         /// Gets the orchard tenants which satisfy the current cmdlet parameters.
         /// </summary>
-        /// <returns>Sequence of <see cref="OrchardTenant"/> objects.</returns>
-        private IEnumerable<OrchardTenant> GetTenantsFromParameters()
+        /// <returns>Sequence of <see cref="ShellSettings"/> objects.</returns>
+        private IEnumerable<ShellSettings> GetTenantsFromParameters()
         {
-            IEnumerable<OrchardTenant> tenants = this.tenantAgent.GetTenants();
+            IEnumerable<ShellSettings> tenants = this.tenantAgent.GetTenants();
 
             if (!string.IsNullOrEmpty(this.Name))
             {

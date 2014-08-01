@@ -70,14 +70,74 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Agents\CommandAgent.cs" />
+    <Compile Include="Agents\ContentAgent.cs" />
+    <Compile Include="Agents\IAgent.cs" />
+    <Compile Include="Agents\ICommandAgent.cs" />
+    <Compile Include="Agents\IContentAgent.cs" />
+    <Compile Include="Agents\IModulesAgent.cs" />
+    <Compile Include="Agents\ITenantAgent.cs" />
+    <Compile Include="Agents\ModulesAgent.cs" />
+    <Compile Include="Agents\TenantAgent.cs" />
     <Compile Include="Cmdlets\GetOrchardPsCommand.cs" />
+    <Compile Include="Commands\Cmdlets\InvokeOrchardCommand.cs" />
+    <Compile Include="Commands\Items\OrchardCommand.cs" />
+    <Compile Include="Commands\NavigationProviders\CommandsPsNavigationProvider.cs" />
+    <Compile Include="Commands\Nodes\CommandNode.cs" />
+    <Compile Include="Commands\Nodes\CommandsNode.cs" />
+    <Compile Include="Common\Extensions\OrchardCmdletExtensions.cs" />
+    <Compile Include="Common\Extensions\VfsNodeExtensions.cs" />
+    <Compile Include="Common\Items\CollectionItem.cs" />
+    <Compile Include="Common\Items\DescriptionItem.cs" />
+    <Compile Include="Configuration\ConfigurationNode.cs" />
+    <Compile Include="Configuration\ConfigurationPsNavigationProvider.cs" />
+    <Compile Include="Content\Cmdlets\EditContentPartDefinition.cs" />
+    <Compile Include="Content\Cmdlets\GetContentPartDefinition.cs" />
+    <Compile Include="Content\NavigationProviders\ContentPsNavigationProvider.cs" />
+    <Compile Include="Content\Nodes\ContentFieldNode.cs" />
+    <Compile Include="Content\Nodes\ContentFieldsNode.cs" />
+    <Compile Include="Content\Nodes\ContentNode.cs" />
+    <Compile Include="Content\Nodes\ContentPartNode.cs" />
+    <Compile Include="Content\Nodes\ContentPartsNode.cs" />
+    <Compile Include="Modules\Cmdlets\DisableOrchardFeature.cs" />
+    <Compile Include="Modules\Cmdlets\EnableOrchardFeature.cs" />
+    <Compile Include="Modules\Cmdlets\EnableOrchardTheme.cs" />
+    <Compile Include="Modules\Cmdlets\GetOrchardFeature.cs" />
+    <Compile Include="Modules\Cmdlets\GetOrchardTheme.cs" />
+    <Compile Include="Modules\Items\OrchardTheme.cs" />
+    <Compile Include="Modules\NavigationProviders\FeaturesPsNavigationProvider.cs" />
+    <Compile Include="Modules\NavigationProviders\ModulesPsNavigationProvider.cs" />
+    <Compile Include="Modules\NavigationProviders\ThemesPsNavigationProvider.cs" />
+    <Compile Include="Modules\Nodes\FeatureCategoryNode.cs" />
+    <Compile Include="Modules\Nodes\FeatureNode.cs" />
+    <Compile Include="Modules\Nodes\FeaturesNode.cs" />
+    <Compile Include="Modules\Nodes\ModuleNode.cs" />
+    <Compile Include="Modules\Nodes\ModulesNode.cs" />
+    <Compile Include="Modules\Nodes\ThemeNode.cs" />
+    <Compile Include="Modules\Nodes\ThemesNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AdminMenu.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="ResourceManifest.cs" />
+    <Compile Include="Tenants\Cmdlets\DisableTenant.cs" />
+    <Compile Include="Tenants\Cmdlets\EditTenant.cs" />
+    <Compile Include="Tenants\Cmdlets\EnableTenant.cs" />
+    <Compile Include="Tenants\Cmdlets\GetTenant.cs" />
+    <Compile Include="Tenants\Cmdlets\NewTenant.cs" />
+    <Compile Include="Tenants\Cmdlets\RemoveTenant.cs" />
+    <Compile Include="Tenants\NavigationProviders\TenantConfigurationPsNavigationProvider.cs" />
+    <Compile Include="Tenants\NavigationProviders\TenantsPsNavigationProvider.cs" />
+    <Compile Include="Tenants\Nodes\TenantConfigurationNode.cs" />
+    <Compile Include="Tenants\Nodes\TenantNode.cs" />
+    <Compile Include="Tenants\Nodes\TenantsNode.cs" />
+    <Compile Include="Utilities\CmdletHelper.cs" />
+    <Compile Include="Utilities\ITenantFilterCmdlet.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Cmdlets\Get-OrchardPsCommand-help.xml" />
+    <Content Include="Commands\Cmdlets\Invoke-OrchardCommand-help.xml" />
+    <Content Include="Content\Cmdlets\Edit-ContentPartDefinition-help.xml" />
+    <Content Include="Content\Cmdlets\Get-ContentPartDefinition-help.xml" />
     <Content Include="Module.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +163,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Modules\Cmdlets\Disable-OrchardFeature-help.xml" />
+    <Content Include="Modules\Cmdlets\Enable-OrchardFeature-help.xml" />
+    <Content Include="Modules\Cmdlets\Enable-OrchardTheme-help.xml" />
+    <Content Include="Modules\Cmdlets\Get-OrchardFeature-help.xml" />
+    <Content Include="Modules\Cmdlets\Get-OrchardTheme-help.xml" />
     <Content Include="Scripts\console.min.js">
       <DependentUpon>console.js</DependentUpon>
     </Content>
@@ -112,6 +177,12 @@
     <Content Include="Styles\console.min.css">
       <DependentUpon>console.css</DependentUpon>
     </Content>
+    <Content Include="Tenants\Cmdlets\Disable-Tenant-help.xml" />
+    <Content Include="Tenants\Cmdlets\Edit-Tenant-help.xml" />
+    <Content Include="Tenants\Cmdlets\Enable-Tenant-help.xml" />
+    <Content Include="Tenants\Cmdlets\Get-Tenant-help.xml" />
+    <Content Include="Tenants\Cmdlets\New-Tenant-help.xml" />
+    <Content Include="Tenants\Cmdlets\Remove-Tenant-help.xml" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -134,6 +205,21 @@
     <Content Include="Scripts\jquery.console.min.js.map">
       <DependentUpon>jquery.console.min.js</DependentUpon>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Modules\Modules.format.ps1xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Tenants\Sites.format.ps1xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Common\Common.format.ps1xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Commands\Commands.format.ps1xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Content.format.ps1xml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

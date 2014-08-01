@@ -9,7 +9,6 @@
     using Orchard.Environment.Extensions;
     using Orchard.Environment.Extensions.Models;
     using Orchard.Environment.Features;
-    using Orchard.Management.PsProvider.Agents;
     using Orchard.Themes.Models;
     using Orchard.Themes.Services;
     using Proligence.PowerShell.Modules.Items;
@@ -17,32 +16,40 @@
     /// <summary>
     /// Implements the agent which exposes Orchard modules and features.
     /// </summary>
-    public class ModulesAgent : AgentBase, IModulesAgent
+    public class ModulesAgent : IModulesAgent
     {
+        private readonly IFeatureManager features;
+        private readonly IExtensionManager extensions;
+        private readonly IDataMigrationManager migrations;
+        private readonly IOrchardServices services;
+
+        private readonly IThemeService themes;
+
+        private readonly ISiteThemeService siteThemes;
+
+        public ModulesAgent(
+            IFeatureManager features, 
+            IExtensionManager extensions, 
+            IDataMigrationManager migrations, 
+            IOrchardServices services, 
+            IThemeService themes, 
+            ISiteThemeService siteThemes) {
+            this.features = features;
+            this.extensions = extensions;
+            this.migrations = migrations;
+            this.services = services;
+            this.themes = themes;
+            this.siteThemes = siteThemes;
+        }
+
         /// <summary>
         /// Gets all modules for the specified tenant.
         /// </summary>
         /// <param name="tenant">The name of the tenant which modules will be get.</param>
         /// <returns>An array of objects representing the modules.</returns>
-        public OrchardModule[] GetModules(string tenant)
+        public ExtensionDescriptor[] GetModules(string tenant)
         {
-            var extensionManager = this.Resolve<IExtensionManager>(tenant);
-            var featureManager = this.Resolve<IFeatureManager>(tenant);
-            IEnumerable<ExtensionDescriptor> extensionDescriptors = extensionManager.AvailableExtensions();
-            IEnumerable<FeatureDescriptor> enabledFeatures = featureManager.GetEnabledFeatures().ToArray();
-
-            OrchardModule[] modules = extensionDescriptors.Select(MapDescriptorToOrchardModule).ToArray();
-            foreach (OrchardModule orchardModule in modules)
-            {
-                foreach (OrchardFeature orchardFeature in orchardModule.Features)
-                {
-                    orchardFeature.Module = orchardModule;
-                    orchardFeature.Enabled = enabledFeatures.Any(f => f.Name == orchardFeature.Name);
-                    orchardFeature.TenantName = tenant;
-                }
-            }
-
-            return modules;
+            return this.extensions.AvailableExtensions().ToArray();
         }
 
         /// <summary>
@@ -50,36 +57,10 @@
         /// </summary>
         /// <param name="tenant">The name of the tenant which modules will be get.</param>
         /// <returns>An array of objects representing the modules.</returns>
-        public OrchardFeature[] GetFeatures(string tenant)
+        public FeatureDescriptor[] GetFeatures(string tenant)
         {
-            var extensionManager = this.Resolve<IExtensionManager>(tenant);
-            var featureManager = this.Resolve<IFeatureManager>(tenant);
-            IEnumerable<FeatureDescriptor> featureDescriptors = extensionManager.AvailableFeatures();
-            IEnumerable<ExtensionDescriptor> extensions = extensionManager.AvailableExtensions().ToArray();
-            IEnumerable<FeatureDescriptor> enabledFeatures = featureManager.GetEnabledFeatures().ToArray();
-
-            var features = new List<OrchardFeature>();
-
-            foreach (FeatureDescriptor featureDescriptor in featureDescriptors)
-            {
-                OrchardFeature feature = MapDescriptorToOrchardFeature(featureDescriptor);
-                
-                ExtensionDescriptor extension = extensions.FirstOrDefault(e => e.Name == feature.Name);
-                if (extension != null)
-                {
-                    feature.Module = MapDescriptorToOrchardModule(extension);
-                    feature.Enabled = enabledFeatures.Any(f => f.Name == feature.Name);
-                }
-
-                features.Add(feature);
-            }
-
-            foreach (OrchardFeature orchardFeature in features)
-            {
-                orchardFeature.TenantName = tenant;
-            }
-
-            return features.ToArray();
+            IEnumerable<FeatureDescriptor> featureDescriptors = this.extensions.AvailableFeatures();
+            return featureDescriptors.ToArray();
         }
 
         /// <summary>
@@ -90,8 +71,7 @@
         /// <param name="includeDependencies">True to enable dependant features; otherwise, false.</param>
         public void EnableFeature(string tenant, string name, bool includeDependencies)
         {
-            var featureManager = this.Resolve<IFeatureManager>(tenant);
-            featureManager.EnableFeatures(new[] { name }, includeDependencies);
+            this.features.EnableFeatures(new[] { name }, includeDependencies);
         }
 
         /// <summary>
@@ -102,8 +82,7 @@
         /// <param name="includeDependencies">True to disable dependant features; otherwise, false.</param>
         public void DisableFeature(string tenant, string name, bool includeDependencies)
         {
-            var featureManager = this.Resolve<IFeatureManager>(tenant);
-            featureManager.DisableFeatures(new[] { name }, includeDependencies);
+            this.features.DisableFeatures(new[] { name }, includeDependencies);
         }
 
         /// <summary>
@@ -113,32 +92,24 @@
         /// <returns>An array of objects representing themes from the specified tenant.</returns>
         public OrchardTheme[] GetThemes(string tenant)
         {
-            using (IWorkContextScope workContext = this.CreateWorkContextScope(tenant))
-            {
-                var dataMigrationManager = workContext.Resolve<IDataMigrationManager>();
-                IEnumerable<string> featuresThatNeedUpdate = dataMigrationManager.GetFeaturesThatNeedUpdate();
+            IEnumerable<string> featuresThatNeedUpdate = migrations.GetFeaturesThatNeedUpdate();
+            FeatureDescriptor[] tenantFeatures = this.GetFeatures(tenant);
 
-                var extensionManager = workContext.Resolve<IExtensionManager>();
-                OrchardFeature[] tenantFeatures = this.GetFeatures(tenant);
+            string currentThemeId = this.services.WorkContext.CurrentSite.As<ThemeSiteSettingsPart>().CurrentThemeName;
 
-                var services = workContext.Resolve<IOrchardServices>();
-                string currentThemeId = services.WorkContext.CurrentSite.As<ThemeSiteSettingsPart>().CurrentThemeName;
-
-                return extensionManager.AvailableExtensions()
-                    .Where(d => DefaultExtensionTypes.IsTheme(d.ExtensionType))
-                    .Where(d => d.Tags != null && d.Tags.Split(',').Any(
-                        t => t.Trim().Equals("hidden", StringComparison.OrdinalIgnoreCase)) == false)
-                    .Select(
-                        d => new OrchardTheme
-                        {
-                            Module = MapDescriptorToOrchardModule(d),
-                            Enabled = tenantFeatures.Any(f => f.Id == d.Id && f.Enabled),
-                            Activated = d.Id == currentThemeId,
-                            NeedsUpdate = featuresThatNeedUpdate.Contains(d.Id),
-                            TenantName = tenant
-                        })
-                    .ToArray();
-            }
+            return extensions.AvailableExtensions()
+                .Where(d => DefaultExtensionTypes.IsTheme(d.ExtensionType))
+                .Where(d => d.Tags != null && d.Tags.Split(',').Any(
+                    t => t.Trim().Equals("hidden", StringComparison.OrdinalIgnoreCase)) == false)
+                .Select(
+                    d => new OrchardTheme
+                    {
+                        Module = d,
+                        Activated = d.Id == currentThemeId,
+                        NeedsUpdate = featuresThatNeedUpdate.Contains(d.Id),
+                        TenantName = tenant
+                    })
+                .ToArray();
         }
 
         /// <summary>
@@ -148,70 +119,18 @@
         /// <param name="id">The identifier of the theme to enable.</param>
         public void EnableTheme(string tenant, string id)
         {
-            using (IWorkContextScope workContext = this.CreateWorkContextScope(tenant))
+            ExtensionDescriptor theme = this.extensions.AvailableExtensions().FirstOrDefault(x => x.Id == id);
+            if (theme == null)
             {
-                var extensionManager = workContext.Resolve<IExtensionManager>();
-                ExtensionDescriptor theme = extensionManager.AvailableExtensions().FirstOrDefault(x => x.Id == id);
-                if (theme == null)
-                {
-                    throw new ArgumentException("Could not find theme '" + id + "'.", "id");
-                }
-
-                var featureManager = workContext.Resolve<IFeatureManager>();
-                if (featureManager.GetEnabledFeatures().All(sf => sf.Id != theme.Id))
-                {
-                    var themeService = workContext.Resolve<IThemeService>();
-                    themeService.EnableThemeFeatures(theme.Id);
-                }
-
-                var siteThemeService = workContext.Resolve<ISiteThemeService>();
-                siteThemeService.SetSiteTheme(theme.Id);
+                throw new ArgumentException("Could not find theme '" + id + "'.", "id");
             }
-        }
 
-        /// <summary>
-        /// Maps an orchard module descriptor to a new <see cref="OrchardModule"/> object.
-        /// </summary>
-        /// <param name="descriptor">The descriptor to map.</param>
-        /// <returns>The created object.</returns>
-        private static OrchardModule MapDescriptorToOrchardModule(ExtensionDescriptor descriptor)
-        {
-            return new OrchardModule
-                   {
-                       Id = descriptor.Id,
-                       ExtensionType = descriptor.ExtensionType,
-                       Name = descriptor.Name,
-                       Path = descriptor.Path,
-                       Description = descriptor.Description,
-                       Version = descriptor.Version,
-                       OrchardVersion = descriptor.OrchardVersion,
-                       Author = descriptor.Author,
-                       Website = descriptor.WebSite,
-                       Tags = descriptor.Tags,
-                       AntiForgery = descriptor.AntiForgery,
-                       Zones = descriptor.Zones,
-                       BaseTheme = descriptor.BaseTheme,
-                       SessionState = descriptor.SessionState,
-                       Features = descriptor.Features.Select(MapDescriptorToOrchardFeature).ToArray()
-                   };
-        }
+            if (features.GetEnabledFeatures().All(sf => sf.Id != theme.Id))
+            {
+                themes.EnableThemeFeatures(theme.Id);
+            }
 
-        /// <summary>
-        /// Maps an orchard module descriptor to a new <see cref="OrchardFeature"/> object.
-        /// </summary>
-        /// <param name="descriptor">The descriptor to map.</param>
-        /// <returns>The created object.</returns>
-        private static OrchardFeature MapDescriptorToOrchardFeature(FeatureDescriptor descriptor)
-        {
-            return new OrchardFeature
-                   {
-                       Id = descriptor.Id,
-                       Name = descriptor.Name,
-                       Description = descriptor.Description,
-                       Category = descriptor.Category,
-                       Priority = descriptor.Priority,
-                       Dependencies = descriptor.Dependencies != null ? descriptor.Dependencies.ToArray() : null
-                   };
+            siteThemes.SetSiteTheme(theme.Id);
         }
     }
 }

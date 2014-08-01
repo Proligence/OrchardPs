@@ -4,10 +4,9 @@
     using System.Linq;
     using System.Management.Automation;
     using Orchard.Environment.Configuration;
-    using Orchard.Management.PsProvider;
     using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Modules.Items;
-    using Proligence.PowerShell.Tenants.Items;
+    using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Utilities;
 
     /// <summary>
@@ -22,9 +21,14 @@
         private IModulesAgent modulesAgent;
 
         /// <summary>
+        /// The tenant agent instance.
+        /// </summary>
+        private ITenantAgent tenantAgent;
+
+        /// <summary>
         /// All available Orchard tenants.
         /// </summary>
-        private OrchardTenant[] tenants;
+        private ShellSettings[] tenants;
 
         /// <summary>
         /// Gets or sets the name of the Orchard theme to get.
@@ -45,7 +49,7 @@
         /// Gets or sets the Orchard tenant for which themes will be retrieved.
         /// </summary>
         [Parameter(ParameterSetName = "TenantObject", Mandatory = true, ValueFromPipeline = true)]
-        public OrchardTenant TenantObject { get; set; }
+        public ShellSettings TenantObject { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether themes should be retrieved from all tenants.
@@ -75,9 +79,8 @@
         protected override void BeginProcessing()
         {
             base.BeginProcessing();
-            this.modulesAgent = this.AgentManager.GetAgent<IModulesAgent>();
 
-            this.tenants = this.AgentManager.GetAgent<ITenantAgent>()
+            this.tenants = this.tenantAgent
                 .GetTenants()
                 .Where(t => t.State == TenantState.Running)
                 .ToArray();
@@ -88,11 +91,11 @@
         /// </summary>
         protected override void ProcessRecord()
         {
-            IEnumerable<OrchardTenant> filteredTenants = CmdletHelper.FilterTenants(this, this.tenants);
+            IEnumerable<ShellSettings> filteredTenants = CmdletHelper.FilterTenants(this, this.tenants);
 
             var themes = new List<OrchardTheme>();
 
-            foreach (OrchardTenant tenant in filteredTenants)
+            foreach (ShellSettings tenant in filteredTenants)
             {
                 OrchardTheme[] tenantThemes = this.modulesAgent.GetThemes(tenant.Name);
                 themes.AddRange(tenantThemes);

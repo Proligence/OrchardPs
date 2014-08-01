@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Management.Automation;
 using System.Management.Automation.Runspaces;
-using Microsoft.AspNet.SignalR;
-using Microsoft.AspNet.SignalR.Infrastructure;
 using Proligence.PowerShell.Provider.Console.Host;
+using Proligence.PowerShell.Provider.Console.UI;
 
 namespace Proligence.PowerShell.Provider.Console
 {
@@ -26,12 +26,22 @@ namespace Proligence.PowerShell.Provider.Console
         /// <summary>
         ///  Delegate used for sending messages up to the user console.
         /// </summary>
-        Action<dynamic> Sender { get; }
+        Action<OutputData> Sender { get; }
 
         /// <summary>
         /// SignalR connection identifier for this particular session.
         /// </summary>
         string ConnectionId { get; }
+
+        /// <summary>
+        /// Gets the current session's runspace path details.
+        /// </summary>
+        PathIntrinsics PathIntrinsics { get; }
+
+        /// <summary>
+        /// Gets the current session's runspace absolute path.
+        /// </summary>
+        string Path { get; }
 
         /// <summary>
         /// Reads line of string from input buffer.

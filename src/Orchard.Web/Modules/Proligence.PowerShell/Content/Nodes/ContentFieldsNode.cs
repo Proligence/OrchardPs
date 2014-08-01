@@ -2,12 +2,14 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+
+    using Orchard.ContentManagement.MetaData.Models;
+
     using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Common.Extensions;
     using Proligence.PowerShell.Common.Items;
-    using Proligence.PowerShell.Content.Items;
-    using Proligence.PowerShell.Vfs.Core;
-    using Proligence.PowerShell.Vfs.Navigation;
+    using Proligence.PowerShell.Provider.Vfs.Core;
+    using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>
     /// Implements a VFS node which contains content field definitions for an Orchard tenant.
@@ -48,7 +50,7 @@
                 return new VfsNode[0];
             }
 
-            OrchardContentFieldDefinition[] fields = this.contentAgent.GetContentFieldDefinitions(tenantName);
+            ContentFieldDefinition[] fields = this.contentAgent.GetContentFieldDefinitions(tenantName);
             return fields.Select(definition => new ContentFieldNode(this.Vfs, definition));
         }
     }

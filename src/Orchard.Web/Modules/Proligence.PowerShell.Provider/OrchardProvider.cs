@@ -3,12 +3,12 @@
     using System;
     using System.Collections.ObjectModel;
     using System.Diagnostics.CodeAnalysis;
-    using System.IO;
     using System.Management.Automation;
     using System.Management.Automation.Host;
     using System.Management.Automation.Provider;
-    using System.Reflection;
-    using Autofac;
+
+    using Proligence.PowerShell.Provider.Console;
+    using Proligence.PowerShell.Provider.Console.Host;
     using Proligence.PowerShell.Provider.Vfs.Provider;
 
     /// <summary>
@@ -29,23 +29,20 @@
         }
 
         /// <summary>
-        /// Gets the dependency injection container for the provider.
+        /// Gets the object which can be used to access the PowerShell-controlled output console.
         /// </summary>
-        /// <returns>The <see cref="IContainer"/> instance.</returns>
-        protected override IContainer GetContainer()
-        {
-            return null;
-        }
+        public PsSession Session { get; set; }
+
+        protected ConsoleHost ConsoleHost { get; set; }
 
         /// <summary>
         /// Creates the <see cref="VfsProviderInfo"/> object for the provider.
         /// </summary>
         /// <param name="providerInfo">A <see cref="ProviderInfo"/> object that describes the provider to be initialized.</param>
-        /// <param name="container">The dependency injection container.</param>
         /// <returns>The created <see cref="VfsProviderInfo"/> object.</returns>
-        protected override VfsProviderInfo CreateProviderInfo(ProviderInfo providerInfo, IContainer container)
+        protected override VfsProviderInfo CreateProviderInfo(ProviderInfo providerInfo)
         {
-            return new OrchardProviderInfo(providerInfo, container);
+            return new OrchardProviderInfo(providerInfo);
         }
 
         /// <summary>
@@ -83,20 +80,8 @@
             this.Try(
                 () => 
                 {
-                    Assembly entryAssembly = Assembly.GetEntryAssembly();
-                    string path = entryAssembly != null ? entryAssembly.Location : Environment.CurrentDirectory;
-
-                    for (var di = new DirectoryInfo(path); di != null; di = di.Parent) 
-                    {
-                        /*
-                        if (OrchardPsSnapIn.VerifyOrchardDirectory(di.FullName)) 
-                        {
-                            var drive = new PSDriveInfo("Orchard", ProviderInfo, "\\", "Orchard drive", Credential);
-                            var driveParameters = new OrchardDriveParameters { OrchardRoot = di.FullName };
-                            drives.Add(InitializeOrchardDrive(drive, driveParameters));
-                            break;
-                        }*/
-                    }
+                    var drive = new PSDriveInfo("Orchard", ProviderInfo, "\\", "Orchard drive", Credential);
+                    drives.Add(InitializeOrchardDrive(drive));
                 }, 
                 ErrorIds.DefaultDrivesInitFailed, 
                 ErrorCategory.OpenError);
@@ -156,27 +141,24 @@
         [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly")]
         private OrchardDriveInfo InitializeOrchardDrive(PSDriveInfo drive) 
         {
-            this.Console.WriteVerbose("Initializing Orchard session. (This might take a few seconds...)");
-            this.Console.WriteLine();
+            this.Host.UI.WriteVerboseLine("Initializing Orchard session. (This might take a few seconds...)");
+            this.Host.UI.WriteLine();
             
             var orchardDrive = new OrchardDriveInfo(drive);
             orchardDrive.Initialize();
 
-            var color = System.Console.ForegroundColor;
-            System.Console.ForegroundColor = ConsoleColor.White;
-            System.Console.WriteLine("                    Welcome to Orchard PowerShell!");
-            System.Console.ForegroundColor = color;
+            this.Host.UI.WriteLine(ConsoleColor.Yellow, 0, "                    Welcome to Orchard PowerShell!");
 
-            System.Console.WriteLine();
-            System.Console.WriteLine(
+            this.Host.UI.WriteLine();
+            this.Host.UI.WriteLine(
                 "To get a list of all Orchard-related cmdlets, type Get-OrchardPsCommand -All.");
-            System.Console.WriteLine(
+            this.Host.UI.WriteLine(
                 "To get a list of all supported cmdlets for the current location type Get-OrchardPsCommand.");
-            System.Console.WriteLine(
+            this.Host.UI.WriteLine(
                 "To get help about a specific cmdlet, type Get-Help CommandName.");
-            System.Console.WriteLine(
+            this.Host.UI.WriteLine(
                 "To get more help about the Orchard PowerShell provider, type Get-Help Orchard.");
-            System.Console.WriteLine();
+            this.Host.UI.WriteLine();
 
             return orchardDrive;
         }

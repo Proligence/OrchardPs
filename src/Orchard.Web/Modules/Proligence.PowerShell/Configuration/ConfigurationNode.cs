@@ -6,9 +6,8 @@
 
 namespace Proligence.PowerShell.Configuration 
 {
-    using Proligence.PowerShell.Vfs;
-    using Proligence.PowerShell.Vfs.Core;
-    using Proligence.PowerShell.Vfs.Navigation;
+    using Proligence.PowerShell.Provider.Vfs.Core;
+    using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>
     /// Implements a VFS node which groups configuration-related nodes for a single Orchard tenant.

@@ -3,30 +3,29 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Orchard;
     using Orchard.ContentManagement.MetaData;
-    using Orchard.Management.PsProvider.Agents;
-    using Proligence.PowerShell.Content.Items;
+    using Orchard.ContentManagement.MetaData.Models;
 
     /// <summary>
     /// Implements the agent which exposes content definitions and data.
     /// </summary>
-    public class ContentAgent : AgentBase, IContentAgent
+    public class ContentAgent : IContentAgent
     {
+        private readonly IContentDefinitionManager manager;
+
+        public ContentAgent(IContentDefinitionManager manager) 
+        {
+            this.manager = manager;
+        }
+
         /// <summary>
         /// Gets the definitions of all content fields for the specified tenant.
         /// </summary>
         /// <param name="tenant">The name of the tenant.</param>
         /// <returns>A sequence of content field definitions.</returns>
-        public OrchardContentFieldDefinition[] GetContentFieldDefinitions(string tenant)
+        public ContentFieldDefinition[] GetContentFieldDefinitions(string tenant) 
         {
-            using (IWorkContextScope scope = this.CreateWorkContextScope(tenant))
-            {
-                var manager = scope.Resolve<IContentDefinitionManager>();
-                return manager.ListFieldDefinitions()
-                    .Select(field => new OrchardContentFieldDefinition { Name = field.Name })
-                    .ToArray();
-            }
+            return manager.ListFieldDefinitions().ToArray();
         }
 
         /// <summary>
@@ -34,30 +33,16 @@
         /// </summary>
         /// <param name="tenant">The name of the tenant.</param>
         /// <returns>A array of content part definitions.</returns>
-        public OrchardContentPartDefinition[] GetContentPartDefinitions(string tenant)
+        public ContentPartDefinition[] GetContentPartDefinitions(string tenant)
         {
-            using (IWorkContextScope scope = this.CreateWorkContextScope(tenant))
-            {
-                var manager = scope.Resolve<IContentDefinitionManager>();
-                return manager.ListPartDefinitions()
-                    .Select(part => 
-                        new OrchardContentPartDefinition
-                        {
-                            Tenant = tenant,
-                            Name = part.Name,
-                            Fields = part.Fields.Select(
-                                field => new OrchardContentFieldDefinition { Name = field.Name }).ToArray(),
-                            Settings = new Dictionary<string, string>(part.Settings)
-                        })
-                    .ToArray();
-            }
+            return manager.ListPartDefinitions().ToArray();
         }
 
         /// <summary>
         /// Updates the specified content part definition.
         /// </summary>
         /// <param name="definition">The content part definition to update.</param>
-        public void UpdateContentPartDefinition(OrchardContentPartDefinition definition)
+        public void UpdateContentPartDefinition(ContentPartDefinition definition)
         {
             if (definition == null)
             {
@@ -66,9 +51,7 @@
 
             if (definition.Settings != null)
             {
-                using (IWorkContextScope scope = this.CreateWorkContextScope(definition.Tenant))
-                {
-                    scope.Resolve<IContentDefinitionManager>().AlterPartDefinition(
+                    manager.AlterPartDefinition(
                         definition.Name,
                         part =>
                         {
@@ -77,7 +60,6 @@
                                 part.WithSetting(setting.Key, setting.Value);
                             }
                         });
-                }
             }
         }
     }

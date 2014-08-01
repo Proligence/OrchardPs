@@ -4,11 +4,14 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Orchard.Management.PsProvider;
+
+    using Orchard.Environment.Configuration;
+    using Orchard.Environment.Extensions.Models;
+
     using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Common.Extensions;
     using Proligence.PowerShell.Modules.Items;
-    using Proligence.PowerShell.Tenants.Items;
+    using Proligence.PowerShell.Provider;
 
     /// <summary>
     /// Implements the <c>Enable-OrchardFeature</c> cmdlet.
@@ -24,7 +27,7 @@
         /// <summary>
         /// Cached list of all Orchard features for each tenant.
         /// </summary>
-        private IDictionary<string, OrchardFeature[]> features;
+        private IDictionary<string, FeatureDescriptor[]> features;
 
         /// <summary>
         /// Gets or sets the name of the feature to enable.
@@ -43,7 +46,7 @@
         /// Gets or sets the <see cref="OrchardFeature"/> object which represents the orchard feature to enable.
         /// </summary>
         [Parameter(ParameterSetName = "FeatureObject", ValueFromPipeline = true)]
-        public OrchardFeature Feature { get; set; }
+        public FeatureDescriptor Feature { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the feature should not enable it's dependencies and fail if they
@@ -59,8 +62,7 @@
         protected override void BeginProcessing()
         {
             base.BeginProcessing();
-            this.modulesAgent = this.AgentManager.GetAgent<IModulesAgent>();
-            this.features = new Dictionary<string, OrchardFeature[]>();
+            this.features = new Dictionary<string, FeatureDescriptor[]>();
         }
 
         /// <summary>
@@ -73,7 +75,7 @@
             if ((this.ParameterSetName != "FeatureObject") && string.IsNullOrEmpty(this.Tenant))
             {
                 // Get feature for current tenant if tenant name not specified
-                OrchardTenant tenant = this.GetCurrentTenant();
+                ShellSettings tenant = this.GetCurrentTenant();
                 tenantName = tenant != null ? tenant.Name : "Default";
             }
             
@@ -82,7 +84,7 @@
                 tenantName = this.Tenant;
             }
 
-            OrchardFeature feature = null;
+            FeatureDescriptor feature = null;
 
             if (this.ParameterSetName == "Default")
             {
@@ -98,7 +100,6 @@
             else if (this.ParameterSetName == "FeatureObject")
             {
                 feature = this.Feature;
-                tenantName = this.Feature.TenantName;
             }
 
             if (feature != null)
@@ -116,9 +117,9 @@
         /// <param name="tenantName">The name to the tenant for which to get feature.</param>
         /// <param name="featureName">The name of the feature to get.</param>
         /// <returns>The <see cref="OrchardFeature"/> object for the specified feature.</returns>
-        private OrchardFeature GetOrchardFeature(string tenantName, string featureName)
+        private FeatureDescriptor GetOrchardFeature(string tenantName, string featureName)
         {
-            OrchardFeature[] tenantFeatures;
+            FeatureDescriptor[] tenantFeatures;
 
             if (!this.features.TryGetValue(tenantName, out tenantFeatures))
             {

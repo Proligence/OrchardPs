@@ -4,11 +4,13 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Orchard.Management.PsProvider;
+
+    using Orchard.Environment.Configuration;
+
     using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Common.Extensions;
     using Proligence.PowerShell.Modules.Items;
-    using Proligence.PowerShell.Tenants.Items;
+    using Proligence.PowerShell.Provider;
 
     /// <summary>
     /// Implements the <c>Enable-OrchardFeature</c> cmdlet.
@@ -51,7 +53,6 @@
         protected override void BeginProcessing()
         {
             base.BeginProcessing();
-            this.modulesAgent = this.AgentManager.GetAgent<IModulesAgent>();
             this.themes = new Dictionary<string, OrchardTheme[]>();
         }
 
@@ -65,7 +66,7 @@
             if ((this.ParameterSetName != "ThemeObject") && string.IsNullOrEmpty(this.Tenant))
             {
                 // Get feature for current tenant if tenant name not specified
-                OrchardTenant tenant = this.GetCurrentTenant();
+                ShellSettings tenant = this.GetCurrentTenant();
                 tenantName = tenant != null ? tenant.Name : "Default";
             }
 

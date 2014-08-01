@@ -6,7 +6,7 @@
 
 namespace Proligence.PowerShell.Configuration 
 {
-    using Proligence.PowerShell.Vfs.Navigation;
+    using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>
     /// Implements the navigation provider which adds the <see cref="ConfigurationNode"/> tenant node to the

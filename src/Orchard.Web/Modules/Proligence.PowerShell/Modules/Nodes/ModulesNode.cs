@@ -5,9 +5,8 @@
     using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Common.Extensions;
     using Proligence.PowerShell.Common.Items;
-    using Proligence.PowerShell.Modules.Items;
-    using Proligence.PowerShell.Vfs.Core;
-    using Proligence.PowerShell.Vfs.Navigation;
+    using Proligence.PowerShell.Provider.Vfs.Core;
+    using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>
     /// Implements a VFS node which groups <see cref="ModuleNode"/> nodes for a single Orchard tenant.
@@ -48,7 +47,7 @@
                 return new VfsNode[0];
             }
 
-            OrchardModule[] modules = this.modulesAgent.GetModules(tenantName);
+            var modules = this.modulesAgent.GetModules(tenantName);
             return modules.Select(module => new ModuleNode(this.Vfs, module));
         }
     }

@@ -5,6 +5,7 @@
     using System.Management.Automation;
     using System.Management.Automation.Runspaces;
     using Proligence.PowerShell.Provider.Console.Host;
+    using Proligence.PowerShell.Provider.Console.UI;
 
     /// <summary>
     /// Represents a PowerShell user session.
@@ -13,9 +14,8 @@
     {
         private readonly ConcurrentQueue<string> queue;
 
-        public PsSession(ConsoleHost consoleHost, string connectionId, Action<dynamic> sender)
+        public PsSession(ConsoleHost consoleHost, string connectionId)
         {
-            this.Sender = sender;
             this.ConsoleHost = consoleHost;
             this.ConnectionId = connectionId;
 
@@ -38,20 +38,31 @@
         }
 
         /// <summary>
-        /// Gets the current path in the session's runspace.
+        /// Gets the current session's runspace path details.
         /// </summary>
-        public PathIntrinsics Path
+        public PathIntrinsics PathIntrinsics
         {
-            get
+            get 
             {
                 return this.Runspace.SessionStateProxy.Path;
             }
         }
 
         /// <summary>
+        /// Gets the current session's runspace absolute path.
+        /// </summary>
+        public string Path
+        {
+            get
+            {
+                return this.PathIntrinsics.CurrentLocation.ToString();
+            }
+        }
+
+        /// <summary>
         ///  Delegate used for sending messages up to the user console.
         /// </summary>
-        public Action<dynamic> Sender { get; private set; }
+        public Action<OutputData> Sender { get; internal set; }
 
         /// <summary>
         /// SignalR connection identifier for this particular session.

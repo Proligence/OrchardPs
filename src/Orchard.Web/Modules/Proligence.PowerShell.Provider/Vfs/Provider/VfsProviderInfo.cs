@@ -13,17 +13,10 @@
         /// Initializes a new instance of the <see cref="VfsProviderInfo"/> class.
         /// </summary>
         /// <param name="providerInfo">The <see cref="ProviderInfo"/> object of the PS provider.</param>
-        /// <param name="container">The dependency injection container of the PS provider.</param>
         [ExcludeFromCodeCoverage]
-        public VfsProviderInfo(ProviderInfo providerInfo, IContainer container) 
+        public VfsProviderInfo(ProviderInfo providerInfo) 
             : base(providerInfo)
         {
-            this.Container = container;
         }
-
-        /// <summary>
-        /// Gets the dependency injection container of the PS provider.
-        /// </summary>
-        public IContainer Container { get; private set; }
     }
 }

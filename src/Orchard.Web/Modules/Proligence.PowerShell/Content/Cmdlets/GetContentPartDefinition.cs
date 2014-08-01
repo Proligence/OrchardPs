@@ -3,11 +3,11 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
+
+    using Orchard.ContentManagement.MetaData.Models;
     using Orchard.Environment.Configuration;
-    using Orchard.Management.PsProvider;
     using Proligence.PowerShell.Agents;
-    using Proligence.PowerShell.Content.Items;
-    using Proligence.PowerShell.Tenants.Items;
+    using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Utilities;
 
     /// <summary>
@@ -18,7 +18,8 @@
     public class GetContentPartDefinition : OrchardCmdlet, ITenantFilterCmdlet
     {
         private IContentAgent contentAgent;
-        private OrchardTenant[] tenants;
+        private ITenantAgent tenantAgent;
+        private ShellSettings[] tenants;
 
         /// <summary>
         /// Gets or sets the name of the content part which definition will be retrieved.
@@ -39,7 +40,7 @@
         /// Gets or sets the Orchard tenant for which content part definitions will be retrieved.
         /// </summary>
         [Parameter(ParameterSetName = "TenantObject", Mandatory = true, ValueFromPipeline = true)]
-        public OrchardTenant TenantObject { get; set; }
+        public ShellSettings TenantObject { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating content part definitions should be retrieved from all tenants.
@@ -53,9 +54,8 @@
         protected override void BeginProcessing()
         {
             base.BeginProcessing();
-            this.contentAgent = this.AgentManager.GetAgent<IContentAgent>();
 
-            this.tenants = this.AgentManager.GetAgent<ITenantAgent>()
+            this.tenants = this.tenantAgent
                 .GetTenants()
                 .Where(t => t.State == TenantState.Running)
                 .ToArray();
@@ -66,11 +66,11 @@
         /// </summary>
         protected override void ProcessRecord()
         {
-            IEnumerable<OrchardTenant> filteredTenants = CmdletHelper.FilterTenants(this, this.tenants);
+            IEnumerable<ShellSettings> filteredTenants = CmdletHelper.FilterTenants(this, this.tenants);
 
-            var definitions = new List<OrchardContentPartDefinition>();
+            var definitions = new List<ContentPartDefinition>();
 
-            foreach (OrchardTenant tenant in filteredTenants)
+            foreach (var tenant in filteredTenants)
             {
                 definitions.AddRange(this.contentAgent.GetContentPartDefinitions(tenant.Name));
             }
@@ -80,7 +80,7 @@
                 definitions = definitions.Where(f => f.Name.WildcardEquals(this.Name)).ToList();
             }
 
-            foreach (OrchardContentPartDefinition definition in definitions)
+            foreach (ContentPartDefinition definition in definitions)
             {
                 this.WriteObject(definition);
             }

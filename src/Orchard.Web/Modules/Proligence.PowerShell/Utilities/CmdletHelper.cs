@@ -4,9 +4,11 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Orchard.Management.PsProvider;
+
+    using Orchard.Environment.Configuration;
+
     using Proligence.PowerShell.Common.Extensions;
-    using Proligence.PowerShell.Tenants.Items;
+    using Proligence.PowerShell.Provider;
 
     /// <summary>
     /// Implements helper methods for implementing cmdlets.
@@ -21,13 +23,13 @@
         /// <param name="allTenants">If set to <c>true</c> all tenants will be returned.</param>
         /// <param name="tenantName">The name of the tenants to filter.</param>
         /// <param name="tenant">The tenant to filter.</param>
-        /// <returns>A sequence of filtered <see cref="OrchardTenant"/> objects.</returns>
-        public static IEnumerable<OrchardTenant> FilterTenants(
+        /// <returns>A sequence of filtered <see cref="ShellSettings"/> objects.</returns>
+        public static IEnumerable<ShellSettings> FilterTenants(
             OrchardCmdlet cmdlet,
-            IEnumerable<OrchardTenant> tenants,
+            IEnumerable<ShellSettings> tenants,
             bool allTenants,
             string tenantName,
-            OrchardTenant tenant)
+            ShellSettings tenant)
         {
             if (cmdlet == null)
             {
@@ -39,7 +41,7 @@
                 throw new ArgumentNullException("tenants");
             }
 
-            var result = new List<OrchardTenant>();
+            var result = new List<ShellSettings>();
 
             if (allTenants)
             {
@@ -47,7 +49,7 @@
             }
             else if (!string.IsNullOrEmpty(tenantName))
             {
-                OrchardTenant[] namedTenants = tenants
+                ShellSettings[] namedTenants = tenants
                     .Where(s => s.Name.Equals(tenantName, StringComparison.OrdinalIgnoreCase))
                     .ToArray();
 
@@ -67,14 +69,14 @@
             }
             else
             {
-                OrchardTenant currentTenant = cmdlet.GetCurrentTenant();
+                ShellSettings currentTenant = cmdlet.GetCurrentTenant();
                 if (currentTenant != null)
                 {
                     result.Add(currentTenant);
                 }
                 else
                 {
-                    OrchardTenant defaultTenant = tenants.SingleOrDefault(
+                    ShellSettings defaultTenant = tenants.SingleOrDefault(
                         s => s.Name.Equals("Default", StringComparison.OrdinalIgnoreCase));
 
                     if (defaultTenant != null)
@@ -97,10 +99,10 @@
         /// </summary>
         /// <param name="cmdlet">The cmdlet which is calling this method.</param>
         /// <param name="tenants">A list of tenants to filter.</param>
-        /// <returns>A sequence of filtered <see cref="OrchardTenant"/> objects.</returns>
-        public static IEnumerable<OrchardTenant> FilterTenants(
+        /// <returns>A sequence of filtered <see cref="ShellSettings"/> objects.</returns>
+        public static IEnumerable<ShellSettings> FilterTenants(
             ITenantFilterCmdlet cmdlet,
-            IEnumerable<OrchardTenant> tenants)
+            IEnumerable<ShellSettings> tenants)
         {
             if (cmdlet == null)
             {

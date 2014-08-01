@@ -34,19 +34,27 @@
             this.commandBuffer = new StringBuilder();
 
             bool outputSent = false;
-            using (this.pipeline = this.session.Runspace.CreatePipeline(commandText))
-            {
-                Collection<PSObject> result = this.pipeline.Invoke();
-                foreach (PSObject obj in result)
-                {
-                    this.session.ConsoleHost.UI.WriteLine(obj.ToString());
-                    outputSent = true;
-                }
 
-                if (!outputSent)
+            try 
+            {
+                using (this.pipeline = this.session.Runspace.CreatePipeline(commandText)) 
                 {
-                    this.session.ConsoleHost.UI.WriteLine(string.Empty);
+                    Collection<PSObject> result = this.pipeline.Invoke();
+                    foreach (PSObject obj in result) 
+                    {
+                        this.session.ConsoleHost.UI.WriteLine(obj.ToString());
+                        outputSent = true;
+                    }
+
+                    if (!outputSent) 
+                    {
+                        this.session.ConsoleHost.UI.WriteLine(string.Empty);
+                    }
                 }
+            }
+            catch (Exception ex) 
+            {
+                this.session.ConsoleHost.UI.WriteErrorLine(ex.Message);
             }
         }
 

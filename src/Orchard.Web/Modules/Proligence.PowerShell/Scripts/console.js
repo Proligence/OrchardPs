@@ -2,10 +2,11 @@ function LoadConsole() {
     var curReportFun;
     var mainConsole = $('<div class="console">');
     var lastMessage;
+    var curPrompt;
     var controller = mainConsole.console({
         continuedPrompt: true,
         promptLabel: function() {
-            return "> ";
+            return curPrompt ? curPrompt : "> "
         },
         commandValidate: function() {
             return true;
@@ -45,10 +46,14 @@ function LoadConsole() {
 
     var connection = $.connection('/conn/commandstream');
     window.$Console.data('connection', connection);
+    controller.disableInput();
 
+    connection.logging = true;
     connection.start({
-        waitForPageLoad: true,
-        transport: "longPolling"
+        waitForPageLoad: true, 
+        transport: ['serverSentEvents', 'foreverFrame', 'longPolling' ] // websockets don't work very well here
+    }, function() {
+        controller.enableInput();
     });
 
 
@@ -72,18 +77,19 @@ function LoadConsole() {
     }
     
     function DisplayAndUpdate(data) {
-        var prompt = getJSONValue(data);
+        var line = getJSONValue(data);
+        var hasNewLine = endsWith(line, '\n');
 
-        var hasNewLine = endsWith(prompt, '\n')
-        prompt = prompt.replace(/[\r\n]+$/, '').replace(/(\r\n|\n|\r)/gm, "</br>");
+        curPrompt = data.Path ? data.Path + "> " : "> ";
+        line = line.replace(/[\r\n]+$/, '').replace(/(\r\n|\n|\r)/gm, "<br/>");
 
-        if (prompt.length > 0) {
+        if (line.length > 0) {
             if (!lastMessage && curReportFun)
                 curReportFun("", "jquery-console-message-value");
 
             lastMessage = lastMessage ? lastMessage : $(".jquery-console-message").last();
 
-            var part = $("<span></span>").text(prompt).css("display", "inline-block")
+            var part = $("<span></span>").html(line).css("display", "inline-block")
 
             if (data.BackColor) {
                 part.css("background-color", data.BackColor);
@@ -110,10 +116,14 @@ function LoadConsole() {
             lastMessage.append(part);
         }
 
-        if (hasNewLine) {
-            lastMessage.append("</br>")
+        if (hasNewLine && lastMessage) {
+            lastMessage.append("</br>");
+        } else {
+            if (!lastMessage && curReportFun)
+                curReportFun("", "");
         }
 
+        $(".jquery-console-prompt-label").last().text(curPrompt);
         controller.scrollToBottom();
     }
 }

@@ -7,11 +7,13 @@
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
-    using Orchard.Management.PsProvider;
+
+    using Orchard.ContentManagement.MetaData.Models;
+    using Orchard.Environment.Configuration;
+
     using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Common.Extensions;
-    using Proligence.PowerShell.Content.Items;
-    using Proligence.PowerShell.Tenants.Items;
+    using Proligence.PowerShell.Provider;
 
     /// <summary>
     /// Implements the <c>Edit-ContentPartDefinition</c> cmdlet.
@@ -37,7 +39,7 @@
         /// </summary>
         [ValidateNotNull]
         [Parameter(ParameterSetName = "ContentPartDefinitionObject", Mandatory = true, ValueFromPipeline = true)]
-        public OrchardContentPartDefinition ContentPartDefinition { get; set; }
+        public ContentPartDefinition ContentPartDefinition { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the tenant which contains the edited content part definition.
@@ -49,7 +51,7 @@
         /// Gets or sets the Orchard tenant for which content part definitions will be edited.
         /// </summary>
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false, ValueFromPipeline = true)]
-        public OrchardTenant TenantObject { get; set; }
+        public ShellSettings TenantObject { get; set; }
 
         /// <summary>
         /// Gets or sets the new description of the content part.
@@ -77,16 +79,6 @@
         public ArrayList Settings { get; set; }
 
         /// <summary>
-        /// Provides a one-time, preprocessing functionality for the cmdlet.
-        /// </summary>
-        protected override void BeginProcessing()
-        {
-            base.BeginProcessing();
-            this.tenantAgent = this.AgentManager.GetAgent<ITenantAgent>();
-            this.contentAgent = this.AgentManager.GetAgent<IContentAgent>();
-        }
-
-        /// <summary>
         /// Provides a record-by-record processing functionality for the cmdlet. 
         /// </summary>
         protected override void ProcessRecord()
@@ -98,18 +90,13 @@
                 contentPartName = this.Name;
                 tenantName = this.GetTenantName();
             }
-            else if (this.ParameterSetName == "ContentPartDefinitionObject")
-            {
-                contentPartName = this.ContentPartDefinition.Name;
-                tenantName = this.ContentPartDefinition.Tenant;
-            }
 
             if (contentPartName != null)
             {
-                OrchardTenant tenant = this.tenantAgent.GetTenant(tenantName);
+                ShellSettings tenant = this.tenantAgent.GetTenant(tenantName);
                 if (tenant != null)
                 {
-                    OrchardContentPartDefinition contentPartDefinition = this.contentAgent
+                    ContentPartDefinition contentPartDefinition = this.contentAgent
                         .GetContentPartDefinitions(tenantName)
                         .FirstOrDefault(cpd => cpd.Name == contentPartName);
 
@@ -117,11 +104,6 @@
                     {
                         if (this.Settings != null)
                         {
-                            if (contentPartDefinition.Settings == null)
-                            {
-                                contentPartDefinition.Settings = new Dictionary<string, string>();
-                            }
-
                             ArgumentList settingArgs = ArgumentList.Parse(this.Settings);
                             foreach (KeyValuePair<string, string> setting in settingArgs)
                             {
@@ -204,9 +186,8 @@
             this.WriteError(exception, "FailedToFindTentant", ErrorCategory.InvalidArgument);
         }
 
-        private void InvokeUpdateContentPartDefinition(OrchardContentPartDefinition definition)
-        {
-            string target = "ContentPart: " + definition.Name + ", Tenant: " + definition.Tenant;
+        private void InvokeUpdateContentPartDefinition(ContentPartDefinition definition) {
+            string target = "ContentPart: " + definition.Name;
             string action = "Set " + string.Join(", ", definition.Settings.Select(x => x.Key + " = '" + x.Value + "'"));
             if (this.ShouldProcess(target, action))
             {

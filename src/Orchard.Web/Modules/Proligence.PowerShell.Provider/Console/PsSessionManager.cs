@@ -41,18 +41,27 @@ namespace Proligence.PowerShell.Provider.Console
             {
                 configuration = RunspaceConfiguration.Create();
 
-                foreach (ProviderConfigurationEntry provider in this.host.SnapIn.Providers)
+                foreach (ProviderConfigurationEntry provider in this.host.SnapIn.Providers) 
                 {
+                    if (configuration.Providers.Any(p => p.Name == provider.Name))
+                        continue;
+
                     configuration.Providers.Append(provider);
                 }
 
                 foreach (CmdletConfigurationEntry cmdlet in this.host.SnapIn.Cmdlets)
                 {
+                    if (configuration.Cmdlets.Any(c => c.Name == cmdlet.Name))
+                        continue;
+
                     configuration.Cmdlets.Append(cmdlet);
                 }
 
                 foreach (FormatConfigurationEntry format in this.host.SnapIn.Formats)
                 {
+                    if (configuration.Formats.Any(f => f.Name == format.Name))
+                        continue;
+
                     configuration.Formats.Append(format);
                 }
 
@@ -74,17 +83,41 @@ namespace Proligence.PowerShell.Provider.Console
                 throw new InvalidOperationException("Failed to create runspace configuration. " + ex.Message, ex);
             }
 
-            var ctx = connectionManager.GetConnectionContext<CommandStreamConnection>();
+            var ctx = this.connectionManager.GetConnectionContext<CommandStreamConnection>();
 
             var consoleHost = new ConsoleHost(configuration);
+
             var session = new PsSession(
                 consoleHost, 
-                connectionId, data => ConnectionExtensions.Send(ctx.Connection, connectionId, data).Wait());
+                connectionId);
+
+            // Path is not available at this point
+            session.Sender = data => ctx.Connection.Send(connectionId, data).Wait();
 
             consoleHost.Initialize(session);
 
-            sessions.GetOrAdd(connectionId, session);
-            
+            session.Sender = data => 
+            {
+                data.Path = session.Path;
+                ctx.Connection.Send(connectionId, data).Wait();
+            };
+
+            sessions.AddOrUpdate(
+                connectionId, 
+                session, 
+                (s, psSession) => 
+                { 
+                    psSession.Dispose();
+                    return session;
+                });
+
+            ctx.Connection.Send(
+                connectionId, 
+                new OutputData 
+                {
+                    Path = session.Path
+                }).Wait();
+
             return session;
         }
 
