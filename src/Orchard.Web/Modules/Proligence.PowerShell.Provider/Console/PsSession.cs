@@ -2,8 +2,8 @@
 {
     using System;
     using System.Collections.Concurrent;
-    using System.Management.Automation;
     using System.Management.Automation.Runspaces;
+    using System.Threading;
     using Proligence.PowerShell.Provider.Console.Host;
     using Proligence.PowerShell.Provider.Console.UI;
 
@@ -13,6 +13,13 @@
     public class PsSession : IPsSession 
     {
         private readonly ConcurrentQueue<string> queue;
+        private readonly AutoResetEvent runspaceLock;
+
+        /// <summary>
+        /// Caches the current path of the session's runspace. This cached value is used if the runspace cannot be
+        /// accessed because a cmdlet is being executed in it.
+        /// </summary>
+        private string currentPath;
 
         public PsSession(ConsoleHost consoleHost, string connectionId)
         {
@@ -20,6 +27,8 @@
             this.ConnectionId = connectionId;
 
             this.queue = new ConcurrentQueue<string>();
+            this.runspaceLock = new AutoResetEvent(true);
+            this.Runspace.StateChanged += this.OnRunspaceStateChanged;
         }
 
         public event EventHandler<DataReceivedEventArgs> DataReceived;
@@ -38,14 +47,11 @@
         }
 
         /// <summary>
-        /// Gets the current session's runspace path details.
+        /// Gets the lock which must be aquired before acessing the session's runspace.
         /// </summary>
-        public PathIntrinsics PathIntrinsics
+        public EventWaitHandle RunspaceLock
         {
-            get 
-            {
-                return this.Runspace.SessionStateProxy.Path;
-            }
+            get { return this.runspaceLock; }
         }
 
         /// <summary>
@@ -55,12 +61,24 @@
         {
             get
             {
-                return this.PathIntrinsics.CurrentLocation.ToString();
+                if (this.runspaceLock.WaitOne(0))
+                {
+                    try
+                    {
+                        this.currentPath = this.ConsoleHost.Runspace.SessionStateProxy.Path.CurrentLocation.ToString();
+                    }
+                    finally
+                    {
+                        this.runspaceLock.Set();
+                    }
+                }
+
+                return this.currentPath ?? string.Empty;
             }
         }
 
         /// <summary>
-        ///  Delegate used for sending messages up to the user console.
+        /// Delegate used for sending messages up to the user console.
         /// </summary>
         public Action<OutputData> Sender { get; internal set; }
 
@@ -72,10 +90,11 @@
         /// <summary>
         /// Reads line of string from input buffer. Nonblocking.
         /// </summary>
-        /// <returns></returns>
-        public string ReadInputBuffer() {
+        public string ReadInputBuffer()
+        {
             string result;
-            if (this.queue.TryDequeue(out result)) {
+            if (this.queue.TryDequeue(out result))
+            {
                 return result;
             }
 
@@ -85,37 +104,47 @@
         /// <summary>
         /// Writes a line to the input buffer.
         /// </summary>
-        /// <returns></returns>
-        public void WriteInputBuffer(string line) {
+        public void WriteInputBuffer(string line)
+        {
             this.queue.Enqueue(line);
-            OnDataReceived(new DataReceivedEventArgs());
+            this.OnDataReceived(new DataReceivedEventArgs());
         }
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
-        /// <filterpriority>2</filterpriority>
-        public void Dispose() {
-            Dispose(true);
+        public void Dispose() 
+        {
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing) {
-            if (!disposing) {
-                return;
-            }
-
-            if (ConsoleHost != null) {
-                ConsoleHost.Dispose();
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (this.ConsoleHost != null)
+                {
+                    this.ConsoleHost.Dispose();
+                }
             }
         }
 
         protected virtual void OnDataReceived(DataReceivedEventArgs e)
         {
-            EventHandler<DataReceivedEventArgs> handler = DataReceived;
+            EventHandler<DataReceivedEventArgs> handler = this.DataReceived;
             if (handler != null)
             {
                 handler(this, e);
+            }
+        }
+
+        private void OnRunspaceStateChanged(object sender, RunspaceStateEventArgs e)
+        {
+            // Intialize the current path after the runspace is opened.
+            if (e.RunspaceStateInfo.State == RunspaceState.Opened)
+            {
+                this.currentPath = this.Runspace.SessionStateProxy.Path.CurrentLocation.ToString();
             }
         }
     }

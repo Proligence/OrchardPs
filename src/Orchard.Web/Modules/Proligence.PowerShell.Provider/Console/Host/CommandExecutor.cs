@@ -1,7 +1,6 @@
 ﻿namespace Proligence.PowerShell.Provider.Console.Host
 {
     using System;
-    using System.Collections.ObjectModel;
     using System.Management.Automation;
     using System.Management.Automation.Runspaces;
     using System.Text;
@@ -9,13 +8,15 @@
     public class CommandExecutor : ICommandExecutor
     {
         private readonly IPsSession session;
-        private StringBuilder commandBuffer;
+        private readonly StringBuilder commandBuffer;
         private Pipeline pipeline;
+        private bool outputSent;
 
         public CommandExecutor(IPsSession session)
         {
             this.session = session;
             this.commandBuffer = new StringBuilder();
+            this.outputSent = false;
         }
 
         public void Start()
@@ -28,33 +29,26 @@
             this.session.DataReceived -= this.OnSessionDataReceived;
         }
 
-        private void ExecuteCommand()
+        private void ExecuteCommandFromBuffer()
         {
             string commandText = this.commandBuffer.ToString();
-            this.commandBuffer = new StringBuilder();
+            this.commandBuffer.Clear();
 
-            bool outputSent = false;
-
-            try 
+            try
             {
-                using (this.pipeline = this.session.Runspace.CreatePipeline(commandText)) 
-                {
-                    Collection<PSObject> result = this.pipeline.Invoke();
-                    foreach (PSObject obj in result) 
-                    {
-                        this.session.ConsoleHost.UI.WriteLine(obj.ToString());
-                        outputSent = true;
-                    }
-
-                    if (!outputSent) 
-                    {
-                        this.session.ConsoleHost.UI.WriteLine(string.Empty);
-                    }
-                }
+                this.session.RunspaceLock.WaitOne();
+                this.pipeline = this.session.Runspace.CreatePipeline(commandText);
+                this.pipeline.Commands[0].MergeMyResults(PipelineResultTypes.Error, PipelineResultTypes.Output);
+                this.pipeline.Commands.Add(new Command("Out-Default", false, true));
+                this.pipeline.Output.DataReady += this.OnPipelineOutputDataReady;
+                this.pipeline.StateChanged += this.OnPipelineStateChanged;
+                this.pipeline.Input.Close();
+                this.pipeline.InvokeAsync();
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 this.session.ConsoleHost.UI.WriteErrorLine(ex.Message);
+                this.session.RunspaceLock.Set();
             }
         }
 
@@ -67,8 +61,56 @@
 
                 if (!str.TrimEnd().EndsWith("`", StringComparison.Ordinal))
                 {
-                    this.ExecuteCommand();
+                    this.ExecuteCommandFromBuffer();
                 } 
+            }
+        }
+
+        private void OnPipelineOutputDataReady(object sender, EventArgs eventArgs)
+        {
+            foreach (PSObject result in this.pipeline.Output.NonBlockingRead())
+            {
+                var resultString = (string)LanguagePrimitives.ConvertTo(result, typeof(string));
+                this.session.ConsoleHost.UI.WriteLine(resultString);
+                this.outputSent = true;
+            }
+        }
+
+        private void OnPipelineStateChanged(object sender, PipelineStateEventArgs e)
+        {
+            PipelineState state = e.PipelineStateInfo.State;
+
+            // Handled finished pipeline.
+            if ((state == PipelineState.Completed) || (state == PipelineState.Failed) || (state == PipelineState.Stopped))
+            {
+                try
+                {
+                    // Display an error for failed pipelines.
+                    if (state != PipelineState.Completed)
+                    {
+                        this.session.ConsoleHost.UI.WriteErrorLine(
+                            "Command did not complete successfully. Reason: " + e.PipelineStateInfo.Reason);
+                    }
+
+                    // Dispose the current pipeline.
+                    if (this.pipeline != null)
+                    {
+                        this.pipeline.Dispose();
+                        this.pipeline = null;
+                    }
+
+                    // If the command did not generate any output, then write an empty line, to notify the console UI
+                    // that the command finished.
+                    if (!this.outputSent)
+                    {
+                        this.session.ConsoleHost.UI.WriteLine(string.Empty);
+                    }
+                }
+                finally
+                {
+                    this.session.RunspaceLock.Set();
+                    this.outputSent = false;
+                }
             }
         }
     }

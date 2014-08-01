@@ -1,11 +1,11 @@
-﻿using System;
-using System.Management.Automation;
-using System.Management.Automation.Runspaces;
-using Proligence.PowerShell.Provider.Console.Host;
-using Proligence.PowerShell.Provider.Console.UI;
-
-namespace Proligence.PowerShell.Provider.Console
+﻿namespace Proligence.PowerShell.Provider.Console
 {
+    using System;
+    using System.Management.Automation.Runspaces;
+    using System.Threading;
+    using Proligence.PowerShell.Provider.Console.Host;
+    using Proligence.PowerShell.Provider.Console.UI;
+
     /// <summary>
     /// Represents a PowerShell user session.
     /// </summary>
@@ -24,6 +24,11 @@ namespace Proligence.PowerShell.Provider.Console
         Runspace Runspace { get; }
 
         /// <summary>
+        /// Gets the lock which must be aquired before acessing the session's runspace.
+        /// </summary>
+        EventWaitHandle RunspaceLock { get; }
+
+        /// <summary>
         ///  Delegate used for sending messages up to the user console.
         /// </summary>
         Action<OutputData> Sender { get; }
@@ -32,11 +37,6 @@ namespace Proligence.PowerShell.Provider.Console
         /// SignalR connection identifier for this particular session.
         /// </summary>
         string ConnectionId { get; }
-
-        /// <summary>
-        /// Gets the current session's runspace path details.
-        /// </summary>
-        PathIntrinsics PathIntrinsics { get; }
 
         /// <summary>
         /// Gets the current session's runspace absolute path.
