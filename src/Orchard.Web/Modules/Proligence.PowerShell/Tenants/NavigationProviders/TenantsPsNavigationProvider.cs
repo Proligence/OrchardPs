@@ -1,23 +1,25 @@
 ﻿namespace Proligence.PowerShell.Tenants.NavigationProviders 
 {
-    using Proligence.PowerShell.Agents;
+    using Orchard.Environment.Configuration;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
     using Proligence.PowerShell.Tenants.Nodes;
 
     /// <summary>
     /// Implements the navigation provider which adds the <see cref="TenantsNode"/> node to the Orchard VFS.
     /// </summary>
-    public class TenantsPsNavigationProvider : PsNavigationProvider 
+    public class TenantsPsNavigationProvider : PsNavigationProvider
     {
-        private readonly ITenantAgent agent;
+        private readonly IShellSettingsManager manager;
 
-        /// <summary>
-        /// Initializes the navigation provider.
-        /// </summary>
+        public TenantsPsNavigationProvider(IShellSettingsManager manager)
+        {
+            this.manager = manager;
+        }
+
         public override void Initialize()
         {
             this.NodeType = NodeType.Global;
-            this.Node = new TenantsNode(this.Vfs, this.agent);
+            this.Node = new TenantsNode(this.Vfs, this.manager);
         }
     }
 }

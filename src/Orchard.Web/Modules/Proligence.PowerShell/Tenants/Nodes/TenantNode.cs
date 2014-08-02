@@ -3,9 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-
     using Orchard.Environment.Configuration;
-
     using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Provider.Vfs.Core;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
@@ -47,7 +45,7 @@
                 this.tenantNodes = new List<VfsNode>();
 
                 IEnumerable<IPsNavigationProvider> tenantNavigationProviders = 
-                    this.Vfs.NavigationProviderManager.GetProviders(NodeType.Site);
+                    this.Vfs.NavigationProviderManager.GetProviders(NodeType.Tenant);
                 
                 foreach (IPsNavigationProvider navigationProvider in tenantNavigationProviders) 
                 {

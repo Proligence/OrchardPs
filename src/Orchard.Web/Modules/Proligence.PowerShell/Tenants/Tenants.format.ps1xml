@@ -4,7 +4,7 @@
     <View>
       <Name>OrchardTenantView</Name>
       <ViewSelectedBy>
-        <TypeName>Proligence.PowerShell.Tenants.Items.OrchardTenant</TypeName>
+        <TypeName>Orchard.Environment.Configuration.ShellSettings</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
@@ -34,8 +34,8 @@
 <!-- SIG # Begin signature block -->
 <!-- MIIFsAYJKoZIhvcNAQcCoIIFoTCCBZ0CAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB -->
 <!-- gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR -->
-<!-- AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUUuysh9/QIfUFr97MR5xWs/Wh -->
-<!-- zhagggM6MIIDNjCCAiKgAwIBAgIQQaB/8txRJqtGHUmnID7OxzAJBgUrDgMCHQUA -->
+<!-- AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUS2SfQmjRyb8IJLdIXjzQUIaH -->
+<!-- vcugggM6MIIDNjCCAiKgAwIBAgIQQaB/8txRJqtGHUmnID7OxzAJBgUrDgMCHQUA -->
 <!-- MCsxKTAnBgNVBAMTIE9yY2hhcmRQcyBMb2NhbCBDZXJ0aWZpY2F0ZSBSb290MB4X -->
 <!-- DTEzMDYyNjA4MTk0MloXDTM5MTIzMTIzNTk1OVowFDESMBAGA1UEAxMJT3JjaGFy -->
 <!-- ZFBzMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArNiyrLbE2VGmEUDV -->
@@ -56,11 +56,11 @@
 <!-- ZFBzIExvY2FsIENlcnRpZmljYXRlIFJvb3QCEEGgf/LcUSarRh1JpyA+zscwCQYF -->
 <!-- Kw4DAhoFAKB4MBgGCisGAQQBgjcCAQwxCjAIoAKAAKECgAAwGQYJKoZIhvcNAQkD -->
 <!-- MQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIBCzEOMAwGCisGAQQBgjcCARUwIwYJ -->
-<!-- KoZIhvcNAQkEMRYEFKXpBDeVyYmxD5tswaSp2o/6ucMvMA0GCSqGSIb3DQEBAQUA -->
-<!-- BIIBAETo2otApawjHVT65DjeAKFj0H79aiz8Ajd52g5Ex7WsGo3Y54B+cuMo/I24 -->
-<!-- OVxQAP3MNl9wH0AF5Z9wSD2S6zR86LZ6K+hwupacx54CAAeyKM+JRdxcRCiMXRWM -->
-<!-- S1IaNlmVHgg0k2X5+DyMuzgFbJmnUBH0eMIzmA+wAk1zxEY/FPv1xUy4jzLOHt9M -->
-<!-- Ov9wsfaO/4nf2Ab5Xz3RANdp1+ncD1xFr49VVJOr+ERInFMPXcrSoh4sbO77Fg0p -->
-<!-- JGsOVWSDB1Oezsxt+kOK72L0imq5rTNuV92hDenyjKs5UwP3CikjdDSY/TTddNh1 -->
-<!-- 00WWzANDKODC/3ryA+ILgokP5xw= -->
+<!-- KoZIhvcNAQkEMRYEFPjZq6Nar2d/Gm4gkmqehhBG1U4PMA0GCSqGSIb3DQEBAQUA -->
+<!-- BIIBABYhSL0kde2ZtizZTpZXXA7JN79j+lZXIq6/ToRmWZXbHK6/hAw7cg4LRf/7 -->
+<!-- a4TqX3ieqQS+mV5gVyiNRqh4XFZJTzCNf9ZuyfIGShNkXnQOh2upo1c2kEKk4vZV -->
+<!-- uNBI4wwV5V2LvVsAuqF+LtDZU00tSQEn2yp/jDuzIZM6xkCN7/kyDHhT9BSj0jNy -->
+<!-- DD4e2YDLsagHhUcf18LvTwTiJsWRiIZrAXy0dFCwpjTRDJ4qEPoVmPvb6K+bg4Dx -->
+<!-- 8SG2V8jQgTmKgYACEak4jGJRtg4AtYXhOfj5dUXXpg/Zm5XnEnxc7xnQ8wsy6cjO -->
+<!-- jEtN7tfZdX7lXQHUkfens0SEWfY= -->
 <!-- SIG # End signature block -->

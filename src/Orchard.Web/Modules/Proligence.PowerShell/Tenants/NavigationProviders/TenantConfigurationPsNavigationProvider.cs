@@ -17,7 +17,7 @@
         /// </summary>
         public override void Initialize()
         {
-            this.NodeType = NodeType.Site;
+            this.NodeType = NodeType.Tenant;
             this.Node = new TenantConfigurationNode(this.Vfs, this.agent);
         }
     }

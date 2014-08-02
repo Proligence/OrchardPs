@@ -2,10 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-
     using Orchard.Environment.Configuration;
-
-    using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Common.Items;
     using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Provider.Vfs.Core;
@@ -20,20 +17,12 @@
     [SupportedCmdlet("Edit-Tenant")]
     public class TenantsNode : ContainerNode 
     {
-        /// <summary>
-        /// The tenant agent instance.
-        /// </summary>
-        private readonly ITenantAgent tenantAgent;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TenantsNode"/> class.
-        /// </summary>
-        /// <param name="vfs">The Orchard VFS instance which the node belongs to.</param>
-        /// <param name="tenantAgent">The tenant agent instance.</param>
-        public TenantsNode(IPowerShellVfs vfs, ITenantAgent tenantAgent) 
-            : base(vfs, "Tenants") 
+        private readonly IShellSettingsManager manager;
+        
+        public TenantsNode(IPowerShellVfs vfs, IShellSettingsManager manager)
+            : base(vfs, "Tenants")
         {
-            this.tenantAgent = tenantAgent;
+            this.manager = manager;
 
             this.Item = new CollectionItem(this) 
             {
@@ -45,12 +34,10 @@
         /// <summary>
         /// Gets the node's virtual (dynamic) child nodes.
         /// </summary>
-        /// <returns>
-        /// A sequence of child nodes.
-        /// </returns>
-        public override IEnumerable<VfsNode> GetVirtualNodes() 
+        /// <returns>A sequence of child nodes.</returns>
+        public override IEnumerable<VfsNode> GetVirtualNodes()
         {
-            ShellSettings[] tenants = this.tenantAgent.GetTenants();
+            ShellSettings[] tenants = this.manager.LoadSettings().ToArray();
             return tenants.Select(tenant => new TenantNode(Vfs, tenant));
         }
     }
