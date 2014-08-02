@@ -4,9 +4,7 @@
     using System.Collections.ObjectModel;
     using System.Diagnostics.CodeAnalysis;
     using System.Management.Automation;
-    using System.Management.Automation.Host;
     using System.Management.Automation.Provider;
-
     using Proligence.PowerShell.Provider.Console;
     using Proligence.PowerShell.Provider.Console.Host;
     using Proligence.PowerShell.Provider.Vfs.Provider;
@@ -87,50 +85,6 @@
                 ErrorCategory.OpenError);
 
             return drives;
-        }
-
-        /// <summary>
-        /// Increases the size of the console window of the host process.
-        /// </summary>
-        /// <param name="width">The new width of the window.</param>
-        /// <param name="height">The new height of the window.</param>
-        private void IncreaseWindowSize(int width, int height) 
-        {
-            Size maximumSize = Host.UI.RawUI.MaxPhysicalWindowSize;
-            Size bufferSize = Host.UI.RawUI.BufferSize;
-            Size windowSize = Host.UI.RawUI.WindowSize;
-
-            bool updateNeeded = false;
-
-            if (bufferSize.Width < width) 
-            {
-                bufferSize.Width = (width <= maximumSize.Width) ? width : maximumSize.Width;
-                updateNeeded = true;
-            }
-
-            if (windowSize.Width < width) 
-            {
-                windowSize.Width = (width <= maximumSize.Width) ? width : maximumSize.Width;
-                updateNeeded = true;
-            }
-
-            if (bufferSize.Height < height) 
-            {
-                bufferSize.Height = (height < maximumSize.Height) ? height : maximumSize.Height;
-                updateNeeded = true;
-            }
-
-            if (windowSize.Height < height) 
-            {
-                windowSize.Height = (height <= maximumSize.Height) ? height : maximumSize.Height;
-                updateNeeded = true;
-            }
-
-            if (updateNeeded) 
-            {
-                Host.UI.RawUI.BufferSize = bufferSize;
-                Host.UI.RawUI.WindowSize = windowSize;
-            }
         }
 
         /// <summary>
