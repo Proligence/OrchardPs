@@ -29,7 +29,7 @@
         /// <summary>
         /// Gets the object which can be used to access the PowerShell-controlled output console.
         /// </summary>
-        public PsSession Session { get; set; }
+        public IPsSession Session { get; set; }
 
         protected ConsoleHost ConsoleHost { get; set; }
 
