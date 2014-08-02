@@ -15,9 +15,6 @@
         /// <param name="builder">The Autofac container builder.</param>
         protected override void Load(ContainerBuilder builder)
         {
-            // Global singletons
-            builder.RegisterType<PowerShellConsole>().As<IPowerShellConsole>().SingleInstance();
-
             // Per-drive singletons
             builder.RegisterType<PowerShellVfs>().As<IPowerShellVfs>().InstancePerLifetimeScope();
             builder.RegisterType<DefaultPathValidator>().As<IPathValidator>().InstancePerLifetimeScope();

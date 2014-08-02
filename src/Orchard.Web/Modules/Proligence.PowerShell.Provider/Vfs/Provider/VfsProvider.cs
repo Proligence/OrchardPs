@@ -5,10 +5,6 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Management.Automation;
     using System.Management.Automation.Provider;
-    using Autofac;
-
-    using Proligence.PowerShell.Provider.Console;
-    using Proligence.PowerShell.Provider.Vfs.Core;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>
@@ -16,11 +12,6 @@
     /// </summary>
     public abstract class VfsProvider : NavigationCmdletProvider, IContentCmdletProvider
     {
-        /// <summary>
-        /// The objects which provides access to the PowerShell-controlled console.
-        /// </summary>
-        private IPowerShellConsole console;
-
         /// <summary>
         /// The object which implements input path validation.
         /// </summary>
