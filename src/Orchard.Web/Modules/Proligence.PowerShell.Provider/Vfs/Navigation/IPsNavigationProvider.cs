@@ -1,7 +1,6 @@
 ﻿namespace Proligence.PowerShell.Provider.Vfs.Navigation
 {
     using Orchard;
-
     using Proligence.PowerShell.Provider.Vfs.Core;
 
     /// <summary>
@@ -31,7 +30,7 @@
         IPowerShellVfs Vfs { get; set; }
 
         /// <summary>
-        /// Initializes the navigation provider.
+        /// Initializes the properties of the navigation provider.
         /// </summary>
         void Initialize();
     }

@@ -22,16 +22,16 @@
 
         private readonly IPsHost host;
         private readonly IConnectionManager connectionManager;
-        private readonly IComponentContext container;
+        private readonly IComponentContext componentContext;
 
         public PsSessionManager(
             IPsHost host,
             IConnectionManager connectionManager,
-            IComponentContext container)
+            IComponentContext componentContext)
         {
             this.host = host;
             this.connectionManager = connectionManager;
-            this.container = container;
+            this.componentContext = componentContext;
         }
 
         /// <summary>
@@ -99,8 +99,8 @@
             }
 
             var ctx = this.connectionManager.GetConnectionContext<CommandStreamConnection>();
-            var consoleHost = new ConsoleHost(this.container);
-            var session = new PsSession(consoleHost, configuration, connectionId);
+            var consoleHost = new ConsoleHost(this.componentContext);
+            var session = new PsSession(consoleHost, configuration, this.componentContext, connectionId);
 
             // Path is not available at this point
             session.Sender = data => ctx.Connection.Send(connectionId, data).Wait();

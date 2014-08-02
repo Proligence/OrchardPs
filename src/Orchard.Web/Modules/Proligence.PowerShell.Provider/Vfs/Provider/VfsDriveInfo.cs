@@ -10,14 +10,16 @@
     /// </summary>
     public class VfsDriveInfo : PSDriveInfo 
     {
-        private readonly IComponentContext container;
-
-        public VfsDriveInfo(PSDriveInfo driveInfo, IComponentContext container)
+        public VfsDriveInfo(PSDriveInfo driveInfo, IComponentContext componentContext)
             : base(driveInfo)
         {
-            this.container = container;
-            this.NavigationProviderManager = container.Resolve<INavigationProviderManager>();
+            this.ComponentContext = componentContext;
         }
+
+        /// <summary>
+        /// Gets the dependency injection container of the Orchard application.
+        /// </summary>
+        public IComponentContext ComponentContext { get; private set; }
 
         /// <summary>
         /// Gets the drive's PowerShell virtual file system (VFS) instance.
@@ -25,16 +27,14 @@
         public IPowerShellVfs Vfs { get; private set; }
 
         /// <summary>
-        /// Gets the object which exposes the navigation providers for the drive.
-        /// </summary>
-        public INavigationProviderManager NavigationProviderManager { get; private set; }
-
-        /// <summary>
         /// Initializes the drive.
         /// </summary>
         public virtual void Initialize()
         {
-            this.InitializeVfs();
+            var navigationProviderManager = this.ComponentContext.Resolve<INavigationProviderManager>();
+            var pathValidator = this.ComponentContext.Resolve<IPathValidator>();
+            this.Vfs = new PowerShellVfs(this, navigationProviderManager, pathValidator);
+            this.Vfs.Initialize();
         }
 
         /// <summary>
@@ -42,16 +42,6 @@
         /// </summary>
         public virtual void Close()
         {
-        }
-
-        /// <summary>
-        /// Initializes the drive's PowerShell virtual file system (VFS).
-        /// </summary>
-        private void InitializeVfs() 
-        {
-            IPowerShellVfs vfs = new PowerShellVfs(this, this.NavigationProviderManager, new DefaultPathValidator());
-            vfs.Initialize();
-            this.Vfs = vfs;
         }
     }
 }

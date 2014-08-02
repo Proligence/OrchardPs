@@ -3,8 +3,10 @@
     using System;
     using System.Management.Automation.Runspaces;
     using System.Threading;
+    using Autofac;
     using Proligence.PowerShell.Provider.Console.Host;
     using Proligence.PowerShell.Provider.Console.UI;
+    using Proligence.PowerShell.Provider.Vfs.Core;
 
     /// <summary>
     /// Represents a PowerShell user session.
@@ -37,6 +39,21 @@
         ///  Delegate used for sending messages up to the user console.
         /// </summary>
         Action<OutputData> Sender { get; }
+
+        /// <summary>
+        /// Gets the dependency injection container for the Orchard application.
+        /// </summary>
+        IComponentContext ComponentContext { get; }
+
+        /// <summary>
+        /// Gets or sets the Orchard drive instance for this session.
+        /// </summary>
+        OrchardDriveInfo OrchardDrive { get; set; }
+
+        /// <summary>
+        /// Gets the session's Orchard VFS instance.
+        /// </summary>
+        IPowerShellVfs Vfs { get; }
 
         /// <summary>
         /// SignalR connection identifier for this particular session.

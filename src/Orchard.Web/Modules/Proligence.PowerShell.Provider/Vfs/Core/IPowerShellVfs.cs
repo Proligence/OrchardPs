@@ -5,7 +5,7 @@
     /// <summary>
     /// Defines the interface for objects which implement the PowerShell Virtual File System (VFS).
     /// </summary>
-    public interface IPowerShellVfs 
+    public interface IPowerShellVfs
     {
         /// <summary>
         /// Gets the root node of the VFS.

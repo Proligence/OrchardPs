@@ -71,41 +71,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cmdlets\GetOrchardPsCommand.cs" />
-    <Compile Include="Commands\Cmdlets\InvokeOrchardCommand.cs" />
-    <Compile Include="Commands\Items\OrchardCommand.cs" />
-    <Compile Include="Commands\NavigationProviders\CommandsPsNavigationProvider.cs" />
-    <Compile Include="Commands\Nodes\CommandNode.cs" />
-    <Compile Include="Commands\Nodes\CommandsNode.cs" />
-    <Compile Include="Common\Extensions\OrchardCmdletExtensions.cs" />
-    <Compile Include="Common\Extensions\VfsNodeExtensions.cs" />
-    <Compile Include="Common\Items\CollectionItem.cs" />
-    <Compile Include="Common\Items\DescriptionItem.cs" />
-    <Compile Include="Configuration\ConfigurationNode.cs" />
-    <Compile Include="Configuration\ConfigurationPsNavigationProvider.cs" />
-    <Compile Include="Content\Cmdlets\EditContentPartDefinition.cs" />
-    <Compile Include="Content\Cmdlets\GetContentPartDefinition.cs" />
-    <Compile Include="Content\NavigationProviders\ContentPsNavigationProvider.cs" />
-    <Compile Include="Content\Nodes\ContentFieldNode.cs" />
-    <Compile Include="Content\Nodes\ContentFieldsNode.cs" />
-    <Compile Include="Content\Nodes\ContentNode.cs" />
-    <Compile Include="Content\Nodes\ContentPartNode.cs" />
-    <Compile Include="Content\Nodes\ContentPartsNode.cs" />
-    <Compile Include="Modules\Cmdlets\DisableOrchardFeature.cs" />
-    <Compile Include="Modules\Cmdlets\EnableOrchardFeature.cs" />
-    <Compile Include="Modules\Cmdlets\EnableOrchardTheme.cs" />
-    <Compile Include="Modules\Cmdlets\GetOrchardFeature.cs" />
-    <Compile Include="Modules\Cmdlets\GetOrchardTheme.cs" />
-    <Compile Include="Modules\Items\OrchardTheme.cs" />
-    <Compile Include="Modules\NavigationProviders\FeaturesPsNavigationProvider.cs" />
-    <Compile Include="Modules\NavigationProviders\ModulesPsNavigationProvider.cs" />
-    <Compile Include="Modules\NavigationProviders\ThemesPsNavigationProvider.cs" />
-    <Compile Include="Modules\Nodes\FeatureCategoryNode.cs" />
-    <Compile Include="Modules\Nodes\FeatureNode.cs" />
-    <Compile Include="Modules\Nodes\FeaturesNode.cs" />
-    <Compile Include="Modules\Nodes\ModuleNode.cs" />
-    <Compile Include="Modules\Nodes\ModulesNode.cs" />
-    <Compile Include="Modules\Nodes\ThemeNode.cs" />
-    <Compile Include="Modules\Nodes\ThemesNode.cs" />
     <Compile Include="Common\Items\CollectionItem.cs" />
     <Compile Include="Common\Items\DescriptionItem.cs" />
     <Compile Include="Configuration\ConfigurationNode.cs" />
@@ -113,18 +78,8 @@
     <Compile Include="AdminMenu.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="ResourceManifest.cs" />
-    <Compile Include="Tenants\Cmdlets\DisableTenant.cs" />
-    <Compile Include="Tenants\Cmdlets\EditTenant.cs" />
-    <Compile Include="Tenants\Cmdlets\EnableTenant.cs" />
-    <Compile Include="Tenants\Cmdlets\GetTenant.cs" />
-    <Compile Include="Tenants\Cmdlets\NewTenant.cs" />
-    <Compile Include="Tenants\Cmdlets\RemoveTenant.cs" />
-    <Compile Include="Tenants\NavigationProviders\TenantConfigurationPsNavigationProvider.cs" />
-    <Compile Include="Tenants\NavigationProviders\TenantsPsNavigationProvider.cs" />
-    <Compile Include="Tenants\Nodes\TenantConfigurationNode.cs" />
     <Compile Include="Tenants\Nodes\TenantNode.cs" />
     <Compile Include="Tenants\Nodes\TenantsNode.cs" />
-    <Compile Include="Utilities\CmdletHelper.cs" />
     <Compile Include="Utilities\ITenantFilterCmdlet.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -189,13 +144,7 @@
   <ItemGroup>
     <Content Include="Common\Common.format.ps1xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Commands\Commands.format.ps1xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\Content.format.ps1xml" />
-    <Folder Include="Common\Extensions\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

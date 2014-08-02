@@ -14,16 +14,16 @@
         private readonly CultureInfo currentCulture;
         private readonly CultureInfo currentUiCulture;
         private readonly PSHostUserInterface ui;
-        private readonly IComponentContext container;
+        private ConsoleHostPrivateData privateData;
         private IPsSession session;
         private ICommandExecutor executor;
 
-        public ConsoleHost(IComponentContext container)
+        public ConsoleHost(IComponentContext componentContext)
         {
             this.instanceId = Guid.NewGuid();
             this.currentCulture = Thread.CurrentThread.CurrentCulture;
             this.currentUiCulture = Thread.CurrentThread.CurrentUICulture;
-            this.container = container;
+            this.privateData = new ConsoleHostPrivateData { ComponentContext = componentContext };
             this.ui = new ConsoleHostUserInterface(this);
         }
 
@@ -72,10 +72,13 @@
         {
             get
             {
-                return PSObject.AsPSObject(this.container);
+                return PSObject.AsPSObject(this.privateData);
             }
         }
 
+        /// <summary>
+        /// Attaches the console host to the specified PowerShell session.
+        /// </summary>
         public void AttachToSession(IPsSession session)
         {
             if (session == null)
@@ -84,6 +87,12 @@
             }
 
             this.session = session;
+            
+            // Move the Orchard drive instance to the PowerShell session and clear the host's private data, so that
+            // the session cannot be accessed directly from PowerShell scripts.
+            this.session.OrchardDrive = this.privateData.OrchardDrive;
+            this.privateData = null;
+
             this.executor = new CommandExecutor(this.session);
             this.executor.Start();
         }

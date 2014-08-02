@@ -101,6 +101,7 @@
     <Compile Include="Console\DataReceivedEventArgs.cs" />
     <Compile Include="Console\Host\CommandExecutor.cs" />
     <Compile Include="Console\Host\ConsoleHost.cs" />
+    <Compile Include="Console\Host\ConsoleHostPrivateData.cs" />
     <Compile Include="Console\Host\ICommandExecutor.cs" />
     <Compile Include="Console\UI\CommandStreamConnection.cs" />
     <Compile Include="Console\UI\ConsoleHostRawUserInterface.cs" />
@@ -154,7 +155,6 @@
     <Compile Include="Vfs\Navigation\RootVfsNode.cs" />
     <Compile Include="Vfs\Navigation\SymbolicLinkNode.cs" />
     <Compile Include="Vfs\Navigation\VfsNode.cs" />
-    <Compile Include="Vfs\PowerShellVfsModule.cs" />
     <Compile Include="Vfs\Provider\VfsDriveInfo.cs" />
     <Compile Include="Vfs\Provider\VfsProvider.cs" />
     <Compile Include="Vfs\Provider\VfsProviderException.cs" />

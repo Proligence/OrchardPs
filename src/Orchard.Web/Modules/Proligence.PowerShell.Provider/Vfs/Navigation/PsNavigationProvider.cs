@@ -8,19 +8,11 @@
     /// </summary>
     public abstract class PsNavigationProvider : IPsNavigationProvider 
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PsNavigationProvider"/> class.
-        /// </summary>
-        protected PsNavigationProvider() 
+        protected PsNavigationProvider()
         {
             this.Path = "\\";
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PsNavigationProvider"/> class.
-        /// </summary>
-        /// <param name="nodeType">The type of the added node.</param>
-        /// <param name="node">The added node.</param>
         protected PsNavigationProvider(NodeType nodeType, VfsNode node) 
         {
             this.Path = "\\";
@@ -28,12 +20,6 @@
             this.Node = node;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PsNavigationProvider"/> class.
-        /// </summary>
-        /// <param name="nodeType">The type of the added node.</param>
-        /// <param name="path">The path of the added node's parent node.</param>
-        /// <param name="node">The added node.</param>
         protected PsNavigationProvider(NodeType nodeType, string path, VfsNode node) 
         {
             this.Path = path;
@@ -62,7 +48,7 @@
         public IPowerShellVfs Vfs { get; set; }
 
         /// <summary>
-        /// Initializes the navigation provider.
+        /// Initializes the properties of the navigation provider.
         /// </summary>
         public virtual void Initialize()
         {

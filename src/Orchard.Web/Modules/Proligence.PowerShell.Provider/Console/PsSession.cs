@@ -4,8 +4,10 @@
     using System.Collections.Concurrent;
     using System.Management.Automation.Runspaces;
     using System.Threading;
+    using Autofac;
     using Proligence.PowerShell.Provider.Console.Host;
     using Proligence.PowerShell.Provider.Console.UI;
+    using Proligence.PowerShell.Provider.Vfs.Core;
 
     /// <summary>
     /// Represents a PowerShell user session.
@@ -14,22 +16,28 @@
     {
         private readonly ConcurrentQueue<string> queue;
         private readonly RunspaceConfiguration configuration;
+        private readonly IComponentContext componentContext;
         private readonly Runspace runspace;
         private readonly AutoResetEvent runspaceLock;
-
+        
         /// <summary>
         /// Caches the current path of the session's runspace. This cached value is used if the runspace cannot be
         /// accessed because a cmdlet is being executed in it.
         /// </summary>
         private string currentPath;
 
-        public PsSession(ConsoleHost consoleHost, RunspaceConfiguration configuration, string connectionId)
+        public PsSession(
+            ConsoleHost consoleHost,
+            RunspaceConfiguration configuration,
+            IComponentContext componentContext,
+            string connectionId)
         {
             this.ConsoleHost = consoleHost;
             this.ConnectionId = connectionId;
 
             this.queue = new ConcurrentQueue<string>();
             this.configuration = configuration;
+            this.componentContext = componentContext;
             this.runspace = RunspaceFactory.CreateRunspace(consoleHost, configuration);
             this.runspaceLock = new AutoResetEvent(true);
             this.Runspace.StateChanged += this.OnRunspaceStateChanged;
@@ -93,6 +101,38 @@
         /// Delegate used for sending messages up to the user console.
         /// </summary>
         public Action<OutputData> Sender { get; internal set; }
+
+        /// <summary>
+        /// Gets the dependency injection container for the Orchard application.
+        /// </summary>
+        public IComponentContext ComponentContext
+        {
+            get
+            {
+                return this.componentContext;
+            }
+        }
+
+        /// <summary>
+        /// Gets the Orchard drive instance for this session.
+        /// </summary>
+        public OrchardDriveInfo OrchardDrive { get; set; }
+
+        /// <summary>
+        /// Gets the session's Orchard VFS instance.
+        /// </summary>
+        public IPowerShellVfs Vfs
+        {
+            get
+            {
+                if (this.OrchardDrive != null)
+                {
+                    return this.OrchardDrive.Vfs;                    
+                }
+
+                return null;
+            }
+        }
 
         /// <summary>
         /// SignalR connection identifier for this particular session.

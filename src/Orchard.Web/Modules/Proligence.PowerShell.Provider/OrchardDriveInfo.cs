@@ -12,8 +12,8 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="OrchardDriveInfo"/> class.
         /// </summary>
-        public OrchardDriveInfo(PSDriveInfo driveInfo, IComponentContext container)
-            : base(driveInfo, container)
+        public OrchardDriveInfo(PSDriveInfo driveInfo, IComponentContext componentContext)
+            : base(driveInfo, componentContext)
         {
         }
     }

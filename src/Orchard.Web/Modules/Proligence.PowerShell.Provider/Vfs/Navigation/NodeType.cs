@@ -13,7 +13,7 @@
         /// <summary>
         /// Specifies that the node should be added as a subnode of each site node.
         /// </summary>
-        Site,
+        Tenant,
 
         /// <summary>
         /// Specifies that the node is a custom node which should be handled by one of the custom PS navigation

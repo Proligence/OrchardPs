@@ -3,7 +3,7 @@
     using System.Collections.ObjectModel;
     using System.Management.Automation;
     using System.Management.Automation.Provider;
-    using Autofac;
+    using Proligence.PowerShell.Provider.Console.Host;
     using Proligence.PowerShell.Provider.Vfs.Provider;
 
     /// <summary>
@@ -84,11 +84,11 @@
         /// <returns>The <see cref="OrchardDriveInfo"/> object which represents the initialized drive.</returns>
         private OrchardDriveInfo InitializeOrchardDrive(PSDriveInfo drive)
         {
-            var container = (IComponentContext)this.Host.PrivateData.BaseObject;
-            var orchardDrive = new OrchardDriveInfo(drive, container);
-            orchardDrive.Initialize();
+            var privateData = (ConsoleHostPrivateData)this.Host.PrivateData.BaseObject;
+            privateData.OrchardDrive = new OrchardDriveInfo(drive, privateData.ComponentContext);
+            privateData.OrchardDrive.Initialize();
 
-            return orchardDrive;
+            return privateData.OrchardDrive;
         }
     }
 }

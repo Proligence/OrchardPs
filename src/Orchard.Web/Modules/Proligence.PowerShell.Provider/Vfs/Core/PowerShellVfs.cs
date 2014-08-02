@@ -7,14 +7,11 @@
     /// <summary>
     /// Implements the PowerShell Virtual File System (VFS).
     /// </summary>
-    public class PowerShellVfs : IPowerShellVfs 
+    public class PowerShellVfs : IPowerShellVfs
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PowerShellVfs"/> class.
-        /// </summary>
-        /// <param name="drive">The object which represents the drive of the VFS instance.</param>
-        /// <param name="navigationProviderManager">The navigation provider manager for the VFS instance.</param>
-        /// <param name="pathValidator">The object which implements input path validation.</param>
+        private readonly object initializationLock = new object();
+        private bool initialized;
+
         public PowerShellVfs(
             VfsDriveInfo drive,
             INavigationProviderManager navigationProviderManager,
@@ -45,24 +42,35 @@
         /// </summary>
         public void Initialize() 
         {
-            IEnumerable<IPsNavigationProvider> globalNodeProviders = 
-                this.NavigationProviderManager.GetProviders(NodeType.Global);
-
-            foreach (IPsNavigationProvider provider in globalNodeProviders) 
+            lock (this.initializationLock)
             {
-                VfsNode parent = this.NavigatePath(provider.Path);
-                if (parent == null) 
+                if (!this.initialized)
                 {
-                    throw new VfsProviderException("The VFS path '" + provider.Path + "' does not exist.");
-                }
+                    IEnumerable<IPsNavigationProvider> globalNodeProviders =
+                        this.NavigationProviderManager.GetProviders(NodeType.Global);
 
-                ContainerNode containerNode = parent as ContainerNode;
-                if (containerNode == null) 
-                {
-                    throw new VfsProviderException("The node '" + provider.Path + "' must be a container.");
-                }
+                    foreach (IPsNavigationProvider provider in globalNodeProviders)
+                    {
+                        provider.Vfs = this;
+                        provider.Initialize();
 
-                containerNode.AddStaticNode(provider.Node);
+                        VfsNode parent = this.NavigatePath(provider.Path);
+                        if (parent == null)
+                        {
+                            throw new VfsProviderException("The VFS path '" + provider.Path + "' does not exist.");
+                        }
+
+                        var containerNode = parent as ContainerNode;
+                        if (containerNode == null)
+                        {
+                            throw new VfsProviderException("The node '" + provider.Path + "' must be a container.");
+                        }
+
+                        containerNode.AddStaticNode(provider.Node);
+                    }
+
+                    this.initialized = true;
+                }
             }
         }
 
