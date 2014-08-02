@@ -23,6 +23,11 @@ namespace Proligence.PowerShell.Provider
         private Collection<FormatConfigurationEntry> formats;
         private Collection<string> helpFiles;
 
+        public OrchardPsSnapIn()
+        {
+            this.Aliases = new Dictionary<string, string>();
+        }
+
         /// <summary>
         /// Gets the name of the snap-in.
         /// </summary>
