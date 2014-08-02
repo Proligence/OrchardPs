@@ -1,6 +1,5 @@
 ﻿namespace Proligence.PowerShell.Provider.Vfs.Provider
 {
-    using System.IO;
     using System.Management.Automation;
     using Autofac;
     using Proligence.PowerShell.Provider.Vfs.Core;
@@ -11,17 +10,14 @@
     /// </summary>
     public class VfsDriveInfo : PSDriveInfo 
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="VfsDriveInfo"/> class.
-        /// </summary>
-        /// <param name="driveInfo">The <see cref="DriveInfo"/> object for the VFS drive.</param>
-        /// <param name="scope">The drive's dependency injection lifetime scope.</param>
-        public VfsDriveInfo(PSDriveInfo driveInfo)
+        private readonly IComponentContext container;
+
+        public VfsDriveInfo(PSDriveInfo driveInfo, IComponentContext container)
             : base(driveInfo)
         {
-            this.NavigationProviderManager = new NavigationProviderManager();
+            this.container = container;
+            this.NavigationProviderManager = container.Resolve<INavigationProviderManager>();
         }
-
 
         /// <summary>
         /// Gets the drive's PowerShell virtual file system (VFS) instance.

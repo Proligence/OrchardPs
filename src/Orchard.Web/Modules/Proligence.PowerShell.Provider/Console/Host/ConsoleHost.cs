@@ -2,8 +2,10 @@
 {
     using System;
     using System.Globalization;
+    using System.Management.Automation;
     using System.Management.Automation.Host;
     using System.Threading;
+    using Autofac;
     using Proligence.PowerShell.Provider.Console.UI;
 
     public class ConsoleHost : PSHost, IDisposable
@@ -12,14 +14,16 @@
         private readonly CultureInfo currentCulture;
         private readonly CultureInfo currentUiCulture;
         private readonly PSHostUserInterface ui;
+        private readonly IComponentContext container;
         private IPsSession session;
         private ICommandExecutor executor;
 
-        public ConsoleHost()
+        public ConsoleHost(IComponentContext container)
         {
             this.instanceId = Guid.NewGuid();
             this.currentCulture = Thread.CurrentThread.CurrentCulture;
             this.currentUiCulture = Thread.CurrentThread.CurrentUICulture;
+            this.container = container;
             this.ui = new ConsoleHostUserInterface(this);
         }
 
@@ -62,6 +66,14 @@
         public override CultureInfo CurrentUICulture
         {
             get { return this.currentUiCulture; }
+        }
+
+        public override PSObject PrivateData
+        {
+            get
+            {
+                return PSObject.AsPSObject(this.container);
+            }
         }
 
         public void AttachToSession(IPsSession session)

@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Management.Automation.Host;
     using System.Management.Automation.Runspaces;
+    using Autofac;
     using Microsoft.AspNet.SignalR;
     using Microsoft.AspNet.SignalR.Infrastructure;
     using Proligence.PowerShell.Provider.Console.Host;
@@ -21,11 +22,16 @@
 
         private readonly IPsHost host;
         private readonly IConnectionManager connectionManager;
+        private readonly IComponentContext container;
 
-        public PsSessionManager(IPsHost host, IConnectionManager connectionManager)
+        public PsSessionManager(
+            IPsHost host,
+            IConnectionManager connectionManager,
+            IComponentContext container)
         {
             this.host = host;
             this.connectionManager = connectionManager;
+            this.container = container;
         }
 
         /// <summary>
@@ -93,7 +99,7 @@
             }
 
             var ctx = this.connectionManager.GetConnectionContext<CommandStreamConnection>();
-            var consoleHost = new ConsoleHost();
+            var consoleHost = new ConsoleHost(this.container);
             var session = new PsSession(consoleHost, configuration, connectionId);
 
             // Path is not available at this point

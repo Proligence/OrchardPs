@@ -1,7 +1,7 @@
 ﻿namespace Proligence.PowerShell.Provider
 {
-    using System.IO;
     using System.Management.Automation;
+    using Autofac;
     using Proligence.PowerShell.Provider.Vfs.Provider;
 
     /// <summary>
@@ -12,28 +12,9 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="OrchardDriveInfo"/> class.
         /// </summary>
-        /// <param name="driveInfo">The <see cref="DriveInfo"/> object for the Orchard drive.</param>
-        public OrchardDriveInfo(PSDriveInfo driveInfo)
-            : base(driveInfo)
+        public OrchardDriveInfo(PSDriveInfo driveInfo, IComponentContext container)
+            : base(driveInfo, container)
         {
-        }
-
-        /// <summary>
-        /// Initializes the drive and establishes a connection with the AppDomain which runs inside the Orchard web
-        /// application.
-        /// </summary>
-        public override void Initialize()
-        {
-            base.Initialize();
-        }
-
-        /// <summary>
-        /// Closes the drive and shutdowns the connection with the AppDomain which runs inside the Orchard web
-        /// application.
-        /// </summary>
-        public override void Close()
-        {
-            base.Close();
         }
     }
 }
