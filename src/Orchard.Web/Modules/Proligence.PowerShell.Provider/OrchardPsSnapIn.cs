@@ -12,6 +12,7 @@ namespace Proligence.PowerShell.Provider
     using System.Management.Automation;
     using System.Management.Automation.Runspaces;
     using System.Reflection;
+    using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>
     /// Implements the PowerShell snap-in for the Orchard PS provider.
@@ -118,17 +119,20 @@ namespace Proligence.PowerShell.Provider
         /// <param name="cmdletsCollection">The collection to which the discovered assemblies will be added.</param>
         private void LoadCmdlets(ICollection<CmdletConfigurationEntry> cmdletsCollection)
         {
-            Type cmdletType = typeof(Cmdlet);
-
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
+                if (!Attribute.IsDefined(assembly, typeof(PowerShellExtensionContainerAttribute)))
+                {
+                    continue;
+                }
+
                 try
                 {
                     foreach (Type type in assembly.GetTypes())
                     {
                         try
                         {
-                            if (cmdletType.IsAssignableFrom(type))
+                            if (typeof(Cmdlet).IsAssignableFrom(type))
                             {
                                 CmdletAttribute cmdletAttribute =
                                     type.GetCustomAttributes(typeof(CmdletAttribute), false)
