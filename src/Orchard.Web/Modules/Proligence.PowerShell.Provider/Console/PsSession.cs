@@ -13,6 +13,8 @@
     public class PsSession : IPsSession 
     {
         private readonly ConcurrentQueue<string> queue;
+        private readonly RunspaceConfiguration configuration;
+        private readonly Runspace runspace;
         private readonly AutoResetEvent runspaceLock;
 
         /// <summary>
@@ -21,12 +23,14 @@
         /// </summary>
         private string currentPath;
 
-        public PsSession(ConsoleHost consoleHost, string connectionId)
+        public PsSession(ConsoleHost consoleHost, RunspaceConfiguration configuration, string connectionId)
         {
             this.ConsoleHost = consoleHost;
             this.ConnectionId = connectionId;
 
             this.queue = new ConcurrentQueue<string>();
+            this.configuration = configuration;
+            this.runspace = RunspaceFactory.CreateRunspace(consoleHost, configuration);
             this.runspaceLock = new AutoResetEvent(true);
             this.Runspace.StateChanged += this.OnRunspaceStateChanged;
         }
@@ -39,11 +43,19 @@
         public ConsoleHost ConsoleHost { get; private set; }
 
         /// <summary>
+        /// Gets the configuration of the PowerShell runspace associated with the session.
+        /// </summary>
+        public RunspaceConfiguration RunspaceConfiguration
+        {
+            get { return this.configuration; }
+        }
+
+        /// <summary>
         /// Gets the PowerShell runspace associated with the session.
         /// </summary>
         public Runspace Runspace
         {
-            get { return this.ConsoleHost.Runspace; }
+            get { return this.runspace; }
         }
 
         /// <summary>
@@ -65,7 +77,7 @@
                 {
                     try
                     {
-                        this.currentPath = this.ConsoleHost.Runspace.SessionStateProxy.Path.CurrentLocation.ToString();
+                        this.currentPath = this.Runspace.SessionStateProxy.Path.CurrentLocation.ToString();
                     }
                     finally
                     {
@@ -86,6 +98,14 @@
         /// SignalR connection identifier for this particular session.
         /// </summary>
         public string ConnectionId { get; private set; }
+
+        /// <summary>
+        /// Initializes the session.
+        /// </summary>
+        public void Initialize()
+        {
+            this.runspace.Open();
+        }
 
         /// <summary>
         /// Reads line of string from input buffer. Nonblocking.
@@ -123,6 +143,16 @@
         {
             if (disposing)
             {
+                if (this.Runspace != null)
+                {
+                    this.Runspace.Dispose();
+                }
+
+                if (this.RunspaceLock != null)
+                {
+                    this.runspaceLock.Dispose();
+                }
+
                 if (this.ConsoleHost != null)
                 {
                     this.ConsoleHost.Dispose();

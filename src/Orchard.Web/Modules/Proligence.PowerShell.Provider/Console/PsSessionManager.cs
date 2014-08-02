@@ -1,23 +1,25 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Management.Automation.Runspaces;
-using Microsoft.AspNet.SignalR;
-using Microsoft.AspNet.SignalR.Infrastructure;
-using Proligence.PowerShell.Provider.Console.Host;
-using Proligence.PowerShell.Provider.Console.UI;
-
-namespace Proligence.PowerShell.Provider.Console
+﻿namespace Proligence.PowerShell.Provider.Console
 {
+    using System;
+    using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Management.Automation.Runspaces;
+    using Microsoft.AspNet.SignalR;
+    using Microsoft.AspNet.SignalR.Infrastructure;
+    using Proligence.PowerShell.Provider.Console.Host;
+    using Proligence.PowerShell.Provider.Console.UI;
+
     /// <summary>
     /// Manages the sessions of the PowerShell engine hosted in the Orchard application.
     /// </summary>
     public class PsSessionManager : IPsSessionManager
     {
+        protected static readonly ConcurrentDictionary<string, IPsSession> Sessions
+            = new ConcurrentDictionary<string, IPsSession>();
+
         private readonly IPsHost host;
         private readonly IConnectionManager connectionManager;
-        protected static readonly ConcurrentDictionary<string, IPsSession> sessions = new ConcurrentDictionary<string, IPsSession>();
 
         public PsSessionManager(IPsHost host, IConnectionManager connectionManager)
         {
@@ -44,7 +46,9 @@ namespace Proligence.PowerShell.Provider.Console
                 foreach (ProviderConfigurationEntry provider in this.host.SnapIn.Providers) 
                 {
                     if (configuration.Providers.Any(p => p.Name == provider.Name))
+                    {
                         continue;
+                    }
 
                     configuration.Providers.Append(provider);
                 }
@@ -52,7 +56,9 @@ namespace Proligence.PowerShell.Provider.Console
                 foreach (CmdletConfigurationEntry cmdlet in this.host.SnapIn.Cmdlets)
                 {
                     if (configuration.Cmdlets.Any(c => c.Name == cmdlet.Name))
+                    {
                         continue;
+                    }
 
                     configuration.Cmdlets.Append(cmdlet);
                 }
@@ -60,7 +66,9 @@ namespace Proligence.PowerShell.Provider.Console
                 foreach (FormatConfigurationEntry format in this.host.SnapIn.Formats)
                 {
                     if (configuration.Formats.Any(f => f.Name == format.Name))
+                    {
                         continue;
+                    }
 
                     configuration.Formats.Append(format);
                 }
@@ -84,17 +92,14 @@ namespace Proligence.PowerShell.Provider.Console
             }
 
             var ctx = this.connectionManager.GetConnectionContext<CommandStreamConnection>();
-
-            var consoleHost = new ConsoleHost(configuration);
-
-            var session = new PsSession(
-                consoleHost, 
-                connectionId);
+            var consoleHost = new ConsoleHost();
+            var session = new PsSession(consoleHost, configuration, connectionId);
 
             // Path is not available at this point
             session.Sender = data => ctx.Connection.Send(connectionId, data).Wait();
 
-            consoleHost.Initialize(session);
+            session.Initialize();
+            consoleHost.AttachToSession(session);
 
             session.Sender = data => 
             {
@@ -102,7 +107,7 @@ namespace Proligence.PowerShell.Provider.Console
                 ctx.Connection.Send(connectionId, data).Wait();
             };
 
-            sessions.AddOrUpdate(
+            Sessions.AddOrUpdate(
                 connectionId, 
                 session, 
                 (s, psSession) => 
@@ -126,9 +131,10 @@ namespace Proligence.PowerShell.Provider.Console
         /// </summary>
         /// <param name="connectionId">Connection ID.</param>
         /// <returns>Associated session, or null if not found.</returns>
-        public IPsSession GetSession(string connectionId) {
+        public IPsSession GetSession(string connectionId)
+        {
             IPsSession session;
-            return sessions.TryGetValue(connectionId, out session) ? session : null;
+            return Sessions.TryGetValue(connectionId, out session) ? session : null;
         }
 
         /// <summary>
@@ -142,14 +148,14 @@ namespace Proligence.PowerShell.Provider.Console
                 throw new ArgumentNullException("session");
             }
 
-            var key = sessions
+            var key = Sessions
                 .Where(s => s.Value == session)
                 .Select(s => s.Key)
                 .FirstOrDefault();
 
             if (key != null) 
             {
-                sessions.TryRemove(key, out session);
+                Sessions.TryRemove(key, out session);
             }
 
             session.Dispose();
@@ -158,7 +164,7 @@ namespace Proligence.PowerShell.Provider.Console
         public void CloseSession(string connectionId) 
         {
             IPsSession session;
-            if (sessions.TryRemove(connectionId, out session))
+            if (Sessions.TryRemove(connectionId, out session))
             {
                 session.Dispose();
             }

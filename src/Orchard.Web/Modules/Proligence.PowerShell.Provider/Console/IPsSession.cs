@@ -19,6 +19,11 @@
         ConsoleHost ConsoleHost { get; }
 
         /// <summary>
+        /// Gets the configuration of the PowerShell runspace associated with the session.
+        /// </summary>
+        RunspaceConfiguration RunspaceConfiguration { get; }
+
+        /// <summary>
         /// Gets the PowerShell runspace associated with the session.
         /// </summary>
         Runspace Runspace { get; }
@@ -42,6 +47,11 @@
         /// Gets the current session's runspace absolute path.
         /// </summary>
         string Path { get; }
+
+        /// <summary>
+        /// Initializes the session.
+        /// </summary>
+        void Initialize();
 
         /// <summary>
         /// Reads line of string from input buffer.

@@ -3,7 +3,6 @@
     using System;
     using System.Globalization;
     using System.Management.Automation.Host;
-    using System.Management.Automation.Runspaces;
     using System.Threading;
     using Proligence.PowerShell.Provider.Console.UI;
 
@@ -12,19 +11,15 @@
         private readonly Guid instanceId;
         private readonly CultureInfo currentCulture;
         private readonly CultureInfo currentUiCulture;
-        private readonly RunspaceConfiguration configuration;
-        private readonly Runspace runspace;
         private readonly PSHostUserInterface ui;
         private IPsSession session;
         private ICommandExecutor executor;
 
-        public ConsoleHost(RunspaceConfiguration configuration)
+        public ConsoleHost()
         {
             this.instanceId = Guid.NewGuid();
             this.currentCulture = Thread.CurrentThread.CurrentCulture;
             this.currentUiCulture = Thread.CurrentThread.CurrentUICulture;
-            this.configuration = configuration;
-            this.runspace = RunspaceFactory.CreateRunspace(this, configuration);
             this.ui = new ConsoleHostUserInterface(this);
         }
 
@@ -69,17 +64,7 @@
             get { return this.currentUiCulture; }
         }
 
-        public RunspaceConfiguration RunspaceConfiguration
-        {
-            get { return this.configuration; }
-        }
-
-        public Runspace Runspace
-        {
-            get { return this.runspace; }
-        }
-
-        public void Initialize(IPsSession session)
+        public void AttachToSession(IPsSession session)
         {
             if (session == null)
             {
@@ -87,7 +72,6 @@
             }
 
             this.session = session;
-            this.runspace.Open();
             this.executor = new CommandExecutor(this.session);
             this.executor.Start();
         }
@@ -100,7 +84,7 @@
         public override void SetShouldExit(int exitCode)
         {
             this.executor.Exit();
-            this.runspace.Close();
+            this.session.Runspace.Close();
         }
 
         /// <summary>
@@ -153,7 +137,7 @@
         {
             if (disposing)
             {
-                this.runspace.Dispose();
+                this.session.Dispose();
             }
         }
     }

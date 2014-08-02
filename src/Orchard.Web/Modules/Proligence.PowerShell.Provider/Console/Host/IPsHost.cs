@@ -1,7 +1,7 @@
-﻿using Orchard;
-
-namespace Proligence.PowerShell.Provider.Console.Host
+﻿namespace Proligence.PowerShell.Provider.Console.Host
 {
+    using Orchard;
+
     /// <summary>
     /// Encapsulates the logic of hosting the PowerShell engine inside Orchard.
     /// </summary>
