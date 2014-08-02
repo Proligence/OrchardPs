@@ -1,12 +1,8 @@
 ﻿namespace Proligence.PowerShell.Provider
 {
-    using System;
     using System.Collections.ObjectModel;
-    using System.Diagnostics.CodeAnalysis;
     using System.Management.Automation;
     using System.Management.Automation.Provider;
-    using Proligence.PowerShell.Provider.Console;
-    using Proligence.PowerShell.Provider.Console.Host;
     using Proligence.PowerShell.Provider.Vfs.Provider;
 
     /// <summary>
@@ -25,13 +21,6 @@
                 return (OrchardProviderInfo)ProviderInfo;
             }
         }
-
-        /// <summary>
-        /// Gets the object which can be used to access the PowerShell-controlled output console.
-        /// </summary>
-        public IPsSession Session { get; set; }
-
-        protected ConsoleHost ConsoleHost { get; set; }
 
         /// <summary>
         /// Creates the <see cref="VfsProviderInfo"/> object for the provider.
@@ -92,27 +81,10 @@
         /// </summary>
         /// <param name="drive">The drive to initialize.</param>
         /// <returns>The <see cref="OrchardDriveInfo"/> object which represents the initialized drive.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly")]
         private OrchardDriveInfo InitializeOrchardDrive(PSDriveInfo drive) 
         {
-            this.Host.UI.WriteVerboseLine("Initializing Orchard session. (This might take a few seconds...)");
-            this.Host.UI.WriteLine();
-            
             var orchardDrive = new OrchardDriveInfo(drive);
             orchardDrive.Initialize();
-
-            this.Host.UI.WriteLine(ConsoleColor.Yellow, 0, "                    Welcome to Orchard PowerShell!");
-
-            this.Host.UI.WriteLine();
-            this.Host.UI.WriteLine(
-                "To get a list of all Orchard-related cmdlets, type Get-OrchardPsCommand -All.");
-            this.Host.UI.WriteLine(
-                "To get a list of all supported cmdlets for the current location type Get-OrchardPsCommand.");
-            this.Host.UI.WriteLine(
-                "To get help about a specific cmdlet, type Get-Help CommandName.");
-            this.Host.UI.WriteLine(
-                "To get more help about the Orchard PowerShell provider, type Get-Help Orchard.");
-            this.Host.UI.WriteLine();
 
             return orchardDrive;
         }

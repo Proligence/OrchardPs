@@ -4,6 +4,7 @@
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Management.Automation.Host;
     using System.Management.Automation.Runspaces;
     using Microsoft.AspNet.SignalR;
     using Microsoft.AspNet.SignalR.Infrastructure;
@@ -123,6 +124,8 @@
                     Path = session.Path
                 }).Wait();
 
+            DisplayWelcomeBanner(session);
+
             return session;
         }
 
@@ -168,6 +171,27 @@
             {
                 session.Dispose();
             }
+        }
+
+        private static void DisplayWelcomeBanner(IPsSession session)
+        {
+            PSHostUserInterface ui = session.ConsoleHost.UI;
+
+            ui.WriteLine();
+            ui.WriteLine();
+
+            ui.WriteLine(ConsoleColor.Yellow, 0, "                    Welcome to Orchard PowerShell!");
+
+            ui.WriteLine();
+            ui.WriteLine(
+                "To get a list of all Orchard-related cmdlets, type Get-OrchardPsCommand -All.");
+            ui.WriteLine(
+                "To get a list of all supported cmdlets for the current location type Get-OrchardPsCommand.");
+            ui.WriteLine(
+                "To get help about a specific cmdlet, type Get-Help CommandName.");
+            ui.WriteLine(
+                "To get more help about the Orchard PowerShell provider, type Get-Help Orchard.");
+            ui.WriteLine();
         }
     }
 }
