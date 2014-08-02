@@ -152,11 +152,6 @@
                 {
                     this.runspaceLock.Dispose();
                 }
-
-                if (this.ConsoleHost != null)
-                {
-                    this.ConsoleHost.Dispose();
-                }
             }
         }
 
