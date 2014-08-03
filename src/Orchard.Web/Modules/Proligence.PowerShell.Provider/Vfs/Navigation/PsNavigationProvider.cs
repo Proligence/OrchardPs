@@ -8,8 +8,9 @@
     /// </summary>
     public abstract class PsNavigationProvider : IPsNavigationProvider 
     {
-        protected PsNavigationProvider()
+        protected PsNavigationProvider(NodeType nodeType)
         {
+            this.NodeType = nodeType;
             this.Path = "\\";
         }
 
@@ -35,7 +36,7 @@
         /// <summary>
         /// Gets or sets the type of the added node.
         /// </summary>
-        public NodeType NodeType { get; protected set; }
+        public NodeType NodeType { get; private set; }
 
         /// <summary>
         /// Gets or sets the added node.

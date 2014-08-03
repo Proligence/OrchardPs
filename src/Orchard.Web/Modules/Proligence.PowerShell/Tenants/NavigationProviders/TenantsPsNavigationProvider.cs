@@ -12,13 +12,13 @@
         private readonly IShellSettingsManager manager;
 
         public TenantsPsNavigationProvider(IShellSettingsManager manager)
+            : base(NodeType.Global)
         {
             this.manager = manager;
         }
 
         public override void Initialize()
         {
-            this.NodeType = NodeType.Global;
             this.Node = new TenantsNode(this.Vfs, this.manager);
         }
     }

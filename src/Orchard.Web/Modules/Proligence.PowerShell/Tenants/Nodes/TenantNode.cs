@@ -47,8 +47,11 @@
                 IEnumerable<IPsNavigationProvider> tenantNavigationProviders = 
                     this.Vfs.NavigationProviderManager.GetProviders(NodeType.Tenant);
                 
-                foreach (IPsNavigationProvider navigationProvider in tenantNavigationProviders) 
+                foreach (IPsNavigationProvider navigationProvider in tenantNavigationProviders)
                 {
+                    navigationProvider.Vfs = this.Vfs;
+                    navigationProvider.Initialize();
+
                     if (navigationProvider.Path != "\\") 
                     {
                         throw new NotSupportedException(
