@@ -1,13 +1,16 @@
 ﻿namespace Proligence.PowerShell.Tenants.Nodes
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Proligence.PowerShell.Agents;
-    using Proligence.PowerShell.Common.Extensions;
+    using System.Reflection;
+    using Orchard;
+    using Orchard.Settings;
     using Proligence.PowerShell.Common.Items;
     using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Provider.Vfs.Core;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
+    using Proligence.PowerShell.Utilities;
 
     /// <summary>
     /// Implements a VFS node which represents the configuration of an Orchard tenant.
@@ -15,24 +18,18 @@
     [SupportedCmdlet("Set-Item")]
     public class TenantConfigurationNode : CachedPropertyStoreNode
     {
-        /// <summary>
-        /// The tenant agent.
-        /// </summary>
-        private readonly ITenantAgent agent;
+        private readonly ITenantContextManager tenantContextManager;
 
         /// <summary>
         /// Contains cached tenant setting names.
         /// </summary>
         private string[] keys;
 
-        /// <summary>Initializes a new instance of the <see cref="TenantConfigurationNode"/> class.</summary>
-        /// <param name="vfs">The VFS instance which the node belongs to.</param>
-        /// <param name="agent">The tenant agent.</param>
-        public TenantConfigurationNode(IPowerShellVfs vfs, ITenantAgent agent)
+        public TenantConfigurationNode(IPowerShellVfs vfs, ITenantContextManager tenantContextManager)
             : base(vfs, "Settings")
         {
-            this.agent = agent;
-            
+            this.tenantContextManager = tenantContextManager;
+
             this.Item = new DescriptionItem
             {
                 Name = "Settings",
@@ -60,7 +57,7 @@
             // ReSharper disable once ConvertIfStatementToNullCoalescingExpression
             if (this.keys == null)
             {
-                this.keys = this.agent.GetTenantSettingNames().ToArray();
+                this.keys = GetTenantSettingNames();
             }
 
             return this.keys;
@@ -73,7 +70,18 @@
         /// <returns>The value of the specified key.</returns>
         protected override object GetValueInternal(string name)
         {
-            return this.agent.GetTenantSetting(this.TenantName, name);
+            using (IWorkContextScope scope = this.tenantContextManager.CreateWorkContextScope(this.TenantName))
+            {
+                ISite currentSite = scope.WorkContext.CurrentSite;
+
+                PropertyInfo property = currentSite.GetType().GetProperty(name);
+                if (property == null)
+                {
+                    throw new ArgumentException("Invalid tenant setting: " + name, "name");
+                }
+
+                return property.GetValue(currentSite);
+            }
         }
 
         /// <summary>
@@ -83,7 +91,23 @@
         /// <param name="value">The value to set.</param>
         protected override void SetValueInternal(string name, object value)
         {
-            this.agent.UpdateTenantSetting(this.TenantName, name, value);
+            using (IWorkContextScope scope = this.tenantContextManager.CreateWorkContextScope(this.TenantName))
+            {
+                ISite currentSite = scope.WorkContext.CurrentSite;
+
+                PropertyInfo property = currentSite.GetType().GetProperty(name);
+                if (property == null)
+                {
+                    throw new ArgumentException("Invalid tenant setting: " + name, "name");
+                }
+
+                property.SetValue(currentSite, value);
+            }
+        }
+
+        private static string[] GetTenantSettingNames()
+        {
+            return typeof(ISite).GetProperties().Select(p => p.Name).ToArray();
         }
     }
 }

@@ -86,9 +86,11 @@
     <Compile Include="Tenants\Cmdlets\GetTenant.cs" />
     <Compile Include="Tenants\Cmdlets\NewTenant.cs" />
     <Compile Include="Tenants\Cmdlets\RemoveTenant.cs" />
+    <Compile Include="Tenants\NavigationProviders\TenantConfigurationPsNavigationProvider.cs" />
     <Compile Include="Tenants\NavigationProviders\TenantsPsNavigationProvider.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Tenants\Nodes\TenantConfigurationNode.cs" />
     <Compile Include="Tenants\Nodes\TenantNode.cs" />
     <Compile Include="Tenants\Nodes\TenantsNode.cs" />
     <Compile Include="Utilities\ITenantFilterCmdlet.cs" />
