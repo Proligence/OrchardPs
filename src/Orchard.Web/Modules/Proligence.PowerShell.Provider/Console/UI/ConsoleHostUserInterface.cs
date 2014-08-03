@@ -148,7 +148,7 @@ namespace Proligence.PowerShell.Provider.Console.UI
 
         public override int PromptForChoice(string caption, string message, Collection<ChoiceDescription> choices, int defaultChoice)
         {
-            throw new NotImplementedException();
+            return defaultChoice;
         }
     }
 }
