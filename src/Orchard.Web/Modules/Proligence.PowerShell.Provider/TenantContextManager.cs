@@ -4,24 +4,20 @@
     using System.Collections.Generic;
     using System.Linq;
     using Autofac;
+    using Orchard;
     using Orchard.Environment.Configuration;
     using Orchard.Environment.ShellBuilders;
 
     /// <summary>
     /// Manages dependency injection containers in the Orchard web application.
     /// </summary>
-    public class ContainerManager : IContainerManager 
+    public class TenantContextManager : ITenantContextManager 
     {
         private readonly IShellSettingsManager shellSettingsManager;
         private readonly IShellContextFactory shellContextFactory;
         private readonly Dictionary<string, ShellContext> tenantShells;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ContainerManager"/> class.
-        /// </summary>
-        /// <param name="shellSettingsManager">The shell settings manager.</param>
-        /// <param name="shellContextFactory">The shell context factory.</param>
-        public ContainerManager(IShellSettingsManager shellSettingsManager, IShellContextFactory shellContextFactory)
+        public TenantContextManager(IShellSettingsManager shellSettingsManager, IShellContextFactory shellContextFactory)
         {
             this.shellSettingsManager = shellSettingsManager;
             this.shellContextFactory = shellContextFactory;
@@ -46,6 +42,16 @@
             }
             
             return shellContext.LifetimeScope;
+        }
+
+        /// <summary>
+        /// Creates a new work context scope for the specified tenant.
+        /// </summary>
+        /// <param name="tenantName">The name of the tenant.</param>
+        /// <returns>The created work context scope.</returns>
+        public IWorkContextScope CreateWorkContextScope(string tenantName)
+        {
+            return this.GetTenantContainer(tenantName).CreateWorkContextScope();
         }
 
         /// <summary>

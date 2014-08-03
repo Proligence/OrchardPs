@@ -107,7 +107,7 @@
     <Compile Include="Console\UI\ConsoleHostRawUserInterface.cs" />
     <Compile Include="Console\UI\ConsoleHostUserInterface.cs" />
     <Compile Include="Console\UI\OutputData.cs" />
-    <Compile Include="ContainerManager.cs" />
+    <Compile Include="TenantContextManager.cs" />
     <Compile Include="ErrorIds.cs" />
     <Compile Include="ExceptionExtensions.cs" />
     <Compile Include="Console\Host\IPsHost.cs" />
@@ -116,7 +116,7 @@
     <Compile Include="Console\Host\PsHost.cs" />
     <Compile Include="Console\PsSession.cs" />
     <Compile Include="Console\PsSessionManager.cs" />
-    <Compile Include="IContainerManager.cs" />
+    <Compile Include="ITenantContextManager.cs" />
     <Compile Include="IOrchardCmdlet.cs" />
     <Compile Include="IPropertyMapper.cs" />
     <Compile Include="MappableAttribute.cs" />
