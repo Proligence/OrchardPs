@@ -46,12 +46,6 @@
           </maml:description>
           <command:parameterValue required="false" variableLength="true">ArrayList</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
-          <maml:name>DirectConsole</maml:name>
-          <maml:description>
-            <maml:para>Specifies whether to force Orchard output directly into the stadard output stream.</maml:para>
-          </maml:description>
-        </command:parameter>
       </command:syntaxItem>
       
       <command:syntaxItem>
@@ -69,12 +63,6 @@
             <maml:para>Specifies the switches for the command to invoke. All unnamed arguments after the command's name are automatically collected in this parameter.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="true">ArrayList</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
-          <maml:name>DirectConsole</maml:name>
-          <maml:description>
-            <maml:para>Specifies whether to force Orchard output directly into the stadard output stream.</maml:para>
-          </maml:description>
         </command:parameter>
       </command:syntaxItem>
       
@@ -123,14 +111,6 @@
         <dev:defaultValue>Empty</dev:defaultValue>
       </command:parameter>
       
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
-        <maml:name>DirectConsole</maml:name>
-        <maml:description>
-          <maml:para>Specifies whether to force Orchard output directly into the stadard output stream.</maml:para>
-        </maml:description>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      
     </command:parameters>
 
     <!-- Input - Output section-->
@@ -157,13 +137,7 @@
 
     <!-- Notes section  -->
 
-    <maml:alertSet>
-      <maml:title></maml:title>
-      <maml:alert>
-        <maml:para>If the DirectConsole switch is set, the cmdlet will return the output of the Orchard command as a string. If the DirectConsole switch is not set, the Orchard legacy command execution engine will write output data directly to the console and no value will be returned by the cmdlet.</maml:para>
-        <maml:para />
-      </maml:alert>
-    </maml:alertSet>
+    <maml:alertSet />
 
     <!-- Example section  -->
     
@@ -235,32 +209,6 @@
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
           <maml:para>This command executes the legacy 'theme list' command to list all installed themes. The 'Summary' parameter is specified to 'true' to display only theme names, without details.</maml:para>
-          <maml:para></maml:para>
-          <maml:para></maml:para>
-          <maml:para></maml:para>
-          <maml:para></maml:para>
-        </dev:remarks>
-        <command:commandLines>
-          <command:commandLine>
-            <command:commandText></command:commandText>
-          </command:commandLine>
-        </command:commandLines>
-      </command:example>
-
-      <command:example>
-        <maml:title>
-          -------------------------- EXAMPLE 4 --------------------------
-        </maml:title>
-        <maml:introduction>
-          <maml:para>Orchard:\&gt;</maml:para>
-        </maml:introduction>
-        <dev:code>
-          Invoke-OrchardCommand -DirectConsole theme list /Summary:true
-        </dev:code>
-        <dev:remarks>
-          <maml:para>Description</maml:para>
-          <maml:para>-----------</maml:para>
-          <maml:para>This command executes the legacy 'theme list' command to list all installed themes. The DirectConsole switch is enabled, which causes Orchard to print output directly to the standard output stream.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>

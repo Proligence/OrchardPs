@@ -5,15 +5,16 @@
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
+    using System.IO;
     using System.Linq;
     using System.Management.Automation;
-
-    using Orchard.Environment.Configuration;
-
-    using Proligence.PowerShell.Agents;
+    using Autofac;
+    using Orchard;
+    using Orchard.Commands;
+    using Orchard.Data;
     using Proligence.PowerShell.Commands.Items;
-    using Proligence.PowerShell.Common.Extensions;
     using Proligence.PowerShell.Provider;
+    using Proligence.PowerShell.Utilities;
 
     /// <summary>
     /// Implements the <c>Invoke-OrchardCommand</c> cmdlet.
@@ -22,11 +23,6 @@
     [Cmdlet(VerbsLifecycle.Invoke, "OrchardCommand", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
     public class InvokeOrchardCommand : OrchardCmdlet
     {
-        /// <summary>
-        /// The command agent proxy instance.
-        /// </summary>
-        private ICommandAgent commandAgent;
-
         /// <summary>
         /// Gets or sets the name and arguments of the command to execute.
         /// </summary>
@@ -49,35 +45,24 @@
         public ArrayList Parameters { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to force orchard output directly into <see cref="Console.Out"/>.
-        /// </summary>
-        [Parameter(ParameterSetName = "Default", Mandatory = false)]
-        [Parameter(ParameterSetName = "CommandObject", Mandatory = false)]
-        public SwitchParameter DirectConsole { get; set; }
-
-        /// <summary>
         /// Provides a record-by-record processing functionality for the cmdlet. 
         /// </summary>
         protected override void ProcessRecord() 
         {
-            ShellSettings tenant = this.GetCurrentTenant();
-            string tenantName = tenant != null ? tenant.Name : "Default";
+            string tenantName = this.GetCurrentTenantName() ?? "Default";
 
             string output = null;
             switch (this.ParameterSetName) 
             {
                 case "Default":
-                    output = this.InvokeDefault(tenantName, this.Name, this.Parameters, this.DirectConsole);
+                    output = this.InvokeDefault(tenantName, this.Name, this.Parameters);
                     break;
                 case "CommandObject":
-                    output = this.InvokeCommandObject(tenantName, this.Command, this.Parameters, this.DirectConsole);
+                    output = this.InvokeCommandObject(tenantName, this.Command, this.Parameters);
                     break;
             }
 
-            if (!this.DirectConsole)
-            {
-                this.WriteObject(output);
-            }
+            this.WriteObject(output);
         }
 
         /// <summary>
@@ -86,11 +71,8 @@
         /// <param name="tenantName">The name of the Orchard tenant on which the command will be executed.</param>
         /// <param name="commandName">The name and arguments of the command to execute.</param>
         /// <param name="parameters">The switches which will be passed to the executed command.</param>
-        /// <param name="directConsole">
-        /// <c>true</c> to force orchard output directly into <see cref="Console.Out"/>; otherwise, <c>false</c>.
-        /// </param>
         /// <returns>The command's output.</returns>
-        private string InvokeDefault(string tenantName, string commandName, ArrayList parameters, bool directConsole) 
+        private string InvokeDefault(string tenantName, string commandName, ArrayList parameters) 
         {
             var arguments = new List<string>();
             var switches = new Dictionary<string, string>();
@@ -100,7 +82,7 @@
                 arguments.Add(commandName);
             }
 
-            return this.InvokeWithParameters(tenantName, arguments, switches, parameters, directConsole);
+            return this.InvokeWithParameters(tenantName, arguments, switches, parameters);
         }
 
         /// <summary>
@@ -111,15 +93,12 @@
         /// The <see cref="OrchardCommand"/> object which represents the orchard command to execute.
         /// </param>
         /// <param name="parameters">The switches which will be passed to the executed command.</param>
-        /// <param name="directConsole">
-        /// <c>true</c> to force orchard output directly into <see cref="Console.Out"/>; otherwise, <c>false</c>.
-        /// </param>
         /// <returns>The command's output.</returns>
-        private string InvokeCommandObject(string tenantName, OrchardCommand command, ArrayList parameters, bool directConsole) 
+        private string InvokeCommandObject(string tenantName, OrchardCommand command, ArrayList parameters) 
         {
             var arguments = new List<string>(command.CommandName.Split(new[] { ' ' }));
             var switches = new Dictionary<string, string>();
-            return this.InvokeWithParameters(tenantName, arguments, switches, parameters, directConsole);
+            return this.InvokeWithParameters(tenantName, arguments, switches, parameters);
         }
 
         /// <summary>
@@ -129,16 +108,12 @@
         /// <param name="arguments">The name and arguments of the command to execute.</param>
         /// <param name="switches">The switches which will be passed to the executed command.</param>
         /// <param name="parameters">The command parameters to parse.</param>
-        /// <param name="directConsole">
-        /// <c>true</c> to force orchard output directly into <see cref="Console.Out"/>; otherwise, <c>false</c>.
-        /// </param>
         /// <returns>The command's output.</returns>
         private string InvokeWithParameters(
             string tenantName, 
             List<string> arguments, 
             Dictionary<string, string> switches, 
-            ArrayList parameters,
-            bool directConsole)
+            ArrayList parameters)
         {
             if (parameters != null) 
             {
@@ -160,11 +135,10 @@
 
             if (this.ShouldProcess("Tenant: " + tenantName, "Invoke Command '" + string.Join(" ", arguments) + "'")) 
             {
-                return this.commandAgent.ExecuteCommand(
+                return this.ExecuteCommand(
                     tenantName,
                     arguments.ToArray(),
-                    new Dictionary<string, string>(switches),
-                    directConsole);
+                    new Dictionary<string, string>(switches));
             }
 
             return null;
@@ -216,6 +190,61 @@
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Executes the specified legacy command.
+        /// </summary>
+        /// <param name="tenantName">The name of the tenant on which the command will be executed.</param>
+        /// <param name="args">Command name and arguments.</param>
+        /// <param name="switches">Command switches.</param>
+        /// <returns>The command's output.</returns>
+        private string ExecuteCommand(
+            string tenantName,
+            IEnumerable<string> args,
+            Dictionary<string, string> switches)
+        {
+            var tenantContextManager = this.OrchardDrive.ComponentContext.Resolve<ITenantContextManager>();
+
+            using (IWorkContextScope scope = tenantContextManager.CreateWorkContextScope(tenantName))
+            {
+                var commandManager = scope.Resolve<ICommandManager>();
+
+                ITransactionManager transactionManager;
+                if (!scope.TryResolve(out transactionManager))
+                {
+                    transactionManager = null;
+                }
+
+                using (TextWriter writer = new StringWriter(CultureInfo.CurrentCulture))
+                {
+                    var parameters = new CommandParameters
+                    {
+                        Arguments = args,
+                        Switches = switches,
+                        Input = TextReader.Null,
+                        Output = writer
+                    };
+
+                    try
+                    {
+                        commandManager.Execute(parameters);
+                    }
+                    catch (Exception ex)
+                    {
+                        // any database changes in this using(env) scope are invalidated
+                        if (transactionManager != null)
+                        {
+                            transactionManager.Cancel();
+                        }
+
+                        this.WriteError(ex, "FailedToExecuteLegacyCommand", ErrorCategory.NotSpecified);
+                        return null;
+                    }
+
+                    return writer.ToString();
+                }
+            }
         }
     }
 }

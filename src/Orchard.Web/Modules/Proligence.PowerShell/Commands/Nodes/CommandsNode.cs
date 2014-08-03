@@ -2,13 +2,14 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Proligence.PowerShell.Agents;
+    using Orchard;
+    using Orchard.Commands;
     using Proligence.PowerShell.Commands.Items;
-    using Proligence.PowerShell.Common.Extensions;
     using Proligence.PowerShell.Common.Items;
     using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Provider.Vfs.Core;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
+    using Proligence.PowerShell.Utilities;
 
     /// <summary>
     /// Implements a VFS node which groups <see cref="CommandNode"/> nodes for a single Orchard tenant.
@@ -16,20 +17,12 @@
     [SupportedCmdlet("Invoke-OrchardCommand")]
     public class CommandsNode : ContainerNode 
     {
-        /// <summary>
-        /// The command agent instance.
-        /// </summary>
-        private readonly ICommandAgent commandAgent;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CommandsNode"/> class.
-        /// </summary>
-        /// <param name="vfs">The Orchard VFS instance which the node belongs to.</param>
-        /// <param name="commandAgent">The command agent instance.</param>
-        public CommandsNode(IPowerShellVfs vfs, ICommandAgent commandAgent)
-            : base(vfs, "Commands") 
+        private readonly ITenantContextManager tenantContextManager;
+        
+        public CommandsNode(IPowerShellVfs vfs, ITenantContextManager tenantContextManager)
+            : base(vfs, "Commands")
         {
-            this.commandAgent = commandAgent;
+            this.tenantContextManager = tenantContextManager;
 
             this.Item = new CollectionItem(this) 
             {
@@ -50,8 +43,34 @@
                 return new VfsNode[0];
             }
 
-            OrchardCommand[] commands = this.commandAgent.GetCommands(tenantName);
-            return commands.Select(command => new CommandNode(Vfs, command));
+            return this.GetCommands(tenantName).Select(
+                command => new CommandNode(this.Vfs, command));
+        }
+
+        /// <summary>
+        /// Gets all legacy commands which are available for the specified Orchard tenant.
+        /// </summary>
+        /// <param name="tenant">The name of the tenant.</param>
+        /// <returns>
+        /// An array of <see cref="OrchardCommand"/> objects which represent the Orchard commands which are available
+        /// at the specified tenant.
+        /// </returns>
+        private IEnumerable<OrchardCommand> GetCommands(string tenant)
+        {
+            using (IWorkContextScope scope = this.tenantContextManager.CreateWorkContextScope(tenant))
+            {
+                var commandManager = scope.Resolve<ICommandManager>();
+                IEnumerable<CommandDescriptor> commandDescriptors = commandManager.GetCommandDescriptors();
+                IEnumerable<OrchardCommand> commands = commandDescriptors.Select(
+                    command => new OrchardCommand
+                    {
+                        CommandName = command.Name,
+                        HelpText = command.HelpText,
+                        TenantName = tenant
+                    });
+
+                return commands.ToArray();
+            }
         }
     }
 }

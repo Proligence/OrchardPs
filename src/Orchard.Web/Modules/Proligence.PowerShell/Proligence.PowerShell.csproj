@@ -71,6 +71,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cmdlets\GetOrchardPsCommand.cs" />
+    <Compile Include="Commands\Cmdlets\InvokeOrchardCommand.cs" />
+    <Compile Include="Commands\Items\OrchardCommand.cs" />
+    <Compile Include="Commands\NavigationProviders\CommandsPsNavigationProvider.cs" />
+    <Compile Include="Commands\Nodes\CommandNode.cs" />
+    <Compile Include="Commands\Nodes\CommandsNode.cs" />
     <Compile Include="Utilities\OrchardCmdletExtensions.cs" />
     <Compile Include="Utilities\VfsNodeExtensions.cs" />
     <Compile Include="Common\Items\CollectionItem.cs" />
@@ -97,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Cmdlets\Get-OrchardPsCommand-help.xml" />
+    <Content Include="Commands\Cmdlets\Invoke-OrchardCommand-help.xml" />
     <Content Include="Module.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +171,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Tenants\Tenants.format.ps1xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Commands\Commands.format.ps1xml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
