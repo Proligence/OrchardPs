@@ -1,9 +1,7 @@
-﻿namespace Proligence.PowerShell.Common.Extensions 
+﻿namespace Proligence.PowerShell.Utilities
 {
     using System;
-
     using Orchard.Environment.Configuration;
-
     using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
     using Proligence.PowerShell.Tenants.Nodes;

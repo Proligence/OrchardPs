@@ -71,6 +71,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cmdlets\GetOrchardPsCommand.cs" />
+    <Compile Include="Utilities\OrchardCmdletExtensions.cs" />
+    <Compile Include="Utilities\VfsNodeExtensions.cs" />
     <Compile Include="Common\Items\CollectionItem.cs" />
     <Compile Include="Common\Items\DescriptionItem.cs" />
     <Compile Include="Configuration\ConfigurationNode.cs" />
