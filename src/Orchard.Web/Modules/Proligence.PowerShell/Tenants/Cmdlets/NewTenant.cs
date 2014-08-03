@@ -2,11 +2,11 @@
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Management.Automation;
-
+    using System.Text.RegularExpressions;
+    using Autofac;
     using Orchard.Environment.Configuration;
-
-    using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Provider;
 
     /// <summary>
@@ -15,10 +15,7 @@
     [Cmdlet(VerbsCommon.New, "Tenant", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
     public class NewTenant : OrchardCmdlet
     {
-        /// <summary>
-        /// The tenant agent proxy instance.
-        /// </summary>
-        private ITenantAgent tenantAgent;
+        private IShellSettingsManager shellSettingsManager;
 
         /// <summary>
         /// Gets or sets the name of the tenant.
@@ -70,6 +67,15 @@
         public ShellSettings Tenant { get; set; }
 
         /// <summary>
+        /// Provides a one-time, preprocessing functionality for the cmdlet.
+        /// </summary>
+        protected override void BeginProcessing()
+        {
+            base.BeginProcessing();
+            this.shellSettingsManager = this.OrchardDrive.ComponentContext.Resolve<IShellSettingsManager>();
+        }
+
+        /// <summary>
         /// Provides a record-by-record processing functionality for the cmdlet. 
         /// </summary>
         protected override void ProcessRecord()
@@ -97,15 +103,41 @@
             {
                 try
                 {
-                    this.tenantAgent.CreateTenant(tenant);
+                    if (!string.IsNullOrEmpty(tenant.Name) && !Regex.IsMatch(tenant.Name, @"^\w+$"))
+                    {
+                        var exception = new InvalidOperationException(
+                            "Invalid tenant name. Must contain characters only and no spaces.");
+
+                        this.WriteError(exception, "CannotCreateTenant", ErrorCategory.InvalidArgument);
+                        return;
+                    }
+
+                    if (tenant.Name == ShellSettings.DefaultName)
+                    {
+                        var exception = new InvalidOperationException("Invalid tenant name.");
+                        this.WriteError(exception, "CannotCreateTenant", ErrorCategory.InvalidArgument);
+                        return;
+                    }
+
+                    ShellSettings defaultTenant = this.shellSettingsManager.LoadSettings().FirstOrDefault(
+                        x => x.Name == ShellSettings.DefaultName);
+
+                    if (defaultTenant == null)
+                    {
+                        var exception = new InvalidOperationException("Failed to find default tenant.");
+                        this.WriteError(exception, "FailedToFindDefaultTenant", ErrorCategory.ObjectNotFound);
+                        return;
+                    }
+
+                    tenant.State = TenantState.Uninitialized;
+                    tenant.Themes = defaultTenant.Themes;
+                    tenant.Modules = defaultTenant.Modules;
+
+                    this.shellSettingsManager.SaveSettings(tenant);
                 }
-                catch (ArgumentException ex)
+                catch (Exception ex)
                 {
-                    this.WriteError(ex, "CannotCreateTenant", ErrorCategory.InvalidArgument);
-                }
-                catch (InvalidOperationException ex)
-                {
-                    this.WriteError(ex, "CannotCreateTenant", ErrorCategory.InvalidOperation);
+                    this.WriteError(ex, "FailedToCreateTenant", ErrorCategory.NotSpecified);
                 }
             }
         }

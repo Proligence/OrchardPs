@@ -3,8 +3,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
+    using Autofac;
     using Orchard.Environment.Configuration;
-    using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Provider;
 
     /// <summary>
@@ -13,11 +13,6 @@
     [Cmdlet(VerbsCommon.Get, "Tenant", DefaultParameterSetName = "Default", ConfirmImpact = ConfirmImpact.None)]
     public class GetTenant : OrchardCmdlet
     {
-        /// <summary>
-        /// The tenant agent instance.
-        /// </summary>
-        private ITenantAgent tenantAgent;
-
         /// <summary>
         /// Gets or sets the name of the tenant to get.
         /// </summary>
@@ -55,7 +50,8 @@
         /// <returns>Sequence of <see cref="ShellSettings"/> objects.</returns>
         private IEnumerable<ShellSettings> GetTenantsFromParameters()
         {
-            IEnumerable<ShellSettings> tenants = this.tenantAgent.GetTenants();
+            var shellSettingsManager = this.OrchardDrive.ComponentContext.Resolve<IShellSettingsManager>();
+            IEnumerable<ShellSettings> tenants = shellSettingsManager.LoadSettings().ToArray();
 
             if (!string.IsNullOrEmpty(this.Name))
             {

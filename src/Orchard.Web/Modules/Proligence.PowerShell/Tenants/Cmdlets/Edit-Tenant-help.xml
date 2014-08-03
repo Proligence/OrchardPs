@@ -223,8 +223,20 @@
     </command:parameters>
 
     <!-- Input - Output section-->
+
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>Orchard.Environment.Configuration.ShellSettings</maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe instances of the ShellSettings class to Edit-Tenant. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
     
-    <command:inputTypes />
     <command:returnValues />
 
     <!-- Error section-->

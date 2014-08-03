@@ -1,11 +1,12 @@
 ﻿namespace Proligence.PowerShell.Tenants.Cmdlets
 {
     using System;
+    using System.IO;
+    using System.Linq;
     using System.Management.Automation;
-
+    using Autofac;
     using Orchard.Environment.Configuration;
-
-    using Proligence.PowerShell.Agents;
+    using Orchard.FileSystems.AppData;
     using Proligence.PowerShell.Provider;
 
     /// <summary>
@@ -14,10 +15,8 @@
     [Cmdlet(VerbsCommon.Remove, "Tenant", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High)]
     public class RemoveTenant : OrchardCmdlet
     {
-        /// <summary>
-        /// The tenant agent proxy instance.
-        /// </summary>
-        private ITenantAgent tenantAgent;
+        private IShellSettingsManager shellSettingsManager;
+        private IAppDataFolder appDataFolder;
 
         /// <summary>
         /// Gets or sets the name of the tenant.
@@ -31,6 +30,16 @@
         /// </summary>
         [Parameter(ParameterSetName = "TenantObject", Mandatory = true, ValueFromPipeline = true)]
         public ShellSettings Tenant { get; set; }
+
+        /// <summary>
+        /// Provides a one-time, preprocessing functionality for the cmdlet.
+        /// </summary>
+        protected override void BeginProcessing()
+        {
+            base.BeginProcessing();
+            this.shellSettingsManager = this.OrchardDrive.ComponentContext.Resolve<IShellSettingsManager>();
+            this.appDataFolder = this.OrchardDrive.ComponentContext.Resolve<IAppDataFolder>();
+        }
 
         /// <summary>
         /// Provides a record-by-record processing functionality for the cmdlet. 
@@ -57,15 +66,38 @@
             {
                 try
                 {
-                    this.tenantAgent.RemoveTenant(tenantName);
+                    if (string.IsNullOrEmpty(tenantName))
+                    {
+                        var exeception = new ArgumentNullException("tenantName");
+                        this.WriteError(exeception, "CannotRemoveTenant", ErrorCategory.InvalidArgument);
+                        return;
+                    }
+
+                    if (tenantName == ShellSettings.DefaultName)
+                    {
+                        var exception = new InvalidOperationException("Cannot remove default tenant.");
+                        this.WriteError(exception, "CannotRemoveTenant", ErrorCategory.InvalidOperation);
+                        return;
+                    }
+
+                    ShellSettings settings = this.shellSettingsManager.LoadSettings().FirstOrDefault(
+                        x => x.Name == tenantName);
+
+                    if (settings == null)
+                    {
+                        var exception = new ArgumentException(
+                            "Failed to find tenant '" + tenantName + "'.", "tenantName");
+
+                        this.WriteError(exception, "CannotRemoveDefaultTenant", ErrorCategory.InvalidOperation);
+                        return;
+                    }
+
+                    string filePath = Path.Combine(Path.Combine("Sites", settings.Name), "Settings.txt");
+                    this.appDataFolder.DeleteFile(filePath);
                 }
-                catch (ArgumentException ex)
+                catch (Exception ex)
                 {
-                    this.WriteError(ex, "CannotRemoveTenant", ErrorCategory.InvalidArgument);
-                }
-                catch (InvalidOperationException ex)
-                {
-                    this.WriteError(ex, "CannotRemoveTenant", ErrorCategory.InvalidOperation);
+                    this.WriteError(ex, "FailedToRemoveTenant", ErrorCategory.NotSpecified);
                 }
             }
         }

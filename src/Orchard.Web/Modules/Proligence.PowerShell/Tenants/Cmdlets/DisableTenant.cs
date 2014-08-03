@@ -1,11 +1,10 @@
 ﻿namespace Proligence.PowerShell.Tenants.Cmdlets
 {
     using System;
+    using System.Linq;
     using System.Management.Automation;
-
+    using Autofac;
     using Orchard.Environment.Configuration;
-
-    using Proligence.PowerShell.Agents;
     using Proligence.PowerShell.Provider;
 
     /// <summary>
@@ -14,10 +13,7 @@
     [Cmdlet(VerbsLifecycle.Disable, "Tenant", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
     public class DisableTenant : OrchardCmdlet
     {
-        /// <summary>
-        /// The tenant agent proxy instance.
-        /// </summary>
-        private ITenantAgent tenantAgent;
+        private IShellSettingsManager shellSettingsManager;
 
         /// <summary>
         /// Gets or sets the name of the tenant to disable.
@@ -31,6 +27,15 @@
         /// </summary>
         [Parameter(ParameterSetName = "TenantObject", ValueFromPipeline = true)]
         public ShellSettings Tenant { get; set; }
+
+        /// <summary>
+        /// Provides a one-time, preprocessing functionality for the cmdlet.
+        /// </summary>
+        protected override void BeginProcessing()
+        {
+            base.BeginProcessing();
+            this.shellSettingsManager = this.OrchardDrive.ComponentContext.Resolve<IShellSettingsManager>();
+        }
 
         /// <summary>
         /// Provides a record-by-record processing functionality for the cmdlet. 
@@ -47,25 +52,38 @@
             }
         }
 
-        /// <summary>
-        /// Invokes the operation to disable a tenant.
-        /// </summary>
-        /// <param name="name">The name of the tenant to disable.</param>
         private void InvokeDisableTenant(string name)
         {
             if (this.ShouldProcess("Tenant: " + name, "Disable Tenant"))
             {
                 try
                 {
-                    this.tenantAgent.DisableTenant(name);
+                    ShellSettings tenant = this.shellSettingsManager.LoadSettings()
+                        .FirstOrDefault(x => x.Name == name);
+
+                    if (tenant == null)
+                    {
+                        var ex = new ArgumentException("Failed to find tenant '" + name + "'.");
+                        this.WriteError(ex, "FailedToFindTenant", ErrorCategory.ObjectNotFound, name);
+                        return;
+                    }
+
+                    if (tenant.Name == ShellSettings.DefaultName)
+                    {
+                        var ex = new InvalidOperationException("Cannot disable default tenant.");
+                        this.WriteError(ex, "CannotDisableDefaultTenant", ErrorCategory.InvalidOperation, name);
+                        return;
+                    }
+
+                    if (tenant.State != TenantState.Disabled)
+                    {
+                        tenant.State = TenantState.Disabled;
+                        this.shellSettingsManager.SaveSettings(tenant);
+                    }
                 }
-                catch (ArgumentException ex)
+                catch (Exception ex)
                 {
-                    this.WriteError(ex, "FailedToFindTenant", ErrorCategory.ObjectNotFound, name);
-                }
-                catch (InvalidOperationException ex)
-                {
-                    this.WriteError(ex, "CannotDisableDefaultTenant", ErrorCategory.InvalidOperation, name);
+                    this.WriteError(ex, "FailedToDisableTenant", ErrorCategory.NotSpecified, name);
                 }
             }
         }

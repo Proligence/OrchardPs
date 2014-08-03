@@ -78,6 +78,12 @@
     <Compile Include="AdminMenu.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="ResourceManifest.cs" />
+    <Compile Include="Tenants\Cmdlets\DisableTenant.cs" />
+    <Compile Include="Tenants\Cmdlets\EditTenant.cs" />
+    <Compile Include="Tenants\Cmdlets\EnableTenant.cs" />
+    <Compile Include="Tenants\Cmdlets\GetTenant.cs" />
+    <Compile Include="Tenants\Cmdlets\NewTenant.cs" />
+    <Compile Include="Tenants\Cmdlets\RemoveTenant.cs" />
     <Compile Include="Tenants\NavigationProviders\TenantsPsNavigationProvider.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -121,6 +127,12 @@
     <Content Include="Styles\console.min.css">
       <DependentUpon>console.css</DependentUpon>
     </Content>
+    <Content Include="Tenants\Cmdlets\Disable-Tenant-help.xml" />
+    <Content Include="Tenants\Cmdlets\Edit-Tenant-help.xml" />
+    <Content Include="Tenants\Cmdlets\Enable-Tenant-help.xml" />
+    <Content Include="Tenants\Cmdlets\Get-Tenant-help.xml" />
+    <Content Include="Tenants\Cmdlets\New-Tenant-help.xml" />
+    <Content Include="Tenants\Cmdlets\Remove-Tenant-help.xml" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>

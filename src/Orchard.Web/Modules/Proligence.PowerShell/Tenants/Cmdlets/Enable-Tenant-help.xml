@@ -91,7 +91,7 @@
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <maml:name>Proligence.PowerShell.Tenants.Items.ShellSettings</maml:name>
+          <maml:name>Orchard.Environment.Configuration.ShellSettings</maml:name>
           <maml:uri/>
           <maml:description />
         </dev:type>
