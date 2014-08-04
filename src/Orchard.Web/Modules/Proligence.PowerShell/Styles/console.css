@@ -13,6 +13,39 @@
     width: 100%;
 }
 
+#Progress {
+    width: 100%;
+    height: 30px;
+    margin: 0 auto;
+    display: none;
+}
+
+.ui-progressbar-value {
+    background:#6a7b42;
+}
+
+.ui-corner-all {
+    -ms-border-bottom-right-radius: 1px;
+    border-bottom-right-radius: 1px;
+    -ms-border-bottom-left-radius: 1px;
+    border-bottom-left-radius: 1px;
+    -ms-border-top-right-radius: 1px;
+    border-top-right-radius: 1px;
+    -ms-border-top-left-radius: 1px;
+    border-top-left-radius: 1px;
+}
+
+.ui-progressbar {
+    position: relative;
+  }
+  .progress-label {
+    position: absolute;
+    top: 4px;
+    width: 100%;
+    text-align: center;
+      color: white;
+  }
+
 div.spinner {
     position: absolute;
     right: 10px;
@@ -35,7 +68,7 @@ div.console {
     div.console div.jquery-console-inner {
         background-color: black;
         color: white;
-        max-height: 80vh;
+        max-height: 70vh;
         margin-left: auto;
         margin-right: auto;
         overflow: auto;

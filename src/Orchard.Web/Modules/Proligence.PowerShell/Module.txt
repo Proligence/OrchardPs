@@ -15,4 +15,4 @@ Features:
         Name: Management Console
         Description: Enables web-based, interactive Orchard PowerShell console.
         Category: Management
-        Dependencies: Proligence.PowerShell, Proligence.SignalR
+        Dependencies: Proligence.PowerShell, Proligence.SignalR, Orchard.jQuery

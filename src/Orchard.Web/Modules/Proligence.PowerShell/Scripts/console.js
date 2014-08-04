@@ -45,6 +45,16 @@ function LoadConsole() {
         welcomeMessage: "Orchard PowerShell console\r\nType 'cls' to clear the console\r\n\r\n"
     });
 
+    var progressBar = $("#Progress");
+    var progressLabel = $(".progress-label");
+
+    var initialProgressText = progressLabel.text();
+
+    progressBar.progressbar({
+        value: false
+    });
+
+
     // hooking into keypress events on the underlying textarea
     controller.typer.keydown(function (e) {
         var keyCode = e.keyCode;
@@ -76,12 +86,18 @@ function LoadConsole() {
         if (data.Type == 6) {
             tabCompletionData = data.Data;
             CompleteCommand(data.Data)
+        } else if (data.Type == 5) {
+            progressBar.progressbar("value", data.Data.PercentComplete);
+            progressLabel.text("(" + data.Data.PercentComplete + ")\t" + data.Data.Activity + ": " + data.Data.CurrentOperation)
         } else {
             DisplayAndUpdate(data);
         }
     });
 
     function _sendCommand(input) {
+        progressBar.show()
+        progressBar.progressbar("value", 100)
+        progressLabel.text(initialProgressText + " " + input)
         connection.send({ Command: input });
     }
 
@@ -160,8 +176,13 @@ function LoadConsole() {
             if (hasNewLine) {
                 lastMessage.append("</br>");
             }
-        } else if (!lastMessage) {
-            curReportFun('', '')
+        } else {
+            if (!lastMessage) {
+                curReportFun('', '');
+            }
+
+            progressLabel.text(initialProgressText);
+            progressBar.hide()
         }
 
         $(".jquery-console-prompt-label").last().text(curPrompt);
