@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Management.Automation;
-using System.Management.Automation.Host;
-using System.Security;
-using Proligence.PowerShell.Provider.Console.Host;
-
-namespace Proligence.PowerShell.Provider.Console.UI
+﻿namespace Proligence.PowerShell.Provider.Console.UI
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Management.Automation;
+    using System.Management.Automation.Host;
+    using System.Security;
+
+    using Proligence.PowerShell.Provider.Console.Host;
+
     public class ConsoleHostUserInterface : PSHostUserInterface
     {
         private readonly ConsoleHost consoleHost;
@@ -23,17 +24,18 @@ namespace Proligence.PowerShell.Provider.Console.UI
             get { return this.rawUi; }
         }
 
-        public override string ReadLine() {
-            // TODO: Implement waiting for OnDataReceived event
-            return consoleHost.Session.ReadInputBuffer();
+        public override string ReadLine() 
+        {
+            return this.consoleHost.Session.ReadInputBuffer();
         }
 
-        public override SecureString ReadLineAsSecureString() {
-            // TODO: Implement waiting for OnDataReceived event
-            var line = consoleHost.Session.ReadInputBuffer();
+        public override SecureString ReadLineAsSecureString() 
+        {
+            var line = this.consoleHost.Session.ReadInputBuffer();
             var secure = new SecureString();
 
-            foreach (var c in line) {
+            foreach (var c in line) 
+            {
                 secure.AppendChar(c);
             }
 
@@ -42,15 +44,18 @@ namespace Proligence.PowerShell.Provider.Console.UI
 
         public override void Write(string value)
         {
-            consoleHost.Session.Sender(
-                new OutputData {
+            this.consoleHost.Session.Sender(
+                new OutputData 
+                {
                     Output = value
                 });
         }
 
-        public override void Write(ConsoleColor foregroundColor, ConsoleColor backgroundColor, string value) {
-            consoleHost.Session.Sender(
-                new OutputData {
+        public override void Write(ConsoleColor foregroundColor, ConsoleColor backgroundColor, string value) 
+        {
+            this.consoleHost.Session.Sender(
+                new OutputData 
+                {
                     Output = value,
                     BackColor = backgroundColor.ToString(),
                     ForeColor = foregroundColor.ToString()
@@ -59,15 +64,16 @@ namespace Proligence.PowerShell.Provider.Console.UI
 
         public override void WriteLine(string value)
         {
-            consoleHost.Session.Sender(
-                new OutputData {
+            this.consoleHost.Session.Sender(
+                new OutputData 
+                {
                     Output = value + Environment.NewLine
                 });
         }
 
         public override void WriteErrorLine(string value)
         {
-            consoleHost.Session.Sender(
+            this.consoleHost.Session.Sender(
                 new OutputData
                 {
                     Output = value,
@@ -77,8 +83,9 @@ namespace Proligence.PowerShell.Provider.Console.UI
 
         public override void WriteDebugLine(string message) 
         {
-            consoleHost.Session.Sender(
-                new OutputData {
+            this.consoleHost.Session.Sender(
+                new OutputData 
+                {
                     Output = message,
                     Type = OutputType.Debug
                 });
@@ -86,16 +93,17 @@ namespace Proligence.PowerShell.Provider.Console.UI
 
         public override void WriteProgress(long sourceId, ProgressRecord record) 
         {
-            consoleHost.Session.Sender(
-                new OutputData {
-                Type = OutputType.Progress,
-                Data = record
-            });
+            this.consoleHost.Session.Sender(
+                new OutputData 
+                {
+                    Type = OutputType.Progress,
+                    Data = record
+                });
         }
 
         public override void WriteVerboseLine(string message)
         {
-            consoleHost.Session.Sender(
+            this.consoleHost.Session.Sender(
                 new OutputData
                 {
                     Output = message,
@@ -105,7 +113,7 @@ namespace Proligence.PowerShell.Provider.Console.UI
 
         public override void WriteWarningLine(string message)
         {
-            consoleHost.Session.Sender(
+            this.consoleHost.Session.Sender(
                 new OutputData
                 {
                     Output = message,
@@ -117,16 +125,17 @@ namespace Proligence.PowerShell.Provider.Console.UI
         {
             var dict = new Dictionary<string, PSObject>();
 
-            WriteLine(caption);
-            WriteLine(message);
-            WriteLine("-------------------------------");
+            this.WriteLine(caption);
+            this.WriteLine(message);
+            this.WriteLine("-------------------------------");
 
-            foreach (var desc in descriptions) {
-                WriteLine(desc.Label + ": ");
-                dict.Add(desc.Name, PSObject.AsPSObject(ReadLine()));
+            foreach (var desc in descriptions) 
+            {
+                this.WriteLine(desc.Label + ": ");
+                dict.Add(desc.Name, PSObject.AsPSObject(this.ReadLine()));
             }
 
-            WriteLine("-------------------------------");
+            this.WriteLine("-------------------------------");
             return dict;
         }
 
