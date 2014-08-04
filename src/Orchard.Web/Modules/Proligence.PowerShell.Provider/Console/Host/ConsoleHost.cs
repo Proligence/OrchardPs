@@ -13,7 +13,7 @@
         private readonly Guid instanceId;
         private readonly CultureInfo currentCulture;
         private readonly CultureInfo currentUiCulture;
-        private readonly PSHostUserInterface ui;
+        private readonly ConsoleHostUserInterface ui;
         private ConsoleHostPrivateData privateData;
         private IPsSession session;
         private ICommandExecutor executor;

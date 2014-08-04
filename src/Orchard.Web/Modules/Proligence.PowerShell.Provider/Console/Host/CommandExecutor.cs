@@ -54,6 +54,11 @@
 
         private void OnSessionDataReceived(object sender, DataReceivedEventArgs e)
         {
+            if (this.pipeline != null && this.pipeline.PipelineStateInfo.State != PipelineState.NotStarted) 
+            {
+                return;
+            }
+
             string str = this.session.ReadInputBuffer();
             if (str != null)
             {

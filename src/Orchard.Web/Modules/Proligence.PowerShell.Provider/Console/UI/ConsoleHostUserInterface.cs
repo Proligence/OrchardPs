@@ -3,9 +3,11 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Management.Automation;
     using System.Management.Automation.Host;
     using System.Security;
+    using System.Threading;
 
     using Proligence.PowerShell.Provider.Console.Host;
 
@@ -13,10 +15,17 @@
     {
         private readonly ConsoleHost consoleHost;
         private readonly ConsoleHostRawUserInterface rawUi;
+        private readonly AutoResetEvent promptLock;
 
         public ConsoleHostUserInterface(ConsoleHost consoleHost)
         {
             this.consoleHost = consoleHost;
+            this.promptLock = new AutoResetEvent(false);
+        }
+
+        public EventWaitHandle PromptLock
+        {
+            get { return this.promptLock; }
         }
 
         public override PSHostRawUserInterface RawUI
@@ -130,18 +139,43 @@
         {
             var dict = new Dictionary<string, PSObject>();
 
+            this.promptLock.Reset();
+            this.consoleHost.Session.DataReceived += this.SessionOnDataReceived;
+
             this.WriteLine(caption);
             this.WriteLine(message);
-            this.WriteLine("-------------------------------");
+            this.WriteLine("---");
 
             foreach (var desc in descriptions) 
             {
-                this.WriteLine(desc.Label + ": ");
-                dict.Add(desc.Name, PSObject.AsPSObject(this.ReadLine()));
+                this.consoleHost.Session.Sender(
+                    new OutputData 
+                    {
+                        Path = desc.Name + ": ",
+                        NewLine = true
+                    });
+
+                if (this.promptLock.WaitOne()) 
+                {
+                    try 
+                    {
+                        dict.Add(desc.Name, PSObject.AsPSObject(this.ReadLine()));
+                    }
+                    finally 
+                    {
+                        this.promptLock.Reset();
+                    }
+                }
             }
 
-            this.WriteLine("-------------------------------");
+            this.WriteLine("---");
+            this.consoleHost.Session.DataReceived -= this.SessionOnDataReceived;
             return dict;
+        }
+
+        private void SessionOnDataReceived(object sender, DataReceivedEventArgs dataReceivedEventArgs) 
+        {
+            this.promptLock.Set();
         }
 
         public override PSCredential PromptForCredential(string caption, string message, string userName, string targetName)
@@ -162,7 +196,52 @@
 
         public override int PromptForChoice(string caption, string message, Collection<ChoiceDescription> choices, int defaultChoice)
         {
-            return defaultChoice;
+            this.WriteLine(caption);
+            this.WriteLine(message);
+
+            this.WriteLine("---");
+
+            int i = 0;
+            int retVal = defaultChoice;
+
+            foreach (var choice in choices) 
+            {
+                this.Write(i + ": " + choice.Label);
+                if (i == defaultChoice) 
+                {
+                    this.Write(" (default)");
+                }
+
+                this.WriteLine();
+                i++;
+            }
+            this.WriteLine("---");
+            this.WriteLine("Which one do you choose (number)?: ");
+
+            this.promptLock.Reset();
+            this.consoleHost.Session.DataReceived += this.SessionOnDataReceived;
+                this.consoleHost.Session.Sender(
+                new OutputData
+                {
+                    Path = "I choose > ",
+                    NewLine = true
+                });
+
+            if (this.promptLock.WaitOne()) 
+            {
+                try 
+                {
+                    retVal = Convert.ToInt32(this.ReadLine());
+                }
+                finally
+                {
+                    this.promptLock.Reset();
+                }
+            }
+
+            this.WriteLine("---");
+            this.consoleHost.Session.DataReceived -= this.SessionOnDataReceived;
+            return retVal;
         }
     }
 }

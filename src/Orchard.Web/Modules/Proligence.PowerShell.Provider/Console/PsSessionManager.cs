@@ -110,7 +110,7 @@
 
             session.Sender = data => 
             {
-                data.Path = session.Path;
+                data.Path = data.Path ?? session.Path + "> ";
                 ctx.Connection.Send(connectionId, data).Wait();
             };
 

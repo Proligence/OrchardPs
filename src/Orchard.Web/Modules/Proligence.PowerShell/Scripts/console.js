@@ -119,7 +119,7 @@ function LoadConsole() {
         var hasNewLine = data.NewLine ? true : false;
 
         // building prompt
-        curPrompt = data.Path ? data.Path + "> " : "> ";
+        curPrompt = data.Path ? data.Path : "> ";
         line = line
             .replace(/[\r\n]+$/, '')
             .replace(/(\r\n|\n|\r)/gm, "<br/>")
