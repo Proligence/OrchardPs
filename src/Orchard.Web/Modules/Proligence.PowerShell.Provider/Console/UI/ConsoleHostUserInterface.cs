@@ -67,7 +67,8 @@
             this.consoleHost.Session.Sender(
                 new OutputData 
                 {
-                    Output = value + Environment.NewLine
+                    Output = value,
+                    NewLine = true
                 });
         }
 
@@ -77,7 +78,8 @@
                 new OutputData
                 {
                     Output = value,
-                    Type = OutputType.Error
+                    Type = OutputType.Error,
+                    NewLine = true
                 });
         }
 
@@ -87,7 +89,8 @@
                 new OutputData 
                 {
                     Output = message,
-                    Type = OutputType.Debug
+                    Type = OutputType.Debug,
+                    NewLine = true
                 });
         }
 
@@ -107,7 +110,8 @@
                 new OutputData
                 {
                     Output = message,
-                    Type = OutputType.Verbose
+                    Type = OutputType.Verbose,
+                    NewLine = true
                 });
         }
 
@@ -117,7 +121,8 @@
                 new OutputData
                 {
                     Output = message,
-                    Type = OutputType.Warning
+                    Type = OutputType.Warning,
+                    NewLine = true
                 });
         }
 
