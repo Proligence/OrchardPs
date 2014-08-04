@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Linq;
     using System.Management.Automation;
     using System.Management.Automation.Host;
     using System.Security;
@@ -173,11 +172,6 @@
             return dict;
         }
 
-        private void SessionOnDataReceived(object sender, DataReceivedEventArgs dataReceivedEventArgs) 
-        {
-            this.promptLock.Set();
-        }
-
         public override PSCredential PromptForCredential(string caption, string message, string userName, string targetName)
         {
             throw new NotImplementedException();
@@ -242,6 +236,11 @@
             this.WriteLine("---");
             this.consoleHost.Session.DataReceived -= this.SessionOnDataReceived;
             return retVal;
+        }
+
+        private void SessionOnDataReceived(object sender, DataReceivedEventArgs dataReceivedEventArgs)
+        {
+            this.promptLock.Set();
         }
     }
 }
