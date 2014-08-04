@@ -55,12 +55,19 @@
       <HintPath>..\Proligence.SignalR\lib\signalr\Microsoft.AspNet.SignalR.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\lib\newtonsoft.json\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Configuration.Install" />
-    <Reference Include="System.Management.Automation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\lib\powershell\System.Management.Automation.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -98,6 +105,7 @@
     <Compile Include="ArgumentList.cs" />
     <Compile Include="CmdletAliasAttribute.cs" />
     <Compile Include="Console\CommandLineException.cs" />
+    <Compile Include="Console\CompletionData.cs" />
     <Compile Include="Console\DataReceivedEventArgs.cs" />
     <Compile Include="Console\Host\CommandExecutor.cs" />
     <Compile Include="Console\Host\ConsoleHost.cs" />
@@ -106,6 +114,7 @@
     <Compile Include="Console\UI\CommandStreamConnection.cs" />
     <Compile Include="Console\UI\ConsoleHostRawUserInterface.cs" />
     <Compile Include="Console\UI\ConsoleHostUserInterface.cs" />
+    <Compile Include="Console\UI\InputData.cs" />
     <Compile Include="Console\UI\OutputData.cs" />
     <Compile Include="TenantContextManager.cs" />
     <Compile Include="ErrorIds.cs" />
