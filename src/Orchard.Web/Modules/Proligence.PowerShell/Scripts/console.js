@@ -1,4 +1,7 @@
 function LoadConsole() {
+    var tabIndex = 0;
+    var tabCompletionBase = "";
+    var tabCompletionData;
     var curReportFun;
     var mainConsole = $('<div class="console">');
     var lastMessage;
@@ -27,12 +30,13 @@ function LoadConsole() {
             _sendCommand("\x03");
         },
         completeHandle: function (line, reverse) {
-            //here comes a list of available completion cmdlets
-        },
-        userInputHandle: function (keycode) {
-            //reset the string we match on if the user type anything other than tab == 9
-            if (keycode !== 9 && keycode != 16) {
+            if (tabCompletionBase.length == 0) {
+                tabCompletionBase = line;
+                connection.send({ Command: tabCompletionBase, Position: controller.cursorPosition(), Completion: true });
+            } else {
+                CompleteCommand(tabCompletionData)
             }
+            return "";
         },
         cols: 3,
         autofocus: true,
@@ -40,6 +44,17 @@ function LoadConsole() {
         promptHistory: true,
         welcomeMessage: "Orchard PowerShell console\r\nType 'cls' to clear the console\r\n\r\n"
     });
+
+    // hooking into keypress events on the underlying textarea
+    controller.typer.keydown(function (e) {
+        var keyCode = e.keyCode;
+        if (e.keyCode != 9) {
+            tabIndex = 0;
+            tabCompletionBase = "";
+            tabCompletionData = null;
+        }
+    });
+
     window.$Console = $('#Console');
     window.$Console.append(mainConsole);
     $("div.jquery-console-inner").css("background-color", "#012456");
@@ -58,11 +73,16 @@ function LoadConsole() {
 
 
     connection.received(function (data) {
-        DisplayAndUpdate(data);
+        if (data.Type == 6) {
+            tabCompletionData = data.Data;
+            CompleteCommand(data.Data)
+        } else {
+            DisplayAndUpdate(data);
+        }
     });
 
     function _sendCommand(input) {
-        connection.send(input);
+        connection.send({ Command: input });
     }
 
     function getJSONValue(input) {
@@ -75,21 +95,43 @@ function LoadConsole() {
     function startsWith(str, prefix) {
         return str.indexOf(prefix) == 0;
     }
+
+    function CompleteCommand(data) {
+        if (!data.Results || data.Results.length == 0)
+            return;
+
+        if (tabIndex >= data.Results.length)
+            tabIndex = 0;
+
+        var prefix = tabCompletionBase.substring(0, data.ReplacementIndex);
+        var infix = data.Results[tabIndex];
+        var suffix = data.ReplacementLength > 0 ? tabCompletionBase.substring(data.ReplacementIndex + data.ReplacementLength) : "";
+        controller.promptText(prefix + infix + suffix);
+
+        controller.moveCursor(suffix.length * -1);
+        controller.updatePromptDisplay();
+
+        tabIndex++;
+    }
     
     function DisplayAndUpdate(data) {
         var line = getJSONValue(data);
-        var hasNewLine = endsWith(line, '\n');
+        var hasNewLine = data.NewLine ? true : false;
 
+        // building prompt
         curPrompt = data.Path ? data.Path + "> " : "> ";
-        line = line.replace(/[\r\n]+$/, '').replace(/(\r\n|\n|\r)/gm, "<br/>").replace(/\s/g, "&nbsp;");
+        line = line
+            .replace(/[\r\n]+$/, '')
+            .replace(/(\r\n|\n|\r)/gm, "<br/>")
+            .replace(/\s/g, "&nbsp;");
 
-        if (line.length > 0) {
+        if (!data.Finished) {
             if (!lastMessage && curReportFun)
                 curReportFun("", "jquery-console-message-value");
 
             lastMessage = lastMessage ? lastMessage : $(".jquery-console-message").last();
 
-            var part = $("<span></span>").html(line).css("display", "inline-block")
+            var part = $("<span></span>").html(line).css("display", "inline-block");
 
             if (data.BackColor) {
                 part.css("background-color", data.BackColor);
@@ -101,15 +143,12 @@ function LoadConsole() {
                 switch (data.Type) {
                 case 2 /* ERROR */:
                     part.css("color", "red");
-                    part.css("display", "block");
                     break;
                 case 1 /* WARNING*/:
                     part.css("color", "yellow");
-                    part.css("display", "block");
                     break;
                 case 4 /* VERBOSE*/:
                     part.css("color", "gray");
-                    part.css("display", "block");
                     break;
                 default:
                     part.css("color", "white");
@@ -117,13 +156,12 @@ function LoadConsole() {
             }
 
             lastMessage.append(part);
-        }
 
-        if (hasNewLine && lastMessage) {
-            lastMessage.append("</br>");
-        } else {
-            if (!lastMessage && curReportFun)
-                curReportFun("", "");
+            if (hasNewLine) {
+                lastMessage.append("</br>");
+            }
+        } else if (!lastMessage) {
+            curReportFun('', '')
         }
 
         $(".jquery-console-prompt-label").last().text(curPrompt);

@@ -1,6 +1,8 @@
 ﻿namespace Proligence.PowerShell.Provider.Console
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Management.Automation.Runspaces;
     using System.Threading;
     using Autofac;
@@ -81,5 +83,13 @@
         /// </summary>
         /// <returns></returns>
         void WriteInputBuffer(string line);
+
+        /// <summary>
+        /// Returns a list of possible command completion options.
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="cursorPosition"></param>
+        /// <returns></returns>
+        CompletionData GetCommandCompletion(string command, int cursorPosition);
     }
 }

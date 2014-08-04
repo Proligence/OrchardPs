@@ -1,10 +1,15 @@
 ﻿namespace Proligence.PowerShell.Provider.Console
 {
     using System;
+    using System.Collections;
     using System.Collections.Concurrent;
+    using System.Linq;
+    using System.Management.Automation;
     using System.Management.Automation.Runspaces;
     using System.Threading;
+
     using Autofac;
+
     using Proligence.PowerShell.Provider.Console.Host;
     using Proligence.PowerShell.Provider.Console.UI;
     using Proligence.PowerShell.Provider.Vfs.Core;
@@ -175,6 +180,21 @@
             this.OnDataReceived(new DataReceivedEventArgs());
         }
 
+        public CompletionData GetCommandCompletion(string command, int cursorPosition) 
+        {
+            var commandCompletionPowerShell = PowerShell.Create();
+            commandCompletionPowerShell.Runspace = this.runspace;
+            var results = CommandCompletion.CompleteInput(command, cursorPosition, null, commandCompletionPowerShell);
+
+            return new CompletionData 
+            {
+                Results = results.CompletionMatches.Select(m => m.CompletionText).ToList(),
+                CurrentMatchIndex = results.CurrentMatchIndex,
+                ReplacementIndex = results.ReplacementIndex,
+                ReplacementLength = results.ReplacementLength
+            };
+        }
+
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
@@ -202,7 +222,7 @@
 
         protected virtual void OnDataReceived(DataReceivedEventArgs e)
         {
-            EventHandler<DataReceivedEventArgs> handler = this.DataReceived;
+            var handler = this.DataReceived;
             if (handler != null)
             {
                 handler(this, e);

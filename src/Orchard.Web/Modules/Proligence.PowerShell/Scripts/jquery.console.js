@@ -162,7 +162,12 @@
             extern.scrollToBottom = scrollToBottom;
             extern.enableInput = enableInput;
             extern.disableInput = disableInput;
-            extern.newPromptBox = newPromptBox;
+            extern.cursorPosition = function() {
+                return column;
+            }
+
+            extern.moveCursor = moveColumn;
+            extern.updatePromptDisplay = updatePromptDisplay;
         })();
 
         ////////////////////////////////////////////////////////////////////////
