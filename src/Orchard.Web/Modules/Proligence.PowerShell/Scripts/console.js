@@ -81,7 +81,7 @@ function LoadConsole() {
         var hasNewLine = endsWith(line, '\n');
 
         curPrompt = data.Path ? data.Path + "> " : "> ";
-        line = line.replace(/[\r\n]+$/, '').replace(/(\r\n|\n|\r)/gm, "<br/>");
+        line = line.replace(/[\r\n]+$/, '').replace(/(\r\n|\n|\r)/gm, "<br/>").replace(/\s/g, "&nbsp;");
 
         if (line.length > 0) {
             if (!lastMessage && curReportFun)
@@ -101,12 +101,15 @@ function LoadConsole() {
                 switch (data.Type) {
                 case 2 /* ERROR */:
                     part.css("color", "red");
+                    part.css("display", "block");
                     break;
                 case 1 /* WARNING*/:
                     part.css("color", "yellow");
+                    part.css("display", "block");
                     break;
                 case 4 /* VERBOSE*/:
                     part.css("color", "gray");
+                    part.css("display", "block");
                     break;
                 default:
                     part.css("color", "white");
