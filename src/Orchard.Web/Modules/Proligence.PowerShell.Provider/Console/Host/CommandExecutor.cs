@@ -85,6 +85,9 @@
             {
                 try
                 {
+                    // When pipeline finished, update current session's path
+                    this.session.Path = this.session.Runspace.SessionStateProxy.Path.CurrentLocation.ToString();
+
                     // Display an error for failed pipelines.
                     if (state != PipelineState.Completed)
                     {

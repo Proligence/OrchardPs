@@ -61,9 +61,9 @@
         string ConnectionId { get; }
 
         /// <summary>
-        /// Gets the current session's runspace absolute path.
+        /// Gets or sets the current session's runspace absolute path.
         /// </summary>
-        string Path { get; }
+        string Path { get; set;  }
 
         /// <summary>
         /// Initializes the session.

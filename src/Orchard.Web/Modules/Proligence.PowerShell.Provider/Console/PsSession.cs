@@ -95,6 +95,11 @@
 
                 return this.currentPath ?? string.Empty;
             }
+
+            set 
+            {
+                this.currentPath = value;
+            }
         }
 
         /// <summary>
