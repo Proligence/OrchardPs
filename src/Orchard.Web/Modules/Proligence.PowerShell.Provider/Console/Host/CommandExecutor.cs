@@ -5,18 +5,18 @@
     using System.Management.Automation.Runspaces;
     using System.Text;
 
+    using Proligence.PowerShell.Provider.Console.UI;
+
     public class CommandExecutor : ICommandExecutor
     {
         private readonly IPsSession session;
         private readonly StringBuilder commandBuffer;
         private Pipeline pipeline;
-        private bool outputSent;
 
         public CommandExecutor(IPsSession session)
         {
             this.session = session;
             this.commandBuffer = new StringBuilder();
-            this.outputSent = false;
         }
 
         public void Start()
@@ -72,7 +72,6 @@
             {
                 var resultString = (string)LanguagePrimitives.ConvertTo(result, typeof(string));
                 this.session.ConsoleHost.UI.WriteLine(resultString);
-                this.outputSent = true;
             }
         }
 
@@ -101,18 +100,13 @@
                         this.pipeline.Dispose();
                         this.pipeline = null;
                     }
-
-                    // If the command did not generate any output, then write an empty line, to notify the console UI
-                    // that the command finished.
-                    if (!this.outputSent)
-                    {
-                        this.session.ConsoleHost.UI.WriteLine(string.Empty);
-                    }
                 }
                 finally
                 {
                     this.session.RunspaceLock.Set();
-                    this.outputSent = false;
+
+                    // Sending information about finishing command
+                    this.session.Sender(new OutputData { Finished = true });
                 }
             }
         }
