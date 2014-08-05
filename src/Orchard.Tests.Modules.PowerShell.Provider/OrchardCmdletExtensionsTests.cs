@@ -6,32 +6,21 @@
     using NUnit.Framework;
     using Proligence.PowerShell.Provider;
 
-    /// <summary>
-    /// Implements unit tests for the <see cref="OrchardCmdletExtensions"/> class.
-    /// </summary>
     [TestFixture]
     public class OrchardCmdletExtensionsTests
     {
-        /// <summary>
-        /// Tests if the <see cref="OrchardCmdletExtensions.WriteError"/> method throws an
-        /// <see cref="ArgumentNullException"/> when the specified Orchard cmdlet is <c>null</c>.
-        /// </summary>
         [Test]
         public void WriteErrorWhenCmdletNull()
         {
             var ex = new InvalidOperationException("My exception message.");
             var target = new object();
 
-            ArgumentNullException exception = Assert.Throws<ArgumentNullException>(
+            var exception = Assert.Throws<ArgumentNullException>(
                 () => OrchardCmdletExtensions.WriteError(null, ex, "ErrorId", ErrorCategory.InvalidOperation, target));
 
             Assert.That(exception.ParamName, Is.EqualTo("cmdlet"));
         }
 
-        /// <summary>
-        /// Tests if the <see cref="OrchardCmdletExtensions.WriteError"/> method works correctly when the specified
-        /// arguments are valid.
-        /// </summary>
         [Test]
         public void WriteErrorWhenValidArgs()
         {
@@ -55,27 +44,19 @@
             cmdlet.VerifyAll();
         }
 
-        /// <summary>
-        /// Tests if the <see cref="OrchardCmdletExtensions.ThrowTerminatingError"/> method throws an
-        /// <see cref="ArgumentNullException"/> when the specified Orchard cmdlet is <c>null</c>.
-        /// </summary>
         [Test]
         public void ThrowTerminatingErrorWhenCmdletNull()
         {
             var ex = new InvalidOperationException("My exception message.");
             var target = new object();
 
-            ArgumentNullException exception = Assert.Throws<ArgumentNullException>(
+            var exception = Assert.Throws<ArgumentNullException>(
                 () => OrchardCmdletExtensions.ThrowTerminatingError(
                     null, ex, "ErrorId", ErrorCategory.InvalidOperation, target));
 
             Assert.That(exception.ParamName, Is.EqualTo("cmdlet"));
         }
 
-        /// <summary>
-        /// Tests if the <see cref="OrchardCmdletExtensions.ThrowTerminatingError"/> method works correctly when the
-        /// specified arguments are valid.
-        /// </summary>
         [Test]
         public void ThrowTerminatingErrorWhenValidArgs()
         {
