@@ -1,4 +1,4 @@
-namespace Proligence.PowerShell.Provider
+namespace Proligence.PowerShell.Provider.Utilities
 {
     /// <summary>
     /// Maps property values between two objects. This class can be used to easily copy cmdlet parameters onto an

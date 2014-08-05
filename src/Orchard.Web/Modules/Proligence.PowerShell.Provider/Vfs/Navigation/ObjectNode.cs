@@ -1,7 +1,5 @@
 ﻿namespace Proligence.PowerShell.Provider.Vfs.Navigation
 {
-    using Proligence.PowerShell.Provider.Vfs.Core;
-
     /// <summary>
     /// The base class for VFS nodes which encapsulate item objects.
     /// </summary>

@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using System.Management.Automation;
+    using Proligence.PowerShell.Internal;
     using Provider;
     using Provider.Vfs.Navigation;
 

@@ -11,7 +11,7 @@
     using Proligence.PowerShell.Common.Items;
     using Proligence.PowerShell.Modules.Items;
     using Proligence.PowerShell.Provider;
-    using Proligence.PowerShell.Provider.Vfs.Core;
+    using Proligence.PowerShell.Provider.Vfs;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
     using Proligence.PowerShell.Utilities;
 

@@ -2,7 +2,6 @@
 {
     using System.Diagnostics.CodeAnalysis;
     using System.Management.Automation;
-    using Autofac;
 
     /// <summary>
     /// Represents the state of a single instance of the VFS-based PS provider.

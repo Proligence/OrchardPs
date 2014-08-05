@@ -1,7 +1,7 @@
-﻿using Orchard;
-
-namespace Proligence.PowerShell.Provider.Console
+﻿namespace Proligence.PowerShell.Provider.Console
 {
+    using Orchard;
+
     /// <summary>
     /// Manages the sessions of the PowerShell engine hosted in the Orchard application.
     /// </summary>

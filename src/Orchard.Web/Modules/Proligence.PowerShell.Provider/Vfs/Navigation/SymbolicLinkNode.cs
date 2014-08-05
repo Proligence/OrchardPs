@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using Proligence.PowerShell.Provider.Vfs.Core;
 
     /// <summary>
     /// Implements a node which works as a symbolic link (shortcut) to another node in the PowerShell VFS.

@@ -1,6 +1,5 @@
 ﻿namespace Proligence.PowerShell.Provider.Vfs.Navigation
 {
-    using Proligence.PowerShell.Provider.Vfs.Core;
     using Proligence.PowerShell.Provider.Vfs.Provider;
 
     /// <summary>

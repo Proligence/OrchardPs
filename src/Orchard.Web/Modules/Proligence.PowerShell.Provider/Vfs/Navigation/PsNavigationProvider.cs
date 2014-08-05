@@ -1,7 +1,5 @@
 ﻿namespace Proligence.PowerShell.Provider.Vfs.Navigation
 {
-    using Proligence.PowerShell.Provider.Vfs.Core;
-
     /// <summary>
     /// The base class for classes which extend the PowerShell Virtual File System by adding new static nodes to the
     /// VFS tree.

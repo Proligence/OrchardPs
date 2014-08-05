@@ -3,7 +3,6 @@
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Management.Automation.Provider;
-    using Proligence.PowerShell.Provider.Vfs.Core;
 
     /// <summary>
     /// The base class for classes which represent nodes in the PowerShell Virtual File System (VFS).

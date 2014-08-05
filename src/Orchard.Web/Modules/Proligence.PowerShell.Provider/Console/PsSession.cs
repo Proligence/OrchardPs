@@ -1,18 +1,15 @@
 ﻿namespace Proligence.PowerShell.Provider.Console
 {
     using System;
-    using System.Collections;
     using System.Collections.Concurrent;
     using System.Linq;
     using System.Management.Automation;
     using System.Management.Automation.Runspaces;
     using System.Threading;
-
     using Autofac;
-
     using Proligence.PowerShell.Provider.Console.Host;
     using Proligence.PowerShell.Provider.Console.UI;
-    using Proligence.PowerShell.Provider.Vfs.Core;
+    using Proligence.PowerShell.Provider.Vfs;
 
     /// <summary>
     /// Represents a PowerShell user session.

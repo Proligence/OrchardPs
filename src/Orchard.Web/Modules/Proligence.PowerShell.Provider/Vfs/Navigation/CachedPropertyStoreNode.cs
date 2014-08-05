@@ -3,7 +3,6 @@ namespace Proligence.PowerShell.Provider.Vfs.Navigation
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
-    using Proligence.PowerShell.Provider.Vfs.Core;
 
     /// <summary>
     /// Implements a VFS node which contains a flat key-value store with non-volatile data.

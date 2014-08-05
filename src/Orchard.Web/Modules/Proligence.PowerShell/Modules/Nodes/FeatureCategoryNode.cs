@@ -8,11 +8,9 @@ namespace Proligence.PowerShell.Modules.Nodes
 {
     using System.Collections.Generic;
     using System.Linq;
-
     using Orchard.Environment.Extensions.Models;
-
     using Proligence.PowerShell.Common.Items;
-    using Proligence.PowerShell.Provider.Vfs.Core;
+    using Proligence.PowerShell.Provider.Vfs;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>

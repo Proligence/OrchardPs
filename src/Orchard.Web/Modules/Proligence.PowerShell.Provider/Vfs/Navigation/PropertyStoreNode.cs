@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using Proligence.PowerShell.Provider.Vfs.Core;
 
     /// <summary>
     /// Implements a VFS node which contains a flat key-value store.

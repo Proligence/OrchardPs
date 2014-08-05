@@ -1,11 +1,9 @@
-﻿namespace Proligence.PowerShell.Provider
+﻿namespace Proligence.PowerShell.Provider.Internal
 {
-    using Vfs.Navigation;
-
     /// <summary>
     /// Defines well known error identifiers used with PowerShell by the Orchard PS provider.
     /// </summary>
-    public static class ErrorIds 
+    internal static class ErrorIds 
     {
         /// <summary>
         /// Failed to close PowerShell VFS drive.
@@ -13,7 +11,7 @@
         public const string CloseDriveFailed = "CloseDriveFailed";
 
         /// <summary>
-        /// Failed to create an instance of a <see cref="IPsNavigationProvider"/>.
+        /// Failed to create an instance of a <see cref="Proligence.PowerShell.Provider.Vfs.Navigation.IPsNavigationProvider"/>.
         /// </summary>
         public const string CreateNavigationProviderFailed = "CreateNavigationProviderFailed";
 

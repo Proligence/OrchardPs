@@ -5,7 +5,7 @@
     using System.Diagnostics.CodeAnalysis;
     using Orchard.Environment.Configuration;
     using Proligence.PowerShell.Provider;
-    using Proligence.PowerShell.Provider.Vfs.Core;
+    using Proligence.PowerShell.Provider.Vfs;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>

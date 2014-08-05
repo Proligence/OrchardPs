@@ -2,17 +2,11 @@
 {
     using System;
     using NUnit.Framework;
+    using ThrowHelper = Proligence.PowerShell.Provider.Internal.ThrowHelper;
 
-    /// <summary>
-    /// Implements unit tests for the <see cref="PsProvider.ThrowHelper"/> class.
-    /// </summary>
     [TestFixture]
     public class ThrowHelperTests
     {
-        /// <summary>
-        /// Tests if the <see cref="PsProvider.ThrowHelper.InvalidRootPathException"/> method works correctly when the
-        /// specified path is <c>null</c>.
-        /// </summary>
         [Test]
         public void InvalidRootPathExceptionWhenPathNull()
         {
@@ -23,10 +17,6 @@
                 Is.EqualTo("The directory '' does not contain an Orchard installation."));
         }
 
-        /// <summary>
-        /// Tests if the <see cref="PsProvider.ThrowHelper.InvalidRootPathException"/> method works correctly when the
-        /// specified path is not <c>null</c>.
-        /// </summary>
         [Test]
         public void InvalidRootPathExceptionWhenPathNotNull()
         {
@@ -37,10 +27,6 @@
                 Is.EqualTo(@"The directory 'C:\test' does not contain an Orchard installation."));
         }
 
-        /// <summary>
-        /// Tests if the <see cref="PsProvider.ThrowHelper.InvalidPathException"/> method works correctly when the
-        /// specified path is <c>null</c>.
-        /// </summary>
         [Test]
         public void InvalidPathExceptionWhenPathNull()
         {
@@ -49,10 +35,6 @@
             Assert.That(exception.Message, Is.EqualTo("Path must represent a valid Orchard object: "));
         }
 
-        /// <summary>
-        /// Tests if the <see cref="PsProvider.ThrowHelper.InvalidPathException"/> method works correctly when the
-        /// specified path is not <c>null</c>.
-        /// </summary>
         [Test]
         public void InvalidPathExceptionWhenPathNotNull()
         {
@@ -61,10 +43,6 @@
             Assert.That(exception.Message, Is.EqualTo(@"Path must represent a valid Orchard object: Orchard:\Test"));
         }
 
-        /// <summary>
-        /// Tests if the <see cref="PsProvider.ThrowHelper.InvalidOperation"/> method works correctly when the
-        /// specified message is <c>null</c>.
-        /// </summary>
         [Test]
         public void InvalidOperationWhenMessageNull()
         {
@@ -75,10 +53,6 @@
                 Is.EqualTo("Exception of type 'System.InvalidOperationException' was thrown."));
         }
 
-        /// <summary>
-        /// Tests if the <see cref="PsProvider.ThrowHelper.InvalidOperation"/> method works correctly when the
-        /// specified message is not <c>null</c>.
-        /// </summary>
         [Test]
         public void InvalidOperationWhenMessageNotNull()
         {

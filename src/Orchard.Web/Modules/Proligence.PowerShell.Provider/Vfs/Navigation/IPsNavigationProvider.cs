@@ -1,7 +1,6 @@
 ﻿namespace Proligence.PowerShell.Provider.Vfs.Navigation
 {
     using Orchard;
-    using Proligence.PowerShell.Provider.Vfs.Core;
 
     /// <summary>
     /// Defines the interface for classes which extend the PowerShell Virtual File System by adding new static nodes

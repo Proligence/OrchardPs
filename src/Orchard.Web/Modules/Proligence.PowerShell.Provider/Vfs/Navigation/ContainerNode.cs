@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using Proligence.PowerShell.Provider.Vfs.Core;
 
     /// <summary>
     /// The base class for VFS nodes which contain child items.

@@ -1,4 +1,4 @@
-﻿namespace Proligence.PowerShell.Provider.Vfs.Core
+﻿namespace Proligence.PowerShell.Provider.Vfs
 {
     using System;
     using Autofac;

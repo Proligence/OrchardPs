@@ -2,7 +2,7 @@
 {
     using System.Collections;
     using NUnit.Framework;
-    using Proligence.PowerShell.Provider;
+    using Proligence.PowerShell.Provider.Utilities;
 
     [TestFixture]
     public class ArgumentListTests

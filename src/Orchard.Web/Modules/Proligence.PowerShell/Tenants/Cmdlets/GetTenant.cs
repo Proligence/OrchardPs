@@ -6,6 +6,7 @@
     using Autofac;
     using Orchard.Environment.Configuration;
     using Proligence.PowerShell.Provider;
+    using Proligence.PowerShell.Provider.Utilities;
 
     /// <summary>
     /// Implements the <c>Get-Tenant</c> cmdlet.

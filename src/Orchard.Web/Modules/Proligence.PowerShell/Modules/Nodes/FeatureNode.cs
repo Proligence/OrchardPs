@@ -1,12 +1,9 @@
 ﻿namespace Proligence.PowerShell.Modules.Nodes
 {
     using System.Diagnostics.CodeAnalysis;
-
     using Orchard.Environment.Extensions.Models;
-
-    using Proligence.PowerShell.Modules.Items;
     using Proligence.PowerShell.Provider;
-    using Proligence.PowerShell.Provider.Vfs.Core;
+    using Proligence.PowerShell.Provider.Vfs;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>
