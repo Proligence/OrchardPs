@@ -87,7 +87,6 @@
     <Compile Include="Utilities\VfsNodeExtensions.cs" />
     <Compile Include="Common\Items\CollectionItem.cs" />
     <Compile Include="Common\Items\DescriptionItem.cs" />
-    <Compile Include="Configuration\ConfigurationNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AdminMenu.cs" />
     <Compile Include="Controllers\AdminController.cs" />
