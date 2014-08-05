@@ -1,12 +1,18 @@
 ﻿namespace Proligence.PowerShell.Provider.Vfs.Core
 {
     using Proligence.PowerShell.Provider.Vfs.Navigation;
+    using Proligence.PowerShell.Provider.Vfs.Provider;
 
     /// <summary>
     /// Defines the interface for objects which implement the PowerShell Virtual File System (VFS).
     /// </summary>
     public interface IPowerShellVfs
     {
+        /// <summary>
+        /// Gets the Orchard drive instance.
+        /// </summary>
+        VfsDriveInfo Drive { get; }
+
         /// <summary>
         /// Gets the root node of the VFS.
         /// </summary>

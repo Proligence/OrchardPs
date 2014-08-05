@@ -17,10 +17,16 @@
             INavigationProviderManager navigationProviderManager,
             IPathValidator pathValidator)
         {
+            this.Drive = drive;
             this.Root = new RootVfsNode(this, drive);
             this.NavigationProviderManager = navigationProviderManager;
             this.PathValidator = pathValidator;
         }
+
+        /// <summary>
+        /// Gets the Orchard drive instance.
+        /// </summary>
+        public VfsDriveInfo Drive { get; private set; }
 
         /// <summary>
         /// Gets the root node of the VFS.

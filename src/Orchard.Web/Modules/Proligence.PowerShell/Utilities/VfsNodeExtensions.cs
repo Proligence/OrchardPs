@@ -1,6 +1,9 @@
 ﻿namespace Proligence.PowerShell.Utilities
 {
+    using System;
+    using Orchard;
     using Orchard.Environment.Configuration;
+    using Proligence.PowerShell.Provider.Vfs.Core;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
     using Proligence.PowerShell.Tenants.Nodes;
 
@@ -31,6 +34,46 @@
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Executes an action in the context of a tenant.
+        /// </summary>
+        /// <param name="node">The VFS node which is invoking the action.</param>
+        /// <param name="tenantName">The name of the tenant.</param>
+        /// <param name="action">The action to invoke.</param>
+        public static void UsingWorkContextScope(
+            this VfsNode node,
+            string tenantName,
+            Action<IWorkContextScope> action)
+        {
+            if (node == null)
+            {
+                throw new ArgumentNullException("node");
+            }
+
+            node.Vfs.UsingWorkContextScope(tenantName, action);
+        }
+
+        /// <summary>
+        /// Executes an action in the context of a tenant.
+        /// </summary>
+        /// <typeparam name="T">The type of the action's result.</typeparam>
+        /// <param name="node">The VFS node which is invoking the action.</param>
+        /// <param name="tenantName">The name of the tenant.</param>
+        /// <param name="action">The action to invoke.</param>
+        /// <returns>The action's result.</returns>
+        public static T UsingWorkContextScope<T>(
+            this VfsNode node,
+            string tenantName,
+            Func<IWorkContextScope, T> action)
+        {
+            if (node == null)
+            {
+                throw new ArgumentNullException("node");
+            }
+
+            return node.Vfs.UsingWorkContextScope(tenantName, action);
         }
     }
 }

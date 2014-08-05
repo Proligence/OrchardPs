@@ -1,8 +1,10 @@
 ﻿namespace Proligence.PowerShell.Utilities
 {
     using System;
+    using Orchard;
     using Orchard.Environment.Configuration;
     using Proligence.PowerShell.Provider;
+    using Proligence.PowerShell.Provider.Vfs.Core;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
     using Proligence.PowerShell.Tenants.Nodes;
 
@@ -63,6 +65,46 @@
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Executes an action in the context of a tenant.
+        /// </summary>
+        /// <param name="cmdlet">The cmdlet which is invoking the action.</param>
+        /// <param name="tenantName">The name of the tenant.</param>
+        /// <param name="action">The action to invoke.</param>
+        public static void UsingWorkContextScope(
+            this OrchardCmdlet cmdlet,
+            string tenantName,
+            Action<IWorkContextScope> action)
+        {
+            if (cmdlet == null)
+            {
+                throw new ArgumentNullException("cmdlet");
+            }
+
+            cmdlet.CurrentNode.Vfs.UsingWorkContextScope(tenantName, action);
+        }
+
+        /// <summary>
+        /// Executes an action in the context of a tenant.
+        /// </summary>
+        /// <typeparam name="T">The type of the action's result.</typeparam>
+        /// <param name="cmdlet">The VFS node which is invoking the action.</param>
+        /// <param name="tenantName">The name of the tenant.</param>
+        /// <param name="action">The action to invoke.</param>
+        /// <returns>The action's result.</returns>
+        public static T UsingWorkContextScope<T>(
+            this OrchardCmdlet cmdlet,
+            string tenantName,
+            Func<IWorkContextScope, T> action)
+        {
+            if (cmdlet == null)
+            {
+                throw new ArgumentNullException("cmdlet");
+            }
+
+            return cmdlet.CurrentNode.Vfs.UsingWorkContextScope(tenantName, action);
         }
     }
 }

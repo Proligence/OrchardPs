@@ -143,6 +143,7 @@
     <Compile Include="StringExtensions.cs" />
     <Compile Include="SupportedCmdletAttribute.cs" />
     <Compile Include="ThrowHelper.cs" />
+    <Compile Include="Vfs\Core\VfsExtensions.cs" />
     <Compile Include="Vfs\Core\IPowerShellVfs.cs" />
     <Compile Include="Vfs\Core\PowerShellVfs.cs" />
     <Compile Include="Vfs\Navigation\CachedPropertyStoreNode.cs" />
