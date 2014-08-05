@@ -4,7 +4,7 @@
     <View>
       <Name>CollectionItemView</Name>
       <ViewSelectedBy>
-        <TypeName>Proligence.PowerShell.Modules.Items.OrchardModule</TypeName>
+        <TypeName>Orchard.Environment.Extensions.Models.ExtensionDescriptor</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
@@ -54,7 +54,7 @@
     <View>
       <Name>CollectionItemView</Name>
       <ViewSelectedBy>
-        <TypeName>Proligence.PowerShell.Modules.Items.OrchardFeature</TypeName>
+        <TypeName>Orchard.Environment.Extensions.Models.FeatureDescriptor</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
@@ -66,10 +66,12 @@
             <Label>Category</Label>
             <Width>20</Width>
           </TableColumnHeader>
+          <!--
           <TableColumnHeader>
             <Label>Enabled</Label>
             <Width>10</Width>
           </TableColumnHeader>
+          -->
           <TableColumnHeader>
             <Label>Module</Label>
             <Width>20</Width>
@@ -91,9 +93,11 @@
               <TableColumnItem>
                 <PropertyName>Category</PropertyName>
               </TableColumnItem>
+              <!--
               <TableColumnItem>
                 <PropertyName>Enabled</PropertyName>
               </TableColumnItem>
+              -->
               <TableColumnItem>
                 <ScriptBlock>if ($_.Module) { $_.Module.Name } else { 'Core' }</ScriptBlock>
               </TableColumnItem>
@@ -164,8 +168,8 @@
 <!-- SIG # Begin signature block -->
 <!-- MIIFsAYJKoZIhvcNAQcCoIIFoTCCBZ0CAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB -->
 <!-- gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR -->
-<!-- AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUyDmI8K2PvxBd6gWwJoDB94WS -->
-<!-- 5wGgggM6MIIDNjCCAiKgAwIBAgIQQaB/8txRJqtGHUmnID7OxzAJBgUrDgMCHQUA -->
+<!-- AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUysg7KpvaG82iSWvIsobvh21y -->
+<!-- i1GgggM6MIIDNjCCAiKgAwIBAgIQQaB/8txRJqtGHUmnID7OxzAJBgUrDgMCHQUA -->
 <!-- MCsxKTAnBgNVBAMTIE9yY2hhcmRQcyBMb2NhbCBDZXJ0aWZpY2F0ZSBSb290MB4X -->
 <!-- DTEzMDYyNjA4MTk0MloXDTM5MTIzMTIzNTk1OVowFDESMBAGA1UEAxMJT3JjaGFy -->
 <!-- ZFBzMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArNiyrLbE2VGmEUDV -->
@@ -186,11 +190,11 @@
 <!-- ZFBzIExvY2FsIENlcnRpZmljYXRlIFJvb3QCEEGgf/LcUSarRh1JpyA+zscwCQYF -->
 <!-- Kw4DAhoFAKB4MBgGCisGAQQBgjcCAQwxCjAIoAKAAKECgAAwGQYJKoZIhvcNAQkD -->
 <!-- MQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIBCzEOMAwGCisGAQQBgjcCARUwIwYJ -->
-<!-- KoZIhvcNAQkEMRYEFIBhSd4ODgqZbBFQvAr0LIrTFw/qMA0GCSqGSIb3DQEBAQUA -->
-<!-- BIIBADrS677Xekx9/6SB8TCKpoyP+b/BfjhyYb5iwslqvt5zMpw7GCpB2+eacH0p -->
-<!-- 65RSQNLtajLu58gGYXmQ4ZPnAmltKXlCq/L22QweUqB4CST8lAd731t9ApzQW92F -->
-<!-- juxH7XWipMqLwtudawZroyIHgPyp77XIhxN3jmY6C+g3iigmLrMPPWqUB/J6PfHd -->
-<!-- Xk1kEE0leBrE22q2ixdq4dgcyzSOFtIAqjnxJ98+3kpA/RKlSNmkjpoYHPf8BNpO -->
-<!-- cmm7Jau1iC2hBoxraXr2I/EFfkOM0WlCxHH++7MdS8pqKN6WlUWxETNGCd+U+Lad -->
-<!-- O+6GyGH1oePTBUor89OqPVDFVCY= -->
+<!-- KoZIhvcNAQkEMRYEFIij/c4cN5sp6qWtvQRMY5YpvVYIMA0GCSqGSIb3DQEBAQUA -->
+<!-- BIIBAFi1cvv+J5FsWSgOZQ1vawu4vqsZujk55QfHUVnDwd5MAYq3CSEPpI02fukh -->
+<!-- 8n8t6LiF216RUYXch2oN2P1Kx43hGyDPaeNM6g9qURCpGMkDhcslgOj0CKqrfgoE -->
+<!-- x+K8JShBXLqM4FJJ2oPZeVihTA8WbE1sSxQ5GU8u7jA6ecttStFZceQTNPV8UQyM -->
+<!-- N+c36j57duxIZHzdvR+agkwcxVUyulqSejO5fS1Zn4LuhuSVcNWbb5MA04RLeajI -->
+<!-- FAv1iewEJkRz/cWl1cSyfWQuV1pLn2QB7E+fJGTIoeBOlS8JBBzFbCz/b1TC7Kz4 -->
+<!-- 87JNSGY3674IVX7QGGXClJuztiQ= -->
 <!-- SIG # End signature block -->

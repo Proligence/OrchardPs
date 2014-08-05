@@ -8,10 +8,7 @@
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
-    using Autofac;
-    using Orchard;
     using Orchard.Commands;
-    using Orchard.Data;
     using Proligence.PowerShell.Commands.Items;
     using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Utilities;

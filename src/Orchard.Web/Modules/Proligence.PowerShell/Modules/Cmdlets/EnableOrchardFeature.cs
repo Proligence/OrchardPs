@@ -4,14 +4,12 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-
     using Orchard.Environment.Configuration;
+    using Orchard.Environment.Extensions;
     using Orchard.Environment.Extensions.Models;
-
-    using Proligence.PowerShell.Agents;
-    using Proligence.PowerShell.Common.Extensions;
-    using Proligence.PowerShell.Modules.Items;
+    using Orchard.Environment.Features;
     using Proligence.PowerShell.Provider;
+    using Proligence.PowerShell.Utilities;
 
     /// <summary>
     /// Implements the <c>Enable-OrchardFeature</c> cmdlet.
@@ -19,11 +17,6 @@
     [Cmdlet(VerbsLifecycle.Enable, "OrchardFeature", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
     public class EnableOrchardFeature : OrchardCmdlet
     {
-        /// <summary>
-        /// The modules agent proxy instance.
-        /// </summary>
-        private IModulesAgent modulesAgent;
-
         /// <summary>
         /// Cached list of all Orchard features for each tenant.
         /// </summary>
@@ -43,7 +36,7 @@
         public string Tenant { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="OrchardFeature"/> object which represents the orchard feature to enable.
+        /// Gets or sets the <see cref="FeatureDescriptor"/> object which represents the orchard feature to enable.
         /// </summary>
         [Parameter(ParameterSetName = "FeatureObject", ValueFromPipeline = true)]
         public FeatureDescriptor Feature { get; set; }
@@ -106,24 +99,34 @@
             {
                 if (this.ShouldProcess("Feature: " + feature.Id + ", Tenant: " + tenantName, "Enable Feature"))
                 {
-                    this.modulesAgent.EnableFeature(tenantName, feature.Id, !this.WithoutDependencies.ToBool());
+                    this.UsingWorkContextScope(
+                        tenantName,
+                        scope =>
+                            {
+                                var featureManager = this.Resolve<IFeatureManager>();
+                                
+                                featureManager.EnableFeatures(
+                                    new[] { feature.Id },
+                                    !this.WithoutDependencies.ToBool());
+                            });
                 }
             }
         }
 
-        /// <summary>
-        /// Gets the <see cref="OrchardFeature"/> object for the specified feature.
-        /// </summary>
-        /// <param name="tenantName">The name to the tenant for which to get feature.</param>
-        /// <param name="featureName">The name of the feature to get.</param>
-        /// <returns>The <see cref="OrchardFeature"/> object for the specified feature.</returns>
         private FeatureDescriptor GetOrchardFeature(string tenantName, string featureName)
         {
             FeatureDescriptor[] tenantFeatures;
 
             if (!this.features.TryGetValue(tenantName, out tenantFeatures))
             {
-                tenantFeatures = this.modulesAgent.GetFeatures(tenantName).ToArray();
+                tenantFeatures = this.UsingWorkContextScope(
+                    tenantName,
+                    scope =>
+                        {
+                            var extensionManager = scope.Resolve<IExtensionManager>();
+                            return extensionManager.AvailableFeatures().ToArray();
+                        });
+
                 this.features.Add(tenantName, tenantFeatures);
             }
 

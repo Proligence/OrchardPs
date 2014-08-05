@@ -1,6 +1,7 @@
 ﻿namespace Proligence.PowerShell.Modules.NavigationProviders
 {
-    using Proligence.PowerShell.Agents;
+    using Orchard.Data.Migration;
+    using Orchard.Environment.Extensions;
     using Proligence.PowerShell.Modules.Nodes;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
 
@@ -9,15 +10,24 @@
     /// </summary>
     public class ThemesPsNavigationProvider : PsNavigationProvider
     {
-        private readonly IModulesAgent agent;
+        private readonly IExtensionManager extensionManager;
+        private readonly IDataMigrationManager dataMigrationManager;
+
+        public ThemesPsNavigationProvider(
+            IExtensionManager extensionManager,
+            IDataMigrationManager dataMigrationManager)
+            : base(NodeType.Tenant)
+        {
+            this.extensionManager = extensionManager;
+            this.dataMigrationManager = dataMigrationManager;
+        }
 
         /// <summary>
         /// Initializes the navigation provider.
         /// </summary>
         public override void Initialize()
         {
-            this.NodeType = NodeType.Site;
-            this.Node = new ThemesNode(this.Vfs, this.agent);
+            this.Node = new ThemesNode(this.Vfs, this.extensionManager, this.dataMigrationManager);
         }
     }
 }

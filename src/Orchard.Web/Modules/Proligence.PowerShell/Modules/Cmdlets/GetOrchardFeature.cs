@@ -4,10 +4,9 @@
     using System.Linq;
     using System.Management.Automation;
     using Orchard.Environment.Configuration;
+    using Orchard.Environment.Descriptor.Models;
+    using Orchard.Environment.Extensions;
     using Orchard.Environment.Extensions.Models;
-
-    using Proligence.PowerShell.Agents;
-    using Proligence.PowerShell.Modules.Items;
     using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Utilities;
 
@@ -17,16 +16,6 @@
     [Cmdlet(VerbsCommon.Get, "OrchardFeature", DefaultParameterSetName = "Default", ConfirmImpact = ConfirmImpact.None)]
     public class GetOrchardFeature : OrchardCmdlet, ITenantFilterCmdlet
     {
-        /// <summary>
-        /// The modules agent instance.
-        /// </summary>
-        private IModulesAgent modulesAgent;
-
-        /// <summary>
-        /// The tenants agent instance.
-        /// </summary>
-        private ITenantAgent tenantsAgent;
-
         /// <summary>
         /// All available Orchard tenants.
         /// </summary>
@@ -81,9 +70,9 @@
         protected override void BeginProcessing()
         {
             base.BeginProcessing();
-            
-            this.tenants = tenantsAgent
-                .GetTenants()
+
+            this.tenants = this.Resolve<IShellSettingsManager>()
+                .LoadSettings()
                 .Where(t => t.State == TenantState.Running)
                 .ToArray();
         }
@@ -99,24 +88,37 @@
 
             foreach (ShellSettings tenant in filteredTenants)
             {
-                var tenantFeatures = this.modulesAgent.GetFeatures(tenant.Name);
-                features.AddRange(tenantFeatures);
+                this.UsingWorkContextScope(
+                    tenant.Name,
+                    scope =>
+                        {
+                            var extensions = scope.Resolve<IExtensionManager>();
+                            var shellDescriptor = scope.Resolve<ShellDescriptor>();
+
+                            if (this.Enabled.ToBool())
+                            {
+                                // ReSharper disable once AccessToModifiedClosure
+                                features.AddRange(extensions.EnabledFeatures(shellDescriptor));
+                            }
+                            else if (this.Disabled.ToBool())
+                            {
+                                // ReSharper disable once AccessToModifiedClosure
+                                features.AddRange(
+                                    extensions.AvailableFeatures()
+                                    .Except(extensions.EnabledFeatures(shellDescriptor)));
+                            }
+                            else
+                            {
+                                // ReSharper disable once AccessToModifiedClosure
+                                features.AddRange(extensions.AvailableFeatures());
+                            }
+                        });
             }
 
             if (!string.IsNullOrEmpty(this.Name))
             {
                 features = features.Where(f => f.Name.WildcardEquals(this.Name)).ToList();
             }
-
-            //if (this.Enabled.ToBool())
-            //{
-            //    features = features.Where(f => f.Enabled).ToList();
-            //}
-
-            //if (this.Disabled.ToBool())
-            //{
-            //    features = features.Where(f => !f.Enabled).ToList();
-            //}
 
             foreach (FeatureDescriptor feature in features)
             {

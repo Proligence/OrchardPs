@@ -1,10 +1,15 @@
 ﻿namespace Proligence.PowerShell.Modules.Cmdlets
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
+    using Orchard.ContentManagement;
+    using Orchard.Data.Migration;
     using Orchard.Environment.Configuration;
-    using Proligence.PowerShell.Agents;
+    using Orchard.Environment.Extensions;
+    using Orchard.Environment.Extensions.Models;
+    using Orchard.Themes.Models;
     using Proligence.PowerShell.Modules.Items;
     using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Utilities;
@@ -15,16 +20,6 @@
     [Cmdlet(VerbsCommon.Get, "OrchardTheme", DefaultParameterSetName = "Default", ConfirmImpact = ConfirmImpact.None)]
     public class GetOrchardTheme : OrchardCmdlet, ITenantFilterCmdlet
     {
-        /// <summary>
-        /// The modules agent instance.
-        /// </summary>
-        private IModulesAgent modulesAgent;
-
-        /// <summary>
-        /// The tenant agent instance.
-        /// </summary>
-        private ITenantAgent tenantAgent;
-
         /// <summary>
         /// All available Orchard tenants.
         /// </summary>
@@ -80,8 +75,8 @@
         {
             base.BeginProcessing();
 
-            this.tenants = this.tenantAgent
-                .GetTenants()
+            this.tenants = this.Resolve<IShellSettingsManager>()
+                .LoadSettings()
                 .Where(t => t.State == TenantState.Running)
                 .ToArray();
         }
@@ -97,8 +92,7 @@
 
             foreach (ShellSettings tenant in filteredTenants)
             {
-                OrchardTheme[] tenantThemes = this.modulesAgent.GetThemes(tenant.Name);
-                themes.AddRange(tenantThemes);
+                themes.AddRange(this.GetThemes(tenant.Name));
             }
 
             if (!string.IsNullOrEmpty(this.Name))
@@ -120,6 +114,34 @@
             {
                 this.WriteObject(theme);
             }
+        }
+
+        private IEnumerable<OrchardTheme> GetThemes(string tenant)
+        {
+            return this.UsingWorkContextScope(
+                tenant,
+                scope =>
+                    {
+                        var migrations = scope.Resolve<IDataMigrationManager>();
+                        var extensions = scope.Resolve<IExtensionManager>();
+                        IEnumerable<string> featuresThatNeedUpdate = migrations.GetFeaturesThatNeedUpdate();
+
+                        string currentThemeId = scope.WorkContext.CurrentSite.As<ThemeSiteSettingsPart>().CurrentThemeName;
+
+                        return extensions.AvailableExtensions()
+                            .Where(d => DefaultExtensionTypes.IsTheme(d.ExtensionType))
+                            .Where(d => d.Tags != null && d.Tags.Split(',').Any(
+                                t => t.Trim().Equals("hidden", StringComparison.OrdinalIgnoreCase)) == false)
+                            .Select(
+                                d => new OrchardTheme
+                                {
+                                    Module = d,
+                                    Activated = d.Id == currentThemeId,
+                                    NeedsUpdate = featuresThatNeedUpdate.Contains(d.Id),
+                                    TenantName = tenant
+                                })
+                            .ToArray();
+                    });
         }
     }
 }

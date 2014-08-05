@@ -1,6 +1,7 @@
 ﻿namespace Proligence.PowerShell.Utilities
 {
     using System;
+    using Autofac;
     using Orchard;
     using Orchard.Environment.Configuration;
     using Proligence.PowerShell.Provider;
@@ -105,6 +106,21 @@
             }
 
             return cmdlet.CurrentNode.Vfs.UsingWorkContextScope(tenantName, action);
+        }
+
+        /// <summary>
+        /// Resolves the specified service from the global scope.
+        /// </summary>
+        /// <typeparam name="T">The type of service to resolve.</typeparam>
+        /// <returns>The resolved service instance.</returns>
+        public static T Resolve<T>(this OrchardCmdlet cmdlet)
+        {
+            if (cmdlet == null)
+            {
+                throw new ArgumentNullException("cmdlet");
+            }
+            
+            return cmdlet.CurrentNode.Vfs.Drive.ComponentContext.Resolve<T>();
         }
     }
 }

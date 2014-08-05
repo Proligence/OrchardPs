@@ -1,6 +1,6 @@
 ﻿namespace Proligence.PowerShell.Modules.NavigationProviders 
 {
-    using Proligence.PowerShell.Agents;
+    using Orchard.Environment.Extensions;
     using Proligence.PowerShell.Modules.Nodes;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
 
@@ -9,15 +9,20 @@
     /// </summary>
     public class ModulesPsNavigationProvider : PsNavigationProvider 
     {
-        private readonly IModulesAgent agent;
+        private readonly IExtensionManager extensionManager;
+
+        public ModulesPsNavigationProvider(IExtensionManager extensionManager)
+            : base(NodeType.Tenant)
+        {
+            this.extensionManager = extensionManager;
+        }
 
         /// <summary>
         /// Initializes the navigation provider.
         /// </summary>
         public override void Initialize()
         {
-            this.NodeType = NodeType.Site;
-            this.Node = new ModulesNode(this.Vfs, this.agent);
+            this.Node = new ModulesNode(this.Vfs, this.extensionManager);
         }
     }
 }

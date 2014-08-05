@@ -1,7 +1,6 @@
 ﻿namespace Proligence.PowerShell.Modules.Items
 {
     using System;
-
     using Orchard.Environment.Extensions.Models;
 
     /// <summary>

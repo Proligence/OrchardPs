@@ -4,10 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-
     using Orchard.Environment.Configuration;
-
-    using Proligence.PowerShell.Common.Extensions;
     using Proligence.PowerShell.Provider;
 
     /// <summary>

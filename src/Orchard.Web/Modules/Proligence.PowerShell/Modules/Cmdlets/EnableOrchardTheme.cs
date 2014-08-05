@@ -4,13 +4,17 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-
+    using Orchard.ContentManagement;
+    using Orchard.Data.Migration;
     using Orchard.Environment.Configuration;
-
-    using Proligence.PowerShell.Agents;
-    using Proligence.PowerShell.Common.Extensions;
+    using Orchard.Environment.Extensions;
+    using Orchard.Environment.Extensions.Models;
+    using Orchard.Environment.Features;
+    using Orchard.Themes.Models;
+    using Orchard.Themes.Services;
     using Proligence.PowerShell.Modules.Items;
     using Proligence.PowerShell.Provider;
+    using Proligence.PowerShell.Utilities;
 
     /// <summary>
     /// Implements the <c>Enable-OrchardFeature</c> cmdlet.
@@ -18,11 +22,6 @@
     [Cmdlet(VerbsLifecycle.Enable, "OrchardTheme", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
     public class EnableOrchardTheme : OrchardCmdlet
     {
-        /// <summary>
-        /// The modules agent proxy instance.
-        /// </summary>
-        private IModulesAgent modulesAgent;
-
         /// <summary>
         /// Cached list of all Orchard themes for each tenant.
         /// </summary>
@@ -98,29 +97,75 @@
             {
                 if (this.ShouldProcess("Theme: " + theme.Name + ", Tenant: " + tenantName, "Enable Theme"))
                 {
-                    this.modulesAgent.EnableTheme(tenantName, theme.Id);
+                    this.EnableTheme(tenantName, theme.Id);
                 }
             }
         }
 
-        /// <summary>
-        /// Gets the <see cref="OrchardTheme"/> object for the specified theme.
-        /// </summary>
-        /// <param name="tenantName">The name to the tenant for which to get theme.</param>
-        /// <param name="themeName">The name of the theme to get.</param>
-        /// <returns>The <see cref="OrchardTheme"/> object for the specified theme.</returns>
+        private IEnumerable<OrchardTheme> GetThemes(string tenant)
+        {
+            return this.UsingWorkContextScope(
+                tenant,
+                scope =>
+                    {
+                        var migrations = scope.Resolve<IDataMigrationManager>();
+                        var extensions = scope.Resolve<IExtensionManager>();
+                        IEnumerable<string> featuresThatNeedUpdate = migrations.GetFeaturesThatNeedUpdate();
+                        string currentThemeId = scope.WorkContext.CurrentSite.As<ThemeSiteSettingsPart>().CurrentThemeName;
+
+                        return extensions.AvailableExtensions()
+                            .Where(d => DefaultExtensionTypes.IsTheme(d.ExtensionType))
+                            .Where(d => d.Tags != null && d.Tags.Split(',').Any(
+                                t => t.Trim().Equals("hidden", StringComparison.OrdinalIgnoreCase)) == false)
+                            .Select(
+                                d => new OrchardTheme
+                                {
+                                    Module = d,
+                                    Activated = d.Id == currentThemeId,
+                                    NeedsUpdate = featuresThatNeedUpdate.Contains(d.Id),
+                                    TenantName = tenant
+                                })
+                            .ToArray();
+                    });
+        }
+
         private OrchardTheme GetOrchardTheme(string tenantName, string themeName)
         {
             OrchardTheme[] tenantThemes;
 
             if (!this.themes.TryGetValue(tenantName, out tenantThemes))
             {
-                tenantThemes = this.modulesAgent.GetThemes(tenantName).ToArray();
+                tenantThemes = this.GetThemes(tenantName).ToArray();
                 this.themes.Add(tenantName, tenantThemes);
             }
 
             return tenantThemes.FirstOrDefault(
                 f => f.Name.Equals(themeName, StringComparison.CurrentCultureIgnoreCase));
+        }
+
+        private void EnableTheme(string tenant, string id)
+        {
+            this.UsingWorkContextScope(
+                tenant,
+                scope =>
+                    {
+                        var extensions = scope.Resolve<IExtensionManager>();
+                        var features = scope.Resolve<IFeatureManager>();
+                        ExtensionDescriptor theme = extensions.AvailableExtensions().FirstOrDefault(x => x.Id == id);
+                        if (theme == null)
+                        {
+                            throw new ArgumentException("Could not find theme '" + id + "'.", "id");
+                        }
+
+                        var themeService = scope.Resolve<IThemeService>();
+                        if (features.GetEnabledFeatures().All(sf => sf.Id != theme.Id))
+                        {
+                            themeService.EnableThemeFeatures(theme.Id);
+                        }
+
+                        var siteThemeService = scope.Resolve<ISiteThemeService>();
+                        siteThemeService.SetSiteTheme(theme.Id);
+                    });
         }
     }
 }
