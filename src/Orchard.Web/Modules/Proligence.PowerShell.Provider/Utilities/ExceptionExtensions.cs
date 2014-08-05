@@ -2,9 +2,6 @@
 {
     using System;
 
-    /// <summary>
-    /// Implements extension methods for the <see cref="Exception"/> class.
-    /// </summary>
     internal static class ExceptionExtensions 
     {
         /// <summary>

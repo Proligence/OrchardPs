@@ -50,14 +50,6 @@
             }
         }
 
-        /// <summary>
-        /// Determines whether the specified properties should be mapped.
-        /// </summary>
-        /// <param name="source">The source object.</param>
-        /// <param name="sourceProperty">The source property.</param>
-        /// <param name="target">The target object.</param>
-        /// <param name="targetProperty">The target property.</param>
-        /// <returns><c>true</c> if the properties should be mapped; otherwise, <c>false</c>.</returns>
         protected virtual bool ShouldMap(object source, PropertyInfo sourceProperty, object target, PropertyInfo targetProperty)
         {
             var sourceAttr = (MappableAttribute)Attribute.GetCustomAttribute(sourceProperty, typeof(MappableAttribute));
@@ -78,13 +70,6 @@
             return true;
         }
 
-        /// <summary>
-        /// Maps the specified property.
-        /// </summary>
-        /// <param name="source">The source object.</param>
-        /// <param name="sourceProperty">The source property to map.</param>
-        /// <param name="target">The target object.</param>
-        /// <param name="targetProperty">The target property to map.</param>
         protected virtual void MapProperty(object source, PropertyInfo sourceProperty, object target, PropertyInfo targetProperty)
         {
             if (source == null)

@@ -12,24 +12,10 @@
     [Serializable]
     public class ArgumentList : Dictionary<string, string>
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ArgumentList"/> class.
-        /// </summary>
         public ArgumentList()
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ArgumentList"/> class with serialized data.
-        /// </summary>
-        /// <param name="info">
-        /// A <see cref="SerializationInfo"/> object containing the information required to serialize the
-        /// <see cref="ArgumentList"/>.
-        /// </param>
-        /// <param name="context">
-        /// A <see cref="StreamingContext"/> structure containing the source and destination of the serialized stream
-        /// associated with the <see cref="ArgumentList"/>.
-        /// </param>
         protected ArgumentList(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {

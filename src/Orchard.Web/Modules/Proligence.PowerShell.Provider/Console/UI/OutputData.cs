@@ -1,16 +1,5 @@
 ﻿namespace Proligence.PowerShell.Provider.Console.UI 
 {
-    public enum OutputType
-    {
-        Line,
-        Warning,
-        Error,
-        Debug,
-        Verbose,
-        Progress,
-        Completion
-    }
-
     public class OutputData 
     {
         public string Output { get; set; }

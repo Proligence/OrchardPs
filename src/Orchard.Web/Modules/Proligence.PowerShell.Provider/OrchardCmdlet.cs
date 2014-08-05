@@ -19,9 +19,6 @@
         /// </summary>
         public VfsNode CurrentNode { get; private set; }
 
-        /// <summary>
-        /// Provides a one-time, preprocessing functionality for the cmdlet.
-        /// </summary>
         protected override void BeginProcessing() 
         {
             this.OrchardDrive = SessionState.Drive.Current as OrchardDriveInfo;

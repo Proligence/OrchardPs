@@ -4,7 +4,6 @@
     using System.Management.Automation;
     using System.Management.Automation.Runspaces;
     using System.Text;
-
     using Proligence.PowerShell.Provider.Console.UI;
 
     public class CommandExecutor : ICommandExecutor

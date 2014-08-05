@@ -1,17 +1,15 @@
-﻿using System.Web.Hosting;
-
-namespace Proligence.PowerShell.Provider
+﻿namespace Proligence.PowerShell.Provider
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
-    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
     using System.Management.Automation.Runspaces;
     using System.Reflection;
+    using System.Web.Hosting;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>
@@ -29,25 +27,16 @@ namespace Proligence.PowerShell.Provider
             this.Aliases = new Dictionary<string, string>();
         }
 
-        /// <summary>
-        /// Gets the name of the snap-in.
-        /// </summary>
         public override string Name 
         {
             get { return "Orchard.Management"; }
         }
 
-        /// <summary>
-        /// Gets the name of the snap-in's vendor.
-        /// </summary>
         public override string Vendor 
         {
             get { return "Proligence"; }
         }
 
-        /// <summary>
-        /// Gets the snap-in's description.
-        /// </summary>
         public override string Description 
         {
             get 
@@ -57,25 +46,16 @@ namespace Proligence.PowerShell.Provider
             }
         }
 
-        /// <summary>
-        /// Gets a collection of PS providers included in the snap-in.
-        /// </summary>
         public override Collection<ProviderConfigurationEntry> Providers 
         {
             get { return this.providers; }
         }
 
-        /// <summary>
-        /// Gets a collection of PS cmdlets included in the snap-in.
-        /// </summary>
         public override Collection<CmdletConfigurationEntry> Cmdlets 
         {
             get { return this.cmdlets; }
         }
 
-        /// <summary>
-        /// Gets a collection of PS object formats included in the snap-in.
-        /// </summary>
         public override Collection<FormatConfigurationEntry> Formats 
         {
             get { return this.formats; }
@@ -246,7 +226,6 @@ namespace Proligence.PowerShell.Provider
         /// </summary>
         /// <param name="directory">The Orchard's root directory.</param>
         /// <param name="helpFilesCollection">The collection to which the discovered help files will be added.</param>
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "By design")]
         private void LoadHelpFiles(string directory, Collection<string> helpFilesCollection) 
         {
             string[] fileNames;

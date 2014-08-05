@@ -7,13 +7,11 @@
     using System.Management.Automation.Host;
     using System.Security;
     using System.Threading;
-
     using Proligence.PowerShell.Provider.Console.Host;
 
     public class ConsoleHostUserInterface : PSHostUserInterface
     {
         private readonly ConsoleHost consoleHost;
-        private readonly ConsoleHostRawUserInterface rawUi;
         private readonly AutoResetEvent promptLock;
 
         public ConsoleHostUserInterface(ConsoleHost consoleHost)
@@ -29,7 +27,7 @@
 
         public override PSHostRawUserInterface RawUI
         {
-            get { return this.rawUi; }
+            get { return null; }
         }
 
         public override string ReadLine() 
@@ -209,6 +207,7 @@
                 this.WriteLine();
                 i++;
             }
+
             this.WriteLine("---");
             this.WriteLine("Which one do you choose (number)?: ");
 

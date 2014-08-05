@@ -8,12 +8,6 @@
     /// </summary>
     public class SymbolicLinkNode : ContainerNode 
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SymbolicLinkNode"/> class.
-        /// </summary>
-        /// <param name="vfs">The PowerShell VFS instance which this node belongs to.</param>
-        /// <param name="name">The name of the node.</param>
-        /// <param name="node">The target node of the symbolic link.</param>
         public SymbolicLinkNode(IPowerShellVfs vfs, string name, VfsNode node) 
             : base(vfs, name) 
         {
@@ -58,10 +52,6 @@
         /// </summary>
         public VfsNode TargetNode { get; protected set; }
 
-        /// <summary>
-        /// Gets the node's virtual child nodes.
-        /// </summary>
-        /// <returns>Sequence of node.</returns>
         public override IEnumerable<VfsNode> GetVirtualNodes() 
         {
             var containerNode = this.TargetNode as ContainerNode;

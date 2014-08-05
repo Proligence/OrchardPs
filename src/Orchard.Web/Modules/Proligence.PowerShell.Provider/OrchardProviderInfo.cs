@@ -8,10 +8,6 @@
     /// </summary>
     public class OrchardProviderInfo : VfsProviderInfo
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OrchardProviderInfo"/> class.
-        /// </summary>
-        /// <param name="providerInfo">The <see cref="ProviderInfo"/> object of the PS provider.</param>
         internal OrchardProviderInfo(ProviderInfo providerInfo) 
             : base(providerInfo)
         {

@@ -3,9 +3,6 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    /// <summary>
-    /// Implements the PS navigation provider manager.
-    /// </summary>
     public class NavigationProviderManager : INavigationProviderManager 
     {
         private readonly IPsNavigationProvider[] navigationProviders;

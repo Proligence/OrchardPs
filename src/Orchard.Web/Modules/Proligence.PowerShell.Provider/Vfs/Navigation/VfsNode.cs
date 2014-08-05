@@ -1,7 +1,6 @@
 ﻿namespace Proligence.PowerShell.Provider.Vfs.Navigation
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Management.Automation.Provider;
 
     /// <summary>
@@ -9,11 +8,6 @@
     /// </summary>
     public abstract class VfsNode 
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="VfsNode"/> class.
-        /// </summary>
-        /// <param name="vfs">The VFS instance which the node belongs to.</param>
-        /// <param name="name">The name of the node.</param>
         protected VfsNode(IPowerShellVfs vfs, string name)
         {
             this.Vfs = vfs;
@@ -172,7 +166,6 @@
         /// Gets the full path of the node.
         /// </summary>
         /// <returns>The full path of the node.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "By design.")]
         public string GetPath() 
         {
             if (this.Parent == null) 

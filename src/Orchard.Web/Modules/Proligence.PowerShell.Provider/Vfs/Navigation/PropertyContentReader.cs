@@ -25,13 +25,6 @@
         /// </summary>
         private bool propertyValueRead;
         
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PropertyContentReader"/> class.
-        /// </summary>
-        /// <param name="propertyName">The name of the property which will be retrieved by this content reader.</param>
-        /// <param name="propertyStoreNode">
-        /// The <see cref="PropertyStoreNode"/> which contains the property to retrieve.
-        /// </param>
         public PropertyContentReader(string propertyName, PropertyStoreNode propertyStoreNode)
         {
             this.propertyName = propertyName;
@@ -69,16 +62,10 @@
             throw new NotSupportedException();
         }
 
-        /// <summary>
-        /// Closes the content reader.
-        /// </summary>
         public void Close()
         {
         }
 
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
         public void Dispose()
         {
         }

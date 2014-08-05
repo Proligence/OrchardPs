@@ -73,21 +73,16 @@
         /// <summary>
         /// Reads line of string from input buffer.
         /// </summary>
-        /// <returns></returns>
         string ReadInputBuffer();
 
         /// <summary>
         /// Writes a line to the input buffer.
         /// </summary>
-        /// <returns></returns>
         void WriteInputBuffer(string line);
 
         /// <summary>
         /// Returns a list of possible command completion options.
         /// </summary>
-        /// <param name="command"></param>
-        /// <param name="cursorPosition"></param>
-        /// <returns></returns>
         CompletionData GetCommandCompletion(string command, int cursorPosition);
     }
 }

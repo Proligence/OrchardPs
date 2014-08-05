@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
     /// <summary>
@@ -15,11 +14,6 @@
         /// </summary>
         private readonly List<VfsNode> staticNodes;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ContainerNode"/> class.
-        /// </summary>
-        /// <param name="vfs">The VFS instance which the node belongs to.</param>
-        /// <param name="name">The name of the node.</param>
         public ContainerNode(IPowerShellVfs vfs, string name) 
             : base(vfs, name) 
         {
@@ -27,12 +21,6 @@
             this.NewItemName = "New item";
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ContainerNode"/> class.
-        /// </summary>
-        /// <param name="vfs">The VFS instance which the node belongs to.</param>
-        /// <param name="name">The name of the node.</param>
-        /// <param name="staticNodes">The node's static child items.</param>
         public ContainerNode(IPowerShellVfs vfs, string name, IEnumerable<VfsNode> staticNodes) 
             : base(vfs, name) 
         {
@@ -58,9 +46,6 @@
         /// </summary>
         public string NewItemName { get; protected set; }
 
-        /// <summary>
-        /// Gets a value indicating whether the node has any child nodes.
-        /// </summary>
         public bool HasChildItems 
         {
             get 
@@ -71,7 +56,7 @@
                 }
 
                 IEnumerable<VfsNode> nodes = this.GetVirtualNodes();
-                if ((nodes != null) && (nodes.Count() > 0)) 
+                if ((nodes != null) && nodes.Any()) 
                 {
                     return true;
                 }
@@ -80,31 +65,16 @@
             }
         }
 
-        /// <summary>
-        /// Gets the node's static child nodes.
-        /// </summary>
         public IEnumerable<VfsNode> StaticNodes 
         {
             get { return this.staticNodes; }
         }
 
-        /// <summary>
-        /// Gets the node's virtual (dynamic) child nodes.
-        /// </summary>
-        /// <returns>A sequence of child nodes.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "By design.")]
         public virtual IEnumerable<VfsNode> GetVirtualNodes() 
         {
             return new VfsNode[0];
         }
 
-        /// <summary>
-        /// Gets the node's child nodes.
-        /// </summary>
-        /// <param name="recurse">
-        /// <c>true</c> to include all child nodes or <c>false</c> to include only direct (first level) child nodes.
-        /// </param>
-        /// <returns>A sequence of child nodes.</returns>
         public IEnumerable<VfsNode> GetChildNodes(bool recurse = false) 
         {
             var nodes = new List<VfsNode>(this.staticNodes);
@@ -123,7 +93,7 @@
                 var subnodes = new List<VfsNode>();
                 foreach (VfsNode node in nodes) 
                 {
-                    ContainerNode containerNode = node as ContainerNode;
+                    var containerNode = node as ContainerNode;
                     if (containerNode != null) 
                     {
                         subnodes.AddRange(containerNode.GetChildNodes(true));

@@ -9,9 +9,6 @@
     /// </summary>
     public class OrchardDriveInfo : VfsDriveInfo 
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OrchardDriveInfo"/> class.
-        /// </summary>
         public OrchardDriveInfo(PSDriveInfo driveInfo, IComponentContext componentContext)
             : base(driveInfo, componentContext)
         {

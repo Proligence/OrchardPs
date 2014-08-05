@@ -7,11 +7,6 @@
     /// </summary>
     public class RootVfsNode : ContainerNode 
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RootVfsNode"/> class.
-        /// </summary>
-        /// <param name="vfs">The PowerShell VFS instance.</param>
-        /// <param name="drive">The PowerShell VFS drive object.</param>
         public RootVfsNode(IPowerShellVfs vfs, VfsDriveInfo drive) 
             : base(vfs, null) 
         {

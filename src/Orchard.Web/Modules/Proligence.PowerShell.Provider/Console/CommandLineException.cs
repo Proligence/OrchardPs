@@ -1,11 +1,12 @@
-using System;
-using System.Globalization;
+namespace Proligence.PowerShell.Provider.Console 
+{
+    using System;
+    using System.Globalization;
 
-namespace Proligence.PowerShell.Provider.Console {
     public class CommandLineException : Exception
     {
         public CommandLineException(string executablePath, string arguments, string message)
-            : base(String.Format(CultureInfo.InvariantCulture, "{0}{1}{2} {3}", message, System.Environment.NewLine, executablePath, arguments))
+            : base(string.Format(CultureInfo.InvariantCulture, "{0}{1}{2} {3}", message, Environment.NewLine, executablePath, arguments))
         {
         }
 
@@ -15,7 +16,9 @@ namespace Proligence.PowerShell.Provider.Console {
 
         public override string ToString()
         {
-            return String.Format(CultureInfo.InvariantCulture, "ExitCode: {0}, Output: {1}, Error: {2}, {3}", 
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                "ExitCode: {0}, Output: {1}, Error: {2}, {3}", 
                 ExitCode,
                 Output,
                 Error,

@@ -1,7 +1,6 @@
 ﻿namespace Proligence.PowerShell.Provider.Vfs.Navigation
 {
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
     /// <summary>
@@ -9,31 +8,16 @@
     /// </summary>
     public abstract class PropertyStoreNode : ContainerNode
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PropertyStoreNode"/> class.
-        /// </summary>
-        /// <param name="vfs">The VFS instance which the node belongs to.</param>
-        /// <param name="name">The name of the node.</param>
         protected PropertyStoreNode(IPowerShellVfs vfs, string name)
             : base(vfs, name)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PropertyStoreNode"/> class.
-        /// </summary>
-        /// <param name="vfs">The VFS instance which the node belongs to.</param>
-        /// <param name="name">The name of the node.</param>
-        /// <param name="staticNodes">The node's static child items.</param>
         protected PropertyStoreNode(IPowerShellVfs vfs, string name, IEnumerable<VfsNode> staticNodes)
             : base(vfs, name, staticNodes)
         {
         }
 
-        /// <summary>
-        /// Gets the node's virtual (dynamic) child nodes.
-        /// </summary>
-        /// <returns>A sequence of child nodes.</returns>
         public override IEnumerable<VfsNode> GetVirtualNodes()
         {
             return this.GetKeys().Select(key => new PropertyNode(this, key, this.GetValue(key)));
@@ -43,7 +27,6 @@
         /// Gets the keys of the property store.
         /// </summary>
         /// <returns>A sequence of key names.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public abstract IEnumerable<string> GetKeys();
 
         /// <summary>

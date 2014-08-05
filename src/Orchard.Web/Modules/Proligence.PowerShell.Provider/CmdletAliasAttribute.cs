@@ -8,10 +8,6 @@
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
     public sealed class CmdletAliasAttribute : Attribute 
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CmdletAliasAttribute"/> class.
-        /// </summary>
-        /// <param name="alias">The alias to register.</param>
         public CmdletAliasAttribute(string alias) 
         {
             if (string.IsNullOrEmpty(alias)) 

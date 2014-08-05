@@ -79,6 +79,7 @@
         /// <summary>
         /// Attaches the console host to the specified PowerShell session.
         /// </summary>
+        // ReSharper disable once ParameterHidesMember
         public void AttachToSession(IPsSession session)
         {
             if (session == null)

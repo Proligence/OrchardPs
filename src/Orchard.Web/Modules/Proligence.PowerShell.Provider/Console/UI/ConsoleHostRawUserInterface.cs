@@ -1,8 +1,8 @@
-using System;
-using System.Management.Automation.Host;
-
 namespace Proligence.PowerShell.Provider.Console.UI
 {
+    using System;
+    using System.Management.Automation.Host;
+
     public class ConsoleHostRawUserInterface : PSHostRawUserInterface
     {
         private readonly ConsoleHostUserInterface consoleHostUserInterface;

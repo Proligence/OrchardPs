@@ -3,9 +3,6 @@
     using System;
     using System.Management.Automation;
 
-    /// <summary>
-    /// Implements extension methods for the <see cref="OrchardCmdlet"/> class.
-    /// </summary>
     public static class OrchardCmdletExtensions
     {
         /// <summary>

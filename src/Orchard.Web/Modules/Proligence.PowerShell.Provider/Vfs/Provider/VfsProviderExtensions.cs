@@ -1,14 +1,10 @@
 ﻿namespace Proligence.PowerShell.Provider.Vfs.Provider
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Management.Automation;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
 
-    /// <summary>
-    /// Implements extension methods for the <see cref="VfsProvider"/> class.
-    /// </summary>
     public static class VfsProviderExtensions
     {
         /// <summary>
@@ -132,7 +128,6 @@
         /// <param name="errorId">The error identifier in case an error occurs (for PowerShell).</param>
         /// <param name="category">The error category (for PowerShell) in case an error occurs.</param>
         /// <param name="target">The target object of the current operation (for PowerShell), optional.</param>
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "By design")]
         public static void Try(
             this VfsProvider provider, 
             Action action, 
@@ -184,7 +179,6 @@
         /// <param name="errorId">The error identifier in case an error occurs (for PowerShell).</param>
         /// <param name="category">The error category (for PowerShell) in case an error occurs.</param>
         /// <param name="target">The target object of the current operation (for PowerShell), optional.</param>
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "By design")]
         public static void TryCritical(
             this VfsProvider provider, 
             Action action, 
@@ -221,11 +215,6 @@
             }
         }
 
-        /// <summary>
-        /// Gets the <see cref="ErrorCategory"/> value based on the exception object.
-        /// </summary>
-        /// <param name="ex">The exception object.</param>
-        /// <returns>The <see cref="ErrorCategory"/> value.</returns>
         private static ErrorCategory GetCategoryFromException(Exception ex) 
         {
             var providerException = ex as VfsProviderException;

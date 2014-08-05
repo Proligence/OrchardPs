@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Management.Automation;
     using System.Management.Automation.Provider;
     using Proligence.PowerShell.Provider.Internal;
@@ -747,7 +746,6 @@
         /// <param name="actionNameSelector">The name of the invoked action.</param>
         /// <param name="path">The VFS path.</param>
         /// <returns><c>true</c> if a handler was invoked; otherwise, <c>false</c>.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         protected TResult InvokeHandler<TNode, TResult>(
             Func<TNode, Func<TNode, TResult>> handlerSelector,
             Func<TNode, string> actionNameSelector,

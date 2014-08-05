@@ -4,9 +4,6 @@
     using System.Text;
     using System.Text.RegularExpressions;
 
-    /// <summary>
-    /// Implements extension methods for the <see cref="string"/> class.
-    /// </summary>
     public static class StringExtensions
     {
         /// <summary>

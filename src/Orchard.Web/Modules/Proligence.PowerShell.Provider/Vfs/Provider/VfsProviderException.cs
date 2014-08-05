@@ -10,29 +10,15 @@
     [Serializable]
     public class VfsProviderException : Exception 
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="VfsProviderException"/> class.
-        /// </summary>
         public VfsProviderException()
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="VfsProviderException"/> class.
-        /// </summary>
-        /// <param name="message">The exception's message.</param>
         public VfsProviderException(string message) 
             : base(message)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="VfsProviderException"/> class.
-        /// </summary>
-        /// <param name="message">The exception's message.</param>
-        /// <param name="fatal">if set to <c>true</c> indicates that the error is fatal.</param>
-        /// <param name="errorId">The error identifier.</param>
-        /// <param name="category">The error category.</param>
         public VfsProviderException(
             string message, 
             bool fatal, 
@@ -45,24 +31,11 @@
             this.ErrorCategory = category;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="VfsProviderException"/> class.
-        /// </summary>
-        /// <param name="message">The exception's message.</param>
-        /// <param name="inner">The inner exception.</param>
         public VfsProviderException(string message, Exception inner) 
             : base(message, inner)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="VfsProviderException"/> class.
-        /// </summary>
-        /// <param name="message">The exception's message.</param>
-        /// <param name="inner">The inner exception.</param>
-        /// <param name="fatal">if set to <c>true</c> indicates that the error is fatal.</param>
-        /// <param name="errorId">The error identifier.</param>
-        /// <param name="category">The error category.</param>
         public VfsProviderException(
             string message, 
             Exception inner, 
@@ -76,15 +49,6 @@
             this.ErrorCategory = category;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="VfsProviderException"/> class.
-        /// </summary>
-        /// <param name="info">
-        /// The <see cref="SerializationInfo"/> that holds the serialized object data about the exception being thrown.
-        /// </param>
-        /// <param name="context">
-        /// The <see cref="StreamingContext"/> that contains contextual information about the source or destination.
-        /// </param>
         protected VfsProviderException(SerializationInfo info, StreamingContext context) 
             : base(info, context) 
         {
@@ -108,16 +72,6 @@
         /// </summary>
         public ErrorCategory ErrorCategory { get; private set; }
 
-        /// <summary>
-        /// When overridden in a derived class, sets the <see cref="SerializationInfo"/> with information about the
-        /// exception.
-        /// </summary>
-        /// <param name="info">
-        /// The <see cref="SerializationInfo"/> that holds the serialized object data about the exception being thrown.
-        /// </param>
-        /// <param name="context">
-        /// The <see cref="StreamingContext"/> that contains contextual information about the source or destination.
-        /// </param>
         public override void GetObjectData(SerializationInfo info, StreamingContext context) 
         {
             base.GetObjectData(info, context);

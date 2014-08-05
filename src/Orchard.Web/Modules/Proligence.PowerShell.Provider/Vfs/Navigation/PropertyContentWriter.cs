@@ -25,13 +25,6 @@
         /// </summary>
         private object value;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PropertyContentWriter"/> class.
-        /// </summary>
-        /// <param name="propertyName">The name of the property which will be set by this content writer.</param>
-        /// <param name="propertyStoreNode">
-        /// The <see cref="PropertyStoreNode"/> which contains the property to set.
-        /// </param>
         public PropertyContentWriter(string propertyName, PropertyStoreNode propertyStoreNode)
         {
             this.propertyName = propertyName;
@@ -75,17 +68,11 @@
             throw new NotSupportedException();
         }
 
-        /// <summary>
-        /// Closes the content writer.
-        /// </summary>
         public void Close()
         {
             this.propertyStoreNode.SetValue(this.propertyName, this.value);
         }
 
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
         public void Dispose()
         {
         }
