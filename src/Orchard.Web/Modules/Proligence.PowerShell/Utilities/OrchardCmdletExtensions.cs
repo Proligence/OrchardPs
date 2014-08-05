@@ -9,9 +9,6 @@
     using Proligence.PowerShell.Provider.Vfs.Navigation;
     using Proligence.PowerShell.Tenants.Nodes;
 
-    /// <summary>
-    /// Implements extension methods for the <see cref="OrchardCmdlet"/> class.
-    /// </summary>
     public static class OrchardCmdletExtensions 
     {
         /// <summary>

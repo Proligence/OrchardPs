@@ -32,9 +32,6 @@
             };
         }
 
-        /// <summary>
-        /// Gets the name of the tenant.
-        /// </summary>
         private string TenantName
         {
             get
@@ -43,10 +40,6 @@
             }
         }
 
-        /// <summary>
-        /// Gets the keys of the property store.
-        /// </summary>
-        /// <returns>A sequence of key names.</returns>
         public override IEnumerable<string> GetKeys()
         {
             // ReSharper disable once ConvertIfStatementToNullCoalescingExpression
@@ -58,11 +51,6 @@
             return this.keys;
         }
 
-        /// <summary>
-        /// Gets the value of the specified key.
-        /// </summary>
-        /// <param name="name">The name of the key.</param>
-        /// <returns>The value of the specified key.</returns>
         protected override object GetValueInternal(string name)
         {
             return this.UsingWorkContextScope(
@@ -81,11 +69,6 @@
                     });
         }
 
-        /// <summary>
-        /// Sets the value of the specified key.
-        /// </summary>
-        /// <param name="name">The name of the key to set.</param>
-        /// <param name="value">The value to set.</param>
         protected override void SetValueInternal(string name, object value)
         {
             this.UsingWorkContextScope(

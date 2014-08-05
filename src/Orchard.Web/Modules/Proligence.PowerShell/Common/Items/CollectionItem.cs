@@ -16,10 +16,6 @@
         /// </summary>
         private readonly ContainerNode node;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CollectionItem"/> class.
-        /// </summary>
-        /// <param name="node">The <see cref="ContainerNode"/> which contains the grouped items.</param>
         public CollectionItem(ContainerNode node) 
         {
             this.node = node;

@@ -11,9 +11,6 @@
     using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Utilities;
 
-    /// <summary>
-    /// Implements the <c>Disable-OrchardFeature</c> cmdlet.
-    /// </summary>
     [Cmdlet(VerbsLifecycle.Disable, "OrchardFeature", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
     public class DisableOrchardFeature : OrchardCmdlet
     {
@@ -49,18 +46,12 @@
         [Parameter(ParameterSetName = "FeatureObject", Mandatory = false)]
         public SwitchParameter WithoutDependencies { get; set; }
 
-        /// <summary>
-        /// Provides a one-time, preprocessing functionality for the cmdlet.
-        /// </summary>
         protected override void BeginProcessing()
         {
             base.BeginProcessing();
             this.features = new Dictionary<string, FeatureDescriptor[]>();
         }
 
-        /// <summary>
-        /// Provides a record-by-record processing functionality for the cmdlet. 
-        /// </summary>
         protected override void ProcessRecord()
         {
             string tenantName = null;

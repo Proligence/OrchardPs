@@ -7,9 +7,6 @@
     using Orchard.Environment.Configuration;
     using Proligence.PowerShell.Provider;
 
-    /// <summary>
-    /// Implements the <c>Disable-Tenant</c> cmdlet.
-    /// </summary>
     [Cmdlet(VerbsLifecycle.Disable, "Tenant", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
     public class DisableTenant : OrchardCmdlet
     {
@@ -28,18 +25,12 @@
         [Parameter(ParameterSetName = "TenantObject", ValueFromPipeline = true)]
         public ShellSettings Tenant { get; set; }
 
-        /// <summary>
-        /// Provides a one-time, preprocessing functionality for the cmdlet.
-        /// </summary>
         protected override void BeginProcessing()
         {
             base.BeginProcessing();
             this.shellSettingsManager = this.OrchardDrive.ComponentContext.Resolve<IShellSettingsManager>();
         }
 
-        /// <summary>
-        /// Provides a record-by-record processing functionality for the cmdlet. 
-        /// </summary>
         protected override void ProcessRecord()
         {
             if (this.ParameterSetName == "Default")

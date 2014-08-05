@@ -7,9 +7,6 @@
     using Provider;
     using Provider.Vfs.Navigation;
 
-    /// <summary>
-    /// Implements the <c>Get-OrchardPsCommand</c> cmdlet.
-    /// </summary>
     [CmdletAlias("gopc")]
     [Cmdlet(VerbsCommon.Get, "OrchardPsCommand", DefaultParameterSetName = "Default", SupportsShouldProcess = false, ConfirmImpact = ConfirmImpact.None)]
     public class GetOrchardPsCommand : OrchardCmdlet
@@ -26,9 +23,6 @@
         [Parameter(Mandatory = false, ParameterSetName = "Path", Position = 1)]
         public string Path { get; set; }
 
-        /// <summary>
-        /// Provides a record-by-record processing functionality for the cmdlet. 
-        /// </summary>
         protected override void ProcessRecord()
         {
             if (this.All)
@@ -67,6 +61,7 @@
                         node.GetType(),
                         typeof(SupportedCmdletAttribute));
 
+                    // ReSharper disable once PossibleInvalidCastExceptionInForeachLoop
                     foreach (SupportedCmdletAttribute attribute in attributes)
                     {
                         CmdletInfo cmdletInfo = this.InvokeCommand.GetCmdlet(attribute.CmdletName);

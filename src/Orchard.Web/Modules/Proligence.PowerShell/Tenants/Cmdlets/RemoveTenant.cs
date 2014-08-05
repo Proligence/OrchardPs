@@ -9,9 +9,6 @@
     using Orchard.FileSystems.AppData;
     using Proligence.PowerShell.Provider;
 
-    /// <summary>
-    /// Implements the <c>Remove-Tenant</c> cmdlet.
-    /// </summary>
     [Cmdlet(VerbsCommon.Remove, "Tenant", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High)]
     public class RemoveTenant : OrchardCmdlet
     {
@@ -31,9 +28,6 @@
         [Parameter(ParameterSetName = "TenantObject", Mandatory = true, ValueFromPipeline = true)]
         public ShellSettings Tenant { get; set; }
 
-        /// <summary>
-        /// Provides a one-time, preprocessing functionality for the cmdlet.
-        /// </summary>
         protected override void BeginProcessing()
         {
             base.BeginProcessing();
@@ -41,9 +35,6 @@
             this.appDataFolder = this.OrchardDrive.ComponentContext.Resolve<IAppDataFolder>();
         }
 
-        /// <summary>
-        /// Provides a record-by-record processing functionality for the cmdlet. 
-        /// </summary>
         protected override void ProcessRecord()
         {
             if (this.ParameterSetName == "Default")
@@ -56,10 +47,6 @@
             }
         }
 
-        /// <summary>
-        /// Invokes the tenants agent to remove an existing tenant.
-        /// </summary>
-        /// <param name="tenantName">The name of the tenant to remove.</param>
         private void InvokeRemoveTenant(string tenantName)
         {
             if (this.ShouldProcess("Tenant: " + tenantName, "Remove"))

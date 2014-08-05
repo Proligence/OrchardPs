@@ -22,22 +22,12 @@
         /// </summary>
         private List<VfsNode> tenantNodes;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Proligence.PowerShell.Tenants.Nodes.TenantNode"/> class.
-        /// </summary>
-        /// <param name="vfs">The Orchard VFS instance which the node belongs to.</param>
-        /// <param name="tenant">The <see cref="ShellSettings"/> object of the tenant represented by the node.</param>
-        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods")]
         public TenantNode(IPowerShellVfs vfs, ShellSettings tenant) 
             : base(vfs, tenant.Name) 
         {
             this.Item = tenant;
         }
 
-        /// <summary>
-        /// Gets the node's virtual (dynamic) child nodes.
-        /// </summary>
-        /// <returns>A sequence of child nodes.</returns>
         public override IEnumerable<VfsNode> GetVirtualNodes() 
         {
             if (this.tenantNodes == null) 

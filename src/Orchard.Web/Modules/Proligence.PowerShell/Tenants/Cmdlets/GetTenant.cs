@@ -8,9 +8,6 @@
     using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Provider.Utilities;
 
-    /// <summary>
-    /// Implements the <c>Get-Tenant</c> cmdlet.
-    /// </summary>
     [Cmdlet(VerbsCommon.Get, "Tenant", DefaultParameterSetName = "Default", ConfirmImpact = ConfirmImpact.None)]
     public class GetTenant : OrchardCmdlet
     {
@@ -33,9 +30,6 @@
         [Parameter(ParameterSetName = "Disabled", Mandatory = false)]
         public SwitchParameter Disabled { get; set; }
 
-        /// <summary>
-        /// Provides a record-by-record processing functionality for the cmdlet. 
-        /// </summary>
         protected override void ProcessRecord()
         {
             IEnumerable<ShellSettings> tenants = this.GetTenantsFromParameters();
@@ -45,10 +39,6 @@
             }
         }
 
-        /// <summary>
-        /// Gets the orchard tenants which satisfy the current cmdlet parameters.
-        /// </summary>
-        /// <returns>Sequence of <see cref="ShellSettings"/> objects.</returns>
         private IEnumerable<ShellSettings> GetTenantsFromParameters()
         {
             var shellSettingsManager = this.OrchardDrive.ComponentContext.Resolve<IShellSettingsManager>();

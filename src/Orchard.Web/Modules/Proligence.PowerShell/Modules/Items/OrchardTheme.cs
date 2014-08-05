@@ -3,9 +3,6 @@
     using System;
     using Orchard.Environment.Extensions.Models;
 
-    /// <summary>
-    /// Represents a theme.
-    /// </summary>
     [Serializable]
     public class OrchardTheme
     {

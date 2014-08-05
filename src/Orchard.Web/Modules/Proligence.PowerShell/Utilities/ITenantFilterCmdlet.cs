@@ -1,7 +1,6 @@
 ﻿namespace Proligence.PowerShell.Utilities
 {
     using System.Management.Automation;
-
     using Orchard.Environment.Configuration;
 
     /// <summary>

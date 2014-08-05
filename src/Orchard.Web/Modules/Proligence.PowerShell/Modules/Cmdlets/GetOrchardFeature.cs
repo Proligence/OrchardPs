@@ -11,14 +11,11 @@
     using Proligence.PowerShell.Provider.Utilities;
     using Proligence.PowerShell.Utilities;
 
-    /// <summary>
-    /// Implements the <c>Get-OrchardFeature</c> cmdlet.
-    /// </summary>
     [Cmdlet(VerbsCommon.Get, "OrchardFeature", DefaultParameterSetName = "Default", ConfirmImpact = ConfirmImpact.None)]
     public class GetOrchardFeature : OrchardCmdlet, ITenantFilterCmdlet
     {
         /// <summary>
-        /// All available Orchard tenants.
+        /// Caches all available Orchard tenants.
         /// </summary>
         private ShellSettings[] tenants;
 
@@ -65,9 +62,6 @@
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
         public SwitchParameter Disabled { get; set; }
 
-        /// <summary>
-        /// Provides a one-time, preprocessing functionality for the cmdlet.
-        /// </summary>
         protected override void BeginProcessing()
         {
             base.BeginProcessing();
@@ -78,9 +72,6 @@
                 .ToArray();
         }
 
-        /// <summary>
-        /// Provides a record-by-record processing functionality for the cmdlet. 
-        /// </summary>
         protected override void ProcessRecord()
         {
             IEnumerable<ShellSettings> filteredTenants = CmdletHelper.FilterTenants(this, this.tenants);

@@ -26,10 +26,6 @@
             };
         }
 
-        /// <summary>
-        /// Gets the node's virtual (dynamic) child nodes.
-        /// </summary>
-        /// <returns>A sequence of child nodes.</returns>
         public override IEnumerable<VfsNode> GetVirtualNodes() 
         {
             string tenantName = this.GetCurrentTenantName();
@@ -42,14 +38,6 @@
                 command => new CommandNode(this.Vfs, command));
         }
 
-        /// <summary>
-        /// Gets all legacy commands which are available for the specified Orchard tenant.
-        /// </summary>
-        /// <param name="tenant">The name of the tenant.</param>
-        /// <returns>
-        /// An array of <see cref="OrchardCommand"/> objects which represent the Orchard commands which are available
-        /// at the specified tenant.
-        /// </returns>
         private IEnumerable<OrchardCommand> GetCommands(string tenant)
         {
             return this.UsingWorkContextScope(

@@ -16,9 +16,6 @@
     using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Utilities;
 
-    /// <summary>
-    /// Implements the <c>Enable-OrchardFeature</c> cmdlet.
-    /// </summary>
     [Cmdlet(VerbsLifecycle.Enable, "OrchardTheme", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
     public class EnableOrchardTheme : OrchardCmdlet
     {
@@ -46,18 +43,12 @@
         [Parameter(ParameterSetName = "ThemeObject", ValueFromPipeline = true)]
         public OrchardTheme Theme { get; set; }
 
-        /// <summary>
-        /// Provides a one-time, preprocessing functionality for the cmdlet.
-        /// </summary>
         protected override void BeginProcessing()
         {
             base.BeginProcessing();
             this.themes = new Dictionary<string, OrchardTheme[]>();
         }
 
-        /// <summary>
-        /// Provides a record-by-record processing functionality for the cmdlet. 
-        /// </summary>
         protected override void ProcessRecord()
         {
             string tenantName = null;

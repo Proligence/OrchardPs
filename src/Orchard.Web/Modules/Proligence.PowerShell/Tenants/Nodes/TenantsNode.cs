@@ -31,10 +31,6 @@
             };
         }
 
-        /// <summary>
-        /// Gets the node's virtual (dynamic) child nodes.
-        /// </summary>
-        /// <returns>A sequence of child nodes.</returns>
         public override IEnumerable<VfsNode> GetVirtualNodes()
         {
             ShellSettings[] tenants = this.manager.LoadSettings().ToArray();

@@ -1,7 +1,6 @@
 ﻿namespace Proligence.PowerShell.Tenants.Cmdlets
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Management.Automation;
     using System.Text.RegularExpressions;
@@ -10,9 +9,6 @@
     using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Provider.Utilities;
 
-    /// <summary>
-    /// Implements the <c>New-Tenant</c> cmdlet.
-    /// </summary>
     [Cmdlet(VerbsCommon.New, "Tenant", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
     public class NewTenant : OrchardCmdlet
     {
@@ -30,14 +26,12 @@
         /// </summary>
         [Mappable]
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 2)]
-        [SuppressMessage("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings", Justification = "By design")]
         public string RequestUrlHost { get; set; }
 
         /// <summary>
         /// Gets or sets the tenant's request URL prefix.
         /// </summary>
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
-        [SuppressMessage("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings", Justification = "By design")]
         public string RequestUrlPrefix { get; set; }
 
         /// <summary>
@@ -67,18 +61,12 @@
         [Parameter(ParameterSetName = "TenantObject", Mandatory = true)]
         public ShellSettings Tenant { get; set; }
 
-        /// <summary>
-        /// Provides a one-time, preprocessing functionality for the cmdlet.
-        /// </summary>
         protected override void BeginProcessing()
         {
             base.BeginProcessing();
             this.shellSettingsManager = this.OrchardDrive.ComponentContext.Resolve<IShellSettingsManager>();
         }
 
-        /// <summary>
-        /// Provides a record-by-record processing functionality for the cmdlet. 
-        /// </summary>
         protected override void ProcessRecord()
         {
             if (this.ParameterSetName == "Default")
@@ -94,10 +82,6 @@
             }
         }
 
-        /// <summary>
-        /// Invokes the tenants agent to create a new tenant.
-        /// </summary>
-        /// <param name="tenant">The tenant to create.</param>
         private void InvokeCreateTenant(ShellSettings tenant)
         {
             if (this.ShouldProcess("Tenant: " + tenant.Name, "Create"))
