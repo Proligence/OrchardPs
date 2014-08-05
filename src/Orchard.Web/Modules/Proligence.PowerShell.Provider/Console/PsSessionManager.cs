@@ -183,11 +183,32 @@
         {
             PSHostUserInterface ui = session.ConsoleHost.UI;
 
+            ui.WriteLine(ConsoleColor.Yellow, ConsoleColor.Blue, @" 
+                                      ``..`                  
+                               .+sdmMMMMMMMNdy+-            
+                            -smMdo/-.`  `.-/sdMMNy:         
+                          :dMh/`              `/hMMm/       
+                        `hMh.  oso+-`            -hMMd.     
+                       .mM+    MMMMMMy.     `:osy: +MMN-    
+                      `mM/     dMMMMMMN-  :dMMMMM+  /MMN.   
+                      sMh      .dMMMMMMh +MMMMMMM.   hMMh   
+                      NM/        /yNMMMm mMMMMMN/    /MMM`  
+                     `MM:        `.-:::: dmmhs/`     :MMM-  
+                      NM+     .odMMMMMNy`:+-         +MMM`  
+                      sMN`   oMMMMMMMMMo  -dNh:     `NMMd   
+                      `NMh` -mMMMMMMms.     /NMh`  `hMMN-   
+                       -NMm-  `.--.`         .NMd -mMMN:    
+                        .dMMy-                sMMdMMMm-     
+                          /mMMdo-            -dMMMMN+       
+                            :yNMMMmhsooooshmMMMMMh/         
+                               -oymMMMMMMMMMNMMm:           
+                                    `.---.` `:- ");
+
             ui.WriteLine();
             ui.WriteLine();
-
-            ui.WriteLine(ConsoleColor.Yellow, 0, "                    Welcome to Orchard PowerShell!");
-
+            ui.WriteLine();
+            ui.WriteLine(ConsoleColor.Yellow, ConsoleColor.Black, "                         Welcome to Orchard PowerShell!                        ");
+            ui.WriteLine();
             ui.WriteLine();
             ui.WriteLine(
                 "To get a list of all Orchard-related cmdlets, type Get-OrchardPsCommand -All.");

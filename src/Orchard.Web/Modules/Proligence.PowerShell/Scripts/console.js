@@ -87,8 +87,8 @@ function LoadConsole() {
             tabCompletionData = data.Data;
             CompleteCommand(data.Data)
         } else if (data.Type == 5) {
-            progressBar.progressbar("value", data.Data.PercentComplete);
-            progressLabel.text("(" + data.Data.PercentComplete + ")\t" + data.Data.Activity + ": " + data.Data.CurrentOperation)
+            progressBar.progressbar("value", data.Data.percent);
+            progressLabel.text(data.Data.activity + ": " + data.Data.status)
         } else {
             DisplayAndUpdate(data);
         }
@@ -149,7 +149,7 @@ function LoadConsole() {
 
             var part = $("<span></span>").html(line).css("display", "inline-block");
 
-            if (data.BackColor) {
+            if (data.BackColor && data.BackColor.toUpperCase() != "BLUE") {
                 part.css("background-color", data.BackColor);
             }
 
@@ -157,18 +157,21 @@ function LoadConsole() {
                 part.css("color", data.ForeColor);
             } else {
                 switch (data.Type) {
-                case 2 /* ERROR */:
-                    part.css("color", "red");
-                    break;
-                case 1 /* WARNING*/:
-                    part.css("color", "yellow");
-                    break;
-                case 4 /* VERBOSE*/:
-                    part.css("color", "gray");
-                    break;
-                default:
-                    part.css("color", "white");
-                }
+                 case 1 /* WARNING*/:
+                        part.addClass("jquery-console-message-warning")
+                        break;
+                    case 2 /* ERROR */:
+                        part.addClass("jquery-console-message-error")
+                        break;
+                    case 3 /* DEBUG */:
+                        part.addClass("jquery-console-message-debug")
+                        break;
+                    case 4 /* VERBOSE*/:
+                        part.addClass("jquery-console-message-verbose")
+                        break;
+                    default:
+                        part.addClass("jquery-console-message-value")
+                    }
             }
 
             lastMessage.append(part);
