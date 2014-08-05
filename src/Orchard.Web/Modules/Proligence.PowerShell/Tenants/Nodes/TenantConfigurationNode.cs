@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using Orchard;
     using Orchard.Settings;
     using Proligence.PowerShell.Common.Items;
     using Proligence.PowerShell.Provider;
@@ -18,18 +17,14 @@
     [SupportedCmdlet("Set-Item")]
     public class TenantConfigurationNode : CachedPropertyStoreNode
     {
-        private readonly ITenantContextManager tenantContextManager;
-
         /// <summary>
         /// Contains cached tenant setting names.
         /// </summary>
         private string[] keys;
 
-        public TenantConfigurationNode(IPowerShellVfs vfs, ITenantContextManager tenantContextManager)
+        public TenantConfigurationNode(IPowerShellVfs vfs)
             : base(vfs, "Settings")
         {
-            this.tenantContextManager = tenantContextManager;
-
             this.Item = new DescriptionItem
             {
                 Name = "Settings",
@@ -70,18 +65,20 @@
         /// <returns>The value of the specified key.</returns>
         protected override object GetValueInternal(string name)
         {
-            using (IWorkContextScope scope = this.tenantContextManager.CreateWorkContextScope(this.TenantName))
-            {
-                ISite currentSite = scope.WorkContext.CurrentSite;
+            return this.UsingWorkContextScope(
+                this.TenantName,
+                scope =>
+                    {
+                        ISite currentSite = scope.WorkContext.CurrentSite;
 
-                PropertyInfo property = currentSite.GetType().GetProperty(name);
-                if (property == null)
-                {
-                    throw new ArgumentException("Invalid tenant setting: " + name, "name");
-                }
+                        PropertyInfo property = currentSite.GetType().GetProperty(name);
+                        if (property == null)
+                        {
+                            throw new ArgumentException("Invalid tenant setting: " + name, "name");
+                        }
 
-                return property.GetValue(currentSite);
-            }
+                        return property.GetValue(currentSite);
+                    });
         }
 
         /// <summary>
@@ -91,18 +88,20 @@
         /// <param name="value">The value to set.</param>
         protected override void SetValueInternal(string name, object value)
         {
-            using (IWorkContextScope scope = this.tenantContextManager.CreateWorkContextScope(this.TenantName))
-            {
-                ISite currentSite = scope.WorkContext.CurrentSite;
+            this.UsingWorkContextScope(
+                this.TenantName,
+                scope =>
+                    {
+                        ISite currentSite = scope.WorkContext.CurrentSite;
 
-                PropertyInfo property = currentSite.GetType().GetProperty(name);
-                if (property == null)
-                {
-                    throw new ArgumentException("Invalid tenant setting: " + name, "name");
-                }
+                        PropertyInfo property = currentSite.GetType().GetProperty(name);
+                        if (property == null)
+                        {
+                            throw new ArgumentException("Invalid tenant setting: " + name, "name");
+                        }
 
-                property.SetValue(currentSite, value);
-            }
+                        property.SetValue(currentSite, value);
+                    });
         }
 
         private static string[] GetTenantSettingNames()

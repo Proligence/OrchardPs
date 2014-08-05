@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Orchard;
     using Orchard.Commands;
     using Proligence.PowerShell.Commands.Items;
     using Proligence.PowerShell.Common.Items;
@@ -17,13 +16,9 @@
     [SupportedCmdlet("Invoke-OrchardCommand")]
     public class CommandsNode : ContainerNode 
     {
-        private readonly ITenantContextManager tenantContextManager;
-        
-        public CommandsNode(IPowerShellVfs vfs, ITenantContextManager tenantContextManager)
+        public CommandsNode(IPowerShellVfs vfs)
             : base(vfs, "Commands")
         {
-            this.tenantContextManager = tenantContextManager;
-
             this.Item = new CollectionItem(this) 
             {
                 Name = "Commands",
@@ -57,20 +52,22 @@
         /// </returns>
         private IEnumerable<OrchardCommand> GetCommands(string tenant)
         {
-            using (IWorkContextScope scope = this.tenantContextManager.CreateWorkContextScope(tenant))
-            {
-                var commandManager = scope.Resolve<ICommandManager>();
-                IEnumerable<CommandDescriptor> commandDescriptors = commandManager.GetCommandDescriptors();
-                IEnumerable<OrchardCommand> commands = commandDescriptors.Select(
-                    command => new OrchardCommand
+            return this.UsingWorkContextScope(
+                tenant,
+                scope =>
                     {
-                        CommandName = command.Name,
-                        HelpText = command.HelpText,
-                        TenantName = tenant
-                    });
+                        var commandManager = scope.Resolve<ICommandManager>();
+                        IEnumerable<CommandDescriptor> commandDescriptors = commandManager.GetCommandDescriptors();
+                        IEnumerable<OrchardCommand> commands = commandDescriptors.Select(
+                            command => new OrchardCommand
+                            {
+                                CommandName = command.Name,
+                                HelpText = command.HelpText,
+                                TenantName = tenant
+                            });
 
-                return commands.ToArray();
-            }
+                        return commands.ToArray();
+                    });
         }
     }
 }

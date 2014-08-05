@@ -204,47 +204,35 @@
             IEnumerable<string> args,
             Dictionary<string, string> switches)
         {
-            var tenantContextManager = this.OrchardDrive.ComponentContext.Resolve<ITenantContextManager>();
-
-            using (IWorkContextScope scope = tenantContextManager.CreateWorkContextScope(tenantName))
-            {
-                var commandManager = scope.Resolve<ICommandManager>();
-
-                ITransactionManager transactionManager;
-                if (!scope.TryResolve(out transactionManager))
-                {
-                    transactionManager = null;
-                }
-
-                using (TextWriter writer = new StringWriter(CultureInfo.CurrentCulture))
-                {
-                    var parameters = new CommandParameters
+            return this.UsingWorkContextScope(
+                tenantName,
+                scope =>
                     {
-                        Arguments = args,
-                        Switches = switches,
-                        Input = TextReader.Null,
-                        Output = writer
-                    };
+                        var commandManager = scope.Resolve<ICommandManager>();
 
-                    try
-                    {
-                        commandManager.Execute(parameters);
-                    }
-                    catch (Exception ex)
-                    {
-                        // any database changes in this using(env) scope are invalidated
-                        if (transactionManager != null)
+                        using (TextWriter writer = new StringWriter(CultureInfo.CurrentCulture))
                         {
-                            transactionManager.Cancel();
+                            var parameters = new CommandParameters
+                            {
+                                Arguments = args,
+                                Switches = switches,
+                                Input = TextReader.Null,
+                                Output = writer
+                            };
+
+                            try
+                            {
+                                commandManager.Execute(parameters);
+                            }
+                            catch (Exception ex)
+                            {
+                                this.WriteError(ex, "FailedToExecuteLegacyCommand", ErrorCategory.NotSpecified);
+                                return null;
+                            }
+
+                            return writer.ToString();
                         }
-
-                        this.WriteError(ex, "FailedToExecuteLegacyCommand", ErrorCategory.NotSpecified);
-                        return null;
-                    }
-
-                    return writer.ToString();
-                }
-            }
+                    });
         }
     }
 }

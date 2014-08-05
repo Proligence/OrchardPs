@@ -1,6 +1,5 @@
 ﻿namespace Proligence.PowerShell.Tenants.NavigationProviders 
 {
-    using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
     using Proligence.PowerShell.Tenants.Nodes;
 
@@ -10,12 +9,9 @@
     /// </summary>
     public class TenantConfigurationPsNavigationProvider : PsNavigationProvider
     {
-        private readonly ITenantContextManager tenantContextManager;
-
-        public TenantConfigurationPsNavigationProvider(ITenantContextManager tenantContextManager)
+        public TenantConfigurationPsNavigationProvider()
             : base(NodeType.Tenant)
         {
-            this.tenantContextManager = tenantContextManager;
         }
 
         /// <summary>
@@ -23,7 +19,7 @@
         /// </summary>
         public override void Initialize()
         {
-            this.Node = new TenantConfigurationNode(this.Vfs, this.tenantContextManager);
+            this.Node = new TenantConfigurationNode(this.Vfs);
         }
     }
 }
