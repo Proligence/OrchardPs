@@ -125,10 +125,8 @@
     <Compile Include="TenantContextManager.cs" />
     <Compile Include="Internal\ErrorIds.cs" />
     <Compile Include="Utilities\ExceptionExtensions.cs" />
-    <Compile Include="Console\Host\IPsHost.cs" />
     <Compile Include="Console\IPsSession.cs" />
     <Compile Include="Console\IPsSessionManager.cs" />
-    <Compile Include="Console\Host\PsHost.cs" />
     <Compile Include="Console\PsSession.cs" />
     <Compile Include="Console\PsSessionManager.cs" />
     <Compile Include="ITenantContextManager.cs" />

@@ -20,18 +20,15 @@
         protected static readonly ConcurrentDictionary<string, IPsSession> Sessions
             = new ConcurrentDictionary<string, IPsSession>();
 
-        private readonly IPsHost host;
         private readonly IConnectionManager connectionManager;
         private readonly IComponentContext componentContext;
+        private readonly OrchardPsSnapIn snapIn;
 
-        public PsSessionManager(
-            IPsHost host,
-            IConnectionManager connectionManager,
-            IComponentContext componentContext)
+        public PsSessionManager(IConnectionManager connectionManager, IComponentContext componentContext)
         {
-            this.host = host;
             this.connectionManager = connectionManager;
             this.componentContext = componentContext;
+            this.snapIn = new OrchardPsSnapIn();
         }
 
         /// <summary>
@@ -40,9 +37,12 @@
         /// <returns>The object which represents the session.</returns>
         public IPsSession NewSession(string connectionId)
         {
-            if (!this.host.IsInitialized)
+            lock (this.snapIn)
             {
-                this.host.Initialize();
+                if (!this.snapIn.Initialized)
+                {
+                    this.snapIn.Initialize();
+                }
             }
 
             RunspaceConfiguration configuration;
@@ -50,7 +50,7 @@
             {
                 configuration = RunspaceConfiguration.Create();
 
-                foreach (ProviderConfigurationEntry provider in this.host.SnapIn.Providers) 
+                foreach (ProviderConfigurationEntry provider in this.snapIn.Providers) 
                 {
                     if (configuration.Providers.Any(p => p.Name == provider.Name))
                     {
@@ -60,7 +60,7 @@
                     configuration.Providers.Append(provider);
                 }
 
-                foreach (CmdletConfigurationEntry cmdlet in this.host.SnapIn.Cmdlets)
+                foreach (CmdletConfigurationEntry cmdlet in this.snapIn.Cmdlets)
                 {
                     if (configuration.Cmdlets.Any(c => c.Name == cmdlet.Name))
                     {
@@ -70,7 +70,7 @@
                     configuration.Cmdlets.Append(cmdlet);
                 }
 
-                foreach (FormatConfigurationEntry format in this.host.SnapIn.Formats)
+                foreach (FormatConfigurationEntry format in this.snapIn.Formats)
                 {
                     if (configuration.Formats.Any(f => f.Name == format.Name))
                     {
@@ -85,7 +85,7 @@
                         "NavigateToOrchardDrive",
                         "if (Test-Path Orchard:) { Set-Location Orchard: }"));
 
-                foreach (KeyValuePair<string, string> alias in this.host.SnapIn.Aliases)
+                foreach (KeyValuePair<string, string> alias in this.snapIn.Aliases)
                 {
                     configuration.InitializationScripts.Append(
                         new ScriptConfigurationEntry(

@@ -27,6 +27,8 @@
             this.Aliases = new Dictionary<string, string>();
         }
 
+        public bool Initialized { get; private set; }
+
         public override string Name 
         {
             get { return "Orchard.Management"; }
@@ -91,6 +93,8 @@
             }
 
             this.Aliases = new Dictionary<string, string>();
+
+            this.Initialized = true;
         }
 
         /// <summary>
