@@ -26,11 +26,11 @@
             return base.AuthorizeRequest(request);
         }
 
-        protected override Task OnDisconnected(IRequest request, string connectionId) 
+        protected override Task OnDisconnected(IRequest request, string connectionId, bool stopCalled) 
         {
             Connection.Send(connectionId, new OutputData { Output = "\r\nSession terminated!  Press ENTER to start a new session.\r\n" }).Wait();
             this.EndSession(connectionId);
-            return base.OnDisconnected(request, connectionId);
+            return base.OnDisconnected(request, connectionId, stopCalled);
         }
 
         protected override Task OnReceived(IRequest request, string connectionId, string data) 
