@@ -124,10 +124,10 @@
     <Compile Include="TenantContextManager.cs" />
     <Compile Include="Internal\ErrorIds.cs" />
     <Compile Include="Utilities\ExceptionExtensions.cs" />
-    <Compile Include="Console\IPsSession.cs" />
-    <Compile Include="Console\IPsSessionManager.cs" />
-    <Compile Include="Console\PsSession.cs" />
-    <Compile Include="Console\PsSessionManager.cs" />
+    <Compile Include="IPsSession.cs" />
+    <Compile Include="IPsSessionManager.cs" />
+    <Compile Include="PsSession.cs" />
+    <Compile Include="PsSessionManager.cs" />
     <Compile Include="ITenantContextManager.cs" />
     <Compile Include="IOrchardCmdlet.cs" />
     <Compile Include="Utilities\IPropertyMapper.cs" />

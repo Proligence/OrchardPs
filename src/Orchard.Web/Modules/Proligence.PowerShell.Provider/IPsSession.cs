@@ -1,9 +1,10 @@
-﻿namespace Proligence.PowerShell.Provider.Console
+﻿namespace Proligence.PowerShell.Provider
 {
     using System;
     using System.Management.Automation.Runspaces;
     using System.Threading;
     using Autofac;
+    using Console;
     using Proligence.PowerShell.Provider.Console.Host;
     using Proligence.PowerShell.Provider.Console.UI;
     using Proligence.PowerShell.Provider.Vfs;

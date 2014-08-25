@@ -1,4 +1,4 @@
-﻿namespace Proligence.PowerShell.Provider.Console
+﻿namespace Proligence.PowerShell.Provider
 {
     using Orchard;
 
