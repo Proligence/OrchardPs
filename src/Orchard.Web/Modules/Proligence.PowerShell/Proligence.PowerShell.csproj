@@ -183,7 +183,6 @@
     <Content Include="Scripts\jquery.console.js" />
     <Content Include="Scripts\console.js" />
     <Content Include="Styles\console.css" />
-    <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\Web.config" />
