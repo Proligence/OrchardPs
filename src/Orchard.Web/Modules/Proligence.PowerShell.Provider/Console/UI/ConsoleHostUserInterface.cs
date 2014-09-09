@@ -13,11 +13,13 @@
     {
         private readonly ConsoleHost consoleHost;
         private readonly AutoResetEvent promptLock;
+        private readonly ConsoleHostRawUserInterface rawUserInterface;
 
         public ConsoleHostUserInterface(ConsoleHost consoleHost)
         {
             this.consoleHost = consoleHost;
             this.promptLock = new AutoResetEvent(false);
+            this.rawUserInterface = new ConsoleHostRawUserInterface(this);
         }
 
         public EventWaitHandle PromptLock
@@ -27,7 +29,7 @@
 
         public override PSHostRawUserInterface RawUI
         {
-            get { return null; }
+            get { return this.rawUserInterface; }
         }
 
         public override string ReadLine() 
