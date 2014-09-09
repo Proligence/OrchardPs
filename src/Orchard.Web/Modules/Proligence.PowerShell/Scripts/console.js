@@ -27,7 +27,7 @@ function LoadConsole() {
         },
         cancelHandle: function () {
             //sending CTRL+C character (^C) to the server to cancel the current command
-            _sendCommand("\x03");
+            _sendAbortCommand();
         },
         completeHandle: function (line, reverse) {
             if (tabCompletionBase.length == 0) {
@@ -67,6 +67,7 @@ function LoadConsole() {
 
     window.$Console = $('#Console');
     window.$Console.append(mainConsole);
+
     $("div.jquery-console-inner").css("background-color", "#012456");
 
     var connection = $.connection('/conn/commandstream');
@@ -99,6 +100,13 @@ function LoadConsole() {
         progressBar.progressbar("value", 100)
         progressLabel.text(initialProgressText + " " + input)
         connection.send({ Command: input });
+    }
+
+    function _sendAbortCommand() {
+        _sendCommand("\x03")
+        progressBar.show()
+        progressBar.progressbar("value", 100)
+        progressLabel.text("Aborting current command...");
     }
 
     function getJSONValue(input) {

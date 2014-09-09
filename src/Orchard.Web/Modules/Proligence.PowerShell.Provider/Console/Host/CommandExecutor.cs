@@ -53,20 +53,46 @@
 
         private void OnSessionDataReceived(object sender, DataReceivedEventArgs e)
         {
-            if (this.pipeline != null && this.pipeline.PipelineStateInfo.State != PipelineState.NotStarted) 
+            string str = this.session.ReadInputBuffer();
+            bool aborted = false;
+
+            if (str == null) 
             {
                 return;
             }
 
-            string str = this.session.ReadInputBuffer();
-            if (str != null)
+            if (str.Contains("\u0003"))
+            {
+                aborted = true;
+            }
+
+            if (!aborted && this.pipeline != null && this.pipeline.PipelineStateInfo.State != PipelineState.NotStarted) 
+            {
+                return;
+            }
+
+            if (aborted) 
+            {
+                if (this.pipeline != null 
+                    && this.pipeline.PipelineStateInfo.State != PipelineState.Stopped
+                    && this.pipeline.PipelineStateInfo.State != PipelineState.Stopping)
+                {
+                    this.pipeline.StopAsync();
+                }
+                else
+                {
+                    // Sending information about finishing command
+                    this.session.Sender(new OutputData { Finished = true });
+                }
+            }
+            else 
             {
                 this.commandBuffer.Append(str);
 
                 if (!str.TrimEnd().EndsWith("`", StringComparison.Ordinal))
                 {
                     this.ExecuteCommandFromBuffer();
-                } 
+                }
             }
         }
 
@@ -92,10 +118,16 @@
                     this.session.Path = this.session.Runspace.SessionStateProxy.Path.CurrentLocation.ToString();
 
                     // Display an error for failed pipelines.
-                    if (state != PipelineState.Completed)
+                    if (state == PipelineState.Failed)
                     {
                         this.session.ConsoleHost.UI.WriteErrorLine(
                             "Command did not complete successfully. Reason: " + e.PipelineStateInfo.Reason);
+                    }
+
+                    if (state == PipelineState.Stopped)
+                    {
+                        this.session.ConsoleHost.UI.WriteWarningLine(
+                            "Command '" + this.pipeline.Commands[0].CommandText + "' has been cancelled.");
                     }
 
                     // Dispose the current pipeline.
