@@ -32,7 +32,7 @@ namespace Proligence.PowerShell.Modules.Nodes
             };
         }
 
-        public override IEnumerable<VfsNode> GetVirtualNodes()
+        protected override IEnumerable<VfsNode> GetVirtualNodesInternal()
         {
             return this.features.Select(feature => new FeatureNode(this.Vfs, feature));
         }

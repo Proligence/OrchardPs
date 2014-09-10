@@ -24,24 +24,6 @@ namespace Proligence.PowerShell.Provider.Vfs.Navigation
         {
         }
 
-        public override IEnumerable<VfsNode> GetVirtualNodes()
-        {
-            return this.GetKeys().Select(
-                key =>
-                {
-                    PropertyNode propertyNode;
-                    if (this.cache.TryGetValue(key, out propertyNode))
-                    {
-                        return propertyNode;
-                    }
-
-                    propertyNode = new PropertyNode(this, key, this.GetValueInternal(key));
-                    this.cache[key] = propertyNode;
-
-                    return propertyNode;
-                });
-        }
-
         public override void SetValue(string name, object value)
         {
             this.SetValueInternal(name, value);
@@ -57,6 +39,24 @@ namespace Proligence.PowerShell.Provider.Vfs.Navigation
             }
 
             return this.GetValueInternal(name);
+        }
+
+        protected override IEnumerable<VfsNode> GetVirtualNodesInternal()
+        {
+            return this.GetKeys().Select(
+                key =>
+                {
+                    PropertyNode propertyNode;
+                    if (this.cache.TryGetValue(key, out propertyNode))
+                    {
+                        return propertyNode;
+                    }
+
+                    propertyNode = new PropertyNode(this, key, this.GetValueInternal(key));
+                    this.cache[key] = propertyNode;
+
+                    return propertyNode;
+                });
         }
 
         /// <summary>

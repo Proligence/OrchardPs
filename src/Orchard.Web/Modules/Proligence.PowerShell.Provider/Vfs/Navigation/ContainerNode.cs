@@ -14,11 +14,17 @@
         /// </summary>
         private readonly List<VfsNode> staticNodes;
 
-        public ContainerNode(IPowerShellVfs vfs, string name) 
+        /// <summary>
+        /// The dynamic child nodes cached in this node.
+        /// </summary>
+        private IEnumerable<VfsNode> dynamicNodes;
+
+        public ContainerNode(IPowerShellVfs vfs, string name)
             : base(vfs, name) 
         {
             this.staticNodes = new List<VfsNode>();
             this.NewItemName = "New item";
+            this.CacheDynamicNodes = true;
         }
 
         public ContainerNode(IPowerShellVfs vfs, string name, IEnumerable<VfsNode> staticNodes) 
@@ -26,6 +32,7 @@
         {
             this.staticNodes = new List<VfsNode>();
             this.NewItemName = "New item";
+            this.CacheDynamicNodes = true;
 
             if (staticNodes != null)
             {
@@ -70,9 +77,24 @@
             get { return this.staticNodes; }
         }
 
-        public virtual IEnumerable<VfsNode> GetVirtualNodes() 
+        /// <summary>
+        /// Determines whether the results of the <see cref="GetVirtualNodes"/> method will be cached.
+        /// </summary>
+        protected bool CacheDynamicNodes { get; set; }
+
+        public virtual IEnumerable<VfsNode> GetVirtualNodes()
         {
-            return new VfsNode[0];
+            if (this.CacheDynamicNodes)
+            {
+                if (this.dynamicNodes == null) 
+                {
+                    this.dynamicNodes = this.GetVirtualNodesInternal().ToArray();
+                }
+
+                return this.dynamicNodes;
+            }
+
+            return this.GetVirtualNodesInternal();
         }
 
         public IEnumerable<VfsNode> GetChildNodes(bool recurse = false) 
@@ -170,6 +192,15 @@
         }
 
         /// <summary>
+        /// Invalidates any cached dynamic child nodes and forces them to be recreated when the
+        /// <see cref="GetVirtualNodes"/> method is called the next time.
+        /// </summary>
+        public void InvalidateCachedNodes()
+        {
+            this.dynamicNodes = null;
+        }
+
+        /// <summary>
         /// Adds the specified static node to the node's child nodes.
         /// </summary>
         /// <param name="node">The static node to add.</param>
@@ -177,6 +208,11 @@
         {
             this.staticNodes.Add(node);
             node.Parent = this;
+        }
+
+        protected virtual IEnumerable<VfsNode> GetVirtualNodesInternal()
+        {
+            return Enumerable.Empty<VfsNode>();
         }
     }
 }

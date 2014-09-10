@@ -47,9 +47,23 @@
         public IPowerShellVfs Vfs { get; set; }
 
         /// <summary>
+        /// Gets a value indicating whether this navigation provider is initialized.
+        /// </summary>
+        public bool IsInitialized { get; private set; }
+
+        /// <summary>
         /// Initializes the properties of the navigation provider.
         /// </summary>
-        public virtual void Initialize()
+        public void Initialize()
+        {
+            if (!this.IsInitialized)
+            {
+                this.InitializeInternal();
+                this.IsInitialized = true;
+            }
+        }
+
+        protected virtual void InitializeInternal()
         {
         }
     }

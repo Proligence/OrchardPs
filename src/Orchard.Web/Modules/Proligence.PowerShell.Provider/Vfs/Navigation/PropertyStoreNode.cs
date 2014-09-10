@@ -18,11 +18,6 @@
         {
         }
 
-        public override IEnumerable<VfsNode> GetVirtualNodes()
-        {
-            return this.GetKeys().Select(key => new PropertyNode(this, key, this.GetValue(key)));
-        }
-
         /// <summary>
         /// Gets the keys of the property store.
         /// </summary>
@@ -42,5 +37,10 @@
         /// <param name="name">The name of the key.</param>
         /// <returns>The value of the specified key.</returns>
         public abstract object GetValue(string name);
+
+        protected override IEnumerable<VfsNode> GetVirtualNodesInternal()
+        {
+            return this.GetKeys().Select(key => new PropertyNode(this, key, this.GetValue(key)));
+        }
     }
 }

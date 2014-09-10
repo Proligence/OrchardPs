@@ -398,7 +398,7 @@
         {
             this.Trace("GetChildItems(Path='{0}')", path);
 
-            this.ForEachChildNode(path, this.WriteItemNode);
+            this.ForEachChildNode(path, this.WriteItemNode, true);
         }
 
         /// <summary>
@@ -631,13 +631,22 @@
         /// </summary>
         /// <param name="path">The VFS path.</param>
         /// <param name="action">The action to invoke.</param>
-        protected void ForEachChildNode(string path, Action<VfsNode> action) 
+        /// <param name="invalidateCachedNodes">
+        /// If set to <c>true</c>, cached dynamic nodes of the container node will be invalidated before listing
+        /// child items.
+        /// </param>
+        protected void ForEachChildNode(string path, Action<VfsNode> action, bool invalidateCachedNodes = false)
         {
             string normalizedPath = this.PathValidator.NormalizePath(path);
 
             ContainerNode parentNode = this.GetNodeByPath(normalizedPath) as ContainerNode;
             if (parentNode != null) 
             {
+                if (invalidateCachedNodes)
+                {
+                    parentNode.InvalidateCachedNodes();
+                }
+
                 IEnumerable<VfsNode> items = parentNode.GetChildNodes();
                 foreach (VfsNode node in items) 
                 {

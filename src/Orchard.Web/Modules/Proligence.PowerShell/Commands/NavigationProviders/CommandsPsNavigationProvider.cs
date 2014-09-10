@@ -10,7 +10,7 @@
         {
         }
 
-        public override void Initialize()
+        protected override void InitializeInternal()
         {
             this.Node = new CommandsNode(this.Vfs);
         }

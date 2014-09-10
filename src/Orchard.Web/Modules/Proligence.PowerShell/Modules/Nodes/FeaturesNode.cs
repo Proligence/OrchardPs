@@ -29,7 +29,7 @@
             };
         }
 
-        public override IEnumerable<VfsNode> GetVirtualNodes() 
+        protected override IEnumerable<VfsNode> GetVirtualNodesInternal() 
         {
             string tenantName = this.GetCurrentTenantName();
             if (tenantName == null) 

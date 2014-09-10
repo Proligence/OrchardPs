@@ -52,7 +52,7 @@
         /// </summary>
         public VfsNode TargetNode { get; protected set; }
 
-        public override IEnumerable<VfsNode> GetVirtualNodes() 
+        protected override IEnumerable<VfsNode> GetVirtualNodesInternal() 
         {
             var containerNode = this.TargetNode as ContainerNode;
             if (containerNode == null) 

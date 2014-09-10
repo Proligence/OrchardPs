@@ -19,7 +19,7 @@
             this.dataMigrationManager = dataMigrationManager;
         }
 
-        public override void Initialize()
+        protected override void InitializeInternal()
         {
             this.Node = new ThemesNode(this.Vfs, this.extensionManager, this.dataMigrationManager);
         }

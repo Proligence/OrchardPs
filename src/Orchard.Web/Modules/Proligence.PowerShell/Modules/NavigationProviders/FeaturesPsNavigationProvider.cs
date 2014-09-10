@@ -14,7 +14,7 @@
             this.extensionManager = extensionManager;
         }
 
-        public override void Initialize()
+        protected override void InitializeInternal()
         {
             this.Node = new FeaturesNode(this.Vfs, this.extensionManager);
         }

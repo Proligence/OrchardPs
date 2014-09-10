@@ -18,7 +18,7 @@
     public class TenantsNode : ContainerNode 
     {
         private readonly IShellSettingsManager manager;
-        
+
         public TenantsNode(IPowerShellVfs vfs, IShellSettingsManager manager)
             : base(vfs, "Tenants")
         {
@@ -31,10 +31,10 @@
             };
         }
 
-        public override IEnumerable<VfsNode> GetVirtualNodes()
+        protected override IEnumerable<VfsNode> GetVirtualNodesInternal()
         {
             ShellSettings[] tenants = this.manager.LoadSettings().ToArray();
-            return tenants.Select(tenant => new TenantNode(Vfs, tenant));
+            return tenants.Select(tenant => new TenantNode(this.Vfs, tenant));
         }
     }
 }

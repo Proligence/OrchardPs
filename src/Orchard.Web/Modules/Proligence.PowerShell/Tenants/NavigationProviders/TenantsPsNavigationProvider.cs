@@ -14,7 +14,7 @@
             this.manager = manager;
         }
 
-        public override void Initialize()
+        protected override void InitializeInternal()
         {
             this.Node = new TenantsNode(this.Vfs, this.manager);
         }
