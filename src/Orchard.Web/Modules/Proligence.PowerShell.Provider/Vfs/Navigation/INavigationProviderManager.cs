@@ -6,7 +6,7 @@
     /// <summary>
     /// Defines the interface for classes which implement the PS navigation provider manager.
     /// </summary>
-    public interface INavigationProviderManager : ISingletonDependency
+    public interface INavigationProviderManager : IDependency
     {
         /// <summary>
         /// Gets all registered PS navigation providers.

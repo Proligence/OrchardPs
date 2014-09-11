@@ -2,6 +2,7 @@
 {
     using System.Management.Automation;
     using Autofac;
+    using Orchard;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>
@@ -30,10 +31,13 @@
         /// </summary>
         public virtual void Initialize()
         {
-            var navigationProviderManager = this.ComponentContext.Resolve<INavigationProviderManager>();
-            var pathValidator = this.ComponentContext.Resolve<IPathValidator>();
-            this.Vfs = new PowerShellVfs(this, navigationProviderManager, pathValidator);
-            this.Vfs.Initialize();
+            using (var wca = this.ComponentContext.Resolve<IWorkContextAccessor>().CreateWorkContextScope())
+            {
+                var navigationProviderManager = wca.Resolve<INavigationProviderManager>();
+                var pathValidator = this.ComponentContext.Resolve<IPathValidator>();
+                this.Vfs = new PowerShellVfs(this, navigationProviderManager, pathValidator);
+                this.Vfs.Initialize();
+            }
         }
 
         /// <summary>
