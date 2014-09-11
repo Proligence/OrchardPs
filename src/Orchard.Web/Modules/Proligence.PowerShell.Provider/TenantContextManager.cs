@@ -5,6 +5,7 @@
     using System.Linq;
     using Autofac;
     using Orchard;
+    using Orchard.Environment;
     using Orchard.Environment.Configuration;
     using Orchard.Environment.ShellBuilders;
 
@@ -13,15 +14,13 @@
     /// </summary>
     public class TenantContextManager : ITenantContextManager 
     {
+        private readonly IOrchardHost orchardHost;
         private readonly IShellSettingsManager shellSettingsManager;
-        private readonly IShellContextFactory shellContextFactory;
-        private readonly Dictionary<string, ShellContext> tenantShells;
 
-        public TenantContextManager(IShellSettingsManager shellSettingsManager, IShellContextFactory shellContextFactory)
+        public TenantContextManager(IOrchardHost orchardHost, IShellSettingsManager shellSettingsManager)
         {
             this.shellSettingsManager = shellSettingsManager;
-            this.shellContextFactory = shellContextFactory;
-            this.tenantShells = new Dictionary<string, ShellContext>();
+            this.orchardHost = orchardHost;
         }
 
         /// <summary>
@@ -31,17 +30,7 @@
         /// <returns>The dependency injection lifetime scope instance.</returns>
         public ILifetimeScope GetTenantContainer(string tenantName) 
         {
-            ShellContext shellContext;
-            lock (this.tenantShells) 
-            {
-                if (!this.tenantShells.TryGetValue(tenantName, out shellContext)) 
-                {
-                    shellContext = this.CreateShellContext(tenantName);
-                    this.tenantShells.Add(tenantName, shellContext);
-                }
-            }
-            
-            return shellContext.LifetimeScope;
+            return this.GetShellContext(tenantName).LifetimeScope;
         }
 
         /// <summary>
@@ -54,34 +43,12 @@
             return this.GetTenantContainer(tenantName).CreateWorkContextScope();
         }
 
-        public void Dispose() 
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                lock (this.tenantShells)
-                {
-                    foreach (ShellContext shellContext in this.tenantShells.Values)
-                    {
-                        shellContext.LifetimeScope.Dispose();
-                    }
-
-                    this.tenantShells.Clear();
-                }
-            }
-        }
-
         /// <summary>
         /// Creates a <see cref="ShellContext"/> object for the specified tenant.
         /// </summary>
         /// <param name="tenantName">The name of the tenant.</param>
         /// <returns>The created <see cref="ShellContext"/> object.</returns>
-        private ShellContext CreateShellContext(string tenantName) 
+        private ShellContext GetShellContext(string tenantName) 
         {
             IEnumerable<ShellSettings> shellSettings = this.shellSettingsManager.LoadSettings();
             ShellSettings settings = shellSettings.FirstOrDefault(s => s.Name == tenantName);
@@ -90,7 +57,7 @@
                 throw new ArgumentException("Failed to find tenant '" + tenantName + "'.", "tenantName");
             }
 
-            return this.shellContextFactory.CreateShellContext(settings);
+            return this.orchardHost.GetShellContext(settings);
         }
     }
 }
