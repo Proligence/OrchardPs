@@ -22,10 +22,17 @@
         protected override void BeginProcessing() 
         {
             this.OrchardDrive = SessionState.Drive.Current as OrchardDriveInfo;
-            if (this.OrchardDrive == null) 
+            if (this.OrchardDrive == null)
             {
-                var exception = ThrowHelper.InvalidOperation("The cmdlet must be invoked from an Orchard drive.");
-                this.ThrowTerminatingError(exception, ErrorIds.OrchardDriveExpected, ErrorCategory.InvalidOperation);
+                this.OrchardDrive = this.SessionState.Drive.Get("Orchard") as OrchardDriveInfo;
+                if (this.OrchardDrive == null)
+                {
+                    var exception = ThrowHelper.InvalidOperation(
+                        "Failed to find Orchard drive. Make sure that the Orchard VFS is properly initialized and " +
+                        "the Orchard PSDrive is mounted.");
+
+                    this.ThrowTerminatingError(exception, ErrorIds.OrchardDriveExpected, ErrorCategory.InvalidOperation);
+                }
             }
 
             this.CurrentNode = this.OrchardDrive.Vfs.NavigatePath(this.OrchardDrive.CurrentLocation);
