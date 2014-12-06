@@ -13,7 +13,7 @@
     public class FeatureNode : ObjectNode
     {
         public FeatureNode(IPowerShellVfs vfs, FeatureDescriptor feature)
-            : base(vfs, feature.Name, feature)
+            : base(vfs, feature.Name ?? feature.Id, feature)
         {
         }
     }
