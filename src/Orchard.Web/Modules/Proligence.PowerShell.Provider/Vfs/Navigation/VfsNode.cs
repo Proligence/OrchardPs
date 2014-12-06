@@ -10,6 +10,11 @@
     {
         protected VfsNode(IPowerShellVfs vfs, string name)
         {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentNullException("name");
+            }
+
             this.Vfs = vfs;
             this.Name = name;
             this.InvokeDefaultActionName = "Invoke default action";
