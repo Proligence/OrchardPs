@@ -2,15 +2,12 @@ namespace Proligence.PowerShell.Content.Nodes
 {
     using System.Collections.Generic;
     using System.Linq;
-
-    using Orchard.ContentManagement.MetaData.Models;
-
-    using Proligence.PowerShell.Agents;
-    using Proligence.PowerShell.Common.Extensions;
+    using Orchard.ContentManagement.MetaData;
     using Proligence.PowerShell.Common.Items;
     using Proligence.PowerShell.Provider;
-    using Proligence.PowerShell.Provider.Vfs.Core;
+    using Proligence.PowerShell.Provider.Vfs;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
+    using Proligence.PowerShell.Utilities;
 
     /// <summary>
     /// Implements a VFS node which contains content part definitions for an Orchard tenant.
@@ -18,21 +15,9 @@ namespace Proligence.PowerShell.Content.Nodes
     [SupportedCmdlet("Edit-ContentPartDefinition")]
     public class ContentPartsNode : ContainerNode
     {
-        /// <summary>
-        /// The content agent instance.
-        /// </summary>
-        private readonly IContentAgent contentAgent;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ContentPartsNode"/> class.
-        /// </summary>
-        /// <param name="vfs">The Orchard VFS instance which the node belongs to.</param>
-        /// <param name="contentAgent">The content agent instance.</param>
-        public ContentPartsNode(IPowerShellVfs vfs, IContentAgent contentAgent)
+        public ContentPartsNode(IPowerShellVfs vfs)
             : base(vfs, "Parts")
         {
-            this.contentAgent = contentAgent;
-
             this.Item = new CollectionItem(this)
             {
                 Name = "Parts",
@@ -40,10 +25,6 @@ namespace Proligence.PowerShell.Content.Nodes
             };
         }
 
-        /// <summary>
-        /// Gets the node's virtual (dynamic) child nodes.
-        /// </summary>
-        /// <returns>A sequence of child nodes.</returns>
         public override IEnumerable<VfsNode> GetVirtualNodes()
         {
             string tenantName = this.GetCurrentTenantName();
@@ -52,8 +33,15 @@ namespace Proligence.PowerShell.Content.Nodes
                 return new VfsNode[0];
             }
 
-            ContentPartDefinition[] parts = this.contentAgent.GetContentPartDefinitions(tenantName);
-            return parts.Select(definition => new ContentPartNode(this.Vfs, definition));
+            return this.UsingWorkContextScope(
+                tenantName,
+                scope =>
+                    {
+                        return scope.Resolve<IContentDefinitionManager>()
+                            .ListPartDefinitions()
+                            .Select(definition => new ContentPartNode(this.Vfs, definition))
+                            .ToArray();
+                    });
         }
     }
 }

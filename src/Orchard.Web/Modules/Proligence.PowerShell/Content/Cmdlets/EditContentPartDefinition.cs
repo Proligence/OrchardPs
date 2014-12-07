@@ -7,25 +7,20 @@
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
-
+    using Orchard;
+    using Orchard.ContentManagement.MetaData;
     using Orchard.ContentManagement.MetaData.Models;
     using Orchard.Environment.Configuration;
-
-    using Proligence.PowerShell.Agents;
-    using Proligence.PowerShell.Common.Extensions;
     using Proligence.PowerShell.Provider;
+    using Proligence.PowerShell.Provider.Utilities;
+    using Proligence.PowerShell.Utilities;
 
-    /// <summary>
-    /// Implements the <c>Edit-ContentPartDefinition</c> cmdlet.
-    /// </summary>
     [CmdletAlias("ecpd")]
     [Cmdlet(VerbsData.Edit, "ContentPartDefinition", DefaultParameterSetName = "Default", ConfirmImpact = ConfirmImpact.Medium)]
     public class EditContentPartDefinition : OrchardCmdlet
     {
         private const string SettingPrefix = "ContentPartSettings.";
-        private ITenantAgent tenantAgent;
-        private IContentAgent contentAgent;
-
+        
         /// <summary>
         /// Gets or sets the name of the content part to edit.
         /// </summary>
@@ -78,9 +73,6 @@
         [Parameter(ParameterSetName = "ContentPartDefinitionObject", ValueFromRemainingArguments = true)]
         public ArrayList Settings { get; set; }
 
-        /// <summary>
-        /// Provides a record-by-record processing functionality for the cmdlet. 
-        /// </summary>
         protected override void ProcessRecord()
         {
             string tenantName = null;
@@ -93,54 +85,32 @@
 
             if (contentPartName != null)
             {
-                ShellSettings tenant = this.tenantAgent.GetTenant(tenantName);
+                ShellSettings tenant = this.Resolve<IShellSettingsManager>()
+                    .LoadSettings()
+                    .FirstOrDefault(t => t.Name == tenantName);
+
                 if (tenant != null)
                 {
-                    ContentPartDefinition contentPartDefinition = this.contentAgent
-                        .GetContentPartDefinitions(tenantName)
-                        .FirstOrDefault(cpd => cpd.Name == contentPartName);
-
-                    if (contentPartDefinition != null)
-                    {
-                        if (this.Settings != null)
+                    this.UsingWorkContextScope(
+                        tenant.Name, 
+                        scope =>
                         {
-                            ArgumentList settingArgs = ArgumentList.Parse(this.Settings);
-                            foreach (KeyValuePair<string, string> setting in settingArgs)
-                            {
-                                contentPartDefinition.Settings[SettingPrefix + setting.Key] = setting.Value;
-                            }
-                        }
+                            var contentDefinitionManager = scope.Resolve<IContentDefinitionManager>();
 
-                        if (this.Description != null)
-                        {
-                            if (!string.IsNullOrWhiteSpace(this.Description))
+                            ContentPartDefinition contentPartDefinition = contentDefinitionManager
+                                .ListPartDefinitions()
+                                .FirstOrDefault(cpd => cpd.Name == contentPartName);
+
+                            if (contentPartDefinition != null)
                             {
-                                contentPartDefinition.Settings[SettingPrefix + "Description"] = this.Description;
+                                this.UpdateContentPartDefinition(contentPartDefinition);
+                                this.InvokeAlterPartDefinition(contentPartDefinition, scope);
                             }
                             else
                             {
-                                contentPartDefinition.Settings[SettingPrefix + "Description"] = null;
+                                this.NotifyFailedToFindContentPartDefinition(contentPartName, tenantName);
                             }
-                        }
-
-                        if (this.Attachable != null)
-                        {
-                            if (this.Attachable.Value)
-                            {
-                                contentPartDefinition.Settings[SettingPrefix + "Attachable"] = "True";
-                            }
-                            else
-                            {
-                                contentPartDefinition.Settings[SettingPrefix + "Attachable"] = null;
-                            }
-                        }
-
-                        this.InvokeUpdateContentPartDefinition(contentPartDefinition);
-                    }
-                    else
-                    {
-                        this.NotifyFailedToFindContentPartDefinition(contentPartName, tenantName);
-                    }
+                        });
                 }
                 else
                 {
@@ -149,7 +119,7 @@
             }
             else
             {
-                this.NotifyFailedToFindContentPartDefinition(contentPartName, tenantName);
+                this.NotifyFailedToFindContentPartDefinition(null, tenantName);
             }
         }
 
@@ -159,13 +129,70 @@
             {
                 return this.Tenant;
             }
-            
+
             if (this.TenantObject != null)
             {
                 return this.TenantObject.Name;
             }
-            
+
             return this.GetCurrentTenantName() ?? "Default";
+        }
+
+        private void UpdateContentPartDefinition(ContentPartDefinition contentPartDefinition)
+        {
+            if (this.Settings != null)
+            {
+                ArgumentList settingArgs = ArgumentList.Parse(this.Settings);
+                foreach (KeyValuePair<string, string> setting in settingArgs)
+                {
+                    contentPartDefinition.Settings[SettingPrefix + setting.Key] = setting.Value;
+                }
+            }
+
+            if (this.Description != null)
+            {
+                if (!string.IsNullOrWhiteSpace(this.Description))
+                {
+                    contentPartDefinition.Settings[SettingPrefix + "Description"] = this.Description;
+                }
+                else
+                {
+                    contentPartDefinition.Settings[SettingPrefix + "Description"] = null;
+                }
+            }
+
+            if (this.Attachable != null)
+            {
+                if (this.Attachable.Value)
+                {
+                    contentPartDefinition.Settings[SettingPrefix + "Attachable"] = "True";
+                }
+                else
+                {
+                    contentPartDefinition.Settings[SettingPrefix + "Attachable"] = null;
+                }
+            }
+        }
+
+        private void InvokeAlterPartDefinition(ContentPartDefinition definition, IWorkContextScope scope)
+        {
+            string target = "ContentPart: " + definition.Name;
+            string action = "Set " + string.Join(", ", definition.Settings.Select(x => x.Key + " = '" + x.Value + "'"));
+            if (this.ShouldProcess(target, action))
+            {
+                if (definition.Settings != null)
+                {
+                    scope.Resolve<IContentDefinitionManager>().AlterPartDefinition(
+                        definition.Name,
+                        part =>
+                        {
+                            foreach (KeyValuePair<string, string> setting in definition.Settings)
+                            {
+                                part.WithSetting(setting.Key, setting.Value);
+                            }
+                        });
+                }
+            }
         }
 
         private void NotifyFailedToFindContentPartDefinition(string tenantName, string contentPartName)
@@ -184,22 +211,6 @@
         {
             var exception = new InvalidOperationException("Failed to find tenant '" + tenantName + "'.");
             this.WriteError(exception, "FailedToFindTentant", ErrorCategory.InvalidArgument);
-        }
-
-        private void InvokeUpdateContentPartDefinition(ContentPartDefinition definition) {
-            string target = "ContentPart: " + definition.Name;
-            string action = "Set " + string.Join(", ", definition.Settings.Select(x => x.Key + " = '" + x.Value + "'"));
-            if (this.ShouldProcess(target, action))
-            {
-                try
-                {
-                    this.contentAgent.UpdateContentPartDefinition(definition);
-                }
-                catch (ArgumentException ex)
-                {
-                    this.WriteError(ex, "FailedToUpdateContentPartDefinition", ErrorCategory.InvalidArgument);
-                }
-            }
         }
     }
 }

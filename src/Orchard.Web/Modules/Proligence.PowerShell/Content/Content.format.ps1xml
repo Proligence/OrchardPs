@@ -4,7 +4,7 @@
     <View>
       <Name>OrchardContentFieldDefinitionView</Name>
       <ViewSelectedBy>
-        <TypeName>Proligence.PowerShell.Content.Items.OrchardContentFieldDefinition</TypeName>
+        <TypeName>Orchard.ContentManagement.MetaData.Models.ContentFieldDefinition</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
@@ -26,7 +26,7 @@
     <View>
       <Name>OrchardContentPartDefinitionView</Name>
       <ViewSelectedBy>
-        <TypeName>Proligence.PowerShell.Content.Items.OrchardContentPartDefinition</TypeName>
+        <TypeName>Orchard.ContentManagement.MetaData.Models.ContentPartDefinition</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>

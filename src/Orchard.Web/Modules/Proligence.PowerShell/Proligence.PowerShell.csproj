@@ -88,6 +88,14 @@
     <Compile Include="Commands\NavigationProviders\CommandsPsNavigationProvider.cs" />
     <Compile Include="Commands\Nodes\CommandNode.cs" />
     <Compile Include="Commands\Nodes\CommandsNode.cs" />
+    <Compile Include="Content\Cmdlets\EditContentPartDefinition.cs" />
+    <Compile Include="Content\Cmdlets\GetContentPartDefinition.cs" />
+    <Compile Include="Content\NavigationProviders\ContentPsNavigationProvider.cs" />
+    <Compile Include="Content\Nodes\ContentFieldNode.cs" />
+    <Compile Include="Content\Nodes\ContentFieldsNode.cs" />
+    <Compile Include="Content\Nodes\ContentNode.cs" />
+    <Compile Include="Content\Nodes\ContentPartNode.cs" />
+    <Compile Include="Content\Nodes\ContentPartsNode.cs" />
     <Compile Include="Internal\ErrorIds.cs" />
     <Compile Include="Modules\Cmdlets\DisableOrchardFeature.cs" />
     <Compile Include="Modules\Cmdlets\EnableOrchardFeature.cs" />
@@ -132,6 +140,8 @@
   <ItemGroup>
     <Content Include="Cmdlets\Get-OrchardPsCommand-help.xml" />
     <Content Include="Commands\Cmdlets\Invoke-OrchardCommand-help.xml" />
+    <Content Include="Content\Cmdlets\Edit-ContentPartDefinition-help.xml" />
+    <Content Include="Content\Cmdlets\Get-ContentPartDefinition-help.xml" />
     <Content Include="Module.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -210,6 +220,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Modules\Modules.format.ps1xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Content.format.ps1xml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
