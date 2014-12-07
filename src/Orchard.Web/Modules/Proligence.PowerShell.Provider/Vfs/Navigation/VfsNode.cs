@@ -12,7 +12,7 @@
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                throw new ArgumentNullException("name");
+                name = this.GetType().Name;
             }
 
             this.Vfs = vfs;
