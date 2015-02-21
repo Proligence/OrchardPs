@@ -2,35 +2,20 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-
-    using Orchard.ContentManagement.MetaData.Models;
-
-    using Proligence.PowerShell.Agents;
-    using Proligence.PowerShell.Common.Extensions;
+    using Orchard.ContentManagement.MetaData;
     using Proligence.PowerShell.Common.Items;
-    using Proligence.PowerShell.Provider.Vfs.Core;
+    using Proligence.PowerShell.Provider.Vfs;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
+    using Proligence.PowerShell.Utilities;
 
     /// <summary>
     /// Implements a VFS node which contains content field definitions for an Orchard tenant.
     /// </summary>
     public class ContentFieldsNode : ContainerNode
     {
-        /// <summary>
-        /// The content agent instance.
-        /// </summary>
-        private readonly IContentAgent contentAgent;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ContentFieldsNode"/> class.
-        /// </summary>
-        /// <param name="vfs">The Orchard VFS instance which the node belongs to.</param>
-        /// <param name="contentAgent">The content agent instance.</param>
-        public ContentFieldsNode(IPowerShellVfs vfs, IContentAgent contentAgent)
+        public ContentFieldsNode(IPowerShellVfs vfs)
             : base(vfs, "Fields") 
         {
-            this.contentAgent = contentAgent;
-
             this.Item = new CollectionItem(this) 
             {
                 Name = "Fields",
@@ -38,10 +23,6 @@
             };
         }
 
-        /// <summary>
-        /// Gets the node's virtual (dynamic) child nodes.
-        /// </summary>
-        /// <returns>A sequence of child nodes.</returns>
         public override IEnumerable<VfsNode> GetVirtualNodes() 
         {
             string tenantName = this.GetCurrentTenantName();
@@ -50,8 +31,15 @@
                 return new VfsNode[0];
             }
 
-            ContentFieldDefinition[] fields = this.contentAgent.GetContentFieldDefinitions(tenantName);
-            return fields.Select(definition => new ContentFieldNode(this.Vfs, definition));
+            return this.UsingWorkContextScope(
+                tenantName,
+                scope =>
+                    {
+                        return scope.Resolve<IContentDefinitionManager>()
+                            .ListFieldDefinitions()
+                            .Select(definition => new ContentFieldNode(this.Vfs, definition))
+                            .ToArray();
+                    });
         }
     }
 }
