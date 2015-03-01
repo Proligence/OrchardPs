@@ -154,7 +154,7 @@
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <maml:name>Proligence.PowerShell.Tenants.Items.ShellSettings</maml:name>
+          <maml:name>Orchard.Environment.Configuration.ShellSettings</maml:name>
           <maml:uri/>
           <maml:description />
         </dev:type>
@@ -167,7 +167,7 @@
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>Proligence.PowerShell.Content.Items.OrchardContentPartDefinition</maml:name>
+          <maml:name>Orchard.ContentManagement.MetaData.Models.ContentPartDefinition</maml:name>
           <maml:uri></maml:uri>
           <maml:description>
             <maml:para />
