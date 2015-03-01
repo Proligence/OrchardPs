@@ -80,6 +80,16 @@
                     configuration.Formats.Append(format);
                 }
 
+                foreach (TypeConfigurationEntry type in this.snapIn.Types)
+                {
+                    if (configuration.Types.Any(t => t.Name == type.Name))
+                    {
+                        continue;
+                    }
+
+                    configuration.Types.Append(type);
+                }
+
                 configuration.InitializationScripts.Append(
                     new ScriptConfigurationEntry(
                         "NavigateToOrchardDrive",

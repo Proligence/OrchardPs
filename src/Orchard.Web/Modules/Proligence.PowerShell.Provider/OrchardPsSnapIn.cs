@@ -20,6 +20,7 @@
         private Collection<ProviderConfigurationEntry> providers;
         private Collection<CmdletConfigurationEntry> cmdlets;
         private Collection<FormatConfigurationEntry> formats;
+        private Collection<TypeConfigurationEntry> types;
         private Collection<string> helpFiles;
 
         public OrchardPsSnapIn()
@@ -63,6 +64,11 @@
             get { return this.formats; }
         }
 
+        public override Collection<TypeConfigurationEntry> Types
+        {
+            get { return this.types; }
+        }
+
         /// <summary>
         /// Gets a dictionary of command aliases which will be automatically created.
         /// </summary>
@@ -86,10 +92,13 @@
             this.LoadCmdlets(this.cmdlets);
 
             this.formats = new Collection<FormatConfigurationEntry>();
+            this.types = new Collection<TypeConfigurationEntry>();
+            
             DirectoryInfo orchardDirectory = this.GetOrchardDirectory();
             if (orchardDirectory != null)
             {
                 this.LoadFormatDataFiles(orchardDirectory.FullName, this.formats);
+                this.LoadTypeDataFiles(orchardDirectory.FullName, this.types);
             }
 
             this.Aliases = new Dictionary<string, string>();
@@ -191,6 +200,30 @@
             foreach (string fileName in fileNames) 
             {
                 formatsCollection.Add(new FormatConfigurationEntry(fileName));
+            }
+        }
+
+        /// <summary>
+        /// Discovers the PS type files in Orchard module assemblies.
+        /// </summary>
+        /// <param name="directory">The Orchard's root directory.</param>
+        /// <param name="typesCollection">The collection to which the discovered type files will be added.</param>
+        private void LoadTypeDataFiles(string directory, Collection<TypeConfigurationEntry> typesCollection)
+        {
+            string[] fileNames;
+            try
+            {
+                fileNames = Directory.GetFiles(directory, "*.types.ps1xml", SearchOption.AllDirectories);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("Failed to read directory '" + directory + "'. " + ex.Message);
+                return;
+            }
+
+            foreach (string fileName in fileNames)
+            {
+                typesCollection.Add(new TypeConfigurationEntry(fileName));
             }
         }
 
