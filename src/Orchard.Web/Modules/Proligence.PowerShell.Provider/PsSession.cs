@@ -152,7 +152,23 @@
         /// </summary>
         public void Initialize()
         {
+            // NOTE (MD):
+            // For some strange reason the initilization scripts from the runtime configuration are not executed
+            // while opening the runspace, so we need to execute them manually. #OPS-60
+            var runspaceConfiguration = this.runspace.RunspaceConfiguration;
+            var initScripts = runspaceConfiguration.InitializationScripts.ToArray();
+            runspaceConfiguration.InitializationScripts.Reset();
+
             this.runspace.Open();
+
+            foreach (ScriptConfigurationEntry entry in initScripts)
+            {
+                using (var pipeline = this.runspace.CreatePipeline(entry.Definition))
+                {
+                    pipeline.Commands.AddScript(entry.Definition);
+                    pipeline.Invoke();
+                }
+            }
         }
 
         /// <summary>
