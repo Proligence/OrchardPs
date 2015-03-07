@@ -53,7 +53,6 @@
                 session.WriteInputBuffer(input.Command);     
             }
 
-
             return base.OnReceived(request, connectionId, data);
         }
 
@@ -69,5 +68,3 @@
         }
     }
 }
-
-
