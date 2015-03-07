@@ -89,10 +89,11 @@
             };
 
             this.cmdlets = new Collection<CmdletConfigurationEntry>();
-            this.LoadCmdlets(this.cmdlets);
-
             this.formats = new Collection<FormatConfigurationEntry>();
             this.types = new Collection<TypeConfigurationEntry>();
+            this.Aliases = new Dictionary<string, string>();
+            
+            this.LoadCmdlets(this.cmdlets);
             
             DirectoryInfo orchardDirectory = this.GetOrchardDirectory();
             if (orchardDirectory != null)
@@ -100,8 +101,6 @@
                 this.LoadFormatDataFiles(orchardDirectory.FullName, this.formats);
                 this.LoadTypeDataFiles(orchardDirectory.FullName, this.types);
             }
-
-            this.Aliases = new Dictionary<string, string>();
 
             this.Initialized = true;
         }
