@@ -5,6 +5,7 @@
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
+    using Orchard;
     using Orchard.ContentManagement.MetaData;
     using Orchard.ContentManagement.MetaData.Builders;
     using Orchard.ContentManagement.MetaData.Models;
@@ -96,14 +97,8 @@
 
         protected override void ProcessRecord()
         {
-            string tenantName = null;
-            string contentTypeName = null;
-            if (this.ParameterSetName == "Default")
-            {
-                contentTypeName = this.Name;
-                tenantName = this.GetTenantName();
-            }
-
+            string tenantName = this.GetTenantName();
+            
             ShellSettings tenant = this.TenantObject;
             if (tenant == null)
             {
@@ -114,34 +109,36 @@
             if (tenant != null)
             {
                 this.UsingWorkContextScope(
-                    tenant.Name, 
-                    scope =>
-                    {
-                        var contentDefinitionManager = scope.Resolve<IContentDefinitionManager>();
-
-                        ContentTypeDefinition contentTypeDefinition = contentDefinitionManager
-                            .ListTypeDefinitions()
-                            .FirstOrDefault(cpd => cpd.Name == contentTypeName);
-
-                        if (contentTypeDefinition == null)
-                        {
-                            string target = "ContentType: " + this.Name;
-                            if (this.ShouldProcess(target, "Create"))
-                            {
-                                contentDefinitionManager.AlterTypeDefinition(
-                                    this.Name,
-                                    this.AlterContentTypeDefinition);
-                            }
-                        }
-                        else
-                        {
-                            this.NotifyExistingContentTypeDefinition(contentTypeName, tenantName);
-                        }
-                    });
+                    tenant.Name,
+                    scope => this.CreateContentType(scope, tenantName));
             }
             else
             {
                 this.NotifyFailedToFindTenant(tenantName);
+            }
+        }
+
+        private void CreateContentType(IWorkContextScope scope, string tenantName)
+        {
+            var contentDefinitionManager = scope.Resolve<IContentDefinitionManager>();
+
+            ContentTypeDefinition contentTypeDefinition = contentDefinitionManager
+                .ListTypeDefinitions()
+                .FirstOrDefault(cpd => cpd.Name == this.Name);
+
+            if (contentTypeDefinition == null)
+            {
+                string target = "ContentType: " + this.Name;
+                if (this.ShouldProcess(target, "Create"))
+                {
+                    contentDefinitionManager.AlterTypeDefinition(
+                        this.Name,
+                        this.AlterContentTypeDefinition);
+                }
+            }
+            else
+            {
+                this.NotifyExistingContentTypeDefinition(this.Name, tenantName);
             }
         }
 
