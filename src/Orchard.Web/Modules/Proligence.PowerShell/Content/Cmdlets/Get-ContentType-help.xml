@@ -310,6 +310,14 @@
         <uri/>
       </navigationLink>
       <navigationLink>
+        <linkText>New-ContentType</linkText>
+        <uri/>
+      </navigationLink>
+      <navigationLink>
+        <linkText>Edit-ContentType</linkText>
+        <uri/>
+      </navigationLink>
+      <navigationLink>
         <linkText>Get-Tenant</linkText>
         <uri/>
       </navigationLink>

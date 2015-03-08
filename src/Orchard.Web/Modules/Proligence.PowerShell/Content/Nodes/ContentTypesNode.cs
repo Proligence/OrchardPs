@@ -4,6 +4,7 @@ namespace Proligence.PowerShell.Content.Nodes
     using System.Linq;
     using Orchard.ContentManagement.MetaData;
     using Proligence.PowerShell.Common.Items;
+    using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Provider.Vfs;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
     using Proligence.PowerShell.Utilities;
@@ -11,6 +12,7 @@ namespace Proligence.PowerShell.Content.Nodes
     /// <summary>
     /// Implements a VFS node which contains content type definitions for an Orchard tenant.
     /// </summary>
+    [SupportedCmdlet("Edit-ContentType")]
     public class ContentTypesNode : ContainerNode
     {
         public ContentTypesNode(IPowerShellVfs vfs)
