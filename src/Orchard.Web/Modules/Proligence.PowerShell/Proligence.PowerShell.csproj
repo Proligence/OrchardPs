@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -91,6 +91,7 @@
     <Compile Include="Content\Cmdlets\EditContentPartDefinition.cs" />
     <Compile Include="Content\Cmdlets\GetContentType.cs" />
     <Compile Include="Content\Cmdlets\GetContentPartDefinition.cs" />
+    <Compile Include="Content\Cmdlets\NewContentType.cs" />
     <Compile Include="Content\NavigationProviders\ContentPsNavigationProvider.cs" />
     <Compile Include="Content\Nodes\ContentFieldNode.cs" />
     <Compile Include="Content\Nodes\ContentFieldsNode.cs" />
@@ -143,6 +144,7 @@
   <ItemGroup>
     <Content Include="Cmdlets\Get-OrchardPsCommand-help.xml" />
     <Content Include="Commands\Cmdlets\Invoke-OrchardCommand-help.xml" />
+    <Content Include="Content\Cmdlets\New-ContentType-help.xml" />
     <Content Include="Content\Cmdlets\Edit-ContentPartDefinition-help.xml" />
     <Content Include="Content\Cmdlets\Get-ContentType-help.xml" />
     <Content Include="Content\Cmdlets\Get-ContentPartDefinition-help.xml" />
