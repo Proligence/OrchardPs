@@ -113,6 +113,35 @@
         </TableRowEntries>
       </TableControl>
     </View>
+    <View>
+      <Name>OrchardContentTypePartDefinitionView</Name>
+      <ViewSelectedBy>
+        <TypeName>Orchard.ContentManagement.MetaData.Models.ContentTypePartDefinition</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>ContentType</Label>
+            <Width>30</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Settings</Label>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <ScriptBlock>$_.PartDefinition.Name</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Settings</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
   </ViewDefinitions>
 </Configuration>
 <!-- SIG # Begin signature block -->
