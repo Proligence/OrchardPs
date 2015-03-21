@@ -93,6 +93,7 @@
     <Compile Include="Content\Cmdlets\GetContentPartDefinition.cs" />
     <Compile Include="Content\Cmdlets\EditContentType.cs" />
     <Compile Include="Content\Cmdlets\NewContentType.cs" />
+    <Compile Include="Content\Cmdlets\RemoveContentType.cs" />
     <Compile Include="Content\NavigationProviders\ContentPsNavigationProvider.cs" />
     <Compile Include="Content\Nodes\ContentFieldNode.cs" />
     <Compile Include="Content\Nodes\ContentFieldsNode.cs" />
@@ -145,6 +146,7 @@
   <ItemGroup>
     <Content Include="Cmdlets\Get-OrchardPsCommand-help.xml" />
     <Content Include="Commands\Cmdlets\Invoke-OrchardCommand-help.xml" />
+    <Content Include="Content\Cmdlets\Remove-ContentType-help.xml" />
     <Content Include="Content\Cmdlets\Edit-ContentType-help.xml" />
     <Content Include="Content\Cmdlets\New-ContentType-help.xml" />
     <Content Include="Content\Cmdlets\Edit-ContentPartDefinition-help.xml" />
