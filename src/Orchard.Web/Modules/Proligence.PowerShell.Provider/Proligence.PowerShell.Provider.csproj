@@ -108,6 +108,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Console\UI\OutputType.cs" />
+    <Compile Include="IPsFileSearcher.cs" />
+    <Compile Include="PsFileSearcher.cs" />
     <Compile Include="Utilities\ArgumentList.cs" />
     <Compile Include="CmdletAliasAttribute.cs" />
     <Compile Include="Console\CompletionData.cs" />
