@@ -4,12 +4,11 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
-    using System.IO;
     using System.Linq;
     using System.Management.Automation;
     using System.Management.Automation.Runspaces;
     using System.Reflection;
-    using System.Web.Hosting;
+    using Orchard;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>
@@ -17,14 +16,15 @@
     /// </summary>
     public class OrchardPsSnapIn : CustomPSSnapIn 
     {
+        private readonly IWorkContextAccessor wca;
         private Collection<ProviderConfigurationEntry> providers;
         private Collection<CmdletConfigurationEntry> cmdlets;
         private Collection<FormatConfigurationEntry> formats;
         private Collection<TypeConfigurationEntry> types;
-        private Collection<string> helpFiles;
 
-        public OrchardPsSnapIn()
+        public OrchardPsSnapIn(IWorkContextAccessor wca)
         {
+            this.wca = wca;
             this.Aliases = new Dictionary<string, string>();
         }
 
@@ -79,9 +79,9 @@
         /// </summary>
         public void Initialize()
         {
-            this.LoadHelpFiles();
+            var fileSearcher = this.wca.GetContext().Resolve<IPsFileSearcher>();
             
-            string helpFilePath = this.GetHelpFile("Proligence.PowerShell.Provider.dll");
+            string helpFilePath = fileSearcher.GetHelpFile("Proligence.PowerShell.Provider.dll");
 
             this.providers = new Collection<ProviderConfigurationEntry>
             {
@@ -92,28 +92,25 @@
             this.formats = new Collection<FormatConfigurationEntry>();
             this.types = new Collection<TypeConfigurationEntry>();
             this.Aliases = new Dictionary<string, string>();
-            
-            this.LoadCmdlets(this.cmdlets);
-            
-            DirectoryInfo orchardDirectory = this.GetOrchardDirectory();
-            if (orchardDirectory != null)
-            {
-                this.LoadFormatDataFiles(orchardDirectory.FullName, this.formats);
-                this.LoadTypeDataFiles(orchardDirectory.FullName, this.types);
-            }
+
+            this.LoadCmdlets(this.cmdlets, fileSearcher);
+            this.LoadFormatDataFiles(this.formats, fileSearcher);
+            this.LoadTypeDataFiles(this.types, fileSearcher);
 
             this.Initialized = true;
         }
 
-        /// <summary>
-        /// Discovers the cmdlets defined in Orchard module assemblies.
-        /// </summary>
-        /// <param name="cmdletsCollection">The collection to which the discovered assemblies will be added.</param>
-        private void LoadCmdlets(ICollection<CmdletConfigurationEntry> cmdletsCollection)
+        private void LoadCmdlets(ICollection<CmdletConfigurationEntry> cmdletsCollection, IPsFileSearcher fileSearcher)
         {
-            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (Assembly assembly in assemblies)
             {
                 if (!Attribute.IsDefined(assembly, typeof(PowerShellExtensionContainerAttribute)))
+                {
+                    continue;
+                }
+
+                if (!fileSearcher.IsEnabledModuleAssembly(assembly.Location))
                 {
                     continue;
                 }
@@ -126,31 +123,7 @@
                         {
                             if (typeof(Cmdlet).IsAssignableFrom(type))
                             {
-                                CmdletAttribute cmdletAttribute =
-                                    type.GetCustomAttributes(typeof(CmdletAttribute), false)
-                                        .Cast<CmdletAttribute>()
-                                        .FirstOrDefault();
-
-                                if (cmdletAttribute == null)
-                                {
-                                    Trace.WriteLine(
-                                        "Cannot load cmdlet '" + type.FullName + "' because it's class not " + 
-                                        "decorated with CmdletAttribute.");
-                                    continue;
-                                }
-
-                                string name = cmdletAttribute.VerbName + "-" + cmdletAttribute.NounName;
-                                string helpFile = this.GetHelpFile(name);
-                                cmdletsCollection.Add(new CmdletConfigurationEntry(name, type, helpFile));
-
-                                IEnumerable<CmdletAliasAttribute> assemblyAliases =
-                                    type.GetCustomAttributes(typeof(CmdletAliasAttribute), false)
-                                        .Cast<CmdletAliasAttribute>();
-                                
-                                foreach (CmdletAliasAttribute aliasAttribute in assemblyAliases) 
-                                {
-                                    this.Aliases.Add(aliasAttribute.Alias, name);
-                                }
+                                this.LoadCmdlet(cmdletsCollection, type, fileSearcher);
                             }
                         }
                         catch (Exception ex) 
@@ -166,121 +139,49 @@
             }
         }
 
-        /// <summary>
-        /// Gets the Orchard directory based on the location of the application's entry assembly.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="DirectoryInfo"/> object of the Orchard's root directory or <c>null</c> if Orchard directory
-        /// was not found.
-        /// </returns>
-        private DirectoryInfo GetOrchardDirectory() 
+        private void LoadCmdlet(ICollection<CmdletConfigurationEntry> cmdletsCollection, Type type, IPsFileSearcher fileSearcher)
         {
-            return new DirectoryInfo(HostingEnvironment.ApplicationPhysicalPath);
+            CmdletAttribute cmdletAttribute = type
+                .GetCustomAttributes(typeof(CmdletAttribute), false)
+                .Cast<CmdletAttribute>()
+                .FirstOrDefault();
+
+            if (cmdletAttribute != null)
+            {
+                string name = cmdletAttribute.VerbName + "-" + cmdletAttribute.NounName;
+                string helpFile = fileSearcher.GetHelpFile(name);
+                cmdletsCollection.Add(new CmdletConfigurationEntry(name, type, helpFile));
+
+                IEnumerable<CmdletAliasAttribute> assemblyAliases = type
+                    .GetCustomAttributes(typeof(CmdletAliasAttribute), false)
+                    .Cast<CmdletAliasAttribute>();
+
+                foreach (CmdletAliasAttribute aliasAttribute in assemblyAliases)
+                {
+                    this.Aliases.Add(aliasAttribute.Alias, name);
+                }   
+            }
+            else
+            {
+                Trace.WriteLine(
+                    "Cannot load cmdlet '" + type.FullName + "' because it's class not " +
+                    "decorated with CmdletAttribute.");
+            }
         }
 
-        /// <summary>
-        /// Discovers the PS format files in Orchard module assemblies.
-        /// </summary>
-        /// <param name="directory">The Orchard's root directory.</param>
-        /// <param name="formatsCollection">The collection to which the discovered format files will be added.</param>
-        private void LoadFormatDataFiles(string directory, Collection<FormatConfigurationEntry> formatsCollection) 
+        private void LoadFormatDataFiles(ICollection<FormatConfigurationEntry> formatsCollection, IPsFileSearcher fileSearcher) 
         {
-            string[] fileNames;
-            try 
-            {
-                fileNames = Directory.GetFiles(directory, "*.format.ps1xml", SearchOption.AllDirectories);
-            }
-            catch (Exception ex) 
-            {
-                Trace.WriteLine("Failed to read directory '" + directory + "'. " + ex.Message);
-                return;
-            }
-
-            foreach (string fileName in fileNames) 
+            foreach (string fileName in fileSearcher.GetFormatDataFiles())
             {
                 formatsCollection.Add(new FormatConfigurationEntry(fileName));
             }
         }
 
-        /// <summary>
-        /// Discovers the PS type files in Orchard module assemblies.
-        /// </summary>
-        /// <param name="directory">The Orchard's root directory.</param>
-        /// <param name="typesCollection">The collection to which the discovered type files will be added.</param>
-        private void LoadTypeDataFiles(string directory, Collection<TypeConfigurationEntry> typesCollection)
+        private void LoadTypeDataFiles(ICollection<TypeConfigurationEntry> typesCollection, IPsFileSearcher fileSearcher)
         {
-            string[] fileNames;
-            try
-            {
-                fileNames = Directory.GetFiles(directory, "*.types.ps1xml", SearchOption.AllDirectories);
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine("Failed to read directory '" + directory + "'. " + ex.Message);
-                return;
-            }
-
-            foreach (string fileName in fileNames)
+            foreach (string fileName in fileSearcher.GetTypeDataFiles())
             {
                 typesCollection.Add(new TypeConfigurationEntry(fileName));
-            }
-        }
-
-        /// <summary>
-        /// Gets the path to the help file for the specified cmdlet.
-        /// </summary>
-        /// <param name="cmdletName">The name of the cmdlet.</param>
-        /// <returns>
-        /// The path to the cmdlet's help file or <c>null</c> if the cmdlet does not have a help file.
-        /// </returns>
-        private string GetHelpFile(string cmdletName) 
-        {
-            if (this.helpFiles == null) 
-            {
-                this.LoadHelpFiles();
-            }
-
-            return this.helpFiles.FirstOrDefault(f => f.Contains(cmdletName + "-help.xml"));
-        }
-
-        /// <summary>
-        /// Discovers the PS cmdlet help files in Orchard module assemblies.
-        /// </summary>
-        private void LoadHelpFiles()
-        {
-            this.helpFiles = new Collection<string>();
-
-            DirectoryInfo orchardDirectory = this.GetOrchardDirectory();
-            if (orchardDirectory != null)
-            {
-                this.LoadHelpFiles(orchardDirectory.FullName, this.helpFiles);
-            }
-        }
-
-        /// <summary>
-        /// Discovers the PS cmdlet help files in Orchard module assemblies.
-        /// </summary>
-        /// <param name="directory">The Orchard's root directory.</param>
-        /// <param name="helpFilesCollection">The collection to which the discovered help files will be added.</param>
-        private void LoadHelpFiles(string directory, Collection<string> helpFilesCollection) 
-        {
-            string[] fileNames;
-            try 
-            {
-                fileNames = Directory.GetFiles(directory, "*.xml", SearchOption.AllDirectories);
-            }
-            catch (Exception ex) 
-            {
-                Trace.WriteLine("Failed to read directory '" + directory + "'. " + ex.Message);
-                return;
-            }
-
-            foreach (string fileName in fileNames) 
-            {
-                if (fileName.EndsWith("-help.xml", StringComparison.OrdinalIgnoreCase)) 
-                {
-                    helpFilesCollection.Add(fileName);
-                }
             }
         }
     }

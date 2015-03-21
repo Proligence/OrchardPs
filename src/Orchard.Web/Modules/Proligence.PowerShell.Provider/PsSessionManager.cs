@@ -1,4 +1,4 @@
-﻿namespace Proligence.PowerShell.Provider
+namespace Proligence.PowerShell.Provider
 {
     using System;
     using System.Collections.Concurrent;
@@ -10,6 +10,7 @@
     using Autofac;
     using Microsoft.AspNet.SignalR;
     using Microsoft.AspNet.SignalR.Infrastructure;
+    using Orchard;
     using Proligence.PowerShell.Provider.Console.Host;
     using Proligence.PowerShell.Provider.Console.UI;
 
@@ -25,11 +26,14 @@
         private readonly IComponentContext componentContext;
         private readonly OrchardPsSnapIn snapIn;
 
-        public PsSessionManager(IConnectionManager connectionManager, IComponentContext componentContext)
+        public PsSessionManager(
+            IConnectionManager connectionManager,
+            IWorkContextAccessor workContextAccessor,
+            IComponentContext componentContext)
         {
             this.connectionManager = connectionManager;
             this.componentContext = componentContext;
-            this.snapIn = new OrchardPsSnapIn();
+            this.snapIn = new OrchardPsSnapIn(workContextAccessor);
         }
 
         /// <summary>
@@ -40,10 +44,7 @@
         {
             lock (this.snapIn)
             {
-                if (!this.snapIn.Initialized)
-                {
-                    this.snapIn.Initialize();
-                }
+                this.snapIn.Initialize();
             }
 
             RunspaceConfiguration configuration;
@@ -51,6 +52,7 @@
             {
                 configuration = RunspaceConfiguration.Create();
 
+                // ReSharper disable once InconsistentlySynchronizedField
                 foreach (ProviderConfigurationEntry provider in this.snapIn.Providers) 
                 {
                     if (configuration.Providers.Any(p => p.Name == provider.Name))
@@ -61,6 +63,7 @@
                     configuration.Providers.Append(provider);
                 }
 
+                // ReSharper disable once InconsistentlySynchronizedField
                 foreach (CmdletConfigurationEntry cmdlet in this.snapIn.Cmdlets)
                 {
                     if (configuration.Cmdlets.Any(c => c.Name == cmdlet.Name))
@@ -71,6 +74,7 @@
                     configuration.Cmdlets.Append(cmdlet);
                 }
 
+                // ReSharper disable once InconsistentlySynchronizedField
                 foreach (FormatConfigurationEntry format in this.snapIn.Formats)
                 {
                     if (configuration.Formats.Any(f => f.Name == format.Name))
@@ -81,6 +85,7 @@
                     configuration.Formats.Append(format);
                 }
 
+                // ReSharper disable once InconsistentlySynchronizedField
                 foreach (TypeConfigurationEntry type in this.snapIn.Types)
                 {
                     if (configuration.Types.Any(t => t.Name == type.Name))
@@ -96,6 +101,7 @@
                         "NavigateToOrchardDrive",
                         "if (Test-Path Orchard:) { Set-Location Orchard: }"));
 
+                // ReSharper disable once InconsistentlySynchronizedField
                 foreach (KeyValuePair<string, string> alias in this.snapIn.Aliases)
                 {
                     configuration.InitializationScripts.Append(
