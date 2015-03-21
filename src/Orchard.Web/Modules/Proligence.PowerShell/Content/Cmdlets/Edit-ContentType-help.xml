@@ -100,7 +100,7 @@
 
       <!-- ParameterSet: TenantObject -->
       <command:syntaxItem>
-        <maml:name>New-ContentType</maml:name>
+        <maml:name>Edit-ContentType</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="1">
           <maml:name>Name</maml:name>
           <maml:description>
@@ -168,7 +168,7 @@
 
       <!-- ParameterSet: ContentTypeObject -->
       <command:syntaxItem>
-        <maml:name>New-ContentType</maml:name>
+        <maml:name>Edit-ContentType</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="1">
           <maml:name>Name</maml:name>
           <maml:description>
@@ -250,7 +250,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="1">
         <maml:name>Name</maml:name>
         <maml:description>
-          <maml:para>Specifies the name of the new content type to edit.</maml:para>
+          <maml:para>Specifies the name of the content type to edit.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
         <dev:type>
@@ -456,12 +456,12 @@
           <maml:para>Orchard:\&gt; </maml:para>
         </maml:introduction>
         <dev:code>
-          Edit-ContentType MyPart -DisplayName 'My Part'
+          Edit-ContentType MyType -DisplayName 'My Type'
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>This command modifies the display name of the the content type with the name 'MyType'. In this case the content part is edited in the Default tenant, as the command is called from the root path of the Orchard drive and no tenant name or object was specified as a parameter.</maml:para>
+          <maml:para>This command modifies the display name of the the content type with the name 'MyType'. In this case the content type is edited in the Default tenant, as the command is called from the root path of the Orchard drive and no tenant name or object was specified as a parameter.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
@@ -487,7 +487,7 @@
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>This command marks the content type with the name 'MyType' as creatable. In this case the content part is edited in the tenant 'MyTenant', since the current location in the Orchard drive belongs to this tenant and no tenant name or object was specified as a parameter.</maml:para>
+          <maml:para>This command marks the content type with the name 'MyType' as creatable. In this case the content type is edited in the tenant 'MyTenant', since the current location in the Orchard drive belongs to this tenant and no tenant name or object was specified as a parameter.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
