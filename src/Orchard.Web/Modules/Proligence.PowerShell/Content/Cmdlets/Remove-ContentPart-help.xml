@@ -8,14 +8,14 @@
     <!-- Cmdlet details section-->
     
     <command:details>
-      <command:name>Add-ContentPart</command:name>
+      <command:name>Remove-ContentPart</command:name>
       <maml:description>
-        <maml:para>Adds a content part to an Orchard content type.</maml:para>
+        <maml:para>Removes a content part from an Orchard content type.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para></maml:para>
       </maml:copyright>
-      <command:verb>Add</command:verb>
+      <command:verb>Remove</command:verb>
       <command:noun>ContentPart</command:noun>
       <dev:version></dev:version>
     </command:details>
@@ -23,7 +23,7 @@
     <!-- Cmdlet description section-->
     
     <maml:description>
-      <maml:para>The Add-ContentPart cmdlet adds a content part to an Orchard content type.</maml:para>
+      <maml:para>The Remove-ContentPart cmdlet removes a content part from an Orchard content type.</maml:para>
     </maml:description>
 
     <!-- Cmdlet syntax section-->
@@ -32,25 +32,25 @@
 
       <!-- ParameterSet: Default -->
       <command:syntaxItem>
-        <maml:name>Add-ContentPart</maml:name>
+        <maml:name>Remove-ContentPart</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="1">
           <maml:name>ContentType</maml:name>
           <maml:description>
-            <maml:para>Specifies the name of the content type to which the content part will be added.</maml:para>
+            <maml:para>Specifies the name of the content type from which the content part will be removed.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="2">
           <maml:name>ContentPart</maml:name>
           <maml:description>
-            <maml:para>Specifies the name of the content part which will be added to the content type.</maml:para>
+            <maml:para>Specifies the name of the content part which will be removed from the content type.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>Tenant</maml:name>
           <maml:description>
-            <maml:para>Specifies the name of the Orchard tenant which contains the content type to which the content part will be added.</maml:para>
+            <maml:para>Specifies the name of the Orchard tenant which contains the content type from which the content part will be removed.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
         </command:parameter>
@@ -58,25 +58,25 @@
 
       <!-- ParameterSet: ContentTypeObject -->
       <command:syntaxItem>
-        <maml:name>Add-ContentPart</maml:name>
+        <maml:name>Remove-ContentPart</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="true">
           <maml:name>ContentTypeObject</maml:name>
           <maml:description>
-            <maml:para>Specifies the content type to which the content part will be added. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-ContentType cmdlet. This parameter is required.</maml:para>
+            <maml:para>Specifies the content type from which the content part will be removed. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-ContentType cmdlet. This parameter is required.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="true">Orchard.ContentManagement.MetaData.Models.ContentTypeDefinition</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>ContentPart</maml:name>
           <maml:description>
-            <maml:para>Specifies the name of the content part which will be added to the content type.</maml:para>
+            <maml:para>Specifies the name of the content part which will be removed from the content type.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>Tenant</maml:name>
           <maml:description>
-            <maml:para>Specifies the name of the Orchard tenant which contains the content type to which the content part will be added.</maml:para>
+            <maml:para>Specifies the name of the Orchard tenant which contains the content type from which the content part will be removed.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
         </command:parameter>
@@ -84,25 +84,25 @@
 
       <!-- ParameterSet: ContentPartObject -->
       <command:syntaxItem>
-        <maml:name>Add-ContentPart</maml:name>
+        <maml:name>Remove-ContentPart</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="true">
           <maml:name>ContentPartObject</maml:name>
           <maml:description>
-            <maml:para>Specifies the definition of the content part which will be added to the content type. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-ContentPartDefinition cmdlet. This parameter is required.</maml:para>
+            <maml:para>Specifies the definition of the content part which will be removed from the content type. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-ContentPartDefinition cmdlet. This parameter is required.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="true">Orchard.ContentManagement.MetaData.Models.ContentPartDefinition</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="1">
           <maml:name>ContentType</maml:name>
           <maml:description>
-            <maml:para>Specifies the name of the content type to which the content part will be added.</maml:para>
+            <maml:para>Specifies the name of the content type from which the content part will be removed.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>Tenant</maml:name>
           <maml:description>
-            <maml:para>Specifies the name of the Orchard tenant which contains the content type to which the content part will be added.</maml:para>
+            <maml:para>Specifies the name of the Orchard tenant which contains the content type from which the content part will be removed.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
         </command:parameter>
@@ -110,25 +110,25 @@
 
       <!-- ParameterSet: TenantObject -->
       <command:syntaxItem>
-        <maml:name>Add-ContentPart</maml:name>
+        <maml:name>Remove-ContentPart</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="true">
           <maml:name>TenantObject</maml:name>
           <maml:description>
-            <maml:para>Specifies the object that represents the Orchard tenant which contains the content type to which the content part will be added. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet. This parameter is required.</maml:para>
+            <maml:para>Specifies the object that represents the Orchard tenant which contains the content type from which the content part will be removed. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet. This parameter is required.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="true">Orchard.Environment.Configuration.ShellSettings</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="1">
           <maml:name>ContentType</maml:name>
           <maml:description>
-            <maml:para>Specifies the name of the content type to which the content part will be added.</maml:para>
+            <maml:para>Specifies the name of the content type from which the content part will be removed.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="2">
           <maml:name>ContentPart</maml:name>
           <maml:description>
-            <maml:para>Specifies the name of the content part which will be added to the content type.</maml:para>
+            <maml:para>Specifies the name of the content part which will be removed from the content type.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
         </command:parameter>
@@ -143,7 +143,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
         <maml:name>ContentType</maml:name>
         <maml:description>
-          <maml:para>Specifies the name of the content type to which the content part will be added.</maml:para>
+          <maml:para>Specifies the name of the content type from which the content part will be removed.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
         <dev:type>
@@ -156,7 +156,7 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true">
         <maml:name>ContentTypeObject</maml:name>
         <maml:description>
-          <maml:para>Specifies the content type to which the content part will be added. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-ContentType cmdlet.</maml:para>
+          <maml:para>Specifies the content type from which the content part will be removed. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-ContentType cmdlet.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Orchard.ContentManagement.MetaData.Models.ContentTypeDefinition</command:parameterValue>
         <dev:type>
@@ -169,7 +169,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="2">
         <maml:name>ContentPart</maml:name>
         <maml:description>
-          <maml:para>Specifies the name of the content part which will be added to the content type.</maml:para>
+          <maml:para>Specifies the name of the content part which will be removed from the content type.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
         <dev:type>
@@ -182,7 +182,7 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true">
         <maml:name>ContentPartObject</maml:name>
         <maml:description>
-          <maml:para>Specifies the definition of the content part which will be added to the content type. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-ContentPartDefinition cmdlet.</maml:para>
+          <maml:para>Specifies the definition of the content part which will be removed from the content type. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-ContentPartDefinition cmdlet.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Orchard.ContentManagement.MetaData.Models.ContentTypeDefinition</command:parameterValue>
         <dev:type>
@@ -195,7 +195,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
         <maml:name>Tenant</maml:name>
         <maml:description>
-          <maml:para>Specifies the name of the Orchard tenant which contains the content type to which the content part will be added.</maml:para>
+          <maml:para>Specifies the name of the Orchard tenant which contains the content type from which the content part will be removed.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
         <dev:type>
@@ -208,7 +208,7 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true">
         <maml:name>TenantObject</maml:name>
         <maml:description>
-          <maml:para>Specifies the object that represents the Orchard tenant which contains the content type to which the content part will be added. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
+          <maml:para>Specifies the object that represents the Orchard tenant which contains the content type from which the content part will be removed. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Orchard.Environment.Configuration.ShellSettings</command:parameterValue>
         <dev:type>
@@ -231,7 +231,7 @@
           <maml:description />
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe instances of the ShellSettings class to Add-ContentPart. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
+          <maml:para>You can pipe instances of the ShellSettings class to Remove-ContentPart. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
         </maml:description>
       </command:inputType>
       
@@ -242,7 +242,7 @@
           <maml:description />
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe instances of the ContentTypeDefinition class to Add-ContentPart. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-ContentType cmdlet.</maml:para>
+          <maml:para>You can pipe instances of the ContentTypeDefinition class to Remove-ContentPart. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-ContentType cmdlet.</maml:para>
         </maml:description>
       </command:inputType>
 
@@ -253,7 +253,7 @@
           <maml:description />
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe instances of the ContentPartDefinition class to Add-ContentPart. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-ContentPartDefinition cmdlet.</maml:para>
+          <maml:para>You can pipe instances of the ContentPartDefinition class to Remove-ContentPart. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-ContentPartDefinition cmdlet.</maml:para>
         </maml:description>
       </command:inputType>
       
@@ -275,7 +275,7 @@
           When no tenant is specified, then the command will use the tenant at the current location in the Orchard drive. If the location is not in any Orchard tenant, then the Default tenant is used.
         </maml:para>
         <maml:para>
-          If the content type already has the specified content part, then the cmdlet has no effect.
+          If the content type does not have the specified content part, then the cmdlet has no effect.
         </maml:para>
         <maml:para />
       </maml:alert>
@@ -293,12 +293,12 @@
           <maml:para>Orchard:\Tenants\MyTenant&gt; </maml:para>
         </maml:introduction>
         <dev:code>
-          Add-ContentPart BlogPost TitlePart
+          Remove-ContentPart BlogPost TitlePart
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>This command adds the 'TitlePart' content part to the 'BlogPost' content type. In this case the tenant from the current location in the Orchard drive is used, since no tenant name or object was specified as a parameter.</maml:para>
+          <maml:para>This command removes the 'TitlePart' content part from the 'BlogPost' content type. In this case the tenant from the current location in the Orchard drive is used, since no tenant name or object was specified as a parameter.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
@@ -319,12 +319,12 @@
           <maml:para>Orchard:\&gt; </maml:para>
         </maml:introduction>
         <dev:code>
-          Add-ContentPart BlogPost TitlePart -Tenant 'MyTenant'
+          Remove-ContentPart BlogPost TitlePart -Tenant 'MyTenant'
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>This command adds the 'TitlePart' content part to the 'BlogPost' content type. In this case the tenant is specified explicitly using the 'Tenant' parameter.</maml:para>
+          <maml:para>This command removes the 'TitlePart' content part from the 'BlogPost' content type. In this case the tenant is specified explicitly using the 'Tenant' parameter.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
@@ -345,12 +345,12 @@
           <maml:para>Orchard:\&gt; </maml:para>
         </maml:introduction>
         <dev:code>
-          Get-ContentType BlogPost | Add-ContentPart -ContentPart TitlePart
+          Get-ContentType BlogPost | Remove-ContentPart -ContentPart TitlePart
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>This command adds the 'TitlePart' content part to the 'BlogPost' content type. The command uses the 'Get-ContentType' to get the definition of the 'BlogPost' content type and pipes that object to the 'Add-ContentPart' cmdlet.</maml:para>
+          <maml:para>This command removes the 'TitlePart' content part from the 'BlogPost' content type. The command uses the 'Get-ContentType' to get the definition of the 'BlogPost' content type and pipes that object to the 'Add-ContentPart' cmdlet.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
@@ -371,12 +371,12 @@
           <maml:para>Orchard:\&gt; </maml:para>
         </maml:introduction>
         <dev:code>
-          Get-ContentPartDefinition TitlePart | Add-ContentPart BlogPost
+          Get-ContentPartDefinition TitlePart | Remove-ContentPart BlogPost
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>This command adds the 'TitlePart' content part to the 'BlogPost' content type. The command uses the 'Get-ContentPartDefinition' to get the definition of the 'TitlePart' content part and pipes that object to the 'Add-ContentPart' cmdlet.</maml:para>
+          <maml:para>This command removes the 'TitlePart' content part from the 'BlogPost' content type. The command uses the 'Get-ContentPartDefinition' to get the definition of the 'TitlePart' content part and pipes that object to the 'Add-ContentPart' cmdlet.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
@@ -411,7 +411,7 @@
         <uri/>
       </navigationLink>
       <navigationLink>
-        <linkText>Remove-ContentPart</linkText>
+        <linkText>Add-ContentPart</linkText>
         <uri/>
       </navigationLink>
     </RelatedLinks>

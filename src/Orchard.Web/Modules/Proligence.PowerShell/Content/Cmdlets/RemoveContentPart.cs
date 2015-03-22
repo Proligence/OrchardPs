@@ -4,18 +4,18 @@
     using Orchard.ContentManagement.MetaData.Builders;
     using Proligence.PowerShell.Provider;
 
-    [CmdletAlias("acp")]
-    [Cmdlet(VerbsCommon.Add, "ContentPart", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
-    public class AddContentPart : AlterContentTypePartCmdletBase
+    [CmdletAlias("rcp")]
+    [Cmdlet(VerbsCommon.Remove, "ContentPart", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
+    public class RemoveContentPart : AlterContentTypePartCmdletBase
     {
         protected override string GetActionName(string contentPartName, string tenantName)
         {
-            return "Add Part: " + contentPartName + ", Tenant: " + tenantName;
+            return "Remove Part: " + contentPartName + ", Tenant: " + tenantName;
         }
 
         protected override void PerformAction(ContentTypeDefinitionBuilder builder, string contentPartName)
         {
-            builder.WithPart(contentPartName);
+            builder.RemovePart(contentPartName);
         }
     }
 }
