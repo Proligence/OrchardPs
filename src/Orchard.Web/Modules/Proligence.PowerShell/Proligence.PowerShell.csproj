@@ -88,6 +88,8 @@
     <Compile Include="Commands\NavigationProviders\CommandsPsNavigationProvider.cs" />
     <Compile Include="Commands\Nodes\CommandNode.cs" />
     <Compile Include="Commands\Nodes\CommandsNode.cs" />
+    <Compile Include="Content\Cmdlets\AddContentField.cs" />
+    <Compile Include="Content\Cmdlets\AlterContentPartFieldCmdletBase.cs" />
     <Compile Include="Content\Cmdlets\AlterContentTypePartCmdletBase.cs" />
     <Compile Include="Content\Cmdlets\RemoveContentPart.cs" />
     <Compile Include="Content\Cmdlets\AddContentPart.cs" />
@@ -150,6 +152,7 @@
   <ItemGroup>
     <Content Include="Cmdlets\Get-OrchardPsCommand-help.xml" />
     <Content Include="Commands\Cmdlets\Invoke-OrchardCommand-help.xml" />
+    <Content Include="Content\Cmdlets\Add-ContentField-help.xml" />
     <Content Include="Content\Cmdlets\Remove-ContentPart-help.xml" />
     <Content Include="Content\Cmdlets\Add-ContentPart-help.xml" />
     <Content Include="Content\Cmdlets\Get-ContentPart-help.xml" />
