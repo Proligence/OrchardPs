@@ -1,0 +1,340 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<helpItems xmlns="http://msh" schema="maml">
+  <command:command 
+    xmlns:maml="http://schemas.microsoft.com/maml/2004/10"
+    xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10"
+    xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+
+    <!-- Cmdlet details section-->
+    
+    <command:details>
+      <command:name>Remove-ContentField</command:name>
+      <maml:description>
+        <maml:para>Removes a content field from an Orchard content part.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Remove</command:verb>
+      <command:noun>ContentField</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+
+    <!-- Cmdlet description section-->
+    
+    <maml:description>
+      <maml:para>The Remove-ContentField cmdlet removes a content field from an Orchard content part.</maml:para>
+    </maml:description>
+
+    <!-- Cmdlet syntax section-->
+    
+    <command:syntax>
+
+      <!-- ParameterSet: Default -->
+      <command:syntaxItem>
+        <maml:name>Remove-ContentField</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="1">
+          <maml:name>ContentPart</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the content part from which the content field will be removed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="2">
+          <maml:name>ContentField</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the content field which will be removed from the content part.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Tenant</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the Orchard tenant which contains the content part from which the content field will be removed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+
+      <!-- ParameterSet: ContentPartObject -->
+      <command:syntaxItem>
+        <maml:name>Remove-ContentField</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="true">
+          <maml:name>ContentPartObject</maml:name>
+          <maml:description>
+            <maml:para>Specifies the content part from which the content field will be removed. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-ContentPartDefinition cmdlet. This parameter is required.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">Orchard.ContentManagement.MetaData.Models.ContentPartDefinition</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>ContentField</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the content field which will be removed to the content part.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Tenant</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the Orchard tenant which contains the content part from which the content field will be removed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+
+      <!-- ParameterSet: TenantObject -->
+      <command:syntaxItem>
+        <maml:name>Remove-ContentField</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="true">
+          <maml:name>TenantObject</maml:name>
+          <maml:description>
+            <maml:para>Specifies the object that represents the Orchard tenant which contains the content part from which the content field will be removed. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet. This parameter is required.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">Orchard.Environment.Configuration.ShellSettings</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="1">
+          <maml:name>ContentPart</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the content part from which the content field will be removed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="2">
+          <maml:name>ContentField</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the content field which will be removed from the content part.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      
+    </command:syntax>
+
+    <!-- Cmdlet parameters section-->
+    
+    <command:parameters>
+      
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
+        <maml:name>ContentPart</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the content part from which the content field will be removed.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true">
+        <maml:name>ContentPartObject</maml:name>
+        <maml:description>
+          <maml:para>Specifies the content part from which the content field will be removed. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-ContentPartDefinition cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Orchard.ContentManagement.MetaData.Models.ContentPartDefinition</command:parameterValue>
+        <dev:type>
+          <maml:name>Orchard.ContentManagement.MetaData.Models.ContentPartDefinition</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="2">
+        <maml:name>ContentField</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the content field which will be removed from the content part.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+        <maml:name>Tenant</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the Orchard tenant which contains the content part from which the content field will be removed.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true">
+        <maml:name>TenantObject</maml:name>
+        <maml:description>
+          <maml:para>Specifies the object that represents the Orchard tenant which contains the content part from which the content field will be removed. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Orchard.Environment.Configuration.ShellSettings</command:parameterValue>
+        <dev:type>
+          <maml:name>Orchard.Environment.Configuration.ShellSettings</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      
+    </command:parameters>
+
+    <!-- Input - Output section-->
+    
+    <command:inputTypes>
+      
+      <command:inputType>
+        <dev:type>
+          <maml:name>Orchard.Environment.Configuration.ShellSettings</maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe instances of the ShellSettings class to Removed-ContentField. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
+        </maml:description>
+      </command:inputType>
+      
+      <command:inputType>
+        <dev:type>
+          <maml:name>Orchard.ContentManagement.MetaData.Models.ContentPartDefinition</maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe instances of the ContentPartDefinition class to Remove-ContentField. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-ContentPartDefinition cmdlet.</maml:para>
+        </maml:description>
+      </command:inputType>
+      
+    </command:inputTypes>
+
+    <command:returnValues />
+
+    <!-- Error section-->
+    
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+
+    <!-- Notes section  -->
+
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+          When no tenant is specified, then the command will use the tenant at the current location in the Orchard drive. If the location is not in any Orchard tenant, then the Default tenant is used.
+        </maml:para>
+        <maml:para>
+          If the content part does not have the specified content field, then the cmdlet has no effect.
+        </maml:para>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+
+    <!-- Example section  -->
+    
+    <command:examples>
+      
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>Orchard:\Tenants\MyTenant&gt; </maml:para>
+        </maml:introduction>
+        <dev:code>
+          Remove-ContentField TitlePart BooleanField
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command removes the 'BooleanField' content field from the 'TitlePart' content part. In this case the tenant from the current location in the Orchard drive is used, since no tenant name or object was specified as a parameter.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>Orchard:\&gt; </maml:para>
+        </maml:introduction>
+        <dev:code>
+          Remove-ContentField TitlePart BooleanField -Tenant 'MyTenant'
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command removes the 'BooleanField' content field from the 'TitlePart' content part. In this case the tenant is specified explicitly using the 'Tenant' parameter.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 3 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>Orchard:\&gt; </maml:para>
+        </maml:introduction>
+        <dev:code>
+          Get-ContentPartDefinition TitlePart | Remove-ContentField -ContentField BooleanField
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command removes the 'BooleanField' content field from the 'TitlePart' content part. The command uses the 'Get-ContentPartDefinition' cmdlet to get the definition of the 'TitlePart' content part and pipes that object to the 'Remove-ContentField' cmdlet.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+    </command:examples>
+
+    <!-- Related links section  -->
+
+    <RelatedLinks>
+      <navigationLink>
+        <linkText>Get-ContentPartDefinition</linkText>
+        <uri/>
+      </navigationLink>
+      <navigationLink>
+        <linkText>Get-ChildItem</linkText>
+        <uri/>
+      </navigationLink>
+      <navigationLink>
+        <linkText>Get-Tenant</linkText>
+        <uri/>
+      </navigationLink>
+      <navigationLink>
+        <linkText>Add-ContentField</linkText>
+        <uri/>
+      </navigationLink>
+    </RelatedLinks>
+
+  </command:command>
+</helpItems>
