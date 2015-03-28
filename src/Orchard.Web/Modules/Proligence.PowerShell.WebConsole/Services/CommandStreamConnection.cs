@@ -1,18 +1,23 @@
-﻿namespace Proligence.PowerShell.Provider.Console.UI
+﻿namespace Proligence.PowerShell.WebConsole.Services
 {
     using System.Threading.Tasks;
     using Microsoft.AspNet.SignalR;
+    using Microsoft.AspNet.SignalR.Infrastructure;
     using Newtonsoft.Json;
+    using Proligence.PowerShell.Provider;
+    using Proligence.PowerShell.Provider.Console.UI;
     using Proligence.SignalR.Core;
 
     [Connection("commandstream")]
     public class CommandStreamConnection : PersistentConnection 
     {
         private readonly IPsSessionManager sessionManager;
+        private readonly IConnectionManager connectionManager;
 
-        public CommandStreamConnection(IPsSessionManager sessionManager) 
+        public CommandStreamConnection(IPsSessionManager sessionManager, IConnectionManager connectionManager)
         {
             this.sessionManager = sessionManager;
+            this.connectionManager = connectionManager;
         }
 
         protected override Task OnConnected(IRequest request, string connectionId) 
@@ -21,14 +26,10 @@
             return base.OnConnected(request, connectionId);
         }
 
-        protected override bool AuthorizeRequest(IRequest request) 
-        {
-            return base.AuthorizeRequest(request);
-        }
-
         protected override Task OnDisconnected(IRequest request, string connectionId, bool stopCalled) 
         {
-            Connection.Send(connectionId, new OutputData { Output = "\r\nSession terminated!  Press ENTER to start a new session.\r\n" }).Wait();
+            var outputData = new OutputData { Output = "\r\nSession terminated!  Press ENTER to start a new session.\r\n" };
+            this.Connection.Send(connectionId, outputData).Wait();
             this.EndSession(connectionId);
             return base.OnDisconnected(request, connectionId, stopCalled);
         }
@@ -40,7 +41,7 @@
 
             if (input.Completion) 
             {
-                Connection.Send(
+                this.Connection.Send(
                     connectionId, 
                     new OutputData 
                     { 
@@ -58,8 +59,14 @@
 
         private IPsSession CreateSession(string connectionId)
         {
-            return this.sessionManager.GetSession(connectionId)
-                ?? this.sessionManager.NewSession(connectionId);
+            var session = this.sessionManager.GetSession(connectionId);
+            if (session == null)
+            {
+                var connection = new SignalRConsoleConnection(this.connectionManager);
+                session = this.sessionManager.NewSession(connectionId, connection);
+            }
+
+            return session;
         }
 
         private void EndSession(string connectionId)

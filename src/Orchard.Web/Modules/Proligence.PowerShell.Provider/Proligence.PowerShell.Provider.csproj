@@ -51,9 +51,6 @@
     <Reference Include="Autofac">
       <HintPath>..\..\..\..\lib\autofac\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.Core">
-      <HintPath>..\Proligence.SignalR\lib\signalr\Microsoft.AspNet.SignalR.Core.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -97,10 +94,6 @@
       <Project>{9916839C-39FC-4CEB-A5AF-89CA7E87119F}</Project>
       <Name>Orchard.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Proligence.SignalR\Proligence.SignalR.csproj">
-      <Project>{36a35e6c-f1ef-4a5a-85c1-07f6b3270578}</Project>
-      <Name>Proligence.SignalR</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Proligence.PowerShell.Provider.dll-help.xml" />
@@ -108,6 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Console\UI\OutputType.cs" />
+    <Compile Include="IConsoleConnection.cs" />
     <Compile Include="IPsFileSearcher.cs" />
     <Compile Include="PsFileSearcher.cs" />
     <Compile Include="Utilities\ArgumentList.cs" />
@@ -118,7 +112,6 @@
     <Compile Include="Console\Host\ConsoleHost.cs" />
     <Compile Include="Console\Host\ConsoleHostPrivateData.cs" />
     <Compile Include="Console\Host\ICommandExecutor.cs" />
-    <Compile Include="Console\UI\CommandStreamConnection.cs" />
     <Compile Include="Console\UI\ConsoleHostRawUserInterface.cs" />
     <Compile Include="Console\UI\ConsoleHostUserInterface.cs" />
     <Compile Include="Console\UI\InputData.cs" />

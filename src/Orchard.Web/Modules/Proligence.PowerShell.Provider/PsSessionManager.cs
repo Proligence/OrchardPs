@@ -8,8 +8,6 @@ namespace Proligence.PowerShell.Provider
     using System.Management.Automation.Host;
     using System.Management.Automation.Runspaces;
     using Autofac;
-    using Microsoft.AspNet.SignalR;
-    using Microsoft.AspNet.SignalR.Infrastructure;
     using Orchard;
     using Proligence.PowerShell.Provider.Console.Host;
     using Proligence.PowerShell.Provider.Console.UI;
@@ -22,25 +20,16 @@ namespace Proligence.PowerShell.Provider
         protected static readonly ConcurrentDictionary<string, IPsSession> Sessions
             = new ConcurrentDictionary<string, IPsSession>();
 
-        private readonly IConnectionManager connectionManager;
         private readonly IComponentContext componentContext;
         private readonly OrchardPsSnapIn snapIn;
 
-        public PsSessionManager(
-            IConnectionManager connectionManager,
-            IWorkContextAccessor workContextAccessor,
-            IComponentContext componentContext)
+        public PsSessionManager(IWorkContextAccessor workContextAccessor, IComponentContext componentContext)
         {
-            this.connectionManager = connectionManager;
             this.componentContext = componentContext;
             this.snapIn = new OrchardPsSnapIn(workContextAccessor);
         }
 
-        /// <summary>
-        /// Creates a new session.
-        /// </summary>
-        /// <returns>The object which represents the session.</returns>
-        public IPsSession NewSession(string connectionId)
+        public IPsSession NewSession(string connectionId, IConsoleConnection connection)
         {
             lock (this.snapIn)
             {
@@ -115,12 +104,12 @@ namespace Proligence.PowerShell.Provider
                 throw new InvalidOperationException("Failed to create runspace configuration. " + ex.Message, ex);
             }
 
-            var ctx = this.connectionManager.GetConnectionContext<CommandStreamConnection>();
+            connection.Initialize();
             var consoleHost = new ConsoleHost(this.componentContext);
             var session = new PsSession(consoleHost, configuration, this.componentContext, connectionId);
 
             // Path is not available at this point
-            session.Sender = data => ctx.Connection.Send(connectionId, data).Wait();
+            session.Sender = data => connection.Send(connectionId, data);
 
             session.Initialize();
             consoleHost.AttachToSession(session);
@@ -128,11 +117,11 @@ namespace Proligence.PowerShell.Provider
             session.Sender = data => 
             {
                 data.Path = data.Path ?? session.Path + "> ";
-                ctx.Connection.Send(connectionId, data).Wait();
+                connection.Send(connectionId, data);
             };
 
             Sessions.AddOrUpdate(
-                connectionId, 
+                connectionId,
                 session, 
                 (s, psSession) => 
                 { 
@@ -140,12 +129,8 @@ namespace Proligence.PowerShell.Provider
                     return session;
                 });
 
-            ctx.Connection.Send(
-                connectionId, 
-                new OutputData 
-                {
-                    Path = session.Path
-                }).Wait();
+            var outputData = new OutputData { Path = session.Path };
+            connection.Send(connectionId, outputData);
 
             DisplayWelcomeBanner(session);
 

@@ -10,8 +10,10 @@
         /// <summary>
         /// Creates a new session.
         /// </summary>
+        /// <param name="connectionId">The identifier of the connection.</param>
+        /// <param name="connection">The connection proxy implementation.</param>
         /// <returns>The object which represents the session.</returns>
-        IPsSession NewSession(string connectionId);
+        IPsSession NewSession(string connectionId, IConsoleConnection connection);
 
         /// <summary>
         /// Retrieves PS session for a given connection ID.
