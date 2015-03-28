@@ -7,6 +7,7 @@ mklink /J %1\src\Orchard.Tests.Modules.PowerShell %~dp0src\Orchard.Tests.Modules
 mklink /J %1\src\Orchard.Tests.Modules.PowerShell.Provider %~dp0src\Orchard.Tests.Modules.PowerShell.Provider
 mklink /J %1\src\Orchard.Web\Modules\Proligence.PowerShell %~dp0src\Orchard.Web\Modules\Proligence.PowerShell
 mklink /J %1\src\Orchard.Web\Modules\Proligence.PowerShell.Provider %~dp0src\Orchard.Web\Modules\Proligence.PowerShell.Provider
+mklink /J %1\src\Orchard.Web\Modules\Proligence.PowerShell.WebConsole %~dp0src\Orchard.Web\Modules\Proligence.PowerShell.WebConsole
 goto done
 
 :usage

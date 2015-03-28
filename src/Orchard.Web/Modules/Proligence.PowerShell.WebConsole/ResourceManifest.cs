@@ -1,4 +1,4 @@
-namespace Proligence.PowerShell 
+namespace Proligence.PowerShell.WebConsole
 {
     using Orchard.Environment.Extensions;
     using Orchard.UI.Resources;

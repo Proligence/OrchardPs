@@ -6,12 +6,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9C300795-5E99-4894-AEB1-E6B38DFF0D78}</ProjectGuid>
+    <ProjectGuid>{8599FF4A-F0CB-4C69-821F-7DE8E4297E92}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Proligence.PowerShell</RootNamespace>
-    <AssemblyName>Proligence.PowerShell</AssemblyName>
+    <RootNamespace>Proligence.PowerShell.WebConsole</RootNamespace>
+    <AssemblyName>Proligence.PowerShell.WebConsole</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <FileUpgradeFlags>
@@ -82,92 +82,17 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cmdlets\GetOrchardPsCommand.cs" />
-    <Compile Include="Commands\Cmdlets\InvokeOrchardCommand.cs" />
-    <Compile Include="Commands\Items\OrchardCommand.cs" />
-    <Compile Include="Commands\NavigationProviders\CommandsPsNavigationProvider.cs" />
-    <Compile Include="Commands\Nodes\CommandNode.cs" />
-    <Compile Include="Commands\Nodes\CommandsNode.cs" />
-    <Compile Include="Content\Cmdlets\RemoveContentField.cs" />
-    <Compile Include="Content\Cmdlets\AddContentField.cs" />
-    <Compile Include="Content\Cmdlets\AlterContentPartFieldCmdletBase.cs" />
-    <Compile Include="Content\Cmdlets\AlterContentTypePartCmdletBase.cs" />
-    <Compile Include="Content\Cmdlets\RemoveContentPart.cs" />
-    <Compile Include="Content\Cmdlets\AddContentPart.cs" />
-    <Compile Include="Content\Cmdlets\EditContentPartDefinition.cs" />
-    <Compile Include="Content\Cmdlets\GetContentPart.cs" />
-    <Compile Include="Content\Cmdlets\GetContentType.cs" />
-    <Compile Include="Content\Cmdlets\GetContentPartDefinition.cs" />
-    <Compile Include="Content\Cmdlets\EditContentType.cs" />
-    <Compile Include="Content\Cmdlets\NewContentType.cs" />
-    <Compile Include="Content\Cmdlets\RemoveContentType.cs" />
-    <Compile Include="Content\NavigationProviders\ContentPsNavigationProvider.cs" />
-    <Compile Include="Content\Nodes\ContentFieldNode.cs" />
-    <Compile Include="Content\Nodes\ContentFieldsNode.cs" />
-    <Compile Include="Content\Nodes\ContentNode.cs" />
-    <Compile Include="Content\Nodes\ContentTypeNode.cs" />
-    <Compile Include="Content\Nodes\ContentPartNode.cs" />
-    <Compile Include="Content\Nodes\ContentTypesNode.cs" />
-    <Compile Include="Content\Nodes\ContentPartsNode.cs" />
-    <Compile Include="Internal\ErrorIds.cs" />
-    <Compile Include="Modules\Cmdlets\DisableOrchardFeature.cs" />
-    <Compile Include="Modules\Cmdlets\EnableOrchardFeature.cs" />
-    <Compile Include="Modules\Cmdlets\EnableOrchardTheme.cs" />
-    <Compile Include="Modules\Cmdlets\GetOrchardFeature.cs" />
-    <Compile Include="Modules\Cmdlets\GetOrchardTheme.cs" />
-    <Compile Include="Modules\Items\OrchardTheme.cs" />
-    <Compile Include="Modules\NavigationProviders\FeaturesPsNavigationProvider.cs" />
-    <Compile Include="Modules\NavigationProviders\ModulesPsNavigationProvider.cs" />
-    <Compile Include="Modules\NavigationProviders\ThemesPsNavigationProvider.cs" />
-    <Compile Include="Modules\Nodes\FeatureCategoryNode.cs" />
-    <Compile Include="Modules\Nodes\FeatureNode.cs" />
-    <Compile Include="Modules\Nodes\FeaturesNode.cs" />
-    <Compile Include="Modules\Nodes\ModuleNode.cs" />
-    <Compile Include="Modules\Nodes\ModulesNode.cs" />
-    <Compile Include="Modules\Nodes\ThemeNode.cs" />
-    <Compile Include="Modules\Nodes\ThemesNode.cs" />
-    <Compile Include="Utilities\CmdletHelper.cs" />
-    <Compile Include="Utilities\OrchardCmdletExtensions.cs" />
-    <Compile Include="Utilities\VfsNodeExtensions.cs" />
-    <Compile Include="Common\Items\CollectionItem.cs" />
-    <Compile Include="Common\Items\DescriptionItem.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tenants\Cmdlets\DisableTenant.cs" />
-    <Compile Include="Tenants\Cmdlets\EditTenant.cs" />
-    <Compile Include="Tenants\Cmdlets\EnableTenant.cs" />
-    <Compile Include="Tenants\Cmdlets\GetTenant.cs" />
-    <Compile Include="Tenants\Cmdlets\NewTenant.cs" />
-    <Compile Include="Tenants\Cmdlets\RemoveTenant.cs" />
-    <Compile Include="Tenants\NavigationProviders\TenantConfigurationPsNavigationProvider.cs" />
-    <Compile Include="Tenants\NavigationProviders\TenantsPsNavigationProvider.cs">
-      <SubType>Code</SubType>
+    <Compile Include="AdminMenu.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="Tenants\Nodes\TenantConfigurationNode.cs" />
-    <Compile Include="Tenants\Nodes\TenantNode.cs" />
-    <Compile Include="Tenants\Nodes\TenantsNode.cs" />
-    <Compile Include="Utilities\ITenantFilterCmdlet.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceManifest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Cmdlets\Get-OrchardPsCommand-help.xml" />
-    <Content Include="Commands\Cmdlets\Invoke-OrchardCommand-help.xml" />
-    <Content Include="Content\Cmdlets\Remove-ContentField-help.xml" />
-    <Content Include="Content\Cmdlets\Add-ContentField-help.xml" />
-    <Content Include="Content\Cmdlets\Remove-ContentPart-help.xml" />
-    <Content Include="Content\Cmdlets\Add-ContentPart-help.xml" />
-    <Content Include="Content\Cmdlets\Get-ContentPart-help.xml" />
-    <Content Include="Content\Cmdlets\Remove-ContentType-help.xml" />
-    <Content Include="Content\Cmdlets\Edit-ContentType-help.xml" />
-    <Content Include="Content\Cmdlets\New-ContentType-help.xml" />
-    <Content Include="Content\Cmdlets\Edit-ContentPartDefinition-help.xml" />
-    <Content Include="Content\Cmdlets\Get-ContentType-help.xml" />
-    <Content Include="Content\Cmdlets\Get-ContentPartDefinition-help.xml" />
     <Content Include="Module.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Orchard.Themes\Orchard.Themes.csproj">
-      <Project>{cde24a24-01d3-403c-84b9-37722e18dfb7}</Project>
-      <Name>Orchard.Themes</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">
       <Project>{2D1D92BB-4555-4CBE-8D0E-63563D6CE4C6}</Project>
       <Name>Orchard.Framework</Name>
@@ -180,38 +105,44 @@
       <Project>{2c286142-7875-44c6-a44b-332397a59fd4}</Project>
       <Name>Proligence.PowerShell.Provider</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Proligence.SignalR\Proligence.SignalR.csproj">
+      <Project>{36a35e6c-f1ef-4a5a-85c1-07f6b3270578}</Project>
+      <Name>Proligence.SignalR</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Modules\Cmdlets\Disable-OrchardFeature-help.xml" />
-    <Content Include="Modules\Cmdlets\Enable-OrchardFeature-help.xml" />
-    <Content Include="Modules\Cmdlets\Enable-OrchardTheme-help.xml" />
-    <Content Include="Modules\Cmdlets\Get-OrchardFeature-help.xml" />
-    <Content Include="Modules\Cmdlets\Get-OrchardTheme-help.xml" />
-    <Content Include="Tenants\Cmdlets\Disable-Tenant-help.xml" />
-    <Content Include="Tenants\Cmdlets\Edit-Tenant-help.xml" />
-    <Content Include="Tenants\Cmdlets\Enable-Tenant-help.xml" />
-    <Content Include="Tenants\Cmdlets\Get-Tenant-help.xml" />
-    <Content Include="Tenants\Cmdlets\New-Tenant-help.xml" />
-    <Content Include="Tenants\Cmdlets\Remove-Tenant-help.xml" />
+    <Content Include="Scripts\console.js" />
+    <Content Include="Scripts\console.min.js">
+      <DependentUpon>console.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jquery.console.js" />
+    <Content Include="Scripts\jquery.console.min.js">
+      <DependentUpon>jquery.console.js</DependentUpon>
+    </Content>
+    <Content Include="Styles\console.css" />
+    <Content Include="Styles\console.min.css">
+      <DependentUpon>console.css</DependentUpon>
+    </Content>
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Common\Common.format.ps1xml" />
+    <Content Include="Styles\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Tenants\Tenants.format.ps1xml" />
+    <Content Include="Scripts\console.min.js.map">
+      <DependentUpon>console.min.js</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Commands\Commands.format.ps1xml" />
+    <Content Include="Scripts\jquery.console.min.js.map">
+      <DependentUpon>jquery.console.min.js</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Modules\Modules.format.ps1xml" />
+    <Content Include="Scripts\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Content.format.ps1xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\Content.types.ps1xml" />
+    <Content Include="Views\Admin\Console.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -3,16 +3,11 @@ AntiForgery: enabled
 Author: Proligence / Marek Dzikiewicz, Piotr Szmyd
 Version: 2.0.0
 OrchardVersion: 1.8.0
-Description: Enables PowerShell management support for Orchard.
+Description: Enables PowerShell management support for Orchard
 Category: Management
 Features:
     Proligence.PowerShell:
         Name: PowerShell
-        Description: Enables PowerShell management support for Orchard.
+        Description: Enables PowerShell management support for Orchard
         Category: Management
         Dependencies: Proligence.PowerShell.Provider, Orchard.Themes
-    Proligence.PowerShell.WebConsole:
-        Name: PowerShell Management Console
-        Description: Enables web-based, interactive Orchard PowerShell console.
-        Category: Management
-        Dependencies: Proligence.PowerShell, Proligence.SignalR, Orchard.jQuery
