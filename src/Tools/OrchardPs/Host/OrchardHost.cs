@@ -79,9 +79,12 @@
                     this.session = null;
                 }
 
-                MethodInfo methodInfo = this.agent.GetType().GetMethod("Dispose");
-                methodInfo.Invoke(this.agent, new object[0]);
-                this.agent = null;
+                if (this.agent != null)
+                {
+                    MethodInfo methodInfo = this.agent.GetType().GetMethod("Dispose");
+                    methodInfo.Invoke(this.agent, new object[0]);
+                    this.agent = null;
+                }
             }
         }
     }

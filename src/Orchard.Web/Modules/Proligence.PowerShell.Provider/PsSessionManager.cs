@@ -168,7 +168,12 @@ namespace Proligence.PowerShell.Provider
                 Sessions.TryRemove(key, out session);
             }
 
-            session.Dispose();
+            // NOTE: Sometimes the session may end up collected by the GC, when the host is shut down from the
+            // AppDomain of OrchardPs.exe. In that case, there is no need to dispose it.
+            if (session != null)
+            {
+                session.Dispose();
+            }
         }
 
         public void CloseSession(string connectionId) 

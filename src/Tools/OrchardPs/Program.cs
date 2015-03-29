@@ -7,18 +7,20 @@
     public static class Program
     {
         private static bool running = true;
+        private static OrchardHostContextProvider hostContextProvider;
+        private static OrchardHostContext hostContext;
 
         public static int Main(string[] args)
         {
             System.Console.WriteLine(Banner.GetBanner());
 
-            var hostContextProvider = new OrchardHostContextProvider();
-            OrchardHostContext context = InitializeOrchardHost(hostContextProvider);
+            hostContextProvider = new OrchardHostContextProvider();
+            hostContext = InitializeOrchardHost();
 
             System.Console.CancelKeyPress += OnCancelKeyPress;
 
-            var session = context.Session;
-            var connection = context.OrchardHost.Connection;
+            var session = hostContext.Session;
+            var connection = hostContext.OrchardHost.Connection;
             while (running)
             {
                 string input = connection.GetInput();
@@ -38,11 +40,12 @@
                 }
             }
 
-            hostContextProvider.Shutdown(context);
+            hostContextProvider.Shutdown(hostContext);
+            
             return 0;
         }
 
-        private static OrchardHostContext InitializeOrchardHost(OrchardHostContextProvider hostContextProvider)
+        private static OrchardHostContext InitializeOrchardHost()
         {
             OrchardHostContext context = hostContextProvider.CreateContext();
             if (context.Session == null)
@@ -61,6 +64,7 @@
         private static void OnCancelKeyPress(object sender, ConsoleCancelEventArgs consoleCancelEventArgs)
         {
             running = false;
+            hostContextProvider.Shutdown(hostContext);
         }
     }
 }
