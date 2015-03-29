@@ -22,6 +22,7 @@
         private readonly IComponentContext componentContext;
         private readonly Runspace runspace;
         private readonly AutoResetEvent runspaceLock;
+        private readonly AutoResetEvent bufferLock;
         
         /// <summary>
         /// Caches the current path of the session's runspace. This cached value is used if the runspace cannot be
@@ -43,6 +44,7 @@
             this.componentContext = componentContext;
             this.runspace = RunspaceFactory.CreateRunspace(consoleHost, configuration);
             this.runspaceLock = new AutoResetEvent(true);
+            this.bufferLock = new AutoResetEvent(true);
             this.Runspace.StateChanged += this.OnRunspaceStateChanged;
         }
 
@@ -190,8 +192,28 @@
         /// </summary>
         public void WriteInputBuffer(string line)
         {
+            this.bufferLock.WaitOne();
             this.queue.Enqueue(line);
             this.OnDataReceived(new DataReceivedEventArgs());
+        }
+
+        /// <summary>
+        /// Writes a line to the input buffer and waits until the input is processed by the PS execution engine.
+        /// </summary>
+        public void ProcessInput(string line)
+        {
+            this.WriteInputBuffer(line);
+            this.bufferLock.WaitOne();
+            this.bufferLock.Set();
+        }
+
+        /// <summary>
+        /// Signals the session, that a single line of input queued using the <see cref="WriteInputBuffer"/> method
+        /// has been processed.
+        /// </summary>
+        public void SignalInputProcessed()
+        {
+            this.bufferLock.Set();
         }
 
         public CompletionData GetCommandCompletion(string command, int cursorPosition) 

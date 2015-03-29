@@ -82,6 +82,17 @@
         void WriteInputBuffer(string line);
 
         /// <summary>
+        /// Writes a line to the input buffer and waits until the input is processed by the PS execution engine.
+        /// </summary>
+        void ProcessInput(string line);
+
+        /// <summary>
+        /// Signals the session, that a single line of input queued using the <see cref="WriteInputBuffer"/> method
+        /// has been processed.
+        /// </summary>
+        void SignalInputProcessed();
+
+        /// <summary>
         /// Returns a list of possible command completion options.
         /// </summary>
         CompletionData GetCommandCompletion(string command, int cursorPosition);

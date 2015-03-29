@@ -58,6 +58,7 @@
 
             if (str == null) 
             {
+                this.session.SignalInputProcessed();
                 return;
             }
 
@@ -68,6 +69,7 @@
 
             if (!aborted && this.pipeline != null && this.pipeline.PipelineStateInfo.State != PipelineState.NotStarted) 
             {
+                this.session.SignalInputProcessed();
                 return;
             }
 
@@ -92,8 +94,11 @@
                 if (!str.TrimEnd().EndsWith("`", StringComparison.Ordinal))
                 {
                     this.ExecuteCommandFromBuffer();
+                    return;
                 }
             }
+
+            this.session.SignalInputProcessed();
         }
 
         private void OnPipelineOutputDataReady(object sender, EventArgs eventArgs)
@@ -103,6 +108,8 @@
                 var resultString = (string)LanguagePrimitives.ConvertTo(result, typeof(string));
                 this.session.ConsoleHost.UI.WriteLine(resultString);
             }
+
+            this.session.SignalInputProcessed();
         }
 
         private void OnPipelineStateChanged(object sender, PipelineStateEventArgs e)
