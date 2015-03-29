@@ -27,6 +27,11 @@
                 {
                     System.Console.Clear();
                 }
+                else if (input == "exit")
+                {
+                    running = false;
+                    break;
+                }
                 else
                 {
                     session.ProcessInput(input);                    
