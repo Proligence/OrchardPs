@@ -15,7 +15,7 @@
     /// <summary>
     /// Represents a PowerShell user session.
     /// </summary>
-    public class PsSession : IPsSession 
+    public class PsSession : MarshalByRefObject, IPsSession
     {
         private readonly ConcurrentQueue<string> queue;
         private readonly RunspaceConfiguration configuration;
@@ -148,6 +148,11 @@
         /// SignalR connection identifier for this particular session.
         /// </summary>
         public string ConnectionId { get; private set; }
+
+        public override object InitializeLifetimeService()
+        {
+            return null;
+        }
 
         /// <summary>
         /// Initializes the session.
