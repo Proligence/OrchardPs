@@ -4,11 +4,11 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
+    using System.IO;
     using System.Linq;
     using System.Management.Automation;
     using System.Management.Automation.Runspaces;
     using System.Reflection;
-    using Orchard;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>
@@ -16,15 +16,15 @@
     /// </summary>
     public class OrchardPsSnapIn : CustomPSSnapIn 
     {
-        private readonly IWorkContextAccessor wca;
+        private readonly IPsFileSearcher fileSearcher;
         private Collection<ProviderConfigurationEntry> providers;
         private Collection<CmdletConfigurationEntry> cmdlets;
         private Collection<FormatConfigurationEntry> formats;
         private Collection<TypeConfigurationEntry> types;
 
-        public OrchardPsSnapIn(IWorkContextAccessor wca)
+        public OrchardPsSnapIn(IPsFileSearcher fileSearcher)
         {
-            this.wca = wca;
+            this.fileSearcher = fileSearcher;
             this.Aliases = new Dictionary<string, string>();
         }
 
@@ -79,9 +79,7 @@
         /// </summary>
         public void Initialize()
         {
-            var fileSearcher = this.wca.GetContext().Resolve<IPsFileSearcher>();
-            
-            string helpFilePath = fileSearcher.GetHelpFile("Proligence.PowerShell.Provider.dll");
+            string helpFilePath = this.fileSearcher.GetHelpFile("Proligence.PowerShell.Provider.dll");
 
             this.providers = new Collection<ProviderConfigurationEntry>
             {
@@ -93,14 +91,14 @@
             this.types = new Collection<TypeConfigurationEntry>();
             this.Aliases = new Dictionary<string, string>();
 
-            this.LoadCmdlets(this.cmdlets, fileSearcher);
-            this.LoadFormatDataFiles(this.formats, fileSearcher);
-            this.LoadTypeDataFiles(this.types, fileSearcher);
+            this.LoadCmdlets(this.cmdlets);
+            this.LoadFormatDataFiles(this.formats);
+            this.LoadTypeDataFiles(this.types);
 
             this.Initialized = true;
         }
 
-        private void LoadCmdlets(ICollection<CmdletConfigurationEntry> cmdletsCollection, IPsFileSearcher fileSearcher)
+        private void LoadCmdlets(ICollection<CmdletConfigurationEntry> cmdletsCollection)
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             foreach (Assembly assembly in assemblies)
@@ -110,7 +108,8 @@
                     continue;
                 }
 
-                if (!fileSearcher.IsEnabledModuleAssembly(assembly.Location))
+                string assemblyName = Path.GetFileName(assembly.Location);
+                if (!this.fileSearcher.IsEnabledModuleAssembly(assemblyName))
                 {
                     continue;
                 }
@@ -123,7 +122,7 @@
                         {
                             if (typeof(Cmdlet).IsAssignableFrom(type))
                             {
-                                this.LoadCmdlet(cmdletsCollection, type, fileSearcher);
+                                this.LoadCmdlet(cmdletsCollection, type);
                             }
                         }
                         catch (Exception ex) 
@@ -139,7 +138,7 @@
             }
         }
 
-        private void LoadCmdlet(ICollection<CmdletConfigurationEntry> cmdletsCollection, Type type, IPsFileSearcher fileSearcher)
+        private void LoadCmdlet(ICollection<CmdletConfigurationEntry> cmdletsCollection, Type type)
         {
             CmdletAttribute cmdletAttribute = type
                 .GetCustomAttributes(typeof(CmdletAttribute), false)
@@ -149,7 +148,7 @@
             if (cmdletAttribute != null)
             {
                 string name = cmdletAttribute.VerbName + "-" + cmdletAttribute.NounName;
-                string helpFile = fileSearcher.GetHelpFile(name);
+                string helpFile = this.fileSearcher.GetHelpFile(name);
                 cmdletsCollection.Add(new CmdletConfigurationEntry(name, type, helpFile));
 
                 IEnumerable<CmdletAliasAttribute> assemblyAliases = type
@@ -169,17 +168,17 @@
             }
         }
 
-        private void LoadFormatDataFiles(ICollection<FormatConfigurationEntry> formatsCollection, IPsFileSearcher fileSearcher) 
+        private void LoadFormatDataFiles(ICollection<FormatConfigurationEntry> formatsCollection) 
         {
-            foreach (string fileName in fileSearcher.GetFormatDataFiles())
+            foreach (string fileName in this.fileSearcher.GetFormatDataFiles())
             {
                 formatsCollection.Add(new FormatConfigurationEntry(fileName));
             }
         }
 
-        private void LoadTypeDataFiles(ICollection<TypeConfigurationEntry> typesCollection, IPsFileSearcher fileSearcher)
+        private void LoadTypeDataFiles(ICollection<TypeConfigurationEntry> typesCollection)
         {
-            foreach (string fileName in fileSearcher.GetTypeDataFiles())
+            foreach (string fileName in this.fileSearcher.GetTypeDataFiles())
             {
                 typesCollection.Add(new TypeConfigurationEntry(fileName));
             }

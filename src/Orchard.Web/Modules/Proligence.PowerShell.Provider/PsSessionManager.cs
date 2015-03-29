@@ -8,7 +8,6 @@ namespace Proligence.PowerShell.Provider
     using System.Management.Automation.Host;
     using System.Management.Automation.Runspaces;
     using Autofac;
-    using Orchard;
     using Proligence.PowerShell.Provider.Console.Host;
     using Proligence.PowerShell.Provider.Console.UI;
 
@@ -23,10 +22,10 @@ namespace Proligence.PowerShell.Provider
         private readonly IComponentContext componentContext;
         private readonly OrchardPsSnapIn snapIn;
 
-        public PsSessionManager(IWorkContextAccessor workContextAccessor, IComponentContext componentContext)
+        public PsSessionManager(IComponentContext componentContext, IPsFileSearcher fileSearcher)
         {
             this.componentContext = componentContext;
-            this.snapIn = new OrchardPsSnapIn(workContextAccessor);
+            this.snapIn = new OrchardPsSnapIn(fileSearcher);
         }
 
         public IPsSession NewSession(string connectionId, IConsoleConnection connection)

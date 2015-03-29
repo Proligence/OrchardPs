@@ -7,21 +7,20 @@
     using System.IO;
     using System.Linq;
     using System.Web.Hosting;
-    using Orchard;
     using Orchard.Environment.Descriptor.Models;
     using Orchard.Environment.Extensions;
 
     public class PsFileSearcher : IPsFileSearcher
     {
         private readonly IExtensionManager extensionManager;
-        private readonly IWorkContextAccessor wca;
+        private readonly ShellDescriptor shellDescriptor;
         private string[] enabledModulePaths;
         private Collection<string> helpFiles;
 
-        public PsFileSearcher(IExtensionManager extensionManager, IWorkContextAccessor wca)
+        public PsFileSearcher(IExtensionManager extensionManager, ShellDescriptor shellDescriptor)
         {
             this.extensionManager = extensionManager;
-            this.wca = wca;
+            this.shellDescriptor = shellDescriptor;
         }
 
         /// <summary>
@@ -65,19 +64,15 @@
         /// <summary>
         /// Determines whether the specified file path points to an assembly of an enabled Orchard module.
         /// </summary>
-        public bool IsEnabledModuleAssembly(string filePath)
+        public bool IsEnabledModuleAssembly(string assemblyName)
         {
-            string fileName = Path.GetFileName(filePath);
-            if (fileName != null)
+            if (assemblyName != null)
             {
-                var moduleName = fileName.Replace(".dll", string.Empty);
-                var workContext = this.wca.GetContext();
-                if (workContext != null)
-                {
-                    return this.extensionManager
-                        .EnabledFeatures(workContext.Resolve<ShellDescriptor>())
-                        .Any(f => f.Id == moduleName);
-                }
+                var moduleName = assemblyName.Replace(".dll", string.Empty);
+                
+                return this.extensionManager
+                    .EnabledFeatures(this.shellDescriptor)
+                    .Any(f => f.Id == moduleName);
             }
 
             return false;
@@ -92,29 +87,23 @@
             {
                 return this.enabledModulePaths;
             }
-
-            var workContext = this.wca.GetContext();
-            if (workContext != null)
-            {
-                return this.enabledModulePaths = this.extensionManager
-                    .EnabledFeatures(workContext.Resolve<ShellDescriptor>())
-                    .Select(f =>
+            
+            return this.enabledModulePaths = this.extensionManager
+                .EnabledFeatures(this.shellDescriptor)
+                .Select(f =>
+                {
+                    string location = f.Extension.Location;
+                    string fullLocation = location.Replace("~/", HostingEnvironment.ApplicationPhysicalPath);
+                    if (location == "~/Modules")
                     {
-                        string location = f.Extension.Location;
-                        string fullLocation = location.Replace("~/", HostingEnvironment.ApplicationPhysicalPath);
-                        if (location == "~/Modules")
-                        {
-                            return Path.Combine(fullLocation, f.Extension.Id);
-                        }
+                        return Path.Combine(fullLocation, f.Extension.Id);
+                    }
 
-                        return fullLocation;
-                    })
-                    .Distinct()
-                    .Where(Directory.Exists)
-                    .ToArray();
-            }
-
-            return new string[0];
+                    return fullLocation;
+                })
+                .Distinct()
+                .Where(Directory.Exists)
+                .ToArray();
         }
 
         private void LoadHelpFiles(string directory, Collection<string> helpFilesCollection)
