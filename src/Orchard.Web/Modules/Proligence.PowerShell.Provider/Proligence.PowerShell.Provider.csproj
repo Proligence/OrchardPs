@@ -104,6 +104,7 @@
     <Compile Include="IConsoleConnection.cs" />
     <Compile Include="IPsFileSearcher.cs" />
     <Compile Include="PsFileSearcher.cs" />
+    <Compile Include="PsProviderAgent.cs" />
     <Compile Include="Utilities\ArgumentList.cs" />
     <Compile Include="CmdletAliasAttribute.cs" />
     <Compile Include="Console\CompletionData.cs" />
