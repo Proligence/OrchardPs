@@ -22,7 +22,15 @@
             while (running)
             {
                 string input = connection.GetInput();
-                session.ProcessInput(input);
+
+                if ((input == "clear") || (input == "cls"))
+                {
+                    System.Console.Clear();
+                }
+                else
+                {
+                    session.ProcessInput(input);                    
+                }
             }
 
             hostContextProvider.Shutdown(context);
