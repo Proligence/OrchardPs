@@ -1,6 +1,7 @@
 ﻿namespace OrchardPs 
 {
     using System;
+    using Autofac.Core.Registration;
     using OrchardPs.Console;
     using OrchardPs.Host;
 
@@ -15,7 +16,28 @@
             System.Console.WriteLine(Banner.GetBanner());
 
             hostContextProvider = new OrchardHostContextProvider();
-            hostContext = InitializeOrchardHost();
+
+            try
+            {
+                hostContext = InitializeOrchardHost();
+            }
+            catch (Exception ex)
+            {
+                // NOTE: Currently Autofac.Core.Registration.ComponentNotRegisteredException is not serializable,
+                // so we need to workaround this issue by reading the exception's message.
+                if ((ex is ComponentNotRegisteredException) || ex.Message.Contains("ComponentNotRegisteredException"))
+                {
+                    ConsoleHelper.WriteToConsole(
+                       "Failed to initialize PowerShell engine host. " +
+                       "Please make sure that the Proligence.PowerShell.Provider Orchard module is enabled." +
+                       Environment.NewLine,
+                       ConsoleColor.Red);
+
+                    return -1;   
+                }
+
+                throw;
+            }
 
             System.Console.CancelKeyPress += OnCancelKeyPress;
 
