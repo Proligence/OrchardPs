@@ -10,7 +10,7 @@
     <command:details>
       <command:name>Get-OrchardPsCommand</command:name>
       <maml:description>
-        <maml:para>Gets Orchard-related cmdlets.</maml:para>
+        <maml:para>Gets cmdlets provided by Orchard modules.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para></maml:para>
@@ -23,7 +23,7 @@
     <!-- Cmdlet description section-->
     
     <maml:description>
-      <maml:para>The Invoke-OrchardCommand cmdlet gets all cmdlets which are implemented by OrchardPs or by Orchard modules. The cmdlet can also get cmdlets which can be used for the specified item or its child items.</maml:para>
+      <maml:para>The Get-OrchardPsCommand cmdlet gets cmdlets which are implemented in Orchard modules. The cmdlet can also get cmdlets which can be used for the specified item or its child items.</maml:para>
     </maml:description>
 
     <!-- Cmdlet syntax section-->
@@ -38,11 +38,23 @@
             <maml:para>Specifies whether to get all Orchard-related cmdlets.</maml:para>
           </maml:description>
         </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the cmdlets to filter out. Wildcard are supported for this parameter.</maml:para>
+          </maml:description>
+        </command:parameter>
       </command:syntaxItem>
       
       <command:syntaxItem>
         <maml:name>Get-OrchardPsCommand</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the cmdlets to filter out. Wildcard are supported for this parameter.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="2">
           <maml:name>Path</maml:name>
           <maml:description>
             <maml:para>Specifies the path of the item for which supported cmdlets will be returned. If the item is a directory, then cmdlets supported for its child items will be returned.</maml:para>
@@ -64,13 +76,26 @@
         </maml:description>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
+
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the cmdlets to filter out. Wildcard are supported for this parameter.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
       
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
         <maml:name>Path</maml:name>
         <maml:description>
           <maml:para>Specifies the path of the item for which supported cmdlets will be returned. If the item is a directory, then cmdlets supported for its child items will be returned.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
         <dev:type>
           <maml:name>string</maml:name>
           <maml:uri/>
@@ -95,7 +120,7 @@
     <maml:alertSet>
       <maml:title></maml:title>
       <maml:alert>
-        <maml:para>If the Get-OrchardPsCommand cmdlet is used without any parameters, then cmdlets supported for the current location will be returned.</maml:para>
+        <maml:para>If the Get-OrchardPsCommand cmdlet is used without any parameters, then cmdlets supported for the current location will be returned. If there are no supported cmdlets for the current location, then all Orchard cmdlets are returned.</maml:para>
         <maml:para />
       </maml:alert>
     </maml:alertSet>
@@ -159,6 +184,32 @@
       <command:example>
         <maml:title>
           -------------------------- EXAMPLE 3 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>Orchard:\&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Get-OrchardPsCommand get*
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Gets all cmdlets which name begins with 'Get'.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 4 --------------------------
         </maml:title>
         <maml:introduction>
           <maml:para>Orchard:\&gt;</maml:para>

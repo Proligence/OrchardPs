@@ -1,9 +1,11 @@
 ﻿namespace Proligence.PowerShell.Core.Cmdlets
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using Proligence.PowerShell.Core.Internal;
+    using Proligence.PowerShell.Provider.Utilities;
     using Provider;
     using Provider.Vfs.Navigation;
 
@@ -18,60 +20,90 @@
         public SwitchParameter All { get; set; }
 
         /// <summary>
+        /// Gets or sets the full or partial name of the cmdlets to filter.
+        /// </summary>
+        [Parameter(Mandatory = false, ParameterSetName = "Default", Position = 1)]
+        [Parameter(Mandatory = false, ParameterSetName = "Path", Position = 1)]
+        public string Name { get; set; }
+
+        /// <summary>
         /// Gets or sets the path of the item for which supported cmdlets should be returned.
         /// </summary>
-        [Parameter(Mandatory = false, ParameterSetName = "Path", Position = 1)]
+        [Parameter(Mandatory = false, ParameterSetName = "Path", Position = 2)]
         public string Path { get; set; }
 
         protected override void ProcessRecord()
         {
+            CmdletInfo[] cmdlets;
+
             if (this.All)
             {
-                foreach (CmdletInfo cmdletInfo in this.InvokeCommand.GetCmdlets())
-                {
-                    if (cmdletInfo.ImplementingType.GetInterfaces().Any(t => t == typeof(IOrchardCmdlet)))
-                    {
-                        this.WriteObject(cmdletInfo);
-                    }
-                }
+                cmdlets = this.GetAllCmdlets();
             }
             else
             {
-                VfsNode node;
-                
-                if (string.IsNullOrEmpty(this.Path))
-                {
-                    node = this.CurrentNode;
-                }
-                else
-                {
-                    this.Path = this.Path.TrimStart('.', '\\');
-                    node = this.CurrentNode.Vfs.NavigatePath(this.Path);
+                cmdlets = this.GetCmdletsForCurrentLocation();
 
-                    if (node == null)
-                    {
-                        var exc = new ArgumentException("Failed to find item '" + this.Path + "'.");
-                        this.WriteError(exc, ErrorIds.FailedToFindItem, ErrorCategory.InvalidArgument, this.Path);
-                    }
-                }
-
-                if (node != null)
+                if ((this.Path == null) && (cmdlets.Length == 0))
                 {
-                    Attribute[] attributes = Attribute.GetCustomAttributes(
-                        node.GetType(),
-                        typeof(SupportedCmdletAttribute));
-
-                    // ReSharper disable once PossibleInvalidCastExceptionInForeachLoop
-                    foreach (SupportedCmdletAttribute attribute in attributes)
-                    {
-                        CmdletInfo cmdletInfo = this.InvokeCommand.GetCmdlet(attribute.CmdletName);
-                        if (cmdletInfo != null)
-                        {
-                            this.WriteObject(cmdletInfo);
-                        }
-                    }
+                    cmdlets = this.GetAllCmdlets();
                 }
             }
+
+            if (this.Name != null)
+            {
+                cmdlets = cmdlets.Where(c => c.Name.WildcardEquals(this.Name)).ToArray();
+            }
+
+            foreach (CmdletInfo cmdlet in cmdlets.OrderBy(c => c.Name))
+            {
+                this.WriteObject(cmdlet);
+            }
+        }
+
+        private CmdletInfo[] GetCmdletsForCurrentLocation()
+        {
+            var results = new List<CmdletInfo>();
+
+            VfsNode node;
+            if (string.IsNullOrEmpty(this.Path))
+            {
+                node = this.CurrentNode;
+            }
+            else
+            {
+                this.Path = this.Path.TrimStart('.', '\\');
+                node = this.CurrentNode.Vfs.NavigatePath(this.Path);
+
+                if (node == null)
+                {
+                    var exc = new ArgumentException("Failed to find item '" + this.Path + "'.");
+                    this.WriteError(exc, ErrorIds.FailedToFindItem, ErrorCategory.InvalidArgument, this.Path);
+                }
+            }
+
+            if (node != null)
+            {
+                Attribute[] attributes = Attribute.GetCustomAttributes(
+                    node.GetType(),
+                    typeof(SupportedCmdletAttribute));
+
+                results.AddRange(
+                    attributes
+                        .Cast<SupportedCmdletAttribute>()
+                        .Select(attribute => this.InvokeCommand.GetCmdlet(attribute.CmdletName))
+                        .Where(cmdletInfo => cmdletInfo != null));
+            }
+
+            return results.ToArray();
+        }
+
+        private CmdletInfo[] GetAllCmdlets()
+        {
+            return this.InvokeCommand
+                .GetCmdlets()
+                .Where(cmdletInfo => cmdletInfo.ImplementingType.GetInterfaces().Any(t => t == typeof(IOrchardCmdlet)))
+                .ToArray();
         }
     }
 }
