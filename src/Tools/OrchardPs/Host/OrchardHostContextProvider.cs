@@ -8,6 +8,7 @@ namespace OrchardPs.Host
     using System.Security;
     using System.Web.Compilation;
     using System.Web.Hosting;
+    using Proligence.PowerShell.Provider;
 
     /// <summary>
     /// Implements starting and shutting down the Orchard host object which runs inside Orchard web application's
@@ -16,24 +17,26 @@ namespace OrchardPs.Host
     public class OrchardHostContextProvider 
     {
         private static ClientBuildManager clientBuildManager;
+        private readonly string orchardDir;
 
-        /// <summary>
-        /// Creates and initializes the Orchard host.
-        /// </summary>
-        /// <returns>The created orchard host context object.</returns>
+        public OrchardHostContextProvider()
+        {
+        }
+
+        public OrchardHostContextProvider(string orchardDir)
+        {
+            this.orchardDir = orchardDir;
+        }
+
         [SecurityCritical]
-        public OrchardHostContext CreateContext() 
+        public OrchardHostContext CreateContext(IConsoleConnection connection)
         {
             var context = new OrchardHostContext();
-            Initialize(context);
+            this.Initialize(context, connection);
             
             return context;
         }
 
-        /// <summary>
-        /// Shuts down the Orchard host.
-        /// </summary>
-        /// <param name="context">The Orchard host context object.</param>
         [SecurityCritical]
         public void Shutdown(OrchardHostContext context) 
         {
@@ -62,22 +65,11 @@ namespace OrchardPs.Host
             }
         }
 
-        /// <summary>
-        /// Logs a diagnostic message.
-        /// </summary>
-        /// <param name="format">The message's format string.</param>
-        /// <param name="args">The arguments for the message's format string.</param>
         private static void LogInfo(string format, params object[] args) 
         {
             Trace.WriteLine(string.Format(CultureInfo.CurrentCulture, format, args));
         }
 
-        /// <summary>
-        /// Creates the Orchard host object.
-        /// </summary>
-        /// <param name="virtualPath">The virtual path for the web application.</param>
-        /// <param name="physicalPath">The physical path for the web application.</param>
-        /// <returns>The created <see cref="OrchardHost"/> object.</returns>
         [SecurityCritical]
         [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
         private static OrchardHost CreateOrchardHost(string virtualPath, string physicalPath) 
@@ -87,11 +79,7 @@ namespace OrchardPs.Host
             return (OrchardHost)clientBuildManager.CreateObject(typeof(OrchardHost), false);
         }
 
-        /// <summary>
-        /// Initializes the specified host context.
-        /// </summary>
-        /// <param name="context">The Orchard host context object.</param>
-        private static void Initialize(OrchardHostContext context) 
+        private void Initialize(OrchardHostContext context, IConsoleConnection connection)
         {
             context.WorkingDirectory = Environment.CurrentDirectory;
             LogInfo("Working directory: \"{0}\"", context.WorkingDirectory);
@@ -100,21 +88,19 @@ namespace OrchardPs.Host
             LogInfo("Virtual path: \"{0}\"", context.VirtualPath);
 
             LogInfo("Detecting orchard installation root directory...");
-            context.OrchardDirectory = GetOrchardDirectory(context.WorkingDirectory).FullName;
+            context.OrchardDirectory = this.orchardDir ?? GetOrchardDirectory(context.WorkingDirectory).FullName;
             LogInfo("Orchard root directory: \"{0}\"", context.OrchardDirectory);
 
             LogInfo("Creating ASP.NET AppDomain for command agent...");
             context.OrchardHost = CreateOrchardHost(context.VirtualPath, context.OrchardDirectory);
 
             LogInfo("Starting Orchard session");
-            context.Session = context.OrchardHost.StartSession();
+            context.Session = context.OrchardHost.StartSession(connection);
         }
         
         /// <summary>
         /// Gets the <see cref="DirectoryInfo"/> object of Orchard's root directory.
         /// </summary>
-        /// <param name="directory">The initial directory to start search in.</param>
-        /// <returns>The <see cref="DirectoryInfo"/> object of Orchard's root directory.</returns>
         private static DirectoryInfo GetOrchardDirectory(string directory) 
         {
             var directoryInfo = new DirectoryInfo(directory);

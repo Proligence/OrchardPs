@@ -5,7 +5,6 @@
     using System.Runtime.Remoting.Lifetime;
     using System.Security;
     using System.Web.Hosting;
-    using OrchardPs.Console;
     using Proligence.PowerShell.Provider;
 
     /// <summary>
@@ -24,7 +23,7 @@
             HostingEnvironment.RegisterObject(this);
         }
 
-        public DirectConsoleConnection Connection { get; private set; }
+        public IConsoleConnection Connection { get; private set; }
 
         /// <summary>
         /// Obtains a lifetime service object to control the lifetime policy for this instance.
@@ -53,8 +52,15 @@
             HostingEnvironment.UnregisterObject(this);
         }
 
-        public IPsSession StartSession() 
+        public IPsSession StartSession(IConsoleConnection connection)
         {
+            if (connection == null)
+            {
+                throw new ArgumentNullException("connection");
+            }
+
+            this.Connection = connection;
+
             this.agent = Activator.CreateInstance(
                 "Proligence.PowerShell.Provider",
                 "Proligence.PowerShell.Provider.PsProviderAgent")
@@ -63,7 +69,7 @@
             MethodInfo methodInfo = this.agent.GetType().GetMethod("GetSessionManager");
             this.sessionManager = (IPsSessionManager)methodInfo.Invoke(this.agent, new object[0]);
             this.connectionId = Guid.NewGuid().ToString();
-            this.Connection = new DirectConsoleConnection();
+            this.Connection = this.Connection;
             this.session = this.sessionManager.NewSession(this.connectionId, this.Connection);
 
             return this.session;

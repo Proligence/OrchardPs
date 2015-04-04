@@ -42,7 +42,7 @@
             System.Console.CancelKeyPress += OnCancelKeyPress;
 
             var session = hostContext.Session;
-            var connection = hostContext.OrchardHost.Connection;
+            var connection = (DirectConsoleConnection)hostContext.OrchardHost.Connection;
             while (running)
             {
                 string input = connection.GetInput();
@@ -69,10 +69,12 @@
 
         private static OrchardHostContext InitializeOrchardHost()
         {
-            OrchardHostContext context = hostContextProvider.CreateContext();
+            var connection = new DirectConsoleConnection();
+
+            OrchardHostContext context = hostContextProvider.CreateContext(connection);
             if (context.Session == null)
             {
-                context = hostContextProvider.CreateContext();
+                context = hostContextProvider.CreateContext(connection);
             }
             else if (context.Session == null)
             {

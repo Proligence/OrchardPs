@@ -1,9 +1,18 @@
-param ($Configuration = 'Debug')
+param ($Configuration = 'Debug', [switch]$Integration)
 
 function RunXUnit($AssemblyPath) {
     $XUnit = Join-Path $PSScriptRoot 'lib\xunit\xunit.console.exe'
+    $XUnitParams = ''
+    
+    if (-not $Integration) {
+        $XUnitParams += "-notrait 'category=integration'"
+    }
+    
     $AssemblyFullPath = Join-Path $PSScriptRoot $AssemblyPath
-    & $XUnit $AssemblyFullPath
+    $CommandText = $XUnit + " " + $AssemblyFullPath + " " + $XUnitParams
+    Write-Host $CommandText
+    
+    Invoke-Expression $CommandText
     if (-not $?) {
         Write-Error "Unit tests failed in '$AssemblyPath'!"
     }

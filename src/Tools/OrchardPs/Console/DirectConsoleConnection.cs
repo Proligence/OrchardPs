@@ -44,7 +44,6 @@
                         break;
 
                     case OutputType.Error:
-                        data.Output = data.Output;
                         WriteOutput(data, ErrorColor);
                         break;
 
