@@ -1,0 +1,8 @@
+﻿Name: PowerShell Core
+AntiForgery: enabled
+Author: Proligence / Marek Dzikiewicz, Piotr Szmyd
+Version: 2.0.0
+OrchardVersion: 1.8.0
+Description: Provides Core cmdlets and functionality for Orchard PowerShell
+Category: Management
+Dependencies: Proligence.PowerShell.Provider
