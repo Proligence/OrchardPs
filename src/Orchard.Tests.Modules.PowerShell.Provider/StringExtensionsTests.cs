@@ -1,61 +1,60 @@
 ﻿namespace Proligence.PowerShell.Provider.Tests
 {
-    using NUnit.Framework;
     using Proligence.PowerShell.Provider.Utilities;
+    using Xunit;
 
-    [TestFixture]
     public class StringExtensionsTests
     {
-        [Test]
+        [Fact]
         public void WildcardEqualsBothNull()
         {
-            Assert.That(StringExtensions.WildcardEquals(null, null), Is.True);
+            Assert.True(StringExtensions.WildcardEquals(null, null));
         }
 
-        [Test]
+        [Fact]
         public void WildcardEqualsStrNull()
         {
-            Assert.That(StringExtensions.WildcardEquals(null, "foo"), Is.False);
+            Assert.False(StringExtensions.WildcardEquals(null, "foo"));
         }
 
-        [Test]
+        [Fact]
         public void WildcardEqualsPatternNull()
         {
-            Assert.That("foo".WildcardEquals(null), Is.False);
+            Assert.False("foo".WildcardEquals(null));
         }
 
-        [Test]
+        [Fact]
         public void WildcardEqualsStarInPattern()
         {
-            Assert.That("foobar".WildcardEquals("f*bar"), Is.True);
-            Assert.That("foobar".WildcardEquals("fa*bar"), Is.False);
+            Assert.True("foobar".WildcardEquals("f*bar"));
+            Assert.False("foobar".WildcardEquals("fa*bar"));
         }
 
-        [Test]
+        [Fact]
         public void WildcardEqualsMultipleStarsInPattern()
         {
-            Assert.That("foobar".WildcardEquals("f*b*r"), Is.True);
-            Assert.That("foobar".WildcardEquals("fa*b*r"), Is.False);
+            Assert.True("foobar".WildcardEquals("f*b*r"));
+            Assert.False("foobar".WildcardEquals("fa*b*r"));
         }
 
-        [Test]
+        [Fact]
         public void WildcardEqualsQuestionMarkInPattern()
         {
-            Assert.That("foobar".WildcardEquals("foo?ar"), Is.True);
-            Assert.That("foobar".WildcardEquals("f?bar"), Is.False);
+            Assert.True("foobar".WildcardEquals("foo?ar"));
+            Assert.False("foobar".WildcardEquals("f?bar"));
         }
 
-        [Test]
+        [Fact]
         public void WildcardEqualsSameString()
         {
-            Assert.That("foobar".WildcardEquals("foobar"), Is.True);
+            Assert.True("foobar".WildcardEquals("foobar"));
         }
 
-        [Test]
+        [Fact]
         public void WildcardEqualsSameStringButDifferentCase()
         {
-            Assert.That("foobar".WildcardEquals("FooBar"), Is.True);
-            Assert.That("foobar".WildcardEquals("FooBar", true), Is.False);
+            Assert.True("foobar".WildcardEquals("FooBar"));
+            Assert.False("foobar".WildcardEquals("FooBar", true));
         }
     }
 }

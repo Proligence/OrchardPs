@@ -1,69 +1,68 @@
 ﻿namespace Proligence.PowerShell.Provider.Tests
 {
     using System.Collections;
-    using NUnit.Framework;
     using Proligence.PowerShell.Provider.Utilities;
+    using Xunit;
 
-    [TestFixture]
     public class ArgumentListTests
     {
-        [Test]
+        [Fact]
         public void ParseEmptyList()
         {
             var args = ArgumentList.Parse(new ArrayList());
 
-            Assert.That(args, Is.Empty);
+            Assert.Empty(args);
         }
 
-        [Test]
+        [Fact]
         public void ParseSingleArgument()
         {
             var args = ArgumentList.Parse(new ArrayList { "-foo", "value1" });
 
-            Assert.That(args.Count, Is.EqualTo(1));
-            Assert.That(args["foo"], Is.EqualTo("value1"));
+            Assert.Equal(1, args.Count);
+            Assert.Equal("value1", args["foo"]);
         }
 
-        [Test]
+        [Fact]
         public void ParseMultipleArguments()
         {
             var args = ArgumentList.Parse(new ArrayList { "-foo", "value1", "-bar", "value2", "-baz", "value3" });
 
-            Assert.That(args.Count, Is.EqualTo(3));
-            Assert.That(args["foo"], Is.EqualTo("value1"));
-            Assert.That(args["bar"], Is.EqualTo("value2"));
-            Assert.That(args["baz"], Is.EqualTo("value3"));
+            Assert.Equal(3, args.Count);
+            Assert.Equal("value1", args["foo"]);
+            Assert.Equal("value2", args["bar"]);
+            Assert.Equal("value3", args["baz"]);
         }
 
-        [Test]
+        [Fact]
         public void ParseSwitch()
         {
             var args = ArgumentList.Parse(new ArrayList { "-foo" });
 
-            Assert.That(args.Count, Is.EqualTo(1));
-            Assert.That(args["foo"], Is.Null);
+            Assert.Equal(1, args.Count);
+            Assert.Null(args["foo"]);
         }
 
-        [Test]
+        [Fact]
         public void ParseSwitchWithArguments()
         {
             var args = ArgumentList.Parse(new ArrayList { "-foo", "value1", "-bar", "-baz", "value3" });
 
-            Assert.That(args.Count, Is.EqualTo(3));
-            Assert.That(args["foo"], Is.EqualTo("value1"));
-            Assert.That(args["bar"], Is.Null);
-            Assert.That(args["baz"], Is.EqualTo("value3"));
+            Assert.Equal(3, args.Count);
+            Assert.Equal("value1", args["foo"]);
+            Assert.Null(args["bar"]);
+            Assert.Equal("value3", args["baz"]);
         }
 
-        [Test]
+        [Fact]
         public void ParseArgumentWithNullValue()
         {
             var args = ArgumentList.Parse(new ArrayList { "-foo", "value1", "-bar", null, "-baz", "value3" });
 
-            Assert.That(args.Count, Is.EqualTo(3));
-            Assert.That(args["foo"], Is.EqualTo("value1"));
-            Assert.That(args["bar"], Is.Null);
-            Assert.That(args["baz"], Is.EqualTo("value3"));
+            Assert.Equal(3, args.Count);
+            Assert.Equal("value1", args["foo"]);
+            Assert.Null(args["bar"]);
+            Assert.Equal("value3", args["baz"]);
         }
     }
 }

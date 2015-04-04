@@ -1,32 +1,28 @@
 ﻿namespace Proligence.PowerShell.Provider.Tests
 {
     using System;
-    using NUnit.Framework;
     using Proligence.PowerShell.Provider;
+    using Xunit;
 
-    [TestFixture]
     public class CmdletAliasAttributeTests
     {
-        [TestCase("")]
-        [TestCase(null)]
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
         public void TestConstructorWhenAliasNullOrEmpty(string alias)
         {
             var exception = Assert.Throws<ArgumentNullException>(
                 () => new CmdletAliasAttribute(alias));
 
-            Assert.That(exception.ParamName, Is.EqualTo("alias"));
+            Assert.Equal("alias", exception.ParamName);
         }
 
-        /// <summary>
-        /// Tests if the constructor of the <see cref="CmdletAliasAttribute"/> class properly initializes a new
-        /// instance when the specified constructor arguments are valid.
-        /// </summary>
-        [Test]
+        [Fact]
         public void TestConstructorWhenValidArgs()
         {
             var attr = new CmdletAliasAttribute("MyAlias");
 
-            Assert.That(attr.Alias, Is.EqualTo("MyAlias"));
+            Assert.Equal("MyAlias", attr.Alias);
         }
     }
 }

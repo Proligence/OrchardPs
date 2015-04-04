@@ -3,13 +3,12 @@
     using System;
     using System.Management.Automation;
     using Moq;
-    using NUnit.Framework;
     using Proligence.PowerShell.Provider;
+    using Xunit;
 
-    [TestFixture]
     public class OrchardCmdletExtensionsTests
     {
-        [Test]
+        [Fact]
         public void WriteErrorWhenCmdletNull()
         {
             var ex = new InvalidOperationException("My exception message.");
@@ -18,10 +17,10 @@
             var exception = Assert.Throws<ArgumentNullException>(
                 () => OrchardCmdletExtensions.WriteError(null, ex, "ErrorId", ErrorCategory.InvalidOperation, target));
 
-            Assert.That(exception.ParamName, Is.EqualTo("cmdlet"));
+            Assert.Equal("cmdlet", exception.ParamName);
         }
 
-        [Test]
+        [Fact]
         public void WriteErrorWhenValidArgs()
         {
             var ex = new InvalidOperationException("My exception message.");
@@ -35,16 +34,16 @@
 
             cmdlet.Object.WriteError(ex, "ErrorId", ErrorCategory.InvalidOperation, target);
 
-            Assert.That(errorRecord, Is.Not.Null);
-            Assert.That(errorRecord.Exception, Is.EqualTo(ex));
-            Assert.That(errorRecord.FullyQualifiedErrorId, Is.EqualTo("ErrorId"));
-            Assert.That(errorRecord.CategoryInfo.Category, Is.EqualTo(ErrorCategory.InvalidOperation));
-            Assert.That(errorRecord.TargetObject, Is.SameAs(target));
+            Assert.NotNull(errorRecord);
+            Assert.Equal(ex, errorRecord.Exception);
+            Assert.Equal("ErrorId", errorRecord.FullyQualifiedErrorId);
+            Assert.Equal(ErrorCategory.InvalidOperation, errorRecord.CategoryInfo.Category);
+            Assert.Same(target, errorRecord.TargetObject);
 
             cmdlet.VerifyAll();
         }
 
-        [Test]
+        [Fact]
         public void ThrowTerminatingErrorWhenCmdletNull()
         {
             var ex = new InvalidOperationException("My exception message.");
@@ -54,10 +53,10 @@
                 () => OrchardCmdletExtensions.ThrowTerminatingError(
                     null, ex, "ErrorId", ErrorCategory.InvalidOperation, target));
 
-            Assert.That(exception.ParamName, Is.EqualTo("cmdlet"));
+            Assert.Equal("cmdlet", exception.ParamName);
         }
 
-        [Test]
+        [Fact]
         public void ThrowTerminatingErrorWhenValidArgs()
         {
             var ex = new InvalidOperationException("My exception message.");
@@ -71,11 +70,11 @@
 
             cmdlet.Object.ThrowTerminatingError(ex, "ErrorId", ErrorCategory.InvalidOperation, target);
 
-            Assert.That(errorRecord, Is.Not.Null);
-            Assert.That(errorRecord.Exception, Is.EqualTo(ex));
-            Assert.That(errorRecord.FullyQualifiedErrorId, Is.EqualTo("ErrorId"));
-            Assert.That(errorRecord.CategoryInfo.Category, Is.EqualTo(ErrorCategory.InvalidOperation));
-            Assert.That(errorRecord.TargetObject, Is.SameAs(target));
+            Assert.NotNull(errorRecord);
+            Assert.Equal(ex, errorRecord.Exception);
+            Assert.Equal("ErrorId", errorRecord.FullyQualifiedErrorId);
+            Assert.Equal(ErrorCategory.InvalidOperation, errorRecord.CategoryInfo.Category);
+            Assert.Same(target, errorRecord.TargetObject);
 
             cmdlet.VerifyAll();
         }
