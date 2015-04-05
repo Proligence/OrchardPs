@@ -1,4 +1,4 @@
-﻿namespace Orchard.Tests.Modules.PowerShell.Core
+﻿namespace Orchard.Tests.Modules.PowerShell.Provider.Cmdlets
 {
     using Orchard.Tests.PowerShell.Infrastructure;
     using Xunit;

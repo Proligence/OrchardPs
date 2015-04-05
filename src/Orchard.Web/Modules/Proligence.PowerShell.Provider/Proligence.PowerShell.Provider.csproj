@@ -79,6 +79,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Cmdlets\Get-OrchardPsCommand-help.xml" />
     <Content Include="Module.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +101,7 @@
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cmdlets\GetOrchardPsCommand.cs" />
     <Compile Include="Console\UI\OutputType.cs" />
     <Compile Include="IConsoleConnection.cs" />
     <Compile Include="IPsFileSearcher.cs" />

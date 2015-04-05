@@ -8,7 +8,7 @@
     <ProjectGuid>{D64F8D02-3770-4142-9DCF-347085D867C4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Proligence.PowerShell.Provider.Tests</RootNamespace>
+    <RootNamespace>Orchard.Tests.Modules.PowerShell.Provider</RootNamespace>
     <AssemblyName>Orchard.Tests.Modules.PowerShell.Provider</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="ArgumentListTests.cs" />
     <Compile Include="CmdletAliasAttributeTests.cs" />
+    <Compile Include="Cmdlets\GetOrchardPsCommandTests.cs" />
     <Compile Include="OrchardCmdletExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringExtensionsTests.cs" />

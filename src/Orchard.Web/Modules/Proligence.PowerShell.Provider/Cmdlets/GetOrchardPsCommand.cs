@@ -1,10 +1,10 @@
-﻿namespace Proligence.PowerShell.Core.Cmdlets
+﻿namespace Proligence.PowerShell.Provider.Cmdlets
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Proligence.PowerShell.Core.Internal;
+    using Proligence.PowerShell.Provider.Internal;
     using Proligence.PowerShell.Provider.Utilities;
     using Provider;
     using Provider.Vfs.Navigation;
