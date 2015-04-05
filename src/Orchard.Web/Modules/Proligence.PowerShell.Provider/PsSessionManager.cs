@@ -217,7 +217,12 @@ namespace Proligence.PowerShell.Provider
             ui.WriteLine();
             ui.WriteLine();
             ui.WriteLine();
-            ui.WriteLine(ConsoleColor.Yellow, ConsoleColor.Black, "                         Welcome to Orchard PowerShell!                        ");
+            
+            ui.WriteLine(
+                ConsoleColor.Yellow,
+                ConsoleColor.Black,
+                "                         Welcome to Orchard PowerShell!                        ");
+            
             ui.WriteLine();
             ui.WriteLine();
             ui.WriteLine(

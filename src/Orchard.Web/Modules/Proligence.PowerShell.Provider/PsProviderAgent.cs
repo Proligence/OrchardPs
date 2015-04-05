@@ -2,7 +2,6 @@
 {
     using System;
     using System.Linq;
-    using System.Runtime.Remoting.Lifetime;
     using System.Security;
     using System.Web.Hosting;
     using System.Web.Mvc;
@@ -12,6 +11,14 @@
     using Orchard.Environment.Configuration;
     using Orchard.Environment.ShellBuilders;
 
+    /// <summary>
+    /// Implements an agent for accessing the Orchard PowerShell Engine using remoting.
+    /// </summary>
+    /// <remarks>
+    /// This class can be instantiated using remoting, in a separate <c>AppDomain</c> which hosts the Orchard
+    /// framework. This is how the <c>OrchardPs.exe</c> utility works. Additionally, this class is used in a
+    /// simliary way by the OrchardPs unit testing infrastructure.
+    /// </remarks>
     public class PsProviderAgent : MarshalByRefObject, IDisposable, IRegisteredObject
     {
         private readonly IContainer hostContainer;
@@ -23,7 +30,7 @@
         }
 
         /// <summary>
-        /// Gets the PS session manager for the default tenant.
+        /// Gets the PowerShell session manager for the default tenant.
         /// </summary>
         public IPsSessionManager GetSessionManager()
         {
@@ -38,15 +45,9 @@
         /// <summary>
         /// Obtains a lifetime service object to control the lifetime policy for this instance.
         /// </summary>
-        /// <returns>
-        /// An object of type <see cref="ILease"/> used to control the lifetime policy for this instance. This is the
-        /// current lifetime service object for this instance if one exists; otherwise, a new lifetime service object
-        /// initialized to the value of the <see cref="LifetimeServices.LeaseManagerPollTime"/> property.
-        /// </returns>
         [SecurityCritical]
         public override object InitializeLifetimeService()
         {
-            // never expire the license
             return null;
         }
 

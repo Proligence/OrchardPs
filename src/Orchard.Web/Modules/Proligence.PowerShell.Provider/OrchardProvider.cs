@@ -8,7 +8,7 @@
     using Proligence.PowerShell.Provider.Vfs.Provider;
 
     /// <summary>
-    /// Implements the Orchard PS Provider.
+    /// Implements the Orchard PowerShell Provider.
     /// </summary>
     [CmdletProvider("Orchard", ProviderCapabilities.ShouldProcess)]
     public class OrchardProvider : VfsProvider
@@ -20,7 +20,7 @@
         {
             get
             {
-                return (OrchardProviderInfo)ProviderInfo;
+                return (OrchardProviderInfo)this.ProviderInfo;
             }
         }
 
@@ -41,12 +41,14 @@
         /// <returns>The <see cref="VfsDriveInfo"/> object which represents the initialized drive.</returns>
         protected override VfsDriveInfo InitializeNewDrive(PSDriveInfo drive)
         {
-            if (drive is OrchardDriveInfo)
+            var orchardDriveInfo = drive as OrchardDriveInfo;
+            if (orchardDriveInfo != null)
             {
                 return (VfsDriveInfo)drive;
             }
 
             VfsDriveInfo orchardDrive = null;
+            
             this.TryCritical(
                 () => orchardDrive = this.InitializeOrchardDrive(drive),
                 ErrorIds.OrchardInitFailed,
@@ -69,8 +71,8 @@
             this.Try(
                 () => 
                 {
-                    var drive = new PSDriveInfo("Orchard", ProviderInfo, "\\", "Orchard drive", Credential);
-                    drives.Add(InitializeOrchardDrive(drive));
+                    var drive = new PSDriveInfo("Orchard", this.ProviderInfo, "\\", "Orchard drive", this.Credential);
+                    drives.Add(this.InitializeOrchardDrive(drive));
                 }, 
                 ErrorIds.DefaultDrivesInitFailed, 
                 ErrorCategory.OpenError);

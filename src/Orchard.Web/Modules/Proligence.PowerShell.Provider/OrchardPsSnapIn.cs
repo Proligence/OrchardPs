@@ -12,7 +12,8 @@
     using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>
-    /// Implements the PowerShell snap-in for the Orchard PS provider.
+    /// Implements a PowerShell snap-in which intializes the Orchard PS provider and its extensions from Orchard
+    /// modules.
     /// </summary>
     public class OrchardPsSnapIn : CustomPSSnapIn 
     {
@@ -70,13 +71,11 @@
         }
 
         /// <summary>
-        /// Gets a dictionary of command aliases which will be automatically created.
+        /// Gets a dictionary of command aliases which will be automatically registered in the PowerShell
+        /// execution engine.
         /// </summary>
         public IDictionary<string, string> Aliases { get; private set; }
 
-        /// <summary>
-        /// Initializes the snap-in and fills its collections.
-        /// </summary>
         public void Initialize()
         {
             string helpFilePath = this.fileSearcher.GetHelpFile("Proligence.PowerShell.Provider.dll");

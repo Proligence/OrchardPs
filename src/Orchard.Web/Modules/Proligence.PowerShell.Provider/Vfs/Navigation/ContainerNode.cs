@@ -154,7 +154,7 @@
                 path = path.Substring(1);
             }
 
-            string[] pathParts = path.Split(new[] { '\\' });
+            string[] pathParts = path.Split('\\');
 
             node = this;
             for (int i = 0; i < pathParts.Length; i++) 

@@ -5,8 +5,14 @@
     using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>
-    /// The base class for cmdlets which must be invoked from a path which belongs to the Orchard PS provider.
+    /// The base class for cmdlets which implement Orchard-related management functionality.
     /// </summary>
+    /// <remarks>
+    /// This class adds the <see cref="OrchardDrive"/> and <see cref="CurrentNode"/> properties which are initlized
+    /// based on the current location in the Orchard VFS. If the cmdlet is invoked from a path which belongs to the
+    /// Orchard PowerShell provider, then the underlying drive and VFS not is used to initialize these properties.
+    /// Otherwise, the default 'Orchard' drive is used as a fallback.
+    /// </remarks>
     public class OrchardCmdlet : PSCmdlet, IOrchardCmdlet
     {
         /// <summary>
@@ -21,7 +27,7 @@
 
         protected override void BeginProcessing() 
         {
-            this.OrchardDrive = SessionState.Drive.Current as OrchardDriveInfo;
+            this.OrchardDrive = this.SessionState.Drive.Current as OrchardDriveInfo;
             if (this.OrchardDrive == null)
             {
                 this.OrchardDrive = this.SessionState.Drive.Get("Orchard") as OrchardDriveInfo;

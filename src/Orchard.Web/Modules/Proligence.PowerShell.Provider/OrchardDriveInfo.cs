@@ -5,7 +5,7 @@
     using Proligence.PowerShell.Provider.Vfs.Provider;
 
     /// <summary>
-    /// Represents the state of a single Orchard drive in the Orchard PS provider.
+    /// Represents the state of a PowerShell drive which is handled by the Orchard PS provider.
     /// </summary>
     public class OrchardDriveInfo : VfsDriveInfo 
     {

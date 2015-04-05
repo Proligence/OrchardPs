@@ -44,7 +44,7 @@
         {
             get
             {
-                return GetType().Assembly.GetName().Version;
+                return this.GetType().Assembly.GetName().Version;
             }
         }
 

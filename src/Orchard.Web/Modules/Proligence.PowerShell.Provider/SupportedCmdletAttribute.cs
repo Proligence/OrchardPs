@@ -16,7 +16,7 @@
         }
 
         /// <summary>
-        /// Gets the cmdletName of the supported cmdlet.
+        /// Gets the name of the supported cmdlet.
         /// </summary>
         public string CmdletName 
         { 

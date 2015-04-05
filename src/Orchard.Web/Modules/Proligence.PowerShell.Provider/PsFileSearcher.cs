@@ -38,7 +38,7 @@
                 
                 foreach (string modulePath in this.GetEnabledModulePaths())
                 {
-                    this.LoadHelpFiles(modulePath, this.helpFiles);
+                    LoadHelpFiles(modulePath, this.helpFiles);
                 }
             }
 
@@ -106,7 +106,7 @@
                 .ToArray();
         }
 
-        private void LoadHelpFiles(string directory, Collection<string> helpFilesCollection)
+        private static void LoadHelpFiles(string directory, ICollection<string> helpFilesCollection)
         {
             string[] fileNames;
             try

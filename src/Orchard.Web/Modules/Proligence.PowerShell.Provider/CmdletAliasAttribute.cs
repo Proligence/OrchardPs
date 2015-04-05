@@ -18,9 +18,6 @@
             this.Alias = alias;
         }
 
-        /// <summary>
-        /// Gets the command's alias.
-        /// </summary>
         public string Alias { get; private set; }
     }
 }
