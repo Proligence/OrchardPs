@@ -4,7 +4,6 @@
     using System.Management.Automation;
     using System.Management.Automation.Provider;
     using Proligence.PowerShell.Provider.Console.Host;
-    using Proligence.PowerShell.Provider.Internal;
     using Proligence.PowerShell.Provider.Vfs.Provider;
 
     /// <summary>
