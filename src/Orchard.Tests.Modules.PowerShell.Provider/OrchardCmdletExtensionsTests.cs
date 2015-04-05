@@ -1,4 +1,4 @@
-﻿namespace Proligence.PowerShell.Provider.Tests
+﻿namespace Orchard.Tests.Modules.PowerShell.Provider
 {
     using System;
     using System.Management.Automation;

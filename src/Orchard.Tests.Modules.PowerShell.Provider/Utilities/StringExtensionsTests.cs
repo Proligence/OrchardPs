@@ -1,4 +1,4 @@
-﻿namespace Proligence.PowerShell.Provider.Tests
+﻿namespace Orchard.Tests.Modules.PowerShell.Provider.Utilities
 {
     using Proligence.PowerShell.Provider.Utilities;
     using Xunit;

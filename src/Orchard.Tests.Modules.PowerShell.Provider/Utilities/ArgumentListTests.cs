@@ -1,4 +1,4 @@
-﻿namespace Proligence.PowerShell.Provider.Tests
+﻿namespace Orchard.Tests.Modules.PowerShell.Provider.Utilities
 {
     using System.Collections;
     using Proligence.PowerShell.Provider.Utilities;
