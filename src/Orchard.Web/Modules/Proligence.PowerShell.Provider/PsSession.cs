@@ -10,6 +10,7 @@
     using Console;
     using Proligence.PowerShell.Provider.Console.Host;
     using Proligence.PowerShell.Provider.Console.UI;
+    using Proligence.PowerShell.Provider.Internal;
     using Proligence.PowerShell.Provider.Vfs;
 
     /// <summary>

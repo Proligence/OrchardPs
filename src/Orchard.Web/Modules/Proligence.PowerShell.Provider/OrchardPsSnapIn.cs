@@ -9,6 +9,7 @@
     using System.Management.Automation;
     using System.Management.Automation.Runspaces;
     using System.Reflection;
+    using Proligence.PowerShell.Provider.Internal;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>

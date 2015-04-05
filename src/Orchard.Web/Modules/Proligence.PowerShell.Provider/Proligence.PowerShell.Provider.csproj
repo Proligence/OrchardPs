@@ -102,8 +102,8 @@
     <Compile Include="Cmdlets\GetOrchardPsCommand.cs" />
     <Compile Include="Console\UI\OutputType.cs" />
     <Compile Include="IConsoleConnection.cs" />
-    <Compile Include="IPsFileSearcher.cs" />
-    <Compile Include="PsFileSearcher.cs" />
+    <Compile Include="Internal\IPsFileSearcher.cs" />
+    <Compile Include="Internal\PsFileSearcher.cs" />
     <Compile Include="PsProviderAgent.cs" />
     <Compile Include="Utilities\ArgumentList.cs" />
     <Compile Include="CmdletAliasAttribute.cs" />
@@ -117,22 +117,21 @@
     <Compile Include="Console\UI\ConsoleHostUserInterface.cs" />
     <Compile Include="Console\UI\InputData.cs" />
     <Compile Include="Console\UI\OutputData.cs" />
-    <Compile Include="TenantContextManager.cs" />
+    <Compile Include="Internal\TenantContextManager.cs" />
     <Compile Include="ErrorIds.cs" />
     <Compile Include="IPsSession.cs" />
     <Compile Include="IPsSessionManager.cs" />
     <Compile Include="PsSession.cs" />
     <Compile Include="PsSessionManager.cs" />
-    <Compile Include="ITenantContextManager.cs" />
+    <Compile Include="Internal\ITenantContextManager.cs" />
     <Compile Include="IOrchardCmdlet.cs" />
     <Compile Include="Utilities\IPropertyMapper.cs" />
     <Compile Include="Utilities\MappableAttribute.cs" />
     <Compile Include="OrchardCmdlet.cs" />
     <Compile Include="OrchardCmdletExtensions.cs" />
-    <Compile Include="OrchardDriveInfo.cs" />
-    <Compile Include="OrchardProvider.cs" />
-    <Compile Include="OrchardProviderException.cs" />
-    <Compile Include="OrchardProviderInfo.cs" />
+    <Compile Include="Internal\OrchardDriveInfo.cs" />
+    <Compile Include="Internal\OrchardProvider.cs" />
+    <Compile Include="Internal\OrchardProviderInfo.cs" />
     <Compile Include="OrchardPsSnapIn.cs">
       <SubType>Component</SubType>
     </Compile>

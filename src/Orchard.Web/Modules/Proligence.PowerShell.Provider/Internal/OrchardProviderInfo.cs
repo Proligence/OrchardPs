@@ -1,4 +1,4 @@
-﻿namespace Proligence.PowerShell.Provider
+﻿namespace Proligence.PowerShell.Provider.Internal
 {
     using System.Management.Automation;
     using Proligence.PowerShell.Provider.Vfs.Provider;

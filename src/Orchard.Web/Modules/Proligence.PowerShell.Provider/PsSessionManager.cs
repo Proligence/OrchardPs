@@ -11,6 +11,7 @@ namespace Proligence.PowerShell.Provider
     using Orchard.Validation;
     using Proligence.PowerShell.Provider.Console.Host;
     using Proligence.PowerShell.Provider.Console.UI;
+    using Proligence.PowerShell.Provider.Internal;
 
     /// <summary>
     /// Manages the sessions of the PowerShell engine hosted in the Orchard application.

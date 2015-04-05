@@ -5,6 +5,7 @@
     using Orchard;
     using Orchard.Data;
     using Orchard.Validation;
+    using Proligence.PowerShell.Provider.Internal;
 
     public static class VfsExtensions
     {

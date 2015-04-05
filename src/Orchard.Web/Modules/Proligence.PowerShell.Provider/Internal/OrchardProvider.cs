@@ -1,4 +1,4 @@
-﻿namespace Proligence.PowerShell.Provider
+﻿namespace Proligence.PowerShell.Provider.Internal
 {
     using System.Collections.ObjectModel;
     using System.Management.Automation;

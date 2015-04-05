@@ -1,6 +1,7 @@
 ﻿namespace Proligence.PowerShell.Provider.Console.Host
 {
     using Autofac;
+    using Proligence.PowerShell.Provider.Internal;
 
     public class ConsoleHostPrivateData
     {

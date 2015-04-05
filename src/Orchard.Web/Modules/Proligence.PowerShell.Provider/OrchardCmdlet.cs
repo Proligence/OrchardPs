@@ -2,6 +2,7 @@
 {
     using System;
     using System.Management.Automation;
+    using Proligence.PowerShell.Provider.Internal;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>
