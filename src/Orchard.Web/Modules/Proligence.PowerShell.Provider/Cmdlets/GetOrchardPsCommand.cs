@@ -77,8 +77,11 @@
 
                 if (node == null)
                 {
-                    var exc = new ArgumentException("Failed to find item '" + this.Path + "'.");
-                    this.WriteError(exc, ErrorIds.FailedToFindItem, ErrorCategory.InvalidArgument, this.Path);
+                    this.WriteError(
+                        new ArgumentException("Failed to find item '" + this.Path + "'."),
+                        ErrorIds.FailedToFindItem,
+                        ErrorCategory.InvalidArgument,
+                        this.Path);
                 }
             }
 

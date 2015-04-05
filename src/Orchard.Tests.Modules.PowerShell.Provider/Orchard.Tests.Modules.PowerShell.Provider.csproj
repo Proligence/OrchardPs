@@ -64,7 +64,6 @@
     <Compile Include="OrchardCmdletExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\StringExtensionsTests.cs" />
-    <Compile Include="ThrowHelperTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Orchard.Tests.PowerShell.Infrastructure\Orchard.Tests.PowerShell.Infrastructure.csproj">
@@ -76,6 +75,7 @@
       <Name>Proligence.PowerShell.Provider</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

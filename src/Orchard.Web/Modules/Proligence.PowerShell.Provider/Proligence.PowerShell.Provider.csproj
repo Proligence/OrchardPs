@@ -140,7 +140,6 @@
     <Compile Include="Utilities\PropertyMapper.cs" />
     <Compile Include="Utilities\StringExtensions.cs" />
     <Compile Include="SupportedCmdletAttribute.cs" />
-    <Compile Include="Internal\ThrowHelper.cs" />
     <Compile Include="Vfs\Items\CollectionItem.cs" />
     <Compile Include="Vfs\Items\DescriptionItem.cs" />
     <Compile Include="Vfs\VfsExtensions.cs" />

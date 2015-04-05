@@ -1,5 +1,6 @@
 ﻿namespace Proligence.PowerShell.Provider
 {
+    using System;
     using System.Management.Automation;
     using Proligence.PowerShell.Provider.Internal;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
@@ -33,7 +34,7 @@
                 this.OrchardDrive = this.SessionState.Drive.Get("Orchard") as OrchardDriveInfo;
                 if (this.OrchardDrive == null)
                 {
-                    var exception = ThrowHelper.InvalidOperation(
+                    var exception = new InvalidOperationException(
                         "Failed to find Orchard drive. Make sure that the Orchard VFS is properly initialized and " +
                         "the Orchard PSDrive is mounted.");
 

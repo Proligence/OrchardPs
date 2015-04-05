@@ -617,12 +617,10 @@
             {
                 this.Try(() => action(node), ErrorIds.NodeEnumerationFailed, ErrorCategory.NotSpecified, node);
             }
-            else 
+            else
             {
-                this.WriteError(
-                    ThrowHelper.InvalidPathException(path), 
-                    ErrorIds.ItemNotFound, 
-                    ErrorCategory.ObjectNotFound);
+                var exception = new ArgumentException("Path must represent a valid Orchard object: " + path);
+                this.WriteError(exception, ErrorIds.ItemNotFound, ErrorCategory.ObjectNotFound);
             }
         }
 
@@ -658,12 +656,10 @@
                         node);
                 }
             }
-            else 
+            else
             {
-                this.WriteError(
-                    ThrowHelper.InvalidPathException(path), 
-                    ErrorIds.ItemNotFound, 
-                    ErrorCategory.ObjectNotFound);
+                var exception = new ArgumentException("Path must represent a valid Orchard object: " + path);
+                this.WriteError(exception, ErrorIds.ItemNotFound, ErrorCategory.ObjectNotFound);
             }
         }
 
