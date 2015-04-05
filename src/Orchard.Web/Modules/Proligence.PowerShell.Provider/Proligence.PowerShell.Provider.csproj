@@ -119,7 +119,6 @@
     <Compile Include="Console\UI\OutputData.cs" />
     <Compile Include="TenantContextManager.cs" />
     <Compile Include="Internal\ErrorIds.cs" />
-    <Compile Include="Utilities\ExceptionExtensions.cs" />
     <Compile Include="IPsSession.cs" />
     <Compile Include="IPsSessionManager.cs" />
     <Compile Include="PsSession.cs" />
