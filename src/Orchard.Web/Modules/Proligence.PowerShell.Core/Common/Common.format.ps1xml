@@ -4,8 +4,8 @@
     <View>
       <Name>CollectionItemView</Name>
       <ViewSelectedBy>
-        <TypeName>Proligence.PowerShell.Common.Items.CollectionItem</TypeName>
-        <TypeName>Proligence.PowerShell.Common.Items.DescriptionItem</TypeName>
+        <TypeName>Proligence.PowerShell.Core.Common.Items.CollectionItem</TypeName>
+        <TypeName>Proligence.PowerShell.Core.Common.Items.DescriptionItem</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
