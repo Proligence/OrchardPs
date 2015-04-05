@@ -64,6 +64,7 @@
     <Compile Include="OrchardCmdletExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\StringExtensionsTests.cs" />
+    <Compile Include="Vfs\OrchardVfsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Orchard.Tests.PowerShell.Infrastructure\Orchard.Tests.PowerShell.Infrastructure.csproj">
