@@ -2,6 +2,7 @@
 {
     using System;
     using System.Management.Automation;
+    using Orchard.Validation;
 
     public static class OrchardCmdletExtensions
     {
@@ -15,11 +16,8 @@
             ErrorCategory category, 
             object target = null)
         {
-            if (cmdlet == null)
-            {
-                throw new ArgumentNullException("cmdlet");
-            }
-
+            Argument.ThrowIfNull(cmdlet, "cmdlet");
+            
             var errorRecord = new ErrorRecord(exception, errorId, category, target);
             cmdlet.WriteError(errorRecord);
         }
@@ -34,11 +32,8 @@
             ErrorCategory category,
             object target = null)
         {
-            if (cmdlet == null)
-            {
-                throw new ArgumentNullException("cmdlet");
-            }
-
+            Argument.ThrowIfNull(cmdlet, "cmdlet");
+            
             var errorRecord = new ErrorRecord(exception, errorId, category, target);
             cmdlet.ThrowTerminatingError(errorRecord);
         }

@@ -1,4 +1,4 @@
-﻿namespace Proligence.PowerShell.Provider.Tests
+﻿namespace Orchard.Tests.Modules.PowerShell.Provider
 {
     using System;
     using Proligence.PowerShell.Provider;
@@ -11,7 +11,7 @@
         [InlineData(null)]
         public void TestConstructorWhenAliasNullOrEmpty(string alias)
         {
-            var exception = Assert.Throws<ArgumentNullException>(
+            var exception = Assert.Throws<ArgumentException>(
                 () => new CmdletAliasAttribute(alias));
 
             Assert.Equal("alias", exception.ParamName);

@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Orchard.Validation;
 
     /// <summary>
     /// The base class for VFS nodes which contain child items.
@@ -138,11 +139,8 @@
         /// </returns>
         public override VfsNode NavigatePath(string path) 
         {
-            if (path == null)
-            {
-                throw new ArgumentNullException("path");
-            }
-
+            Argument.ThrowIfNull(path, "path");
+            
             VfsNode node = base.NavigatePath(path);
             if (node != null) 
             {

@@ -1,6 +1,7 @@
 ﻿namespace Proligence.PowerShell.Provider
 {
     using System;
+    using Orchard.Validation;
 
     /// <summary>
     /// Specifies an alias for a cmdlet which will be automatically registered during application startup.
@@ -10,10 +11,7 @@
     {
         public CmdletAliasAttribute(string alias) 
         {
-            if (string.IsNullOrEmpty(alias)) 
-            {
-                throw new ArgumentNullException("alias");
-            }
+            Argument.ThrowIfNullOrEmpty(alias, "alias");
             
             this.Alias = alias;
         }

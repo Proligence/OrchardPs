@@ -1,7 +1,7 @@
 ﻿namespace Proligence.PowerShell.Provider.Vfs.Navigation
 {
-    using System;
     using System.Collections.Generic;
+    using Orchard.Validation;
 
     /// <summary>
     /// Implements a node which works as a symbolic link (shortcut) to another node in the PowerShell VFS.
@@ -11,11 +11,8 @@
         public SymbolicLinkNode(IPowerShellVfs vfs, string name, VfsNode node) 
             : base(vfs, name) 
         {
-            if (node == null)
-            {
-                throw new ArgumentNullException("node");
-            }
-
+            Argument.ThrowIfNull(node, "node");
+            
             this.TargetNode = node;
             this.Item = node.Item;
             

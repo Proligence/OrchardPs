@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.Serialization;
+    using Orchard.Validation;
 
     /// <summary>
     /// Represents a list of cmdlet arguments.
@@ -28,11 +29,8 @@
         /// <returns>A dictionary which maps parameter names to their values.</returns>
         public static ArgumentList Parse(ArrayList arguments)
         {
-            if (arguments == null)
-            {
-                throw new ArgumentNullException("arguments");
-            }
-
+            Argument.ThrowIfNull(arguments, "arguments");
+            
             var argumentList = new ArgumentList();
 
             IEnumerator<string> enumerator = arguments.Cast<string>().GetEnumerator();

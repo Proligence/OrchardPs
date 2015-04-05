@@ -4,6 +4,7 @@
     using Autofac;
     using Orchard;
     using Orchard.Data;
+    using Orchard.Validation;
 
     public static class VfsExtensions
     {
@@ -18,16 +19,9 @@
             string tenantName,
             Action<IWorkContextScope> action)
         {
-            if (vfs == null)
-            {
-                throw new ArgumentNullException("vfs");
-            }
-
-            if (action == null)
-            {
-                throw new ArgumentNullException("action");
-            }
-
+            Argument.ThrowIfNull(vfs, "vfs");
+            Argument.ThrowIfNull(action, "action");
+            
             var tenantContextManager = vfs.Drive.ComponentContext.Resolve<ITenantContextManager>();
 
             using (IWorkContextScope scope = tenantContextManager.CreateWorkContextScope(tenantName ?? "Default"))
@@ -67,15 +61,8 @@
             string tenantName,
             Func<IWorkContextScope, T> action)
         {
-            if (vfs == null)
-            {
-                throw new ArgumentNullException("vfs");
-            }
-
-            if (action == null)
-            {
-                throw new ArgumentNullException("action");
-            }
+            Argument.ThrowIfNull(vfs, "vfs");
+            Argument.ThrowIfNull(action, "action");
 
             var tenantContextManager = vfs.Drive.ComponentContext.Resolve<ITenantContextManager>();
 

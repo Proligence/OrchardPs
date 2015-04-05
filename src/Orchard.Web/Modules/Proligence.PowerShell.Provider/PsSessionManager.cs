@@ -8,6 +8,7 @@ namespace Proligence.PowerShell.Provider
     using System.Management.Automation.Host;
     using System.Management.Automation.Runspaces;
     using Autofac;
+    using Orchard.Validation;
     using Proligence.PowerShell.Provider.Console.Host;
     using Proligence.PowerShell.Provider.Console.UI;
 
@@ -153,11 +154,8 @@ namespace Proligence.PowerShell.Provider
         /// <param name="session">The session to close.</param>
         public void CloseSession(IPsSession session)
         {
-            if (session == null)
-            {
-                throw new ArgumentNullException("session");
-            }
-
+            Argument.ThrowIfNull(session, "session");
+            
             var key = Sessions
                 .Where(s => s.Value == session)
                 .Select(s => s.Key)

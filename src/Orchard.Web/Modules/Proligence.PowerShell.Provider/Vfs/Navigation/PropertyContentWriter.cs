@@ -4,6 +4,7 @@
     using System.Collections;
     using System.IO;
     using System.Management.Automation.Provider;
+    using Orchard.Validation;
 
     /// <summary>
     /// Implements the <see cref="IContentWriter"/> for <see cref="PropertyNode"/> VFS nodes.
@@ -42,11 +43,8 @@
         /// </returns>
         public IList Write(IList content)
         {
-            if (content == null)
-            {
-                throw new ArgumentNullException("content");
-            }
-
+            Argument.ThrowIfNull(content, "content");
+            
             if ((this.value != null) || (content.Count != 1))
             {
                 throw new ArgumentException("Only a single value may be set for property nodes.", "content");

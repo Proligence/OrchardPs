@@ -3,6 +3,7 @@
     using System;
     using System.Globalization;
     using System.Management.Automation;
+    using Orchard.Validation;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     public static class VfsProviderExtensions
@@ -14,16 +15,9 @@
         /// <param name="node">The node instance.</param>
         public static void WriteItemNode(this VfsProvider provider, VfsNode node) 
         {
-            if (provider == null)
-            {
-                throw new ArgumentNullException("provider");
-            }
-
-            if (node == null)
-            {
-                throw new ArgumentNullException("node");
-            }
-
+            Argument.ThrowIfNull(provider, "provider");
+            Argument.ThrowIfNull(node, "node");
+            
             provider.WriteItemObject(node.Item ?? node.Name, node.GetPath(), node is ContainerNode);
         }
 
@@ -38,20 +32,9 @@
             VfsNode node, 
             Func<VfsNode, object> itemFunc) 
         {
-            if (provider == null)
-            {
-                throw new ArgumentNullException("provider");
-            }
-
-            if (node == null)
-            {
-                throw new ArgumentNullException("node");
-            }
-
-            if (itemFunc == null)
-            {
-                throw new ArgumentNullException("itemFunc");
-            }
+            Argument.ThrowIfNull(provider, "provider");
+            Argument.ThrowIfNull(node, "node");
+            Argument.ThrowIfNull(itemFunc, "itemFunc");
 
             provider.WriteItemObject(itemFunc(node), node.GetPath(), node is ContainerNode);
         }
@@ -71,10 +54,7 @@
             ErrorCategory category, 
             object target = null) 
         {
-            if (provider == null)
-            {
-                throw new ArgumentNullException("provider");
-            }
+            Argument.ThrowIfNull(provider, "provider");
 
             var errorRecord = new ErrorRecord(exception, errorId, category, target);
             provider.WriteError(errorRecord);
@@ -95,10 +75,7 @@
             ErrorCategory category, 
             object target = null)
         {
-            if (provider == null)
-            {
-                throw new ArgumentNullException("provider");
-            }
+            Argument.ThrowIfNull(provider, "provider");
 
             var errorRecord = new ErrorRecord(exception, errorId, category, target);
             provider.ThrowTerminatingError(errorRecord);
@@ -112,10 +89,7 @@
         /// <param name="args">The arguments for the message's format string.</param>
         public static void Trace(this VfsProvider provider, string format, params object[] args) 
         {
-            if (provider == null)
-            {
-                throw new ArgumentNullException("provider");
-            }
+            Argument.ThrowIfNull(provider, "provider");
 
             provider.WriteDebug("VfsProvider::" + string.Format(CultureInfo.InvariantCulture, format, args));
         }
@@ -135,15 +109,8 @@
             ErrorCategory category = ErrorCategory.NotSpecified, 
             object target = null) 
         {
-            if (provider == null)
-            {
-                throw new ArgumentNullException("provider");
-            }
-
-            if (action == null)
-            {
-                throw new ArgumentNullException("action");
-            }
+            Argument.ThrowIfNull(provider, "provider");
+            Argument.ThrowIfNull(action, "action");
 
             try 
             {
@@ -186,15 +153,8 @@
             ErrorCategory category = ErrorCategory.NotSpecified, 
             object target = null) 
         {
-            if (provider == null)
-            {
-                throw new ArgumentNullException("provider");
-            }
-
-            if (action == null)
-            {
-                throw new ArgumentNullException("action");
-            }
+            Argument.ThrowIfNull(provider, "provider");
+            Argument.ThrowIfNull(action, "action");
 
             try 
             {

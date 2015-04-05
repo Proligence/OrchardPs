@@ -6,6 +6,7 @@
     using System.Management.Automation.Host;
     using System.Threading;
     using Autofac;
+    using Orchard.Validation;
     using Proligence.PowerShell.Provider.Console.UI;
 
     public class ConsoleHost : PSHost, IDisposable
@@ -82,10 +83,7 @@
         // ReSharper disable once ParameterHidesMember
         public void AttachToSession(IPsSession session)
         {
-            if (session == null)
-            {
-                throw new ArgumentNullException("session");
-            }
+            Argument.ThrowIfNull(session, "session");
 
             this.session = session;
             

@@ -1,6 +1,6 @@
 ﻿namespace Proligence.PowerShell.Provider.Vfs.Navigation
 {
-    using System;
+    using Orchard.Validation;
 
     /// <summary>
     /// Implements extension methods for the <see cref="IPsNavigationProvider"/> interface.
@@ -14,11 +14,8 @@
         /// <returns>The path depth of the navigation provider.</returns>
         public static int GetPathLength(this IPsNavigationProvider navigationProvider) 
         {
-            if (navigationProvider == null)
-            {
-                throw new ArgumentNullException("navigationProvider");
-            }
-
+            Argument.ThrowIfNull(navigationProvider, "navigationProvider");
+            
             if (!string.IsNullOrEmpty(navigationProvider.Path)) 
             {
                 return navigationProvider.Path.Split('\\').Length;
