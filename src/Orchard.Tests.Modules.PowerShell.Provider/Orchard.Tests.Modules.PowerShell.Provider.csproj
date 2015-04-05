@@ -67,6 +67,10 @@
     <Compile Include="ThrowHelperTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Orchard.Tests.PowerShell.Infrastructure\Orchard.Tests.PowerShell.Infrastructure.csproj">
+      <Project>{6b662cf8-56bf-469d-9012-7ea3b8f8dc6c}</Project>
+      <Name>Orchard.Tests.PowerShell.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Orchard.Web\Modules\Proligence.PowerShell.Provider\Proligence.PowerShell.Provider.csproj">
       <Project>{2C286142-7875-44C6-A44B-332397A59FD4}</Project>
       <Name>Proligence.PowerShell.Provider</Name>

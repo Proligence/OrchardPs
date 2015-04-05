@@ -1,6 +1,6 @@
 ﻿namespace Orchard.Tests.Modules.PowerShell.Core
 {
-    using Orchard.Tests.Modules.PowerShell.Core.Infrastructure;
+    using Orchard.Tests.PowerShell.Infrastructure;
     using Xunit;
 
     public class GetOrchardPsCommandTests : IClassFixture<PowerShellFixture>

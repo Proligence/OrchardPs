@@ -1,4 +1,4 @@
-﻿namespace Orchard.Tests.Modules.PowerShell.Core.Infrastructure
+﻿namespace Orchard.Tests.PowerShell.Infrastructure
 {
     using System.Collections.Generic;
     using Xunit.Abstractions;

@@ -54,14 +54,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GetOrchardPsCommandTests.cs" />
-    <Compile Include="Infrastructure\IntegrationAttribute.cs" />
-    <Compile Include="Infrastructure\IntegrationTraitDiscoverer.cs" />
-    <Compile Include="Infrastructure\PowerShellFixture.cs" />
-    <Compile Include="Infrastructure\PsTestHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Infrastructure\TestConsoleConnection.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Orchard.Tests.PowerShell.Infrastructure\Orchard.Tests.PowerShell.Infrastructure.csproj">
+      <Project>{6b662cf8-56bf-469d-9012-7ea3b8f8dc6c}</Project>
+      <Name>Orchard.Tests.PowerShell.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Orchard.Web\Modules\Proligence.PowerShell.Core\Proligence.PowerShell.Core.csproj">
       <Project>{9c300795-5e99-4894-aeb1-e6b38dff0d78}</Project>
       <Name>Proligence.PowerShell.Core</Name>
