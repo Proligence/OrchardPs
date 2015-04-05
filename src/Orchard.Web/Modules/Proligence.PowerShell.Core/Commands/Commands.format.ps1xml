@@ -4,7 +4,7 @@
     <View>
       <Name>CollectionItemView</Name>
       <ViewSelectedBy>
-        <TypeName>Proligence.PowerShell.Commands.Items.OrchardCommand</TypeName>
+        <TypeName>Proligence.PowerShell.Core.Commands.Items.OrchardCommand</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
