@@ -34,6 +34,20 @@
             Assert.Contains("Get-OrchardPsCommand", output);
         }
 
+        [Fact, Integration]
+        public void ShouldListCommandsForPath()
+        {
+            this.powerShell.Session.ProcessInput("Get-OrchardPsCommand -Path Tenants\\Default\\Commands");
+
+            string output = this.powerShell.ConsoleConnection.Output.ToString();
+            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+
+            var table = PsTestHelper.ParseTable(output);
+            Assert.Equal(2, table.Count);
+            Assert.Equal("Name", table[0][1]);
+            Assert.Equal("Invoke-OrchardCommand", table[1][1]);
+        }
+
         [Theory, Integration]
         [InlineData("Get-OrchardPsCommand Get*")]
         [InlineData("Get-OrchardPsCommand -Name Get*")]
