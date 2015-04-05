@@ -3,6 +3,7 @@
     using Orchard.Tests.PowerShell.Infrastructure;
     using Xunit;
 
+    [Collection("PowerShell")]
     public class GetOrchardPsCommandTests : IClassFixture<PowerShellFixture>
     {
         private readonly PowerShellFixture powerShell;
