@@ -142,6 +142,8 @@
     <Compile Include="Utilities\StringExtensions.cs" />
     <Compile Include="SupportedCmdletAttribute.cs" />
     <Compile Include="Internal\ThrowHelper.cs" />
+    <Compile Include="Vfs\Items\CollectionItem.cs" />
+    <Compile Include="Vfs\Items\DescriptionItem.cs" />
     <Compile Include="Vfs\VfsExtensions.cs" />
     <Compile Include="Vfs\IPowerShellVfs.cs" />
     <Compile Include="Vfs\PowerShellVfs.cs" />
@@ -169,6 +171,9 @@
     <Compile Include="Vfs\Provider\VfsProviderException.cs" />
     <Compile Include="Vfs\Provider\VfsProviderExtensions.cs" />
     <Compile Include="Vfs\Provider\VfsProviderInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Vfs\Items\Vfs.format.ps1xml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

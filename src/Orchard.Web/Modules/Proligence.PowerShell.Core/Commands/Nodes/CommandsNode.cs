@@ -4,10 +4,10 @@
     using System.Linq;
     using Orchard.Commands;
     using Proligence.PowerShell.Core.Commands.Items;
-    using Proligence.PowerShell.Core.Common.Items;
     using Proligence.PowerShell.Core.Utilities;
     using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Provider.Vfs;
+    using Proligence.PowerShell.Provider.Vfs.Items;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
     
     /// <summary>

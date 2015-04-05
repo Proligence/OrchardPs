@@ -1,4 +1,4 @@
-﻿namespace Proligence.PowerShell.Core.Common.Items
+﻿namespace Proligence.PowerShell.Provider.Vfs.Items
 {
     /// <summary>
     /// Implements a generic Orchard VFS item object which contains a description.

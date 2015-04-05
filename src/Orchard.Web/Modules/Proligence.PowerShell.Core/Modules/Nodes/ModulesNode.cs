@@ -3,9 +3,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using Orchard.Environment.Extensions;
-    using Proligence.PowerShell.Core.Common.Items;
     using Proligence.PowerShell.Core.Utilities;
     using Proligence.PowerShell.Provider.Vfs;
+    using Proligence.PowerShell.Provider.Vfs.Items;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
     
     /// <summary>

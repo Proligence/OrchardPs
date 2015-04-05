@@ -1,8 +1,7 @@
-﻿namespace Proligence.PowerShell.Core.Common.Items 
+﻿namespace Proligence.PowerShell.Provider.Vfs.Items 
 {
     using System.Collections;
     using System.Linq;
-
     using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>
