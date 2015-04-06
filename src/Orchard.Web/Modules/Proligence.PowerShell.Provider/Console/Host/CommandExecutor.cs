@@ -54,22 +54,14 @@
         private void OnSessionDataReceived(object sender, DataReceivedEventArgs e)
         {
             string str = this.session.ReadInputBuffer();
-            bool aborted = false;
-
             if (str == null) 
             {
-                this.session.SignalInputProcessed();
                 return;
             }
 
-            if (str.Contains("\u0003"))
+            bool aborted = str.Contains("\u0003");
+            if (!aborted && (this.pipeline != null) && (this.pipeline.PipelineStateInfo.State != PipelineState.NotStarted))
             {
-                aborted = true;
-            }
-
-            if (!aborted && this.pipeline != null && this.pipeline.PipelineStateInfo.State != PipelineState.NotStarted) 
-            {
-                this.session.SignalInputProcessed();
                 return;
             }
 
@@ -85,6 +77,7 @@
                 {
                     // Sending information about finishing command
                     this.session.Sender(new OutputData { Finished = true });
+                    this.session.SignalInputProcessed();
                 }
             }
             else 
@@ -94,11 +87,8 @@
                 if (!str.TrimEnd().EndsWith("`", StringComparison.Ordinal))
                 {
                     this.ExecuteCommandFromBuffer();
-                    return;
                 }
             }
-
-            this.session.SignalInputProcessed();
         }
 
         private void OnPipelineOutputDataReady(object sender, EventArgs eventArgs)
@@ -146,10 +136,9 @@
                 }
                 finally
                 {
-                    this.session.RunspaceLock.Set();
-
                     // Sending information about finishing command
                     this.session.Sender(new OutputData { Finished = true });
+                    this.session.RunspaceLock.Set();
                 }
             }
         }
