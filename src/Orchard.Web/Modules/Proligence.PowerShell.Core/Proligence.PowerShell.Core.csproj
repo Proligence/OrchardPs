@@ -106,7 +106,6 @@
     <Compile Include="Content\Nodes\ContentPartNode.cs" />
     <Compile Include="Content\Nodes\ContentTypesNode.cs" />
     <Compile Include="Content\Nodes\ContentPartsNode.cs" />
-    <Compile Include="Internal\ErrorIds.cs" />
     <Compile Include="Modules\Cmdlets\DisableOrchardFeature.cs" />
     <Compile Include="Modules\Cmdlets\EnableOrchardFeature.cs" />
     <Compile Include="Modules\Cmdlets\EnableOrchardTheme.cs" />
