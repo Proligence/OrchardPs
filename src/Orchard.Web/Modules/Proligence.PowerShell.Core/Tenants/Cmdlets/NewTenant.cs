@@ -14,50 +14,29 @@
     {
         private IShellSettingsManager shellSettingsManager;
 
-        /// <summary>
-        /// Gets or sets the name of the tenant.
-        /// </summary>
         [Mappable]
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 1)]
         public string Name { get; set; }
 
-        /// <summary>
-        /// Gets or sets the tenant's request URL host.
-        /// </summary>
         [Mappable]
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 2)]
         public string RequestUrlHost { get; set; }
 
-        /// <summary>
-        /// Gets or sets the tenant's request URL prefix.
-        /// </summary>
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         public string RequestUrlPrefix { get; set; }
 
-        /// <summary>
-        /// Gets or sets the connection string to the tenant's database.
-        /// </summary>
         [Mappable]
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         public string DataConnectionString { get; set; }
 
-        /// <summary>
-        /// Gets or sets the name of the data provider used by the tenant.
-        /// </summary>
         [Mappable]
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         public string DataProvider { get; set; }
 
-        /// <summary>
-        /// Gets or sets the tenant's data table prefix.
-        /// </summary>
         [Mappable]
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         public string DataTablePrefix { get; set; }
 
-        /// <summary>
-        /// Gets or sets the tenant to enable.
-        /// </summary>
         [Parameter(ParameterSetName = "TenantObject", Mandatory = true)]
         public ShellSettings Tenant { get; set; }
 

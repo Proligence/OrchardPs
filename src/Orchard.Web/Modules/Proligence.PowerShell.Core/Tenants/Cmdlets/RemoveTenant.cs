@@ -15,16 +15,10 @@
         private IShellSettingsManager shellSettingsManager;
         private IAppDataFolder appDataFolder;
 
-        /// <summary>
-        /// Gets or sets the name of the tenant.
-        /// </summary>
         [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 1)]
         public string Name { get; set; }
 
-        /// <summary>
-        /// Gets or sets the tenant to enable.
-        /// </summary>
         [Parameter(ParameterSetName = "TenantObject", Mandatory = true, ValueFromPipeline = true)]
         public ShellSettings Tenant { get; set; }
 

@@ -11,29 +11,19 @@
     [Cmdlet(VerbsCommon.Get, "Tenant", DefaultParameterSetName = "Default", ConfirmImpact = ConfirmImpact.None)]
     public class GetTenant : OrchardCmdlet
     {
-        /// <summary>
-        /// Gets or sets the name of the tenant to get.
-        /// </summary>
         [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = false, Position = 1)]
         public string Name { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether only enabled tenants should be retrieved.
-        /// </summary>
         [Parameter(ParameterSetName = "Enabled", Mandatory = false)]
         public SwitchParameter Enabled { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether only disabled features should be retrieved.
-        /// </summary>
         [Parameter(ParameterSetName = "Disabled", Mandatory = false)]
         public SwitchParameter Disabled { get; set; }
 
         protected override void ProcessRecord()
         {
-            IEnumerable<ShellSettings> tenants = this.GetTenantsFromParameters();
-            foreach (var tenant in tenants)
+            foreach (ShellSettings tenant in this.GetTenantsFromParameters())
             {
                 this.WriteObject(tenant);
             }
