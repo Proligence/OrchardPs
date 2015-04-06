@@ -28,6 +28,7 @@ namespace Proligence.PowerShell.Provider.Vfs.Navigation
         {
             this.SetValueInternal(name, value);
             this.cache.Remove(name);
+            this.InvalidateCachedNodes();
         }
 
         public override object GetValue(string name)
