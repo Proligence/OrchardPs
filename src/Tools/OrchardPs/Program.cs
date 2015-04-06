@@ -58,7 +58,9 @@
                 }
                 else
                 {
-                    session.ProcessInput(input);                    
+                    session.ProcessInput(input);
+                    session.RunspaceLock.WaitOne();
+                    session.RunspaceLock.Set();
                 }
             }
 

@@ -136,9 +136,13 @@
                 }
                 finally
                 {
+                    // NOTE (MD): We need to free the runspace lock _before_ sending the output data, because the
+                    // session will need to query the runspace for the current path as soon as all output is sent
+                    // to the console. It cannot do that without aquiring the lock!
+                    this.session.RunspaceLock.Set();
+
                     // Sending information about finishing command
                     this.session.Sender(new OutputData { Finished = true });
-                    this.session.RunspaceLock.Set();
                 }
             }
         }
