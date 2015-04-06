@@ -146,7 +146,7 @@
         }
 
         /// <summary>
-        /// SignalR connection identifier for this particular session.
+        /// Connection identifier for this particular session.
         /// </summary>
         public string ConnectionId { get; private set; }
 
