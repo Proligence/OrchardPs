@@ -111,6 +111,7 @@
     <Compile Include="Modules\Cmdlets\EnableOrchardTheme.cs" />
     <Compile Include="Modules\Cmdlets\GetOrchardFeature.cs" />
     <Compile Include="Modules\Cmdlets\GetOrchardTheme.cs" />
+    <Compile Include="Modules\Cmdlets\RetrieveOrchardFeatureCmdletBase.cs" />
     <Compile Include="Modules\Items\OrchardTheme.cs" />
     <Compile Include="Modules\NavigationProviders\FeaturesPsNavigationProvider.cs" />
     <Compile Include="Modules\NavigationProviders\ModulesPsNavigationProvider.cs" />

@@ -115,7 +115,7 @@
     <View>
       <Name>CollectionItemView</Name>
       <ViewSelectedBy>
-        <TypeName>Proligence.PowerShell.Modules.Items.OrchardTheme</TypeName>
+        <TypeName>Proligence.PowerShell.Core.Modules.Items.OrchardTheme</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
@@ -126,10 +126,6 @@
           <TableColumnHeader>
             <Label>Module</Label>
             <Width>40</Width>
-          </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Enabled</Label>
-            <Width>20</Width>
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>Activated</Label>
@@ -148,9 +144,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <ScriptBlock>if ($_.Module) { $_.Module.Name } else { 'Core' }</ScriptBlock>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Enabled</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Activated</PropertyName>

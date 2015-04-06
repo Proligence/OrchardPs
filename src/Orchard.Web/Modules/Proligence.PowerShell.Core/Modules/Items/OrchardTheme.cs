@@ -34,11 +34,6 @@
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the theme is enabled.
-        /// </summary>
-        public bool Enabled { get; set; }
-
-        /// <summary>
         /// Gets or sets a value indicating whether the theme is currently activated.
         /// </summary>
         public bool Activated { get; set; }
@@ -53,10 +48,6 @@
         /// </summary>
         public string TenantName { get; set; }
 
-        /// <summary>
-        /// Returns a <see cref="string" /> that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
             return this.Name;
