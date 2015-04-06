@@ -41,30 +41,37 @@
 
             System.Console.CancelKeyPress += OnCancelKeyPress;
 
-            var session = hostContext.Session;
-            var connection = (DirectConsoleConnection)hostContext.OrchardHost.Connection;
-            while (running)
+            try
             {
-                string input = connection.GetInput();
+                var session = hostContext.Session;
+                var connection = (DirectConsoleConnection)hostContext.OrchardHost.Connection;
+                while (running)
+                {
+                    string input = connection.GetInput();
 
-                if ((input == "clear") || (input == "cls"))
-                {
-                    System.Console.Clear();
+                    if ((input == "clear") || (input == "cls"))
+                    {
+                        System.Console.Clear();
+                    }
+                    else if (input == "exit")
+                    {
+                        running = false;
+                        break;
+                    }
+                    else
+                    {
+                        session.ProcessInput(input);
+                        session.RunspaceLock.WaitOne();
+                        session.RunspaceLock.Set();
+                    }
                 }
-                else if (input == "exit")
-                {
-                    running = false;
-                    break;
-                }
-                else
-                {
-                    session.ProcessInput(input);
-                    session.RunspaceLock.WaitOne();
-                    session.RunspaceLock.Set();
-                }
+
+                hostContextProvider.Shutdown(hostContext);
             }
-
-            hostContextProvider.Shutdown(hostContext);
+            catch (AppDomainUnloadedException ex)
+            {
+                ConsoleHelper.WriteToConsole(ex.Message + Environment.NewLine, ConsoleColor.Red);
+            }
             
             return 0;
         }
