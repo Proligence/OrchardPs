@@ -7,7 +7,7 @@ namespace Proligence.PowerShell.Web.Controllers
     using Orchard.Localization;
 
     [ValidateInput(false)]
-    [OrchardFeature("Proligence.Powershell.WebConsole")]
+    [OrchardFeature("Proligence.Powershell.Web")]
     public class AdminController : Controller 
     {
         public AdminController(IOrchardServices services) 

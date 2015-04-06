@@ -1,9 +1,9 @@
-namespace Proligence.PowerShell.WebConsole
+namespace Proligence.PowerShell.Web
 {
     using Orchard.Environment.Extensions;
     using Orchard.UI.Resources;
 
-    [OrchardFeature("Proligence.Powershell.WebConsole")]
+    [OrchardFeature("Proligence.Powershell.Web")]
     public class ResourceManifest : IResourceManifestProvider 
     {
         public void BuildManifests(ResourceManifestBuilder builder) 
