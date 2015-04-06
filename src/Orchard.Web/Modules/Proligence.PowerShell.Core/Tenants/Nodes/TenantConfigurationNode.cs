@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Reflection;
     using Orchard.Settings;
-    using Proligence.PowerShell.Core.Utilities;
     using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Provider.Vfs;
     using Proligence.PowerShell.Provider.Vfs.Items;

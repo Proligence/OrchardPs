@@ -13,7 +13,6 @@
     using Orchard.Themes.Models;
     using Orchard.Themes.Services;
     using Proligence.PowerShell.Core.Modules.Items;
-    using Proligence.PowerShell.Core.Utilities;
     using Proligence.PowerShell.Provider;
 
     [Cmdlet(VerbsLifecycle.Enable, "OrchardTheme", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]

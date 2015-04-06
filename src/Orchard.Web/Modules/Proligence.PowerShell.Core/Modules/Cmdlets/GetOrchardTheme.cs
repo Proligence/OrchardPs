@@ -11,7 +11,6 @@
     using Orchard.Environment.Extensions.Models;
     using Orchard.Themes.Models;
     using Proligence.PowerShell.Core.Modules.Items;
-    using Proligence.PowerShell.Core.Utilities;
     using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Provider.Utilities;
 

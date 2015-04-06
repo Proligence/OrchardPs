@@ -6,7 +6,6 @@
     using Orchard.ContentManagement.MetaData;
     using Orchard.ContentManagement.MetaData.Models;
     using Orchard.Environment.Configuration;
-    using Proligence.PowerShell.Core.Utilities;
     using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Provider.Utilities;
 

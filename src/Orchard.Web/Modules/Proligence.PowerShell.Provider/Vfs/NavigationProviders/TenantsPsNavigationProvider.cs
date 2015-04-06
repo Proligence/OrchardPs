@@ -1,9 +1,9 @@
-﻿namespace Proligence.PowerShell.Core.Tenants.NavigationProviders 
+﻿namespace Proligence.PowerShell.Provider.Vfs.NavigationProviders 
 {
     using Orchard.Environment.Configuration;
-    using Proligence.PowerShell.Core.Tenants.Nodes;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
-    
+    using Proligence.PowerShell.Provider.Vfs.Nodes;
+
     public class TenantsPsNavigationProvider : PsNavigationProvider
     {
         private readonly IShellSettingsManager manager;

@@ -1,4 +1,4 @@
-﻿namespace Proligence.PowerShell.Core.Utilities
+﻿namespace Proligence.PowerShell.Provider.Utilities
 {
     using System;
     using System.Collections.Generic;

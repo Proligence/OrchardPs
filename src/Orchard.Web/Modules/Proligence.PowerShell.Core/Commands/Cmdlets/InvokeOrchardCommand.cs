@@ -9,7 +9,6 @@
     using System.Management.Automation;
     using Orchard.Commands;
     using Proligence.PowerShell.Core.Commands.Items;
-    using Proligence.PowerShell.Core.Utilities;
     using Proligence.PowerShell.Provider;
 
     [CmdletAlias("ioc")]

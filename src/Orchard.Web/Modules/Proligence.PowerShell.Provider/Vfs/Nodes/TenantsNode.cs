@@ -1,4 +1,4 @@
-﻿namespace Proligence.PowerShell.Core.Tenants.Nodes 
+﻿namespace Proligence.PowerShell.Provider.Vfs.Nodes 
 {
     using System.Collections.Generic;
     using System.Linq;

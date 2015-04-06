@@ -123,9 +123,6 @@
     <Compile Include="Modules\Nodes\ModulesNode.cs" />
     <Compile Include="Modules\Nodes\ThemeNode.cs" />
     <Compile Include="Modules\Nodes\ThemesNode.cs" />
-    <Compile Include="Utilities\CmdletHelper.cs" />
-    <Compile Include="Utilities\OrchardCmdletExtensions.cs" />
-    <Compile Include="Utilities\VfsNodeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tenants\Cmdlets\DisableTenant.cs" />
     <Compile Include="Tenants\Cmdlets\EditTenant.cs" />
@@ -134,13 +131,7 @@
     <Compile Include="Tenants\Cmdlets\NewTenant.cs" />
     <Compile Include="Tenants\Cmdlets\RemoveTenant.cs" />
     <Compile Include="Tenants\NavigationProviders\TenantConfigurationPsNavigationProvider.cs" />
-    <Compile Include="Tenants\NavigationProviders\TenantsPsNavigationProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Tenants\Nodes\TenantConfigurationNode.cs" />
-    <Compile Include="Tenants\Nodes\TenantNode.cs" />
-    <Compile Include="Tenants\Nodes\TenantsNode.cs" />
-    <Compile Include="Utilities\ITenantFilterCmdlet.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Commands\Cmdlets\Invoke-OrchardCommand-help.xml" />
@@ -188,9 +179,6 @@
     <Content Include="Tenants\Cmdlets\New-Tenant-help.xml" />
     <Content Include="Tenants\Cmdlets\Remove-Tenant-help.xml" />
     <Content Include="web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Tenants\Tenants.format.ps1xml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Commands\Commands.format.ps1xml" />

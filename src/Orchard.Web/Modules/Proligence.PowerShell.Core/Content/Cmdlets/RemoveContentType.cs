@@ -7,7 +7,6 @@
     using Orchard.ContentManagement.MetaData;
     using Orchard.ContentManagement.MetaData.Models;
     using Orchard.Environment.Configuration;
-    using Proligence.PowerShell.Core.Utilities;
     using Proligence.PowerShell.Provider;
 
     [Cmdlet(VerbsCommon.Remove, "ContentType", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]

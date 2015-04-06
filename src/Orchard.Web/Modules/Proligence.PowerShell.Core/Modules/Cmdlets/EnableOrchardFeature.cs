@@ -8,7 +8,6 @@
     using Orchard.Environment.Extensions;
     using Orchard.Environment.Extensions.Models;
     using Orchard.Environment.Features;
-    using Proligence.PowerShell.Core.Utilities;
     using Proligence.PowerShell.Provider;
 
     [Cmdlet(VerbsLifecycle.Enable, "OrchardFeature", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]

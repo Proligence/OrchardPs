@@ -104,6 +104,9 @@
     <Compile Include="IConsoleConnection.cs" />
     <Compile Include="Internal\IPsFileSearcher.cs" />
     <Compile Include="Internal\PsFileSearcher.cs" />
+    <Compile Include="ITenantFilterCmdlet.cs" />
+    <Compile Include="Utilities\CmdletHelper.cs" />
+    <Compile Include="Vfs\NavigationProviders\TenantsPsNavigationProvider.cs" />
     <Compile Include="PsProviderAgent.cs" />
     <Compile Include="Utilities\ArgumentList.cs" />
     <Compile Include="CmdletAliasAttribute.cs" />
@@ -141,6 +144,8 @@
     <Compile Include="SupportedCmdletAttribute.cs" />
     <Compile Include="Vfs\Items\CollectionItem.cs" />
     <Compile Include="Vfs\Items\DescriptionItem.cs" />
+    <Compile Include="Vfs\Nodes\TenantNode.cs" />
+    <Compile Include="Vfs\Nodes\TenantsNode.cs" />
     <Compile Include="Vfs\VfsExtensions.cs" />
     <Compile Include="Vfs\IPowerShellVfs.cs" />
     <Compile Include="Vfs\PowerShellVfs.cs" />
@@ -168,9 +173,10 @@
     <Compile Include="Vfs\Provider\VfsProviderException.cs" />
     <Compile Include="Vfs\Provider\VfsProviderExtensions.cs" />
     <Compile Include="Vfs\Provider\VfsProviderInfo.cs" />
+    <Compile Include="Vfs\VfsNodeExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Vfs\Items\Vfs.format.ps1xml" />
+    <Content Include="Vfs\Vfs.format.ps1xml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

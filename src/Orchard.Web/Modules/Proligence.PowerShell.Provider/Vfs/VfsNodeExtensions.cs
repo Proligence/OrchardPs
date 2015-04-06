@@ -1,12 +1,11 @@
-﻿namespace Proligence.PowerShell.Core.Utilities
+﻿namespace Proligence.PowerShell.Provider.Vfs
 {
     using System;
     using Orchard;
     using Orchard.Environment.Configuration;
-    using Proligence.PowerShell.Core.Tenants.Nodes;
-    using Proligence.PowerShell.Provider.Vfs;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
-    
+    using Proligence.PowerShell.Provider.Vfs.Nodes;
+
     public static class VfsNodeExtensions 
     {
         /// <summary>

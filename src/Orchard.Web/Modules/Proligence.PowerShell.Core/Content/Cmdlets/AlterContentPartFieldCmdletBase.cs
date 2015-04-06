@@ -7,7 +7,6 @@
     using Orchard.ContentManagement.MetaData.Builders;
     using Orchard.ContentManagement.MetaData.Models;
     using Orchard.Environment.Configuration;
-    using Proligence.PowerShell.Core.Utilities;
     using Proligence.PowerShell.Provider;
 
     public abstract class AlterContentPartFieldCmdletBase : OrchardCmdlet

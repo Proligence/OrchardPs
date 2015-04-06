@@ -2,6 +2,35 @@
 <Configuration>
   <ViewDefinitions>
     <View>
+      <Name>CollectionItemView</Name>
+      <ViewSelectedBy>
+        <TypeName>Proligence.PowerShell.Provider.Vfs.Items.CollectionItem</TypeName>
+        <TypeName>Proligence.PowerShell.Provider.Vfs.Items.DescriptionItem</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Description</Label>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Description</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
       <Name>OrchardTenantView</Name>
       <ViewSelectedBy>
         <TypeName>Orchard.Environment.Configuration.ShellSettings</TypeName>
@@ -34,8 +63,8 @@
 <!-- SIG # Begin signature block -->
 <!-- MIIFsAYJKoZIhvcNAQcCoIIFoTCCBZ0CAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB -->
 <!-- gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR -->
-<!-- AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUS2SfQmjRyb8IJLdIXjzQUIaH -->
-<!-- vcugggM6MIIDNjCCAiKgAwIBAgIQQaB/8txRJqtGHUmnID7OxzAJBgUrDgMCHQUA -->
+<!-- AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUTvEVDQJ9Orz0u2igP7TNPRpJ -->
+<!-- g+agggM6MIIDNjCCAiKgAwIBAgIQQaB/8txRJqtGHUmnID7OxzAJBgUrDgMCHQUA -->
 <!-- MCsxKTAnBgNVBAMTIE9yY2hhcmRQcyBMb2NhbCBDZXJ0aWZpY2F0ZSBSb290MB4X -->
 <!-- DTEzMDYyNjA4MTk0MloXDTM5MTIzMTIzNTk1OVowFDESMBAGA1UEAxMJT3JjaGFy -->
 <!-- ZFBzMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArNiyrLbE2VGmEUDV -->
@@ -56,11 +85,11 @@
 <!-- ZFBzIExvY2FsIENlcnRpZmljYXRlIFJvb3QCEEGgf/LcUSarRh1JpyA+zscwCQYF -->
 <!-- Kw4DAhoFAKB4MBgGCisGAQQBgjcCAQwxCjAIoAKAAKECgAAwGQYJKoZIhvcNAQkD -->
 <!-- MQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIBCzEOMAwGCisGAQQBgjcCARUwIwYJ -->
-<!-- KoZIhvcNAQkEMRYEFPjZq6Nar2d/Gm4gkmqehhBG1U4PMA0GCSqGSIb3DQEBAQUA -->
-<!-- BIIBABYhSL0kde2ZtizZTpZXXA7JN79j+lZXIq6/ToRmWZXbHK6/hAw7cg4LRf/7 -->
-<!-- a4TqX3ieqQS+mV5gVyiNRqh4XFZJTzCNf9ZuyfIGShNkXnQOh2upo1c2kEKk4vZV -->
-<!-- uNBI4wwV5V2LvVsAuqF+LtDZU00tSQEn2yp/jDuzIZM6xkCN7/kyDHhT9BSj0jNy -->
-<!-- DD4e2YDLsagHhUcf18LvTwTiJsWRiIZrAXy0dFCwpjTRDJ4qEPoVmPvb6K+bg4Dx -->
-<!-- 8SG2V8jQgTmKgYACEak4jGJRtg4AtYXhOfj5dUXXpg/Zm5XnEnxc7xnQ8wsy6cjO -->
-<!-- jEtN7tfZdX7lXQHUkfens0SEWfY= -->
+<!-- KoZIhvcNAQkEMRYEFL5Mt9O6k4SXc3tXuNs1NyJDsOQuMA0GCSqGSIb3DQEBAQUA -->
+<!-- BIIBAIQDEK24UC+PxCFiZ26tcr+F4/G99HS0AIKeMr8Qv5G6BAWnzYfBrE34RLXr -->
+<!-- aulds/rMd9pzW2POmAaFyq7cB5wAfkkYxmIEFHSB7M98PamO4ZIEH3sjmeQBiMW6 -->
+<!-- BkhUIw3K2SjSk1Veyime4DEIzadKuBjrxfsjMvG+DcGqIsBwbG1/Vh9L9SfarWPR -->
+<!-- 5dzj6t3csgDdCfg2RdwXiIbe4UbT6IObaCu1LUnhbWySHjtE4tn0AIsuk+njnwWh -->
+<!-- 2zMiUxstSKTc2CIrngTVL3haJWktZJ882wvZaTlfSiDSxB6HAluNrqdK1i9MKBCk -->
+<!-- x0XkZq5kPib63KseomaBlji36fU= -->
 <!-- SIG # End signature block -->

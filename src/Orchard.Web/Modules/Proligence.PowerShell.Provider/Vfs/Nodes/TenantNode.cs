@@ -1,8 +1,7 @@
-﻿namespace Proligence.PowerShell.Core.Tenants.Nodes 
+﻿namespace Proligence.PowerShell.Provider.Vfs.Nodes 
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using Orchard.Environment.Configuration;
     using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Provider.Vfs;

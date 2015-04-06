@@ -3,7 +3,6 @@ namespace Proligence.PowerShell.Core.Content.Nodes
     using System.Collections.Generic;
     using System.Linq;
     using Orchard.ContentManagement.MetaData;
-    using Proligence.PowerShell.Core.Utilities;
     using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Provider.Vfs;
     using Proligence.PowerShell.Provider.Vfs.Items;

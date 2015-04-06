@@ -11,7 +11,6 @@
     using Orchard.ContentManagement.MetaData.Models;
     using Orchard.Core.Contents.Extensions;
     using Orchard.Environment.Configuration;
-    using Proligence.PowerShell.Core.Utilities;
     using Proligence.PowerShell.Provider;
 
     [CmdletAlias("nct")]

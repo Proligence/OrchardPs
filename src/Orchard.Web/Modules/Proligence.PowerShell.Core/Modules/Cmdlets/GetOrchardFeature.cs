@@ -7,7 +7,6 @@
     using Orchard.Environment.Descriptor.Models;
     using Orchard.Environment.Extensions;
     using Orchard.Environment.Extensions.Models;
-    using Proligence.PowerShell.Core.Utilities;
     using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Provider.Utilities;
 
