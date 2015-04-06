@@ -42,10 +42,9 @@
             string output = this.powerShell.ConsoleConnection.Output.ToString();
             Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
 
-            var table = PsTestHelper.ParseTable(output);
-            Assert.Equal(2, table.Count);
-            Assert.Equal("Name", table[0][1]);
-            Assert.Equal("Invoke-OrchardCommand", table[1][1]);
+            var table = PsTable.Parse(output);
+            Assert.Equal(1, table.Rows.Count);
+            Assert.Equal("Invoke-OrchardCommand", table[0, "Name"]);
         }
 
         [Theory, Integration]
@@ -58,11 +57,10 @@
             string output = this.powerShell.ConsoleConnection.Output.ToString();
             Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
 
-            var table = PsTestHelper.ParseTable(output);
-            Assert.Equal("Name", table[0][1]);
-            for (int i = 1; i < table.Count; i++)
+            var table = PsTable.Parse(output);
+            for (int i = 0; i < table.Rows.Count; i++)
             {
-                Assert.True(table[i][1].StartsWith("Get"));
+                Assert.True(table[i, "Name"].StartsWith("Get"));
             }
         }
     }

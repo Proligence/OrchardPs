@@ -23,9 +23,9 @@
             string output = this.powerShell.ConsoleConnection.Output.ToString();
             Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
 
-            var table = PsTestHelper.ParseTable(output);
-            Assert.Equal("Name", table[0][0]);
-            Assert.Equal(1, table.Count(x => x[0] == "Tenants"));
+            var table = PsTable.Parse(output);
+            Assert.Equal("Name", table.Header[0]);
+            Assert.Equal(1, table.Rows.Count(x => x[0] == "Tenants"));
         }
 
         [Fact, Integration]
@@ -36,11 +36,11 @@
             string output = this.powerShell.ConsoleConnection.Output.ToString();
             Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
 
-            var table = PsTestHelper.ParseTable(output);
-            Assert.Equal("Name", table[0][0]);
-            Assert.Equal("State", table[0][1]);
-            Assert.Equal(1, table.Count(x => x[0] == "Default"));
-            Assert.Equal("Running", table.First(x => x[0] == "Default")[1]);
+            var table = PsTable.Parse(output);
+            Assert.Equal("Name", table.Header[0]);
+            Assert.Equal("State", table.Header[1]);
+            Assert.Equal(1, table.Rows.Count(x => x[0] == "Default"));
+            Assert.Equal("Running", table.Rows.First(x => x[0] == "Default")[1]);
         }
     }
 }

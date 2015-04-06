@@ -55,7 +55,7 @@
     <Compile Include="PowerShellCollection.cs" />
     <Compile Include="PowerShellFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PsTestHelper.cs" />
+    <Compile Include="PsTable.cs" />
     <Compile Include="TestConsoleConnection.cs" />
   </ItemGroup>
   <ItemGroup>

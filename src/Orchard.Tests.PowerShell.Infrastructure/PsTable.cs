@@ -2,24 +2,64 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
-    public static class PsTestHelper
+    /// <summary>
+    /// Parses tables printed to the console by PowerShell grid view.
+    /// </summary>
+    /// <remarks>
+    /// The purpose of this class is to provide an easy way to parse and validate output returned by the PowerShell
+    /// engine in unit test code.
+    /// </remarks>
+    public class PsTable
     {
-        public static IList<string[]> ParseTable(string output)
-        {
-            var rows = new List<string[]>();
+        public string[] Header { get; private set; }
+        public IList<string[]> Rows { get; private set; }
 
+        public string this[int rowIndex, int columnIndex]
+        {
+            get
+            {
+                if ((rowIndex >= 0) && (rowIndex < this.Rows.Count))
+                {
+                    if ((columnIndex >= 0) && (columnIndex < this.Header.Length))
+                    {
+                        return this.Rows[rowIndex][columnIndex];
+                    }
+                }
+
+                return null;
+            }
+        }
+
+        public string this[int rowIndex, string columnName]
+        {
+            get
+            {
+                int columnIndex = Array.IndexOf(this.Header, columnName);
+                if (columnIndex > 0)
+                {
+                    return this[rowIndex, columnIndex];
+                }
+
+                return null;
+            }
+        }
+
+        public static PsTable Parse(string output)
+        {
             if (string.IsNullOrEmpty(output))
             {
-                return rows;
+                return null;
             }
 
             var lines = output.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             if (lines.Length < 3)
             {
-                return rows;
+                return null;
             }
 
+            var rows = new List<string[]>();
             var colWidths = GetTableColumnWidths(lines[1]);
             for (int i = 0; i < lines.Length; i++)
             {
@@ -44,7 +84,11 @@
                 rows.Add(row);
             }
 
-            return rows;
+            return new PsTable
+            {
+                Header = rows[0],
+                Rows = rows.Skip(1).ToList()
+            };
         }
 
         private static int[] GetTableColumnWidths(string headerLine)
