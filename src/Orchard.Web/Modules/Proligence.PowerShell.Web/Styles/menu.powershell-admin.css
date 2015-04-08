@@ -1,0 +1,6 @@
+﻿.navicon-power-shell {
+background-image:url(images/menu.powershell.png) !important;
+}
+.navicon-power-shell:hover {
+background-position:0 -30px !important;
+}

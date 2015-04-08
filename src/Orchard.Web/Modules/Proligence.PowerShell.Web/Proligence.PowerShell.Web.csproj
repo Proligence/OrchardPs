@@ -55,7 +55,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\ProligenceBase\Europ\orchard\lib\newtonsoft.json\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\..\lib\newtonsoft.json\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations">
@@ -106,7 +106,7 @@
       <Name>Orchard.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Proligence.PowerShell.Provider\Proligence.PowerShell.Provider.csproj">
-      <Project>{2c286142-7875-44c6-a44b-332397a59fd4}</Project>
+      <Project>{15DEF84F-B2E5-4F75-980E-AAFF1B93EDBE}</Project>
       <Name>Proligence.PowerShell.Provider</Name>
     </ProjectReference>
     <ProjectReference Include="..\Proligence.SignalR\Proligence.SignalR.csproj">
@@ -127,6 +127,8 @@
     <Content Include="Styles\console.min.css">
       <DependentUpon>console.css</DependentUpon>
     </Content>
+    <Content Include="Styles\images\menu.powershell.png" />
+    <Content Include="Styles\menu.powershell-admin.css" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>

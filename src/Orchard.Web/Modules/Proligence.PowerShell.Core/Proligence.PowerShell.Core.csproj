@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9C300795-5E99-4894-AEB1-E6B38DFF0D78}</ProjectGuid>
+    <ProjectGuid>{FB6D9F44-B8FF-4664-BA3F-B86F8A6A257E}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -163,7 +163,7 @@
       <Name>Orchard.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Proligence.PowerShell.Provider\Proligence.PowerShell.Provider.csproj">
-      <Project>{2c286142-7875-44c6-a44b-332397a59fd4}</Project>
+      <Project>{15DEF84F-B2E5-4F75-980E-AAFF1B93EDBE}</Project>
       <Name>Proligence.PowerShell.Provider</Name>
     </ProjectReference>
   </ItemGroup>
@@ -182,7 +182,9 @@
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Commands\Commands.format.ps1xml" />
+    <Content Include="Commands\Commands.format.ps1xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Modules\Modules.format.ps1xml" />
