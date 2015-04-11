@@ -5,46 +5,49 @@
     using OrchardPs.Host;
     using Proligence.PowerShell.Provider;
 
-    public class PowerShellFixture : IDisposable
+    public class PowerShellFixture
     {
-        private readonly OrchardHostContextProvider hostContextProvider;
-        private readonly OrchardHostContext hostContext;
-        
-        public PowerShellFixture()
-        {
-            string orchardDir = this.FindOrchardWebDirectory();
+        private static readonly OrchardHostContextProvider hostContextProvider;
+        private static readonly TestConsoleConnection consoleConnection;
+        private static readonly IPsSession session;
 
-            this.ConsoleConnection = new TestConsoleConnection();
-            this.hostContextProvider = new OrchardHostContextProvider(orchardDir);
-            this.hostContext = this.InitializeOrchardHost();
-            this.Session = this.hostContext.Session;
+        static PowerShellFixture()
+        {
+            string orchardDir = FindOrchardWebDirectory();
+            consoleConnection = new TestConsoleConnection();
+            hostContextProvider = new OrchardHostContextProvider(orchardDir);
+            
+            var hostContext = InitializeOrchardHost();
+            session = hostContext.Session;
         }
 
-        public IPsSession Session { get; private set; }
-        public TestConsoleConnection ConsoleConnection { get; private set; }
-
-        public void Dispose()
+        public IPsSession Session
         {
-            this.hostContextProvider.Shutdown(this.hostContext);
+            get { return session; }
         }
 
-        private OrchardHostContext InitializeOrchardHost()
+        public TestConsoleConnection ConsoleConnection
         {
-            OrchardHostContext context = this.hostContextProvider.CreateContext(this.ConsoleConnection);
+            get { return consoleConnection; }
+        }
+
+        private static OrchardHostContext InitializeOrchardHost()
+        {
+            OrchardHostContext context = hostContextProvider.CreateContext(consoleConnection);
             if (context.Session == null)
             {
-                context = this.hostContextProvider.CreateContext(this.ConsoleConnection);
+                context = hostContextProvider.CreateContext(consoleConnection);
             }
             else if (context.Session == null)
             {
-                this.hostContextProvider.Shutdown(context);
+                hostContextProvider.Shutdown(context);
                 throw new ApplicationException("Failed to initialize Orchard session.");
             }
 
             return context;
         }
 
-        private string FindOrchardWebDirectory()
+        private static string FindOrchardWebDirectory()
         {
             // ReSharper disable once AssignNullToNotNullAttribute
             var directoryInfo = new DirectoryInfo(Environment.CurrentDirectory);
