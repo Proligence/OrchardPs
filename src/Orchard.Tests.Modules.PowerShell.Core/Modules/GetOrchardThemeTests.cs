@@ -25,25 +25,39 @@
             Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
 
             var table = PsTable.Parse(output);
-            var row = table.Rows.Single(r => r[0] == "The Theme Machine");
+            var row = table.Rows.Single(r => r[0] == "TheThemeMachine");
             Assert.Equal("The Theme Machine", row[1]);
+            Assert.Equal("The Theme Machine", row[2]);
         }
 
         [Fact, Integration]
-        public void ShouldGetThemeByName()
+        public void ShouldGetThemeById()
         {
-            this.powerShell.Session.ProcessInput("Get-OrchardTheme 'The Theme Machine'");
+            this.powerShell.Session.ProcessInput("Get-OrchardTheme TheThemeMachine");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
             Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
 
             var table = PsTable.Parse(output);
             Assert.Equal(1, table.Rows.Count);
-            Assert.Equal("The Theme Machine", table.Rows.Single()[0]);
+            Assert.Equal("TheThemeMachine", table.Rows.Single()[0]);
         }
 
         [Fact, Integration]
-        public void ShouldGetThemesByWildcardName()
+        public void ShouldGetThemeByName()
+        {
+            this.powerShell.Session.ProcessInput("Get-OrchardTheme -Name 'The Theme Machine'");
+
+            string output = this.powerShell.ConsoleConnection.Output.ToString();
+            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+
+            var table = PsTable.Parse(output);
+            Assert.Equal(1, table.Rows.Count);
+            Assert.Equal("TheThemeMachine", table.Rows.Single()[0]);
+        }
+
+        [Fact, Integration]
+        public void ShouldGetThemesByWildcardId()
         {
             this.powerShell.Session.ProcessInput("Get-OrchardTheme The*");
 
@@ -56,6 +70,23 @@
             foreach (var row in table.Rows)
             {
                 Assert.True(row[0].StartsWith("The", StringComparison.OrdinalIgnoreCase));
+            }
+        }
+
+        [Fact, Integration]
+        public void ShouldGetThemesByWildcardName()
+        {
+            this.powerShell.Session.ProcessInput("Get-OrchardTheme -Name The*");
+
+            string output = this.powerShell.ConsoleConnection.Output.ToString();
+            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+
+            var table = PsTable.Parse(output);
+            Assert.True(table.Rows.Count > 0);
+
+            foreach (var row in table.Rows)
+            {
+                Assert.True(row[1].StartsWith("The", StringComparison.OrdinalIgnoreCase));
             }
         }
 
@@ -100,7 +131,7 @@
             Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
 
             var table = PsTable.Parse(output);
-            var row = table.Rows.Single(r => r[0] == "The Theme Machine");
+            var row = table.Rows.Single(r => r[0] == "TheThemeMachine");
             Assert.Equal("The Theme Machine", row[1]);
         }
 
@@ -113,7 +144,7 @@
             Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
 
             var table = PsTable.Parse(output);
-            var row = table.Rows.Single(r => r[0] == "The Theme Machine");
+            var row = table.Rows.Single(r => r[0] == "TheThemeMachine");
             Assert.Equal("The Theme Machine", row[1]);
         }
 
@@ -126,7 +157,7 @@
             Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
 
             var table = PsTable.Parse(output);
-            Assert.True(table.Rows.Count(r => r[0] == "The Theme Machine") >= 1);
+            Assert.True(table.Rows.Count(r => r[0] == "TheThemeMachine") >= 1);
         }
     }
 }

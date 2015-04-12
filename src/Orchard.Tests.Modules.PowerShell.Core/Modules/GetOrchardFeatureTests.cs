@@ -26,27 +26,41 @@
 
             var table = PsTable.Parse(output);
             var dashboardRow = table.Rows.Single(r => r[0] == "Dashboard");
-            Assert.Equal("Core", dashboardRow[1]);
+            Assert.Equal("Dashboard", dashboardRow[1]);
             Assert.Equal("Core", dashboardRow[2]);
-            Assert.NotEmpty(dashboardRow[3]);
+            Assert.Equal("Core", dashboardRow[3]);
             Assert.NotEmpty(dashboardRow[4]);
+            Assert.NotEmpty(dashboardRow[5]);
         }
 
         [Fact, Integration]
-        public void ShouldGetFeatureByName()
+        public void ShouldGetFeatureById()
         {
-            this.powerShell.Session.ProcessInput("Get-OrchardFeature Dashboard");
+            this.powerShell.Session.ProcessInput("Get-OrchardFeature Orchard.Blogs");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
             Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
 
             var table = PsTable.Parse(output);
             Assert.Equal(1, table.Rows.Count);
-            Assert.Equal("Dashboard", table.Rows.Single()[0]);
+            Assert.Equal("Orchard.Blogs", table.Rows.Single()[0]);
         }
 
         [Fact, Integration]
-        public void ShouldGetFeaturesByWildcardName()
+        public void ShouldGetFeatureByName()
+        {
+            this.powerShell.Session.ProcessInput("Get-OrchardFeature -Name Blogs");
+
+            string output = this.powerShell.ConsoleConnection.Output.ToString();
+            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+
+            var table = PsTable.Parse(output);
+            Assert.Equal(1, table.Rows.Count);
+            Assert.Equal("Orchard.Blogs", table.Rows.Single()[0]);
+        }
+
+        [Fact, Integration]
+        public void ShouldGetFeaturesByWildcardId()
         {
             this.powerShell.Session.ProcessInput("Get-OrchardFeature Se*");
 
@@ -59,6 +73,23 @@
             foreach (var row in table.Rows)
             {
                 Assert.True(row[0].StartsWith("Se", StringComparison.OrdinalIgnoreCase));
+            }
+        }
+
+        [Fact, Integration]
+        public void ShouldGetFeaturesByWildcardName()
+        {
+            this.powerShell.Session.ProcessInput("Get-OrchardFeature -Name Se*");
+
+            string output = this.powerShell.ConsoleConnection.Output.ToString();
+            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+
+            var table = PsTable.Parse(output);
+            Assert.True(table.Rows.Count > 0);
+
+            foreach (var row in table.Rows)
+            {
+                Assert.True(row[1].StartsWith("Se", StringComparison.OrdinalIgnoreCase));
             }
         }
 

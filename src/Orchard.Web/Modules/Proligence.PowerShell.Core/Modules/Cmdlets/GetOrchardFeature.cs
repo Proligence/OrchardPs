@@ -18,6 +18,11 @@
                 scope => scope.Resolve<IExtensionManager>().AvailableFeatures());
         }
 
+        protected override string GetFeatureId(FeatureDescriptor feature)
+        {
+            return feature.Id;
+        }
+
         protected override string GetFeatureName(FeatureDescriptor feature)
         {
             return feature.Name;

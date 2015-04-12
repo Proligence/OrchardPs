@@ -43,6 +43,11 @@
                 });
         }
 
+        protected override string GetFeatureId(OrchardTheme feature)
+        {
+            return feature.Id;
+        }
+
         protected override string GetFeatureName(OrchardTheme feature)
         {
             return feature.Name;

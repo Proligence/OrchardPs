@@ -59,6 +59,10 @@
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
+            <Label>Id</Label>
+            <Width>30</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
             <Label>Name</Label>
             <Width>30</Width>
           </TableColumnHeader>
@@ -87,6 +91,9 @@
         <TableRowEntries>
           <TableRowEntry>
             <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Id</PropertyName>
+              </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
               </TableColumnItem>
@@ -120,6 +127,10 @@
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
+            <Label>Id</Label>
+            <Width>40</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
             <Label>Name</Label>
             <Width>40</Width>
           </TableColumnHeader>
@@ -139,6 +150,9 @@
         <TableRowEntries>
           <TableRowEntry>
             <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Id</PropertyName>
+              </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
               </TableColumnItem>

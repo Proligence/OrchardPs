@@ -30,6 +30,7 @@
     
     <command:syntax>
 
+      <!-- ParameterSet: Default -->
       <command:syntaxItem>
         <maml:name>Get-OrchardTheme</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
@@ -53,9 +54,41 @@
         </command:parameter>
       </command:syntaxItem>
 
+      <!-- ParameterSet: Id -->
       <command:syntaxItem>
         <maml:name>Get-OrchardTheme</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Id</maml:name>
+          <maml:description>
+            <maml:para>Specifies the identifier of the Orchard theme to get. This parameter is required. Wildcards are permitted.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Tenant</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the Orchard tenant to get themes from.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>Enabled</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the command should get only themes which are enabled.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>Disabled</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the command should get only themes which are disabled.</maml:para>
+          </maml:description>
+        </command:parameter>
+      </command:syntaxItem>
+
+      <!-- ParameterSet: Name -->
+      <command:syntaxItem>
+        <maml:name>Get-OrchardTheme</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>Name</maml:name>
           <maml:description>
             <maml:para>Specifies the name of the Orchard theme to get. This parameter is required. Wildcards are permitted.</maml:para>
@@ -83,19 +116,20 @@
         </command:parameter>
       </command:syntaxItem>
 
+      <!-- ParameterSet: AllTenants -->
       <command:syntaxItem>
         <maml:name>Get-OrchardTheme</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
-          <maml:name>Name</maml:name>
+          <maml:name>Id</maml:name>
           <maml:description>
-            <maml:para>Specifies the name of the Orchard theme to get. Wildcards are permitted.</maml:para>
+            <maml:para>Specifies the identifier of the Orchard theme to get. Wildcards are permitted.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="true">
-          <maml:name>TenantObject</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Name</maml:name>
           <maml:description>
-            <maml:para>Specifies the object that represents the Orchard tenant to get themes from. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet. This parameter is required.</maml:para>
+            <maml:para>Specifies the name of the Orchard theme to get. Wildcards are permitted.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
         </command:parameter>
@@ -111,17 +145,32 @@
             <maml:para>Specifies that the command should get only themes which are disabled.</maml:para>
           </maml:description>
         </command:parameter>
-      </command:syntaxItem>
-
-      <command:syntaxItem>
-        <maml:name>Get-OrchardTheme</maml:name>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false">
           <maml:name>FromAllTenants</maml:name>
           <maml:description>
             <maml:para>Specifies that the command should get themes from all running Orchard tenants.</maml:para>
           </maml:description>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="1">
+      </command:syntaxItem>
+      
+      <!-- ParameterSet: TenantObject -->
+      <command:syntaxItem>
+        <maml:name>Get-OrchardTheme</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Id</maml:name>
+          <maml:description>
+            <maml:para>Specifies the identifier of the Orchard theme to get. Wildcards are permitted.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="true">
+          <maml:name>TenantObject</maml:name>
+          <maml:description>
+            <maml:para>Specifies the object that represents the Orchard tenant to get themes from. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet. This parameter is required.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">Orchard.Environment.Configuration.ShellSettings</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
           <maml:name>Name</maml:name>
           <maml:description>
             <maml:para>Specifies the name of the Orchard theme to get. Wildcards are permitted.</maml:para>
@@ -147,6 +196,19 @@
     <!-- Cmdlet parameters section-->
     
     <command:parameters>
+
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
+        <maml:name>Id</maml:name>
+        <maml:description>
+          <maml:para>Specifies the identifier of the Orchard theme to get. Wildcards are permitted.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
       
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
         <maml:name>Name</maml:name>
@@ -179,7 +241,7 @@
         <maml:description>
           <maml:para>Specifies the object that represents the Orchard tenant to get themes from. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">ShellSettings</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">Orchard.Environment.Configuration.ShellSettings</command:parameterValue>
         <dev:type>
           <maml:name>ShellSettings</maml:name>
           <maml:uri/>
@@ -218,7 +280,7 @@
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <maml:name>Proligence.PowerShell.Tenants.Items.ShellSettings</maml:name>
+          <maml:name>Orchard.Environment.Configuration.ShellSettings</maml:name>
           <maml:uri/>
           <maml:description />
         </dev:type>
@@ -231,7 +293,7 @@
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>Proligence.PowerShell.Features.Items.OrchardTheme</maml:name>
+          <maml:name>Proligence.PowerShell.Core.Modules.Items.OrchardTheme</maml:name>
           <maml:uri></maml:uri>
           <maml:description>
             <maml:para />
@@ -320,6 +382,32 @@
           <maml:para>Orchard:\&gt; </maml:para>
         </maml:introduction>
         <dev:code>
+          Get-OrchardTheme TheTimeMachine
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command gets the 'The Time Machine' theme. In this case the default tenant is used because the current location in the Orchard drive is not in any tenant and there was no tenant specified as a parameter.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 4 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>Orchard:\&gt; </maml:para>
+        </maml:introduction>
+        <dev:code>
           Get-OrchardTheme -Enabled
         </dev:code>
         <dev:remarks>
@@ -340,7 +428,7 @@
 
       <command:example>
         <maml:title>
-          -------------------------- EXAMPLE 4 --------------------------
+          -------------------------- EXAMPLE 5 --------------------------
         </maml:title>
         <maml:introduction>
           <maml:para>Orchard:\&gt;</maml:para>
