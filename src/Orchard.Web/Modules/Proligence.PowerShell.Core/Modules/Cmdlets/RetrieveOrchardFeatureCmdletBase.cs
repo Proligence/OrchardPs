@@ -9,7 +9,7 @@
 
     public abstract class RetrieveOrchardFeatureCmdletBase<TFeature> : OrchardCmdlet, ITenantFilterCmdlet
     {
-        private ShellSettings[] tenants;
+        protected ShellSettings[] Tenants { get; private set; }
 
         [Parameter(ParameterSetName = "Id", Mandatory = true, Position = 1)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false, Position = 1)]
@@ -46,16 +46,16 @@
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
         public SwitchParameter Disabled { get; set; }
 
-        protected abstract IEnumerable<TFeature> GetFeatures(string tenant);
+        protected abstract IEnumerable<TFeature> GetFeatures(string tenantName);
         protected abstract string GetFeatureId(TFeature feature);
         protected abstract string GetFeatureName(TFeature feature);
-        protected abstract bool IsFeatureEnabled(TFeature feature, string tenant);
+        protected abstract bool IsFeatureEnabled(TFeature feature, string tenantName);
 
         protected override void BeginProcessing()
         {
             base.BeginProcessing();
 
-            this.tenants = this.Resolve<IShellSettingsManager>()
+            this.Tenants = this.Resolve<IShellSettingsManager>()
                 .LoadSettings()
                 .Where(t => t.State == TenantState.Running)
                 .ToArray();
@@ -63,7 +63,7 @@
 
         protected override void ProcessRecord()
         {
-            IEnumerable<ShellSettings> filteredTenants = CmdletHelper.FilterTenants(this, this.tenants);
+            IEnumerable<ShellSettings> filteredTenants = CmdletHelper.FilterTenants(this, this.Tenants);
 
             var features = new List<TFeature>();
 
@@ -101,9 +101,9 @@
                 features = features.Where(f => this.GetFeatureName(f).WildcardEquals(this.Name)).ToList();
             }
 
-            foreach (TFeature theme in features)
+            foreach (TFeature feature in features)
             {
-                this.WriteObject(theme);
+                this.WriteObject(feature);
             }
         }
     }

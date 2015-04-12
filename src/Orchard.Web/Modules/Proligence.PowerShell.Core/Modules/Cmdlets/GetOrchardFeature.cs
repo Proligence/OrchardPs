@@ -11,10 +11,31 @@
     [Cmdlet(VerbsCommon.Get, "OrchardFeature", DefaultParameterSetName = "Default", ConfirmImpact = ConfirmImpact.None)]
     public class GetOrchardFeature : RetrieveOrchardFeatureCmdletBase<FeatureDescriptor>
     {
-        protected override IEnumerable<FeatureDescriptor> GetFeatures(string tenant)
+        private IDictionary<string, string[]> enabledTenantFeatures;
+
+        protected override void BeginProcessing()
+        {
+            base.BeginProcessing();
+
+            this.enabledTenantFeatures = this.Tenants.ToDictionary(
+                tenant => tenant.Name,
+                tenant => this.UsingWorkContextScope(
+                    tenant.Name,
+                    scope =>
+                    {
+                        var shellDescriptor = scope.Resolve<ShellDescriptor>();
+                        return scope.Resolve<IExtensionManager>()
+                            .EnabledFeatures(shellDescriptor)
+                            .Select(f => f.Id)
+                            .Distinct()
+                            .ToArray();
+                    }));
+        }
+
+        protected override IEnumerable<FeatureDescriptor> GetFeatures(string tenantName)
         {
             return this.UsingWorkContextScope(
-                tenant, 
+                tenantName, 
                 scope => scope.Resolve<IExtensionManager>().AvailableFeatures());
         }
 
@@ -28,16 +49,17 @@
             return feature.Name;
         }
 
-        protected override bool IsFeatureEnabled(FeatureDescriptor feature, string tenant)
+        protected override bool IsFeatureEnabled(FeatureDescriptor feature, string tenantName)
         {
-            return this.UsingWorkContextScope(
-                tenant,
-                scope =>
+            if (this.enabledTenantFeatures.ContainsKey(tenantName))
+            {
+                if (this.enabledTenantFeatures[tenantName].Contains(feature.Id))
                 {
-                    var shellDescriptor = scope.Resolve<ShellDescriptor>();
-                    var enabledFeatures = scope.Resolve<IExtensionManager>().EnabledFeatures(shellDescriptor);
-                    return enabledFeatures.Any(f => f.Id == feature.Id);
-                });
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

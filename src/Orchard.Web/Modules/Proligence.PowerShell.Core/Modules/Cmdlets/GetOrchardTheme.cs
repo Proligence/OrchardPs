@@ -15,10 +15,10 @@
     [Cmdlet(VerbsCommon.Get, "OrchardTheme", DefaultParameterSetName = "Default", ConfirmImpact = ConfirmImpact.None)]
     public class GetOrchardTheme : RetrieveOrchardFeatureCmdletBase<OrchardTheme>
     {
-        protected override IEnumerable<OrchardTheme> GetFeatures(string tenant)
+        protected override IEnumerable<OrchardTheme> GetFeatures(string tenantName)
         {
             return this.UsingWorkContextScope(
-                tenant,
+                tenantName,
                 scope =>
                 {
                     var migrations = scope.Resolve<IDataMigrationManager>();
@@ -37,7 +37,7 @@
                                 Module = d,
                                 Activated = d.Id == currentThemeId,
                                 NeedsUpdate = featuresThatNeedUpdate.Contains(d.Id),
-                                TenantName = tenant
+                                TenantName = tenantName
                             })
                         .ToArray();
                 });
@@ -53,7 +53,7 @@
             return feature.Name;
         }
 
-        protected override bool IsFeatureEnabled(OrchardTheme feature, string tenant)
+        protected override bool IsFeatureEnabled(OrchardTheme feature, string tenantName)
         {
             return feature.Activated;
         }
