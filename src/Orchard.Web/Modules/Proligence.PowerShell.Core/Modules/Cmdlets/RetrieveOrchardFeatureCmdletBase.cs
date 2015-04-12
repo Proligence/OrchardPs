@@ -65,43 +65,46 @@
         {
             IEnumerable<ShellSettings> filteredTenants = CmdletHelper.FilterTenants(this, this.Tenants);
 
-            var features = new List<TFeature>();
+            var features = new List<PSObject>();
 
             foreach (ShellSettings tenant in filteredTenants)
             {
                 foreach (TFeature feature in this.GetFeatures(tenant.Name))
                 {
-                    if (this.Enabled.ToBool())
+                    bool enabled = this.IsFeatureEnabled(feature, tenant.Name);
+
+                    if (this.Enabled.ToBool() && !enabled)
                     {
-                        if (!this.IsFeatureEnabled(feature, tenant.Name))
-                        {
-                            continue;
-                        }
+                        continue;
                     }
 
-                    if (this.Disabled.ToBool())
+                    if (this.Disabled.ToBool() && enabled)
                     {
-                        if (this.IsFeatureEnabled(feature, tenant.Name))
-                        {
-                            continue;
-                        }
+                        continue;
                     }
 
-                    features.Add(feature);
+                    var psobj = PSObject.AsPSObject(feature);
+                    psobj.Properties.Add(new PSNoteProperty("Enabled", enabled));
+
+                    features.Add(psobj);
                 }
             }
 
             if (!string.IsNullOrEmpty(this.Id))
             {
-                features = features.Where(f => this.GetFeatureId(f).WildcardEquals(this.Id)).ToList();
+                features = features
+                    .Where(f => this.GetFeatureId((TFeature)f.ImmediateBaseObject).WildcardEquals(this.Id))
+                    .ToList();
             }
 
             if (!string.IsNullOrEmpty(this.Name))
             {
-                features = features.Where(f => this.GetFeatureName(f).WildcardEquals(this.Name)).ToList();
+                features = features
+                    .Where(f => this.GetFeatureName((TFeature)f.ImmediateBaseObject).WildcardEquals(this.Name))
+                    .ToList();
             }
 
-            foreach (TFeature feature in features)
+            foreach (PSObject feature in features)
             {
                 this.WriteObject(feature);
             }

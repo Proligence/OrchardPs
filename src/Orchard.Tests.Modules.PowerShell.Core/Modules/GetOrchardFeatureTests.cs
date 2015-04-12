@@ -28,9 +28,9 @@
             var dashboardRow = table.Rows.Single(r => r[0] == "Dashboard");
             Assert.Equal("Dashboard", dashboardRow[1]);
             Assert.Equal("Core", dashboardRow[2]);
-            Assert.Equal("Core", dashboardRow[3]);
-            Assert.NotEmpty(dashboardRow[4]);
+            Assert.Equal("Core", dashboardRow[4]);
             Assert.NotEmpty(dashboardRow[5]);
+            Assert.NotEmpty(dashboardRow[6]);
         }
 
         [Fact, Integration]
