@@ -30,12 +30,13 @@
     
     <command:syntax>
       
+      <!-- ParameterSet: Default -->
       <command:syntaxItem>
         <maml:name>Disable-OrchardFeature</maml:name>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
-          <maml:name>Name</maml:name>
+          <maml:name>Id</maml:name>
           <maml:description>
-            <maml:para>Specifies the name of the feature to disable.</maml:para>
+            <maml:para>Specifies the identifier of the feature to disable.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -53,7 +54,8 @@
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
-      
+
+      <!-- ParameterSet: FeatureObject -->
       <command:syntaxItem>
         <maml:name>Disable-OrchardFeature</maml:name>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true" position="1">
@@ -61,7 +63,7 @@
           <maml:description>
             <maml:para>Specifies the object which represents the Orchard feature to disable. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents. This parameter is required.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">OrchardFeature</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">Orchard.Environment.Extensions.Models.FeatureDescriptor</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
           <maml:name>WithoutDependencies</maml:name>
@@ -78,9 +80,9 @@
     <command:parameters>
       
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
-        <maml:name>Name</maml:name>
+        <maml:name>Id</maml:name>
         <maml:description>
-          <maml:para>Specifies the name of the feature to disable.</maml:para>
+          <maml:para>Specifies the identifier of the feature to disable.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
@@ -108,9 +110,9 @@
         <maml:description>
           <maml:para>Specifies the object which represents the Orchard feature to disable. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents. This parameter is required.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">OrchardCommand</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">Orchard.Environment.Extensions.Models.FeatureDescriptor</command:parameterValue>
         <dev:type>
-          <maml:name>OrchardFeature</maml:name>
+          <maml:name>Orchard.Environment.Extensions.Models.FeatureDescriptor</maml:name>
           <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
@@ -131,12 +133,12 @@
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <maml:name>Proligence.PowerShell.Modules.Items.OrchardFeature</maml:name>
+          <maml:name>Orchard.Environment.Extensions.Models.FeatureDescriptor</maml:name>
           <maml:uri/>
           <maml:description />
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe instances of the OrchardFeature class to Disable-OrchardFeature. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents.</maml:para>
+          <maml:para>You can pipe instances of the FeatureDescriptor class to Disable-OrchardFeature. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents.</maml:para>
         </maml:description>
       </command:inputType>
     </command:inputTypes>
@@ -169,7 +171,7 @@
           <maml:para>Orchard:\Tenants\Default&gt; </maml:para>
         </maml:introduction>
         <dev:code>
-          Disable-OrchardCommand Blogs
+          Disable-OrchardFeature Orchard.Blogs
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
@@ -195,7 +197,7 @@
           <maml:para>Orchard:\&gt; </maml:para>
         </maml:introduction>
         <dev:code>
-          Disable-OrchardCommand Blogs -Tenant MyTenant
+          Disable-OrchardFeature Orchard.Blogs -Tenant MyTenant
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
@@ -221,12 +223,12 @@
           <maml:para>Orchard:\Tenants\Default\Features&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          Get-ChldItem a* | Disable-OrchardCommand
+          Get-ChldItem a* | Disable-OrchardFeature
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>This command disables all features which start with the letter 'a' on the current tenant (Default).</maml:para>
+          <maml:para>This command disables all features which identifier starts with the letter 'a' on the current tenant (Default).</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>

@@ -6,7 +6,6 @@
     using System.Management.Automation;
     using Orchard.ContentManagement;
     using Orchard.Data.Migration;
-    using Orchard.Environment.Configuration;
     using Orchard.Environment.Extensions;
     using Orchard.Environment.Extensions.Models;
     using Orchard.Environment.Features;
@@ -16,86 +15,12 @@
     using Proligence.PowerShell.Provider;
 
     [Cmdlet(VerbsLifecycle.Enable, "OrchardTheme", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
-    public class EnableOrchardTheme : OrchardCmdlet
+    public class EnableOrchardTheme : AlterOrchardFeatureCmdletBase<OrchardTheme>
     {
-        /// <summary>
-        /// Cached list of all Orchard themes for each tenant.
-        /// </summary>
-        private IDictionary<string, OrchardTheme[]> themes;
-
-        /// <summary>
-        /// Gets or sets the name of the theme to enable.
-        /// </summary>
-        [ValidateNotNullOrEmpty]
-        [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 1)]
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the tenant for which the theme will be enabled.
-        /// </summary>
-        [Parameter(ParameterSetName = "Default", Mandatory = false)]
-        public string Tenant { get; set; }
-
-        /// <summary>
-        /// Gets or sets the <see cref="OrchardTheme"/> object which represents the orchard theme to enable.
-        /// </summary>
-        [Parameter(ParameterSetName = "ThemeObject", ValueFromPipeline = true)]
-        public OrchardTheme Theme { get; set; }
-
-        protected override void BeginProcessing()
-        {
-            base.BeginProcessing();
-            this.themes = new Dictionary<string, OrchardTheme[]>();
-        }
-
-        protected override void ProcessRecord()
-        {
-            string tenantName = null;
-
-            if ((this.ParameterSetName != "ThemeObject") && string.IsNullOrEmpty(this.Tenant))
-            {
-                // Get feature for current tenant if tenant name not specified
-                ShellSettings tenant = this.GetCurrentTenant();
-                tenantName = tenant != null ? tenant.Name : "Default";
-            }
-
-            if (!string.IsNullOrEmpty(this.Tenant))
-            {
-                tenantName = this.Tenant;
-            }
-
-            OrchardTheme theme = null;
-
-            if (this.ParameterSetName == "Default")
-            {
-                theme = this.GetOrchardTheme(tenantName, this.Name);
-                if (theme == null)
-                {
-                    this.WriteError(
-                        new ArgumentException("Failed to find theme with name '" + this.Name + "'."),
-                        "FailedToFindTheme",
-                        ErrorCategory.InvalidArgument);
-                }
-            }
-            else if (this.ParameterSetName == "ThemeObject")
-            {
-                theme = this.Theme;
-                tenantName = this.Theme.TenantName;
-            }
-
-            if (theme != null)
-            {
-                if (this.ShouldProcess("Theme: " + theme.Name + ", Tenant: " + tenantName, "Enable Theme"))
-                {
-                    this.EnableTheme(tenantName, theme.Id);
-                }
-            }
-        }
-
-        private IEnumerable<OrchardTheme> GetThemes(string tenant)
+        protected override IEnumerable<OrchardTheme> GetTenantFeatures(string tenantName)
         {
             return this.UsingWorkContextScope(
-                tenant,
+                tenantName,
                 scope =>
                     {
                         var migrations = scope.Resolve<IDataMigrationManager>();
@@ -113,49 +38,45 @@
                                     Module = d,
                                     Activated = d.Id == currentThemeId,
                                     NeedsUpdate = featuresThatNeedUpdate.Contains(d.Id),
-                                    TenantName = tenant
+                                    TenantName = tenantName
                                 })
                             .ToArray();
                     });
         }
 
-        private OrchardTheme GetOrchardTheme(string tenantName, string themeName)
+        protected override string GetFeatureId(OrchardTheme feature)
         {
-            OrchardTheme[] tenantThemes;
-
-            if (!this.themes.TryGetValue(tenantName, out tenantThemes))
-            {
-                tenantThemes = this.GetThemes(tenantName).ToArray();
-                this.themes.Add(tenantName, tenantThemes);
-            }
-
-            return tenantThemes.FirstOrDefault(
-                f => f.Name.Equals(themeName, StringComparison.CurrentCultureIgnoreCase));
+            return feature.Name;
         }
 
-        private void EnableTheme(string tenant, string id)
+        protected override string GetActionName(OrchardTheme feature, string tenantName)
+        {
+            return "Enable Theme";
+        }
+
+        protected override void PerformAction(OrchardTheme feature, string tenantName)
         {
             this.UsingWorkContextScope(
-                tenant,
+                tenantName,
                 scope =>
+                {
+                    var extensions = scope.Resolve<IExtensionManager>();
+                    var features = scope.Resolve<IFeatureManager>();
+                    ExtensionDescriptor theme = extensions.AvailableExtensions().FirstOrDefault(x => x.Id == feature.Id);
+                    if (theme == null)
                     {
-                        var extensions = scope.Resolve<IExtensionManager>();
-                        var features = scope.Resolve<IFeatureManager>();
-                        ExtensionDescriptor theme = extensions.AvailableExtensions().FirstOrDefault(x => x.Id == id);
-                        if (theme == null)
-                        {
-                            throw new ArgumentException("Could not find theme '" + id + "'.", "id");
-                        }
+                        throw new ArgumentException("Could not find theme '" + feature.Id + "'.");
+                    }
 
-                        var themeService = scope.Resolve<IThemeService>();
-                        if (features.GetEnabledFeatures().All(sf => sf.Id != theme.Id))
-                        {
-                            themeService.EnableThemeFeatures(theme.Id);
-                        }
+                    var themeService = scope.Resolve<IThemeService>();
+                    if (features.GetEnabledFeatures().All(sf => sf.Id != theme.Id))
+                    {
+                        themeService.EnableThemeFeatures(theme.Id);
+                    }
 
-                        var siteThemeService = scope.Resolve<ISiteThemeService>();
-                        siteThemeService.SetSiteTheme(theme.Id);
-                    });
+                    var siteThemeService = scope.Resolve<ISiteThemeService>();
+                    siteThemeService.SetSiteTheme(theme.Id);
+                });
         }
     }
 }

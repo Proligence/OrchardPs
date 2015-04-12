@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Commands\CommandVfsTests.cs" />
     <Compile Include="Commands\InvokeOrchardCommandTests.cs" />
+    <Compile Include="Modules\EnableOrchardFeatureTests.cs" />
     <Compile Include="Modules\GetOrchardThemeTests.cs" />
     <Compile Include="Modules\GetOrchardFeatureTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
