@@ -75,15 +75,8 @@
             <Width>10</Width>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>Module</Label>
-            <Width>20</Width>
-          </TableColumnHeader>
-          <TableColumnHeader>
             <Width>50</Width>
             <Label>Dependencies</Label>
-          </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Description</Label>
           </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
@@ -102,13 +95,7 @@
                 <PropertyName>Enabled</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
-                <ScriptBlock>if ($_.Module) { $_.Module.Name } else { 'Core' }</ScriptBlock>
-              </TableColumnItem>
-              <TableColumnItem>
                 <PropertyName>Dependencies</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Description</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
