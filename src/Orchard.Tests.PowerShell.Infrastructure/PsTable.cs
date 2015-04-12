@@ -37,7 +37,7 @@
             get
             {
                 int columnIndex = Array.IndexOf(this.Header, columnName);
-                if (columnIndex > 0)
+                if (columnIndex >= 0)
                 {
                     return this[rowIndex, columnIndex];
                 }
