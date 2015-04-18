@@ -30,25 +30,15 @@
     
     <command:syntax>
 
+      <!-- ParameterSet: Default -->
       <command:syntaxItem>
         <maml:name>Get-ContentType</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
-          <maml:name>Tenant</maml:name>
-          <maml:description>
-            <maml:para>Specifies the name of the Orchard tenant from which content type definitions will be retrieved.</maml:para>
-          </maml:description>
-          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
-        </command:parameter>
-      </command:syntaxItem>
-
-      <command:syntaxItem>
-        <maml:name>Get-ContentType</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="1">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
           <maml:name>Name</maml:name>
           <maml:description>
             <maml:para>Specifies the name of the content type which definition will be retrieved. This parameter is required. Wildcards are permitted.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="true">string</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>Tenant</maml:name>
@@ -59,6 +49,7 @@
         </command:parameter>
       </command:syntaxItem>
 
+      <!-- ParamterSet: TenantObject -->
       <command:syntaxItem>
         <maml:name>Get-ContentType</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
@@ -77,20 +68,21 @@
         </command:parameter>
       </command:syntaxItem>
 
+      <!-- ParamterSet: AllTenants -->
       <command:syntaxItem>
         <maml:name>Get-ContentType</maml:name>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false">
-          <maml:name>FromAllTenants</maml:name>
-          <maml:description>
-            <maml:para>Specifies that the command should get content type definitions from all running Orchard tenants.</maml:para>
-          </maml:description>
-        </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="1">
           <maml:name>Name</maml:name>
           <maml:description>
             <maml:para>Specifies the name of the content type which definition will be retrieved. Wildcards are permitted.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>AllTenants</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the command should get content type definitions from all running Orchard tenants.</maml:para>
+          </maml:description>
         </command:parameter>
       </command:syntaxItem>
       
@@ -126,12 +118,12 @@
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
 
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true">
         <maml:name>TenantObject</maml:name>
         <maml:description>
           <maml:para>Specifies the object that represents the Orchard tenant from which content type definitions will be retrieved. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">ShellSettings</command:parameterValue>
+        <command:parameterValue required="false" variableLength="false">ShellSettings</command:parameterValue>
         <dev:type>
           <maml:name>ShellSettings</maml:name>
           <maml:uri/>
@@ -140,7 +132,7 @@
       </command:parameter>
 
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
-        <maml:name>FromAllTenants</maml:name>
+        <maml:name>AllTenants</maml:name>
         <maml:description>
           <maml:para>Specifies that the command should get content type definitions from all running Orchard tenants.</maml:para>
         </maml:description>
@@ -282,7 +274,7 @@
           <maml:para>Orchard:\&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          Get-ContentType -FromAllTenants -Name Site
+          Get-ContentType -Name Site -AllTenants
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>

@@ -54,6 +54,7 @@
     <Compile Include="Commands\CommandVfsTests.cs" />
     <Compile Include="Commands\InvokeOrchardCommandTests.cs" />
     <Compile Include="Content\GetContentPartDefinitionTests.cs" />
+    <Compile Include="Content\GetContentTypeTests.cs" />
     <Compile Include="Modules\EnableOrchardFeatureTests.cs" />
     <Compile Include="Modules\GetOrchardThemeTests.cs" />
     <Compile Include="Modules\GetOrchardFeatureTests.cs" />
