@@ -1,6 +1,5 @@
 ﻿namespace Proligence.PowerShell.Core.Content.Cmdlets
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using Orchard.ContentManagement.MetaData;
@@ -11,69 +10,29 @@
 
     [CmdletAlias("gcpd")]
     [Cmdlet(VerbsCommon.Get, "ContentPartDefinition", DefaultParameterSetName = "Default", ConfirmImpact = ConfirmImpact.None)]
-    public class GetContentPartDefinition : OrchardCmdlet, ITenantFilterCmdlet
+    public class GetContentPartDefinition : TenantCmdlet
     {
-        private ShellSettings[] tenants;
-
-        /// <summary>
-        /// Gets or sets the name of the content part which definition will be retrieved.
-        /// </summary>
-        [Parameter(ParameterSetName = "Name", Mandatory = true, Position = 1)]
+        [Parameter(ParameterSetName = "Default", Mandatory = false, Position = 1)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false, Position = 1)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
         public string Name { get; set; }
 
-        /// <summary>
-        /// Gets or sets the name of the tenant for which content part definitions will be retrieved.
-        /// </summary>
-        [Parameter(ParameterSetName = "Name", Mandatory = false)]
-        [Parameter(ParameterSetName = "Default", Mandatory = false)]
-        public string Tenant { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Orchard tenant for which content part definitions will be retrieved.
-        /// </summary>
-        [Parameter(ParameterSetName = "TenantObject", Mandatory = true, ValueFromPipeline = true)]
-        public ShellSettings TenantObject { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating content part definitions should be retrieved from all tenants.
-        /// </summary>
-        [Parameter(ParameterSetName = "AllTenants", Mandatory = true)]
-        public SwitchParameter FromAllTenants { get; set; }
-
-        protected override void BeginProcessing()
+        protected override void ProcessRecord(ShellSettings tenant)
         {
-            base.BeginProcessing();
+            ContentPartDefinition[] contentPartDefinitions = this.UsingWorkContextScope(
+                tenant.Name,
+                scope => scope.Resolve<IContentDefinitionManager>().ListPartDefinitions().ToArray());
 
-            this.tenants = this.Resolve<IShellSettingsManager>()
-                .LoadSettings()
-                .Where(t => t.State == TenantState.Running)
-                .ToArray();
-        }
-
-        protected override void ProcessRecord()
-        {
-            IEnumerable<ShellSettings> filteredTenants = CmdletHelper.FilterTenants(this, this.tenants);
-
-            var definitions = new List<ContentPartDefinition>();
-
-            foreach (var tenant in filteredTenants)
+            foreach (var definition in contentPartDefinitions)
             {
-                ContentPartDefinition[] contentPartDefinitions = this.UsingWorkContextScope(
-                    tenant.Name,
-                    scope => scope.Resolve<IContentDefinitionManager>().ListPartDefinitions().ToArray());
-                
-                definitions.AddRange(contentPartDefinitions);
-            }
+                if (!string.IsNullOrEmpty(this.Name))
+                {
+                    if (!definition.Name.WildcardEquals(this.Name))
+                    {
+                        continue;
+                    }
+                }
 
-            if (!string.IsNullOrEmpty(this.Name))
-            {
-                definitions = definitions.Where(f => f.Name.WildcardEquals(this.Name)).ToList();
-            }
-
-            foreach (ContentPartDefinition definition in definitions)
-            {
                 this.WriteObject(definition);
             }
         }
