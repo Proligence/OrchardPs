@@ -7,9 +7,9 @@
     using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Provider.Utilities;
 
-    public abstract class RetrieveOrchardFeatureCmdletBase<TFeature> : OrchardCmdlet, ITenantFilterCmdlet
+    public abstract class RetrieveOrchardFeatureCmdletBase<TFeature> : TenantCmdlet
     {
-        protected ShellSettings[] Tenants { get; private set; }
+        private IList<PSObject> features;
 
         [Parameter(ParameterSetName = "Id", Mandatory = true, Position = 1)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false, Position = 1)]
@@ -24,13 +24,7 @@
         [Parameter(ParameterSetName = "Id", Mandatory = false)]
         [Parameter(ParameterSetName = "Name", Mandatory = false)]
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
-        public string Tenant { get; set; }
-
-        [Parameter(ParameterSetName = "TenantObject", Mandatory = true, ValueFromPipeline = true)]
-        public ShellSettings TenantObject { get; set; }
-
-        [Parameter(ParameterSetName = "AllTenants", Mandatory = true)]
-        public SwitchParameter FromAllTenants { get; set; }
+        public override string Tenant { get; set; }
 
         [Parameter(ParameterSetName = "Id", Mandatory = false)]
         [Parameter(ParameterSetName = "Name", Mandatory = false)]
@@ -54,57 +48,51 @@
         protected override void BeginProcessing()
         {
             base.BeginProcessing();
+            this.features = new List<PSObject>();
+        }
 
-            this.Tenants = this.Resolve<IShellSettingsManager>()
-                .LoadSettings()
-                .Where(t => t.State == TenantState.Running)
-                .ToArray();
+        protected override void ProcessRecord(ShellSettings tenant)
+        {
+            foreach (TFeature feature in this.GetFeatures(tenant.Name))
+            {
+                bool enabled = this.IsFeatureEnabled(feature, tenant.Name);
+
+                if (this.Enabled.ToBool() && !enabled)
+                {
+                    continue;
+                }
+
+                if (this.Disabled.ToBool() && enabled)
+                {
+                    continue;
+                }
+
+                var psobj = PSObject.AsPSObject(feature);
+                psobj.Properties.Add(new PSNoteProperty("Enabled", enabled));
+
+                this.features.Add(psobj);
+            }
         }
 
         protected override void ProcessRecord()
         {
-            IEnumerable<ShellSettings> filteredTenants = CmdletHelper.FilterTenants(this, this.Tenants);
-
-            var features = new List<PSObject>();
-
-            foreach (ShellSettings tenant in filteredTenants)
-            {
-                foreach (TFeature feature in this.GetFeatures(tenant.Name))
-                {
-                    bool enabled = this.IsFeatureEnabled(feature, tenant.Name);
-
-                    if (this.Enabled.ToBool() && !enabled)
-                    {
-                        continue;
-                    }
-
-                    if (this.Disabled.ToBool() && enabled)
-                    {
-                        continue;
-                    }
-
-                    var psobj = PSObject.AsPSObject(feature);
-                    psobj.Properties.Add(new PSNoteProperty("Enabled", enabled));
-
-                    features.Add(psobj);
-                }
-            }
-
+            base.ProcessRecord();
+            
             if (!string.IsNullOrEmpty(this.Id))
             {
-                features = features
+                this.features = this.features
                     .Where(f => this.GetFeatureId((TFeature)f.ImmediateBaseObject).WildcardEquals(this.Id))
                     .ToList();
             }
 
             if (!string.IsNullOrEmpty(this.Name))
             {
-                features = features
+                this.features = this.features
                     .Where(f => this.GetFeatureName((TFeature)f.ImmediateBaseObject).WildcardEquals(this.Name))
                     .ToList();
             }
 
-            foreach (PSObject feature in features)
+            foreach (PSObject feature in this.features)
             {
                 this.WriteObject(feature);
             }

@@ -140,7 +140,7 @@
         [Fact, Integration]
         public void ShouldGetFeaturesFromAllTenants()
         {
-            this.powerShell.Session.ProcessInput("Get-OrchardFeature -FromAllTenants");
+            this.powerShell.Session.ProcessInput("Get-OrchardFeature -AllTenants");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
             Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());

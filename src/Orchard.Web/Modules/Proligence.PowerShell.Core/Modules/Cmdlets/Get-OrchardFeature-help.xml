@@ -146,7 +146,7 @@
           </maml:description>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false">
-          <maml:name>FromAllTenants</maml:name>
+          <maml:name>AllTenants</maml:name>
           <maml:description>
             <maml:para>Specifies that the command should get features from all running Orchard tenants.</maml:para>
           </maml:description>
@@ -250,7 +250,7 @@
       </command:parameter>
 
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
-        <maml:name>FromAllTenants</maml:name>
+        <maml:name>AllTenants</maml:name>
         <maml:description>
           <maml:para>Specifies that the command should get features from all running Orchard tenants.</maml:para>
         </maml:description>
@@ -434,7 +434,7 @@
           <maml:para>Orchard:\&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          Get-OrchardFeature -FromAllTenants -Name Alias
+          Get-OrchardFeature -AllTenants -Name Alias
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>

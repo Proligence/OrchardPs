@@ -1,5 +1,6 @@
 ﻿namespace Proligence.PowerShell.Provider
 {
+    using System;
     using System.Management.Automation;
     using Orchard.Environment.Configuration;
 
@@ -7,6 +8,7 @@
     /// Defines the interfaces for cmdlets which support common parameters for filtering tenants on which the cmdlet
     /// will perform its operation.
     /// </summary>
+    [Obsolete("Use TenantCmdlet base class.", false)]
     public interface ITenantFilterCmdlet
     {
         /// <summary>

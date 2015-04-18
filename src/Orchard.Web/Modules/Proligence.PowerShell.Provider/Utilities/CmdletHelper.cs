@@ -21,6 +21,7 @@
         /// <param name="tenantName">The name of the tenants to filter.</param>
         /// <param name="tenant">The tenant to filter.</param>
         /// <returns>A sequence of filtered <see cref="ShellSettings"/> objects.</returns>
+        [Obsolete("Use TenantCmdlet base class.", false)]
         public static IEnumerable<ShellSettings> FilterTenants(
             OrchardCmdlet cmdlet,
             IEnumerable<ShellSettings> tenants,
@@ -97,6 +98,7 @@
         /// <param name="cmdlet">The cmdlet which is calling this method.</param>
         /// <param name="tenants">A list of tenants to filter.</param>
         /// <returns>A sequence of filtered <see cref="ShellSettings"/> objects.</returns>
+        [Obsolete("Use TenantCmdlet base class.", false)]
         public static IEnumerable<ShellSettings> FilterTenants(
             ITenantFilterCmdlet cmdlet,
             IEnumerable<ShellSettings> tenants)

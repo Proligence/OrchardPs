@@ -18,7 +18,7 @@
         {
             base.BeginProcessing();
 
-            this.enabledTenantFeatures = this.Tenants.ToDictionary(
+            this.enabledTenantFeatures = this.AvailableTenants.ToDictionary(
                 tenant => tenant.Name,
                 tenant => this.UsingWorkContextScope(
                     tenant.Name,

@@ -105,6 +105,7 @@
     <Compile Include="Internal\IPsFileSearcher.cs" />
     <Compile Include="Internal\PsFileSearcher.cs" />
     <Compile Include="ITenantFilterCmdlet.cs" />
+    <Compile Include="TenantCmdlet.cs" />
     <Compile Include="Utilities\CmdletHelper.cs" />
     <Compile Include="Vfs\NavigationProviders\TenantsPsNavigationProvider.cs" />
     <Compile Include="PsProviderAgent.cs" />
