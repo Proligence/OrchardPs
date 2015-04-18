@@ -36,7 +36,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
           <maml:name>Name</maml:name>
           <maml:description>
-            <maml:para>Specifies the name of the content part which definition will be retrieved. This parameter is required. Wildcards are permitted.</maml:para>
+            <maml:para>Specifies the name of the content part which definition will be retrieved. Wildcards are permitted.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
         </command:parameter>
