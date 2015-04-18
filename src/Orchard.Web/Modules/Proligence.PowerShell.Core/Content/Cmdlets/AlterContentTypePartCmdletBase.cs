@@ -1,6 +1,5 @@
 ﻿namespace Proligence.PowerShell.Core.Content.Cmdlets
 {
-    using System;
     using System.Linq;
     using System.Management.Automation;
     using Orchard.ContentManagement.MetaData;
@@ -8,6 +7,7 @@
     using Orchard.ContentManagement.MetaData.Models;
     using Orchard.Environment.Configuration;
     using Proligence.PowerShell.Provider;
+    using Proligence.PowerShell.Provider.Utilities;
 
     public abstract class AlterContentTypePartCmdletBase : OrchardCmdlet
     {
@@ -77,7 +77,7 @@
             {
                 if (this.Resolve<IShellSettingsManager>().LoadSettings().All(t => t.Name != this.Tenant))
                 {
-                    this.NotifyFailedToFindTenant(this.Tenant);
+                    this.WriteError(Error.FailedToFindTenant(this.Tenant));
                     return null;
                 }
 
@@ -134,27 +134,15 @@
                 return this.ContentPartObject.Name;
             }
 
-            this.NotifyInvalidContentPartName();
+            this.WriteError(Error.InvalidArgument("Invalid content part specified.", "InvalidContentPart"));
             return null;
-        }
-
-        private void NotifyFailedToFindTenant(string tenantName)
-        {
-            var exception = new InvalidOperationException("Failed to find tenant '" + tenantName + "'.");
-            this.WriteError(exception, "FailedToFindTentant", ErrorCategory.InvalidArgument);
         }
 
         private void NotifyFailedToFindContentType(string name, string tenantName)
         {
-            var exception = new InvalidOperationException(
-                "Failed to find content type '" + name + "' in tenant '" + tenantName + "'.");
-            this.WriteError(exception, "FailedToFindTentant", ErrorCategory.InvalidArgument);
-        }
-
-        private void NotifyInvalidContentPartName()
-        {
-            var exception = new InvalidOperationException("Invalid content part specified.");
-            this.WriteError(exception, "InvalidContentPart", ErrorCategory.InvalidArgument);
+            this.WriteError(Error.InvalidArgument(
+                "Failed to find content type '" + name + "' in tenant '" + tenantName + "'.",
+                "FailedToFindTentant"));
         }
     }
 }

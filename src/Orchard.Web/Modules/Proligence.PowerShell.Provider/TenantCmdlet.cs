@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Management.Automation;
     using Orchard.Environment.Configuration;
+    using Proligence.PowerShell.Provider.Utilities;
 
     /// <summary>
     /// The base class for cmdlets which work in the context of an Orchard tenant.
@@ -66,8 +67,7 @@
                 }
                 else
                 {
-                    var ex = new ArgumentException("Failed to find tenant with name '" + this.Tenant + "'.");
-                    this.WriteError(ex, "FailedToFindTenant", ErrorCategory.InvalidArgument);
+                    this.WriteError(Error.FailedToFindTenant(this.Tenant));
                 }
             }
             else if (this.TenantObject != null)
@@ -92,8 +92,7 @@
                     }
                     else
                     {
-                        var ex = new ArgumentException("Failed to find tenant with name 'Default'.");
-                        this.WriteError(ex, "FailedToFindTenant", ErrorCategory.InvalidArgument);
+                        this.WriteError(Error.FailedToFindTenant("Default"));
                     }
                 }
             }

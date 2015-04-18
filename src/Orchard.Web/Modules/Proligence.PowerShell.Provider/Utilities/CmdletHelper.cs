@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Management.Automation;
     using Orchard.Environment.Configuration;
     using Proligence.PowerShell.Provider;
 
@@ -57,8 +56,7 @@
                 }
                 else
                 {
-                    var ex = new ArgumentException("Failed to find tenant with name '" + tenantName + "'.");
-                    cmdlet.WriteError(ex, "FailedToFindTenant", ErrorCategory.InvalidArgument);
+                    cmdlet.WriteError(Error.FailedToFindTenant(tenantName));
                 }
             }
             else if (tenant != null)
@@ -83,8 +81,7 @@
                     }
                     else
                     {
-                        var ex = new ArgumentException("Failed to find tenant with name 'Default'.");
-                        cmdlet.WriteError(ex, "FailedToFindTenant", ErrorCategory.InvalidArgument);
+                        cmdlet.WriteError(Error.FailedToFindTenant("Default"));
                     }
                 }
             }

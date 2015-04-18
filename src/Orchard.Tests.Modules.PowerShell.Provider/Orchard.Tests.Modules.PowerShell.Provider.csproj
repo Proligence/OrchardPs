@@ -61,7 +61,6 @@
     <Compile Include="Utilities\ArgumentListTests.cs" />
     <Compile Include="CmdletAliasAttributeTests.cs" />
     <Compile Include="Cmdlets\GetOrchardPsCommandTests.cs" />
-    <Compile Include="OrchardCmdletExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\PropertyMapperTests.cs" />
     <Compile Include="Utilities\StringExtensionsTests.cs" />

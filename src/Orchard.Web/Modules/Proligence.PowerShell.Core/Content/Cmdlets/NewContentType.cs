@@ -1,6 +1,5 @@
 ﻿namespace Proligence.PowerShell.Core.Content.Cmdlets
 {
-    using System;
     using System.Collections;
     using System.Globalization;
     using System.Linq;
@@ -12,6 +11,7 @@
     using Orchard.Core.Contents.Extensions;
     using Orchard.Environment.Configuration;
     using Proligence.PowerShell.Provider;
+    using Proligence.PowerShell.Provider.Utilities;
 
     [CmdletAlias("nct")]
     [Cmdlet(VerbsCommon.New, "ContentType", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
@@ -113,7 +113,7 @@
             }
             else
             {
-                this.NotifyFailedToFindTenant(tenantName);
+                this.WriteError(Error.FailedToFindTenant(tenantName));
             }
         }
 
@@ -206,12 +206,6 @@
             }
         }
 
-        private void NotifyFailedToFindTenant(string tenantName)
-        {
-            var exception = new InvalidOperationException("Failed to find tenant '" + tenantName + "'.");
-            this.WriteError(exception, "FailedToFindTentant", ErrorCategory.InvalidArgument);
-        }
-
         private void NotifyExistingContentTypeDefinition(string tenantName, string contentTypeName)
         {
             var message = string.Format(
@@ -220,8 +214,7 @@
                 tenantName, 
                 contentTypeName);
 
-            var exception = new InvalidOperationException(message);
-            this.WriteError(exception, "ContentTypeDefinitionExists", ErrorCategory.InvalidArgument);
+            this.WriteError(Error.InvalidArgument(message, "ContentTypeDefinitionExists"));
         }
     }
 }

@@ -6,6 +6,7 @@
     using System.Management.Automation;
     using Orchard.Environment.Configuration;
     using Proligence.PowerShell.Provider;
+    using Proligence.PowerShell.Provider.Utilities;
 
     public abstract class AlterOrchardFeatureCmdletBase<TFeature> : OrchardCmdlet
     {
@@ -58,10 +59,9 @@
                 feature = this.GetFeature(tenantName, this.Id);
                 if (feature == null)
                 {
-                    this.WriteError(
-                        new ArgumentException("Failed to find feature with name '" + this.Id + "'."),
-                        "FailedToFindFeature",
-                        ErrorCategory.InvalidArgument);
+                    this.WriteError(Error.InvalidArgument(
+                        "Failed to find feature with name '" + this.Id + "'.",
+                        "FailedToFindFeature"));
                 }
             }
             else if (this.ParameterSetName == "FeatureObject")

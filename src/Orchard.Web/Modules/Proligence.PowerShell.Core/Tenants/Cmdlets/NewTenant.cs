@@ -69,17 +69,16 @@
                 {
                     if (!string.IsNullOrEmpty(tenant.Name) && !Regex.IsMatch(tenant.Name, @"^\w+$"))
                     {
-                        var exception = new InvalidOperationException(
-                            "Invalid tenant name. Must contain characters only and no spaces.");
-
-                        this.WriteError(exception, "CannotCreateTenant", ErrorCategory.InvalidArgument);
+                        this.WriteError(Error.InvalidArgument(
+                            "Invalid tenant name. Must contain characters only and no spaces.",
+                            "CannotCreateTenant"));
+                        
                         return;
                     }
 
                     if (tenant.Name == ShellSettings.DefaultName)
                     {
-                        var exception = new InvalidOperationException("Invalid tenant name.");
-                        this.WriteError(exception, "CannotCreateTenant", ErrorCategory.InvalidArgument);
+                        this.WriteError(Error.InvalidArgument("Invalid tenant name.", "CannotCreateTenant"));
                         return;
                     }
 
@@ -88,8 +87,7 @@
 
                     if (defaultTenant == null)
                     {
-                        var exception = new InvalidOperationException("Failed to find default tenant.");
-                        this.WriteError(exception, "FailedToFindDefaultTenant", ErrorCategory.ObjectNotFound);
+                        this.WriteError(Error.FailedToFindTenant("Default"));
                         return;
                     }
 
@@ -101,7 +99,7 @@
                 }
                 catch (Exception ex)
                 {
-                    this.WriteError(ex, "FailedToCreateTenant", ErrorCategory.NotSpecified);
+                    this.WriteError(Error.NotSpecified(ex, "FailedToCreateTenant"));
                 }
             }
         }

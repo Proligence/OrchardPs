@@ -107,6 +107,7 @@
     <Compile Include="ITenantFilterCmdlet.cs" />
     <Compile Include="TenantCmdlet.cs" />
     <Compile Include="Utilities\CmdletHelper.cs" />
+    <Compile Include="Utilities\Error.cs" />
     <Compile Include="Vfs\NavigationProviders\TenantsPsNavigationProvider.cs" />
     <Compile Include="PsProviderAgent.cs" />
     <Compile Include="Utilities\ArgumentList.cs" />

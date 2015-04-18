@@ -10,6 +10,7 @@
     using Orchard.Commands;
     using Proligence.PowerShell.Core.Commands.Items;
     using Proligence.PowerShell.Provider;
+    using Proligence.PowerShell.Provider.Utilities;
 
     [CmdletAlias("ioc")]
     [Cmdlet(VerbsLifecycle.Invoke, "OrchardCommand", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
@@ -140,8 +141,11 @@
                             "Invalid switch syntax: \"{0}\". Valid syntax is /<switchName>[:<switchValue>].", 
                             arg);
 
-                        var exception = new ArgumentException(message);
-                        this.WriteError(exception, "InvalidCommandSwitchSyntax", ErrorCategory.SyntaxError);
+                        this.WriteError(Error.Generic(
+                            new ArgumentException(message),
+                            "InvalidCommandSwitchSyntax",
+                            ErrorCategory.SyntaxError));
+                        
                         return false;
                     }
 
@@ -183,7 +187,7 @@
                             }
                             catch (Exception ex)
                             {
-                                this.WriteError(ex, "FailedToExecuteLegacyCommand", ErrorCategory.NotSpecified);
+                                this.WriteError(Error.Generic(ex, "FailedToExecuteLegacyCommand"));
                                 return null;
                             }
 

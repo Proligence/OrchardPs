@@ -8,6 +8,7 @@
     using Orchard.ContentManagement.MetaData.Models;
     using Orchard.Environment.Configuration;
     using Proligence.PowerShell.Provider;
+    using Proligence.PowerShell.Provider.Utilities;
 
     [Cmdlet(VerbsCommon.Remove, "ContentType", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
     public class RemoveTenant : OrchardCmdlet
@@ -75,7 +76,7 @@
             }
             else
             {
-                this.NotifyFailedToFindTenant(tenantName);
+                this.WriteError(Error.FailedToFindTenant(tenantName));
             }
         }
 
@@ -94,12 +95,6 @@
             return this.GetCurrentTenantName() ?? "Default";
         }
 
-        private void NotifyFailedToFindTenant(string tenantName)
-        {
-            var exception = new InvalidOperationException("Failed to find tenant '" + tenantName + "'.");
-            this.WriteError(exception, "FailedToFindTentant", ErrorCategory.InvalidArgument);
-        }
-
         private void NotifyContentTypeDefinitionNotFound(string tenantName, string contentTypeName)
         {
             var message = string.Format(
@@ -108,8 +103,9 @@
                 tenantName, 
                 contentTypeName);
 
-            var exception = new InvalidOperationException(message);
-            this.WriteError(exception, "ContentTypeDefinitionNotFound", ErrorCategory.ObjectNotFound);
+            this.WriteError(Error.ObjectNotFound(
+                new InvalidOperationException(message),
+                "ContentTypeDefinitionNotFound"));
         }
     }
 }

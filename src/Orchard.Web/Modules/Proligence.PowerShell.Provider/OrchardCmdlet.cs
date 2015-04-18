@@ -3,6 +3,7 @@
     using System;
     using System.Management.Automation;
     using Proligence.PowerShell.Provider.Internal;
+    using Proligence.PowerShell.Provider.Utilities;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
 
     /// <summary>
@@ -38,7 +39,7 @@
                         "Failed to find Orchard drive. Make sure that the Orchard VFS is properly initialized and " +
                         "the Orchard PSDrive is mounted.");
 
-                    this.ThrowTerminatingError(exception, ErrorIds.OrchardDriveExpected, ErrorCategory.InvalidOperation);
+                    this.ThrowTerminatingError(Error.InvalidOperation(exception, ErrorIds.OrchardDriveExpected));
                 }
             }
 

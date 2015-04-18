@@ -6,6 +6,7 @@
     using Autofac;
     using Orchard.Environment.Configuration;
     using Proligence.PowerShell.Provider;
+    using Proligence.PowerShell.Provider.Utilities;
 
     public abstract class AlterTenantCmdletBase : OrchardCmdlet
     {
@@ -52,8 +53,7 @@
 
                     if (tenant == null)
                     {
-                        var ex = new ArgumentException("Failed to find tenant '" + name + "'.");
-                        this.WriteError(ex, "FailedToFindTenant", ErrorCategory.ObjectNotFound, name);
+                        this.WriteError(Error.FailedToFindTenant(name));
                         return;
                     }
 
@@ -61,8 +61,7 @@
                     {
                         if (tenant.Name == ShellSettings.DefaultName)
                         {
-                            var ex = new InvalidOperationException("The operation cannot be performed on the default tenant.");
-                            this.WriteError(ex, "CannotAlterDefaultTenant", ErrorCategory.InvalidOperation, name);
+                            this.WriteError(Error.CannotAlterDefaultTenant());
                             return;
                         }
                     }
@@ -74,7 +73,7 @@
                 }
                 catch (Exception ex)
                 {
-                    this.WriteError(ex, "AlterTenantFailed", ErrorCategory.NotSpecified, name);
+                    this.WriteError(Error.NotSpecified(ex, "AlterTenantFailed", name));
                 }
             }
         }

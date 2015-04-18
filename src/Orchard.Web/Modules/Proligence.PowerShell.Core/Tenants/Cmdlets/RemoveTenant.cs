@@ -8,6 +8,7 @@
     using Orchard.Environment.Configuration;
     using Orchard.FileSystems.AppData;
     using Proligence.PowerShell.Provider;
+    using Proligence.PowerShell.Provider.Utilities;
 
     [Cmdlet(VerbsCommon.Remove, "Tenant", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High)]
     public class RemoveTenant : OrchardCmdlet
@@ -49,15 +50,12 @@
                 {
                     if (string.IsNullOrEmpty(tenantName))
                     {
-                        var exeception = new ArgumentNullException("tenantName");
-                        this.WriteError(exeception, "CannotRemoveTenant", ErrorCategory.InvalidArgument);
-                        return;
+                        this.WriteError(Error.ArgumentNull("CannotRemoveTenant"));
                     }
 
                     if (tenantName == ShellSettings.DefaultName)
                     {
-                        var exception = new InvalidOperationException("Cannot remove default tenant.");
-                        this.WriteError(exception, "CannotRemoveTenant", ErrorCategory.InvalidOperation);
+                        this.WriteError(Error.InvalidOperation("Cannot remove default tenant.", "CannotRemoveTenant"));
                         return;
                     }
 
@@ -66,10 +64,7 @@
 
                     if (settings == null)
                     {
-                        var exception = new ArgumentException(
-                            "Failed to find tenant '" + tenantName + "'.", "tenantName");
-
-                        this.WriteError(exception, "CannotRemoveDefaultTenant", ErrorCategory.InvalidOperation);
+                        this.WriteError(Error.FailedToFindTenant(tenantName));
                         return;
                     }
 
@@ -78,7 +73,7 @@
                 }
                 catch (Exception ex)
                 {
-                    this.WriteError(ex, "FailedToRemoveTenant", ErrorCategory.NotSpecified);
+                    this.WriteError(Error.Generic(ex, "FailedToRemoveTenant"));
                 }
             }
         }

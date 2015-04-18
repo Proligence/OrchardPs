@@ -1,6 +1,5 @@
 ﻿namespace Proligence.PowerShell.Core.Content.Cmdlets
 {
-    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
@@ -113,7 +112,7 @@
                 }
                 else
                 {
-                    this.NotifyFailedToFindTenant(tenantName);
+                    this.WriteError(Error.FailedToFindTenant(tenantName));
                 }
             }
             else
@@ -202,14 +201,7 @@
                 contentPartName,
                 tenantName);
 
-            var exception = new InvalidOperationException(message);
-            this.WriteError(exception, "FailedToFindContentPartDefinition", ErrorCategory.InvalidArgument);
-        }
-
-        private void NotifyFailedToFindTenant(string tenantName)
-        {
-            var exception = new InvalidOperationException("Failed to find tenant '" + tenantName + "'.");
-            this.WriteError(exception, "FailedToFindTentant", ErrorCategory.InvalidArgument);
+            this.WriteError(Error.InvalidArgument(message, "FailedToFindContentPartDefinition"));
         }
     }
 }
