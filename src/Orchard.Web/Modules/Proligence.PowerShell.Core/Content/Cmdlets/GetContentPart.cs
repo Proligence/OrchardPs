@@ -1,6 +1,5 @@
 ﻿namespace Proligence.PowerShell.Core.Content.Cmdlets
 {
-    using System.Linq;
     using System.Management.Automation;
     using Orchard.ContentManagement.MetaData;
     using Orchard.ContentManagement.MetaData.Models;
@@ -10,76 +9,45 @@
 
     [CmdletAlias("gcp")]
     [Cmdlet(VerbsCommon.Get, "ContentPart", DefaultParameterSetName = "Default", ConfirmImpact = ConfirmImpact.None)]
-    public class GetContentPart : OrchardCmdlet
+    public class GetContentPart : TenantCmdlet
     {
-        /// <summary>
-        /// Gets or sets the name of the content type which content parts will be retrieved.
-        /// </summary>
         [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 1)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = true, Position = 1)]
+        [Parameter(ParameterSetName = "AllTenants", Mandatory = true, Position = 1)]
         public string ContentType { get; set; }
 
-        /// <summary>
-        /// Gets or sets the content type which content parts will be retrieved.
-        /// </summary>
+        [Parameter(ParameterSetName = "Default", Mandatory = false, Position = 2)]
+        [Parameter(ParameterSetName = "TenantObject", Mandatory = false, Position = 2)]
+        [Parameter(ParameterSetName = "AllTenants", Mandatory = false, Position = 2)]
+        public string Name { get; set; }
+
+        [ValidateNotNull]
         [Parameter(ParameterSetName = "ContentTypeObject", Mandatory = true, ValueFromPipeline = true)]
         public ContentTypeDefinition ContentTypeObject { get; set; }
 
-        /// <summary>
-        /// Gets or sets the name of the tenant to which the content type belongs.
-        /// </summary>
-        [Parameter(ParameterSetName = "Name", Mandatory = false)]
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         [Parameter(ParameterSetName = "ContentTypeObject", Mandatory = false)]
-        public string Tenant { get; set; }
+        public override string Tenant { get; set; }
 
-        /// <summary>
-        /// Gets or sets the Orchard tenant to which the content type belongs.
-        /// </summary>
-        [Parameter(ParameterSetName = "TenantObject", Mandatory = true, ValueFromPipeline = true)]
-        public ShellSettings TenantObject { get; set; }
-
-        protected override void ProcessRecord()
+        protected override void ProcessRecord(ShellSettings tenant)
         {
-            string tenantName = this.GetTenantName();
-            if (tenantName != null)
+            ContentTypeDefinition contentType = this.GetContentTypeDefinition(tenant.Name);
+            if (contentType != null)
             {
-                ContentTypeDefinition contentType = this.GetContentTypeDefinition(tenantName);
-                if (contentType != null)
+                foreach (ContentTypePartDefinition part in contentType.Parts)
                 {
-                    foreach (ContentTypePartDefinition part in contentType.Parts)
+                    if (!string.IsNullOrEmpty(this.Name))
                     {
-                        this.WriteObject(part);
+                        if (!part.PartDefinition.Name.WildcardEquals(this.Name))
+                        {
+                            continue;
+                        }
                     }
+
+                    this.WriteObject(part);
                 }
             }
-        }
-
-        private string GetTenantName()
-        {
-            if (this.ParameterSetName == "TenantObject")
-            {
-                return this.TenantObject.Name;
-            }
-
-            if (this.Tenant != null)
-            {
-                if (this.Resolve<IShellSettingsManager>().LoadSettings().All(t => t.Name != this.Tenant))
-                {
-                    this.WriteError(Error.FailedToFindTenant(this.Tenant));
-                    return null;
-                }
-
-                return this.Tenant;
-            }
-
-            if (this.TenantObject != null)
-            {
-                return this.TenantObject.Name;
-            }
-
-            return this.GetCurrentTenantName() ?? "Default";
         }
 
         private ContentTypeDefinition GetContentTypeDefinition(string tenantName)
