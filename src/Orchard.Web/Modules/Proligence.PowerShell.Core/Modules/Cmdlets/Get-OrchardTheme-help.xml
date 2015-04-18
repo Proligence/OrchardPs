@@ -222,7 +222,23 @@
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>Enabled</maml:name>
+        <maml:description>
+          <maml:para>Specifies that the command should get only themes which are enabled.</maml:para>
+        </maml:description>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>Disabled</maml:name>
+        <maml:description>
+          <maml:para>Specifies that the command should get only themes which are disabled.</maml:para>
+        </maml:description>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
         <maml:name>Tenant</maml:name>
         <maml:description>
@@ -256,22 +272,6 @@
         </maml:description>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
-        <maml:name>Enabled</maml:name>
-        <maml:description>
-          <maml:para>Specifies that the command should get only themes which are enabled.</maml:para>
-        </maml:description>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
-        <maml:name>Disabled</maml:name>
-        <maml:description>
-          <maml:para>Specifies that the command should get only themes which are disabled.</maml:para>
-        </maml:description>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
       
     </command:parameters>
 
@@ -285,7 +285,7 @@
           <maml:description />
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe instances of the ShellSettings class to Get-OrchardFeature. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
+          <maml:para>You can pipe instances of the ShellSettings class to Get-OrchardTheme. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
         </maml:description>
       </command:inputType>
     </command:inputTypes>

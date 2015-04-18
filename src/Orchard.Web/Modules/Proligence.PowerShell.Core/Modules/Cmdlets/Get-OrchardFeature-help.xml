@@ -116,43 +116,6 @@
         </command:parameter>
       </command:syntaxItem>
 
-      <!-- ParameterSet: AllTenants -->
-      <command:syntaxItem>
-        <maml:name>Get-OrchardFeature</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
-          <maml:name>Id</maml:name>
-          <maml:description>
-            <maml:para>Specifies the identifier of the Orchard feature to get. Wildcards are permitted.</maml:para>
-          </maml:description>
-          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
-          <maml:name>Name</maml:name>
-          <maml:description>
-            <maml:para>Specifies the name of the Orchard feature to get. Wildcards are permitted.</maml:para>
-          </maml:description>
-          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
-          <maml:name>Enabled</maml:name>
-          <maml:description>
-            <maml:para>Specifies that the command should get only features which are enabled.</maml:para>
-          </maml:description>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
-          <maml:name>Disabled</maml:name>
-          <maml:description>
-            <maml:para>Specifies that the command should get only features which are disabled.</maml:para>
-          </maml:description>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false">
-          <maml:name>AllTenants</maml:name>
-          <maml:description>
-            <maml:para>Specifies that the command should get features from all running Orchard tenants.</maml:para>
-          </maml:description>
-        </command:parameter>
-      </command:syntaxItem>
-
       <!-- ParameterSet: TenantObject -->
       <command:syntaxItem>
         <maml:name>Get-OrchardFeature</maml:name>
@@ -190,6 +153,43 @@
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
+
+      <!-- ParameterSet: AllTenants -->
+      <command:syntaxItem>
+        <maml:name>Get-OrchardFeature</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Id</maml:name>
+          <maml:description>
+            <maml:para>Specifies the identifier of the Orchard feature to get. Wildcards are permitted.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the Orchard feature to get. Wildcards are permitted.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>Enabled</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the command should get only features which are enabled.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>Disabled</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the command should get only features which are disabled.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>AllTenants</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the command should get features from all running Orchard tenants.</maml:para>
+          </maml:description>
+        </command:parameter>
+      </command:syntaxItem>
       
     </command:syntax>
 
@@ -222,7 +222,23 @@
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>Enabled</maml:name>
+        <maml:description>
+          <maml:para>Specifies that the command should get only features which are enabled.</maml:para>
+        </maml:description>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>Disabled</maml:name>
+        <maml:description>
+          <maml:para>Specifies that the command should get only features which are disabled.</maml:para>
+        </maml:description>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
         <maml:name>Tenant</maml:name>
         <maml:description>
@@ -253,22 +269,6 @@
         <maml:name>AllTenants</maml:name>
         <maml:description>
           <maml:para>Specifies that the command should get features from all running Orchard tenants.</maml:para>
-        </maml:description>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
-        <maml:name>Enabled</maml:name>
-        <maml:description>
-          <maml:para>Specifies that the command should get only features which are enabled.</maml:para>
-        </maml:description>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
-        <maml:name>Disabled</maml:name>
-        <maml:description>
-          <maml:para>Specifies that the command should get only features which are disabled.</maml:para>
         </maml:description>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>

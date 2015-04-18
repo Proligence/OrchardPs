@@ -14,6 +14,8 @@
     {
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         [Parameter(ParameterSetName = "FeatureObject", Mandatory = false)]
+        [Parameter(ParameterSetName = "TenantObject", Mandatory = true, Position = 1)]
+        [Parameter(ParameterSetName = "AllTenants", Mandatory = true, Position = 1)]
         public SwitchParameter WithoutDependencies { get; set; }
 
         protected override IEnumerable<FeatureDescriptor> GetTenantFeatures(string tenantName)

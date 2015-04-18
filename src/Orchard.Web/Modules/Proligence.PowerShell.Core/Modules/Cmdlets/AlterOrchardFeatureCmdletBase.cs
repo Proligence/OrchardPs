@@ -8,7 +8,7 @@
     using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Provider.Utilities;
 
-    public abstract class AlterOrchardFeatureCmdletBase<TFeature> : OrchardCmdlet
+    public abstract class AlterOrchardFeatureCmdletBase<TFeature> : TenantCmdlet
     {
         /// <summary>
         /// Cached list of all Orchard features for each tenant.
@@ -17,13 +17,18 @@
 
         [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 1)]
+        [Parameter(ParameterSetName = "TenantObject", Mandatory = true, Position = 1)]
+        [Parameter(ParameterSetName = "AllTenants", Mandatory = true, Position = 1)]
         public string Id { get; set; }
 
-        [Parameter(ParameterSetName = "Default", Mandatory = false)]
-        public string Tenant { get; set; }
-
+        [ValidateNotNull]
         [Parameter(ParameterSetName = "FeatureObject", ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = "AllTenants", Mandatory = true, Position = 1)]
         public TFeature Feature { get; set; }
+
+        [Parameter(ParameterSetName = "Default", Mandatory = false)]
+        [Parameter(ParameterSetName = "FeatureObject", ValueFromPipeline = true)]
+        public override string Tenant { get; set; }
 
         protected override void BeginProcessing()
         {
@@ -36,62 +41,45 @@
         protected abstract string GetActionName(TFeature feature, string tenantName);
         protected abstract void PerformAction(TFeature feature, string tenantName);
 
-        protected override void ProcessRecord()
+        protected override void ProcessRecord(ShellSettings tenant)
         {
-            string tenantName = null;
-
-            if ((this.ParameterSetName != "FeatureObject") && string.IsNullOrEmpty(this.Tenant))
-            {
-                // Get feature for current tenant if tenant name not specified
-                ShellSettings tenant = this.GetCurrentTenant();
-                tenantName = tenant != null ? tenant.Name : "Default";
-            }
-
-            if (!string.IsNullOrEmpty(this.Tenant))
-            {
-                tenantName = this.Tenant;
-            }
-
-            TFeature feature = default(TFeature);
-
-            if (this.ParameterSetName == "Default")
-            {
-                feature = this.GetFeature(tenantName, this.Id);
-                if (feature == null)
-                {
-                    this.WriteError(Error.InvalidArgument(
-                        "Failed to find feature with name '" + this.Id + "'.",
-                        "FailedToFindFeature"));
-                }
-            }
-            else if (this.ParameterSetName == "FeatureObject")
-            {
-                feature = this.Feature;
-            }
-
+            TFeature feature = this.GetFeature(tenant);
             if (feature != null)
             {
                 if (this.ShouldProcess(
-                    "Feature: " + this.GetFeatureId(feature) + ", Tenant: " + tenantName,
-                    this.GetActionName(feature, tenantName)))
+                    "Feature: " + this.GetFeatureId(feature) + ", Tenant: " + tenant.Name,
+                    this.GetActionName(feature, tenant.Name)))
                 {
-                    this.PerformAction(feature, tenantName);
+                    this.PerformAction(feature, tenant.Name);
                 }
             }
         }
 
-        private TFeature GetFeature(string tenantName, string featureId)
+        private TFeature GetFeature(ShellSettings tenant)
         {
-            TFeature[] tenantFeatures;
-
-            if (!this.cache.TryGetValue(tenantName, out tenantFeatures))
+            if (this.ParameterSetName == "FeatureObject")
             {
-                tenantFeatures = this.GetTenantFeatures(tenantName).ToArray();
-                this.cache.Add(tenantName, tenantFeatures);
+                return this.Feature;
             }
 
-            return tenantFeatures.FirstOrDefault(
-                f => this.GetFeatureId(f).Equals(featureId, StringComparison.CurrentCultureIgnoreCase));
+            TFeature[] tenantFeatures;
+            if (!this.cache.TryGetValue(tenant.Name, out tenantFeatures))
+            {
+                tenantFeatures = this.GetTenantFeatures(tenant.Name).ToArray();
+                this.cache.Add(tenant.Name, tenantFeatures);
+            }
+
+            var feature = tenantFeatures.FirstOrDefault(
+                f => this.GetFeatureId(f).Equals(this.Id, StringComparison.CurrentCultureIgnoreCase));
+
+            if (feature == null)
+            {
+                this.WriteError(Error.InvalidArgument(
+                    "Failed to find feature with name '" + this.Id + "'.",
+                    "FailedToFindFeature"));
+            }
+            
+            return feature;
         }
     }
 }

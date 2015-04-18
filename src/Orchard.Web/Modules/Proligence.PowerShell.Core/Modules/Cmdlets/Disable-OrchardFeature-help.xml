@@ -65,6 +65,62 @@
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Orchard.Environment.Extensions.Models.FeatureDescriptor</command:parameterValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Tenant</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the tenant for which to disable the feature.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>WithoutDependencies</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the command should not disable dependant features and fail if they are required.</maml:para>
+          </maml:description>
+        </command:parameter>
+      </command:syntaxItem>
+
+      <!-- ParameterSet: TenantObject -->
+      <command:syntaxItem>
+        <maml:name>Disable-OrchardFeature</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Id</maml:name>
+          <maml:description>
+            <maml:para>Specifies the identifier of the feature to disable.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="true">
+          <maml:name>TenantObject</maml:name>
+          <maml:description>
+            <maml:para>Specifies the tenant for which to disable the feature. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet. This parameter is required.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">Orchard.Environment.Configuration.ShellSettings</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>WithoutDependencies</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the command should not disable dependant features and fail if they are required.</maml:para>
+          </maml:description>
+        </command:parameter>
+      </command:syntaxItem>
+      
+      <!-- ParameterSet: AllTenants -->
+      <command:syntaxItem>
+        <maml:name>Disable-OrchardFeature</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Id</maml:name>
+          <maml:description>
+            <maml:para>Specifies the identifier of the feature to disable.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>AllTenants</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the command should disable the specified features in all running Orchard tenants.</maml:para>
+          </maml:description>
+        </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
           <maml:name>WithoutDependencies</maml:name>
           <maml:description>
@@ -85,19 +141,6 @@
           <maml:para>Specifies the identifier of the feature to disable.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        <dev:type>
-          <maml:name>string</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
-        <maml:name>Tenant</maml:name>
-        <maml:description>
-          <maml:para>Specifies the name of the tenant for which to disable the feature.</maml:para>
-        </maml:description>
-        <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
         <dev:type>
           <maml:name>string</maml:name>
           <maml:uri/>
@@ -125,12 +168,47 @@
         </maml:description>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>Tenant</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the tenant for which to disable the feature.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true">
+        <maml:name>TenantObject</maml:name>
+        <maml:description>
+          <maml:para>Specifies the object that represents the Orchard tenant for which to disable the feature. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Orchard.Environment.Configuration.ShellSettings</command:parameterValue>
+        <dev:type>
+          <maml:name>Orchard.Environment.Configuration.ShellSettings</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>AllTenants</maml:name>
+        <maml:description>
+          <maml:para>Specifies that the command should disable the specified features in all running Orchard tenants.</maml:para>
+        </maml:description>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
       
     </command:parameters>
 
     <!-- Input - Output section-->
     
     <command:inputTypes>
+      
       <command:inputType>
         <dev:type>
           <maml:name>Orchard.Environment.Extensions.Models.FeatureDescriptor</maml:name>
@@ -141,6 +219,18 @@
           <maml:para>You can pipe instances of the FeatureDescriptor class to Disable-OrchardFeature. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents.</maml:para>
         </maml:description>
       </command:inputType>
+
+      <command:inputType>
+        <dev:type>
+          <maml:name>Orchard.Environment.Configuration.ShellSettings</maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe instances of the ShellSettings class to Disable-OrchardFeature. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
+        </maml:description>
+      </command:inputType>
+    
     </command:inputTypes>
 
     <command:returnValues />
