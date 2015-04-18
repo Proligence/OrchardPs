@@ -8,6 +8,7 @@
     using Orchard.Environment.Features;
     using Proligence.PowerShell.Provider;
 
+    [CmdletAlias("dof")]
     [Cmdlet(VerbsLifecycle.Disable, "OrchardFeature", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
     public class DisableOrchardFeature : AlterOrchardFeatureCmdletBase<FeatureDescriptor>
     {

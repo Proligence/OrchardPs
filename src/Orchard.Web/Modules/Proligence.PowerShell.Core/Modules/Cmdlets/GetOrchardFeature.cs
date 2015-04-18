@@ -8,6 +8,7 @@
     using Orchard.Environment.Extensions.Models;
     using Proligence.PowerShell.Provider;
 
+    [CmdletAlias("gof")]
     [Cmdlet(VerbsCommon.Get, "OrchardFeature", DefaultParameterSetName = "Default", ConfirmImpact = ConfirmImpact.None)]
     public class GetOrchardFeature : RetrieveOrchardFeatureCmdletBase<FeatureDescriptor>
     {
