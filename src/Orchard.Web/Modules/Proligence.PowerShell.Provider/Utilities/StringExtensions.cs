@@ -20,7 +20,7 @@
         /// </returns>
         public static bool WildcardEquals(this string str, string pattern, bool caseSensitive = false)
         {
-            if ((str == null) && (pattern == null))
+            if (str == pattern)
             {
                 return true;
             }
