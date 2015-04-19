@@ -85,6 +85,7 @@
     <Compile Include="Commands\NavigationProviders\CommandsPsNavigationProvider.cs" />
     <Compile Include="Commands\Nodes\CommandNode.cs" />
     <Compile Include="Commands\Nodes\CommandsNode.cs" />
+    <Compile Include="Content\Cmdlets\AlterContentTypeCmdletBase.cs" />
     <Compile Include="Content\Cmdlets\RemoveContentField.cs" />
     <Compile Include="Content\Cmdlets\AddContentField.cs" />
     <Compile Include="Content\Cmdlets\AlterContentPartFieldCmdletBase.cs" />

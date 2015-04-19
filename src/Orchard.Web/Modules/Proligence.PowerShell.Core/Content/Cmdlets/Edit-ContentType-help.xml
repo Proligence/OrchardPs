@@ -98,74 +98,6 @@
         </command:parameter>
       </command:syntaxItem>
 
-      <!-- ParameterSet: TenantObject -->
-      <command:syntaxItem>
-        <maml:name>Edit-ContentType</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="1">
-          <maml:name>Name</maml:name>
-          <maml:description>
-            <maml:para>Specifies the name of the content type to edit.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="true">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
-          <maml:name>DisplayName</maml:name>
-          <maml:description>
-            <maml:para>Specifies the new display name of the content type.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="true">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
-          <maml:name>Stereotype</maml:name>
-          <maml:description>
-            <maml:para>Specifies the new stereotype of the content type.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="true">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
-          <maml:name>Creatable</maml:name>
-          <maml:description>
-            <maml:para>Specifies whether an instance of the content type can be created through the UI.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
-          <maml:name>Listable</maml:name>
-          <maml:description>
-            <maml:para>Specifies whether an instance of the content type can be listed through the UI.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
-          <maml:name>Draftable</maml:name>
-          <maml:description>
-            <maml:para>Specifies whether the content type supports draft versions.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
-          <maml:name>Securable</maml:name>
-          <maml:description>
-            <maml:para>Specifies whether the content type can have custom permissions.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
-          <maml:name>Settings</maml:name>
-          <maml:description>
-            <maml:para>Specifies the new custom settings of the content type.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="true">Hashtable</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="true">
-          <maml:name>TenantObject</maml:name>
-          <maml:description>
-            <maml:para>Specifies the object that represents the Orchard tenant for which the content type will be edited. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet. This parameter is required.</maml:para>
-          </maml:description>
-          <command:parameterValue required="false" variableLength="true">Orchard.Environment.Configuration.ShellSettings</command:parameterValue>
-        </command:parameter>
-      </command:syntaxItem>
-
       <!-- ParameterSet: ContentTypeObject -->
       <command:syntaxItem>
         <maml:name>Edit-ContentType</maml:name>
@@ -238,6 +170,141 @@
             <maml:para>Specifies the name of the tenant for which the content type will be edited.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+
+      <!-- ParameterSet: TenantObject -->
+      <command:syntaxItem>
+        <maml:name>Edit-ContentType</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the content type to edit.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>DisplayName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the new display name of the content type.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Stereotype</maml:name>
+          <maml:description>
+            <maml:para>Specifies the new stereotype of the content type.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Creatable</maml:name>
+          <maml:description>
+            <maml:para>Specifies whether an instance of the content type can be created through the UI.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Listable</maml:name>
+          <maml:description>
+            <maml:para>Specifies whether an instance of the content type can be listed through the UI.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Draftable</maml:name>
+          <maml:description>
+            <maml:para>Specifies whether the content type supports draft versions.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Securable</maml:name>
+          <maml:description>
+            <maml:para>Specifies whether the content type can have custom permissions.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Settings</maml:name>
+          <maml:description>
+            <maml:para>Specifies the new custom settings of the content type.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">Hashtable</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="true">
+          <maml:name>TenantObject</maml:name>
+          <maml:description>
+            <maml:para>Specifies the object that represents the Orchard tenant for which the content type will be edited. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet. This parameter is required.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">Orchard.Environment.Configuration.ShellSettings</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+
+      <!-- ParameterSet: AllTenants -->
+      <command:syntaxItem>
+        <maml:name>Edit-ContentType</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the content type to edit.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>DisplayName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the new display name of the content type.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Stereotype</maml:name>
+          <maml:description>
+            <maml:para>Specifies the new stereotype of the content type.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Creatable</maml:name>
+          <maml:description>
+            <maml:para>Specifies whether an instance of the content type can be created through the UI.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Listable</maml:name>
+          <maml:description>
+            <maml:para>Specifies whether an instance of the content type can be listed through the UI.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Draftable</maml:name>
+          <maml:description>
+            <maml:para>Specifies whether the content type supports draft versions.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Securable</maml:name>
+          <maml:description>
+            <maml:para>Specifies whether the content type can have custom permissions.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Settings</maml:name>
+          <maml:description>
+            <maml:para>Specifies the new custom settings of the content type.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">Hashtable</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>AllTenants</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the command should edit the content type in all running Orchard tenants.</maml:para>
+          </maml:description>
         </command:parameter>
       </command:syntaxItem>
 
@@ -352,6 +419,19 @@
       </command:parameter>
 
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true">
+        <maml:name>ContentType</maml:name>
+        <maml:description>
+          <maml:para>Specifies the object that represents the content type which will be edited. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-ContentType cmdlet. This parameter is required.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">Orchard.ContentManagement.MetaData.Models.ContentTypeDefinition</command:parameterValue>
+        <dev:type>
+          <maml:name>Orchard.ContentManagement.MetaData.Models.ContentTypeDefinition</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true">
         <maml:name>Tenant</maml:name>
         <maml:description>
           <maml:para>Specifies the name of the tenant for which the content type will be edited.</maml:para>
@@ -377,16 +457,11 @@
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
 
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true">
-        <maml:name>ContentType</maml:name>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>AllTenants</maml:name>
         <maml:description>
-          <maml:para>Specifies the object that represents the content type which will be edited. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-ContentType cmdlet. This parameter is required.</maml:para>
+          <maml:para>Specifies that the command should edit the content type in all running Orchard tenants.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="false">Orchard.ContentManagement.MetaData.Models.ContentTypeDefinition</command:parameterValue>
-        <dev:type>
-          <maml:name>Orchard.ContentManagement.MetaData.Models.ContentTypeDefinition</maml:name>
-          <maml:uri/>
-        </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       

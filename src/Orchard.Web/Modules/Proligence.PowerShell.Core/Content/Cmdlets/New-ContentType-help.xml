@@ -180,6 +180,80 @@
         </command:parameter>
       </command:syntaxItem>
 
+      <!-- ParameterSet: AllTenants -->
+      <command:syntaxItem>
+        <maml:name>New-ContentType</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the new content type.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>DisplayName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the display name of the new content type.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Parts</maml:name>
+          <maml:description>
+            <maml:para>Specifies the names of the content parts which will be added to the new content type.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Stereotype</maml:name>
+          <maml:description>
+            <maml:para>Specifies the stereotype of the new content type.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Creatable</maml:name>
+          <maml:description>
+            <maml:para>Specifies whether an instance of the new content type can be created through the UI.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Listable</maml:name>
+          <maml:description>
+            <maml:para>Specifies whether an instance of the new content type can be listed through the UI.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Draftable</maml:name>
+          <maml:description>
+            <maml:para>Specifies whether the new content type supports draft versions.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Securable</maml:name>
+          <maml:description>
+            <maml:para>Specifies whether the new content type can have custom permissions.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Settings</maml:name>
+          <maml:description>
+            <maml:para>Specifies the custom settings of the new content type.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">Hashtable</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>AllTenants</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the command should create the content type in all running Orchard tenants.</maml:para>
+          </maml:description>
+        </command:parameter>
+      </command:syntaxItem>
+
     </command:syntax>
 
     <!-- Cmdlet parameters section-->
@@ -328,6 +402,14 @@
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>AllTenants</maml:name>
+        <maml:description>
+          <maml:para>Specifies that the command should create the content type in all running Orchard tenants.</maml:para>
+        </maml:description>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
       
     </command:parameters>
 
@@ -376,7 +458,7 @@
           <maml:para>Orchard:\&gt; </maml:para>
         </maml:introduction>
         <dev:code>
-          New-ContentType MyPart
+          New-ContentType MyType
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>

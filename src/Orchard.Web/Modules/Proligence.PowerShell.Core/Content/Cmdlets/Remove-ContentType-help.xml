@@ -51,7 +51,7 @@
 
       <!-- ParameterSet: ContentTypeObject -->
       <command:syntaxItem>
-        <maml:name>New-ContentType</maml:name>
+        <maml:name>Remove-ContentType</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="true">
           <maml:name>ContentType</maml:name>
           <maml:description>
@@ -68,9 +68,9 @@
         </command:parameter>
       </command:syntaxItem>
 
-      <!-- ParameterSet: ContentTypeObject -->
+      <!-- ParameterSet: TenantObject -->
       <command:syntaxItem>
-        <maml:name>New-ContentType</maml:name>
+        <maml:name>Remove-ContentType</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="1">
           <maml:name>Name</maml:name>
           <maml:description>
@@ -84,6 +84,24 @@
             <maml:para>Specifies the object that represents the Orchard tenant for which the content type will be removed. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet. This parameter is required.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="true">Orchard.Environment.Configuration.ShellSettings</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      
+      <!-- ParameterSet: AllTenants -->
+      <command:syntaxItem>
+        <maml:name>Remove-ContentType</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the content type to remove.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>AllTenants</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the command should remove the content type in all running Orchard tenants.</maml:para>
+          </maml:description>
         </command:parameter>
       </command:syntaxItem>
 
@@ -101,6 +119,19 @@
         <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
         <dev:type>
           <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true">
+        <maml:name>ContentType</maml:name>
+        <maml:description>
+          <maml:para>Specifies the object that represents the content type which will be removed. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-ContentType cmdlet. This parameter is required.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">Orchard.ContentManagement.MetaData.Models.ContentTypeDefinition</command:parameterValue>
+        <dev:type>
+          <maml:name>Orchard.ContentManagement.MetaData.Models.ContentTypeDefinition</maml:name>
           <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
@@ -132,16 +163,11 @@
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
 
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true">
-        <maml:name>ContentType</maml:name>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>AllTenants</maml:name>
         <maml:description>
-          <maml:para>Specifies the object that represents the content type which will be removed. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-ContentType cmdlet. This parameter is required.</maml:para>
+          <maml:para>Specifies that the command should remove the content type in all running Orchard tenants.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="false">Orchard.ContentManagement.MetaData.Models.ContentTypeDefinition</command:parameterValue>
-        <dev:type>
-          <maml:name>Orchard.ContentManagement.MetaData.Models.ContentTypeDefinition</maml:name>
-          <maml:uri/>
-        </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       

@@ -56,6 +56,9 @@
     <Compile Include="Content\GetContentPartDefinitionTests.cs" />
     <Compile Include="Content\GetContentPartTests.cs" />
     <Compile Include="Content\GetContentTypeTests.cs" />
+    <Compile Include="Content\EditContentTypeTests.cs" />
+    <Compile Include="Content\NewContentTypeTests.cs" />
+    <Compile Include="Content\RemoveContentTypeTests.cs" />
     <Compile Include="Modules\EnableOrchardFeatureTests.cs" />
     <Compile Include="Modules\GetOrchardThemeTests.cs" />
     <Compile Include="Modules\GetOrchardFeatureTests.cs" />
