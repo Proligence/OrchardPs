@@ -7,6 +7,11 @@
     [Cmdlet(VerbsCommon.Remove, "ContentType", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
     public class RemoveContentType : AlterContentTypeCmdletBase
     {
+        public RemoveContentType()
+            : base(faileIfDoesNotExist: true)
+        {
+        }
+
         [Parameter(ParameterSetName = "ContentTypeObject", Mandatory = true, ValueFromPipeline = true)]
         public ContentTypeDefinition ContentType { get; set; }
 

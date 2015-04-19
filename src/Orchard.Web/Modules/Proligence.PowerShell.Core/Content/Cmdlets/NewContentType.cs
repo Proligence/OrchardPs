@@ -10,6 +10,12 @@
     [Cmdlet(VerbsCommon.New, "ContentType", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
     public class NewContentType : AlterContentTypeCmdletBase
     {
+        // ReSharper disable once RedundantArgumentNameForLiteralExpression
+        public NewContentType()
+            : base(failIfExists: true)
+        {
+        }
+
         [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]
