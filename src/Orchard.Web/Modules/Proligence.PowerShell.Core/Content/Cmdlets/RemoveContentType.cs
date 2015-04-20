@@ -12,6 +12,23 @@
         {
         }
 
+        [ValidateNotNullOrEmpty]
+        [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 1)]
+        [Parameter(ParameterSetName = "TenantObject", Mandatory = false, Position = 1)]
+        [Parameter(ParameterSetName = "AllTenants", Mandatory = false, Position = 1)]
+        public override string Name
+        {
+            get
+            {
+                return this.ContentType != null ? this.ContentType.Name : base.Name;
+            }
+
+            set
+            {
+                base.Name = value;
+            }
+        }
+
         [Parameter(ParameterSetName = "ContentTypeObject", Mandatory = true, ValueFromPipeline = true)]
         public ContentTypeDefinition ContentType { get; set; }
 
@@ -26,8 +43,7 @@
 
         protected override void PerformAction(IContentDefinitionManager contentDefinitionManager)
         {
-            string contentTypeName = this.ContentType != null ? this.ContentType.Name : this.Name;
-            contentDefinitionManager.DeleteTypeDefinition(contentTypeName);
+            contentDefinitionManager.DeleteTypeDefinition(this.Name);
         }
     }
 }

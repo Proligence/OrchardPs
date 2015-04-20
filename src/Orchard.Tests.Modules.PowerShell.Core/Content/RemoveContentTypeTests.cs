@@ -40,6 +40,7 @@
 
         private void EnsureContentTypeExists(string name)
         {
+            this.powerShell.ConsoleConnection.Reset();
             this.powerShell.Session.ProcessInput("Get-ContentType " + name);
             string output = this.powerShell.ConsoleConnection.Output.ToString();
 

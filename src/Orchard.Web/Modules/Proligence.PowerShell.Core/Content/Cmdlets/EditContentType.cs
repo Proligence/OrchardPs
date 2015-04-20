@@ -12,6 +12,23 @@
     [Cmdlet(VerbsData.Edit, "ContentType", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
     public class EditContentType : AlterContentTypeCmdletBase
     {
+        [ValidateNotNullOrEmpty]
+        [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 1)]
+        [Parameter(ParameterSetName = "TenantObject", Mandatory = false, Position = 1)]
+        [Parameter(ParameterSetName = "AllTenants", Mandatory = false, Position = 1)]
+        public override string Name
+        {
+            get
+            {
+                return this.ContentType != null ? this.ContentType.Name : base.Name;
+            }
+
+            set
+            {
+                base.Name = value;
+            }
+        }
+
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
