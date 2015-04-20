@@ -14,17 +14,17 @@
         private readonly bool failIfExists;
         private readonly bool failIfDoesNotExist;
 
-        protected AlterContentTypeCmdletBase(bool failIfExists = false, bool faileIfDoesNotExist = false)
+        protected AlterContentTypeCmdletBase(bool failIfExists = false, bool failIfDoesNotExist = false)
         {
             this.failIfExists = failIfExists;
-            this.failIfDoesNotExist = faileIfDoesNotExist;
+            this.failIfDoesNotExist = failIfDoesNotExist;
         }
 
         [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 1)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false, Position = 1)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false, Position = 1)]
-        public string Name { get; set; }
+        public virtual string Name { get; set; }
 
         protected override void ProcessRecord(ShellSettings tenant)
         {
@@ -50,12 +50,16 @@
                         return;
                     }
 
-                    string target = "ContentType: " + this.Name + ", Tenant: " + tenant.Name;
-                    if (this.ShouldProcess(target, this.GetActionName()))
+                    if (this.ShouldProcess(this.GetTargetName(tenant.Name), this.GetActionName()))
                     {
                         this.PerformAction(contentDefinitionManager);
                     }
                 });
+        }
+
+        protected virtual string GetTargetName(string tenantName)
+        {
+            return "ContentType: " + this.Name + ", Tenant: " + tenantName;
         }
 
         protected abstract string GetActionName();

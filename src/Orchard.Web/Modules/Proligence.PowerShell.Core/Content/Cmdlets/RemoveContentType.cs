@@ -8,7 +8,7 @@
     public class RemoveContentType : AlterContentTypeCmdletBase
     {
         public RemoveContentType()
-            : base(faileIfDoesNotExist: true)
+            : base(failIfDoesNotExist: true)
         {
         }
 

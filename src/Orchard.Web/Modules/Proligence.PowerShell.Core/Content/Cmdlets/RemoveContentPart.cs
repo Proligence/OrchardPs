@@ -8,9 +8,9 @@
     [Cmdlet(VerbsCommon.Remove, "ContentPart", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
     public class RemoveContentPart : AlterContentTypePartCmdletBase
     {
-        protected override string GetActionName(string contentPartName, string tenantName)
+        protected override string GetActionName(string contentPartName)
         {
-            return "Remove Part: " + contentPartName + ", Tenant: " + tenantName;
+            return "Remove Part: " + contentPartName;
         }
 
         protected override void PerformAction(ContentTypeDefinitionBuilder builder, string contentPartName)

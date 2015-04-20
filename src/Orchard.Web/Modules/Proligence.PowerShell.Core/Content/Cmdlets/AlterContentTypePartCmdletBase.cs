@@ -1,32 +1,58 @@
 ﻿namespace Proligence.PowerShell.Core.Content.Cmdlets
 {
-    using System.Linq;
     using System.Management.Automation;
     using Orchard.ContentManagement.MetaData;
     using Orchard.ContentManagement.MetaData.Builders;
     using Orchard.ContentManagement.MetaData.Models;
-    using Orchard.Environment.Configuration;
-    using Proligence.PowerShell.Provider;
-    using Proligence.PowerShell.Provider.Utilities;
-
-    public abstract class AlterContentTypePartCmdletBase : OrchardCmdlet
+    
+    /// <summary>
+    /// This is the base class for cmdlets which add and remove content parts from a content type.
+    /// </summary>
+    public abstract class AlterContentTypePartCmdletBase : AlterContentTypeCmdletBase
     {
+        protected AlterContentTypePartCmdletBase()
+            : base(failIfDoesNotExist: true)
+        {
+        }
+
+        /// <remarks>
+        /// This property is overridden without any <see cref="ParameterAttribute"/>, so it won't be visible as a
+        /// cmdlet parameter. Instead, this class exposes the <see cref="ContentType"/> and <see cref="ContentPart"/>
+        /// cmdlet parameters (the <c>Name</c> parameter would be confusing, as there are two names - the content type
+        /// name and content part name). However, the <see cref="Name"/> property must get/set the content type name,
+        /// because the base class relies on this property.
+        /// </remarks>>
+        public override string Name
+        {
+            get
+            {
+                return this.ContentTypeObject != null ? this.ContentTypeObject.Name : this.ContentType;
+            }
+
+            set
+            {
+                this.ContentType = value;
+            }
+        }
+
         [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 1)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = true, Position = 1)]
+        [Parameter(ParameterSetName = "AllTenants", Mandatory = true, Position = 1)]
         [Parameter(ParameterSetName = "ContentPartObject", Mandatory = true, Position = 1)]
         public string ContentType { get; set; }
 
         [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 2)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = true, Position = 2)]
+        [Parameter(ParameterSetName = "AllTenants", Mandatory = true, Position = 2)]
         [Parameter(ParameterSetName = "ContentTypeObject", Mandatory = true, Position = 2)]
         public string ContentPart { get; set; }
 
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         [Parameter(ParameterSetName = "ContentTypeObject", Mandatory = false)]
         [Parameter(ParameterSetName = "ContentPartObject", Mandatory = false)]
-        public string Tenant { get; set; }
+        public override string Tenant { get; set; }
 
         [Parameter(ParameterSetName = "ContentTypeObject", Mandatory = true, ValueFromPipeline = true)]
         public ContentTypeDefinition ContentTypeObject { get; set; }
@@ -34,115 +60,27 @@
         [Parameter(ParameterSetName = "ContentPartObject", Mandatory = true, ValueFromPipeline = true)]
         public ContentPartDefinition ContentPartObject { get; set; }
 
-        [Parameter(ParameterSetName = "TenantObject", Mandatory = true, ValueFromPipeline = true)]
-        public ShellSettings TenantObject { get; set; }
-
-        protected abstract string GetActionName(string contentPartName, string tenantName);
-
+        protected abstract string GetActionName(string contentPartName);
         protected abstract void PerformAction(ContentTypeDefinitionBuilder builder, string contentPartName);
 
-        protected override void ProcessRecord()
+        protected override string GetTargetName(string tenantName)
         {
-            string tenantName = this.GetTenantName();
-            if (tenantName != null)
-            {
-                ContentTypeDefinition contentType = this.GetContentTypeDefinition(tenantName);
-                if (contentType != null)
-                {
-                    string contentPartName = this.GetContentPartName();
-                    if (contentPartName != null)
-                    {
-                        if (this.ShouldProcess(contentType.Name, this.GetActionName(contentPartName, tenantName)))
-                        {
-                            this.UsingWorkContextScope(
-                                tenantName, 
-                                scope => scope.Resolve<IContentDefinitionManager>()
-                                    .AlterTypeDefinition(
-                                        contentType.Name,
-                                        builder => this.PerformAction(builder, contentPartName)));
-                        }
-                    }
-                }
-            }
+            return "Content Type: " + this.Name + ", Tenant: " + tenantName;
         }
 
-        private string GetTenantName()
+        protected override string GetActionName()
         {
-            if (this.ParameterSetName == "TenantObject")
-            {
-                return this.TenantObject.Name;
-            }
-
-            if (this.Tenant != null)
-            {
-                if (this.Resolve<IShellSettingsManager>().LoadSettings().All(t => t.Name != this.Tenant))
-                {
-                    this.WriteError(Error.FailedToFindTenant(this.Tenant));
-                    return null;
-                }
-
-                return this.Tenant;
-            }
-
-            if (this.TenantObject != null)
-            {
-                return this.TenantObject.Name;
-            }
-
-            return this.GetCurrentTenantName() ?? "Default";
+            string contentPartName = this.ContentPartObject != null ? this.ContentPartObject.Name : this.ContentPart;
+            return this.GetActionName(contentPartName);
         }
 
-        private ContentTypeDefinition GetContentTypeDefinition(string tenantName)
+        protected override void PerformAction(IContentDefinitionManager contentDefinitionManager)
         {
-            if (this.ContentTypeObject != null)
-            {
-                return this.ContentTypeObject;
-            }
+            string contentPartName = this.ContentPartObject != null ? this.ContentPartObject.Name : this.ContentPart;
 
-            if (this.ContentType != null)
-            {
-                ContentTypeDefinition contentType = this.UsingWorkContextScope(
-                    tenantName, 
-                    scope => scope.Resolve<IContentDefinitionManager>().GetTypeDefinition(this.ContentType));
-
-                if (contentType == null)
-                {
-                    this.NotifyFailedToFindContentType(this.ContentType, tenantName);
-                }
-
-                return contentType;
-            }
-
-            this.NotifyFailedToFindContentType(string.Empty, tenantName);
-            return null;
-        }
-
-        private string GetContentPartName()
-        {
-            if (this.ParameterSetName == "ContentPartObject")
-            {
-                return this.ContentPartObject.Name;
-            }
-
-            if (this.ContentPart != null)
-            {
-                return this.ContentPart;
-            }
-
-            if (this.ContentPartObject != null)
-            {
-                return this.ContentPartObject.Name;
-            }
-
-            this.WriteError(Error.InvalidArgument("Invalid content part specified.", "InvalidContentPart"));
-            return null;
-        }
-
-        private void NotifyFailedToFindContentType(string name, string tenantName)
-        {
-            this.WriteError(Error.InvalidArgument(
-                "Failed to find content type '" + name + "' in tenant '" + tenantName + "'.",
-                "FailedToFindTentant"));
+            contentDefinitionManager.AlterTypeDefinition(
+                this.Name,
+                builder => this.PerformAction(builder, contentPartName));
         }
     }
 }

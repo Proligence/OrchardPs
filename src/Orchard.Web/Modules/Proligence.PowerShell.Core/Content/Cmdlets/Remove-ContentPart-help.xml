@@ -111,13 +111,6 @@
       <!-- ParameterSet: TenantObject -->
       <command:syntaxItem>
         <maml:name>Remove-ContentPart</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="true">
-          <maml:name>TenantObject</maml:name>
-          <maml:description>
-            <maml:para>Specifies the object that represents the Orchard tenant which contains the content type from which the content part will be removed. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet. This parameter is required.</maml:para>
-          </maml:description>
-          <command:parameterValue required="false" variableLength="true">Orchard.Environment.Configuration.ShellSettings</command:parameterValue>
-        </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="1">
           <maml:name>ContentType</maml:name>
           <maml:description>
@@ -131,6 +124,38 @@
             <maml:para>Specifies the name of the content part which will be removed from the content type.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="true">
+          <maml:name>TenantObject</maml:name>
+          <maml:description>
+            <maml:para>Specifies the object that represents the Orchard tenant which contains the content type from which the content part will be removed. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet. This parameter is required.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">Orchard.Environment.Configuration.ShellSettings</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+
+      <!-- ParameterSet: AllTenants -->
+      <command:syntaxItem>
+        <maml:name>Remove-ContentPart</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="1">
+          <maml:name>ContentType</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the content type from which the content part will be removed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="2">
+          <maml:name>ContentPart</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the content part which will be removed from the content type.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>AllTenants</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the command should remove the content part from the content type in all running Orchard tenants.</maml:para>
+          </maml:description>
         </command:parameter>
       </command:syntaxItem>
       
@@ -215,6 +240,14 @@
           <maml:name>Orchard.Environment.Configuration.ShellSettings</maml:name>
           <maml:uri/>
         </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>AllTenants</maml:name>
+        <maml:description>
+          <maml:para>Specifies that the command should remove the content part from the content type in all running Orchard tenants.</maml:para>
+        </maml:description>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       
