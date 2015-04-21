@@ -1,6 +1,5 @@
 ﻿namespace Proligence.PowerShell.Core.Content.Cmdlets
 {
-    using System.Linq;
     using System.Management.Automation;
     using Orchard.ContentManagement.MetaData;
     using Orchard.ContentManagement.MetaData.Builders;
@@ -9,84 +8,48 @@
     using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Provider.Utilities;
 
-    public abstract class AlterContentPartFieldCmdletBase : OrchardCmdlet
+    public abstract class AlterContentPartFieldCmdletBase : TenantCmdlet
     {
         [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 1)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = true, Position = 1)]
+        [Parameter(ParameterSetName = "AllTenants", Mandatory = true, Position = 1)]
         public string ContentPart { get; set; }
 
         [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 2)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = true, Position = 2)]
+        [Parameter(ParameterSetName = "AllTenants", Mandatory = true, Position = 2)]
         [Parameter(ParameterSetName = "ContentPartObject", Mandatory = true, Position = 2)]
         public string ContentField { get; set; }
-
-        [Parameter(ParameterSetName = "Default", Mandatory = false)]
-        [Parameter(ParameterSetName = "ContentPartObject", Mandatory = false)]
-        public string Tenant { get; set; }
 
         [Parameter(ParameterSetName = "ContentPartObject", Mandatory = true, ValueFromPipeline = true)]
         public ContentPartDefinition ContentPartObject { get; set; }
 
-        [Parameter(ParameterSetName = "TenantObject", Mandatory = true, ValueFromPipeline = true)]
-        public ShellSettings TenantObject { get; set; }
+        [Parameter(ParameterSetName = "Default", Mandatory = false)]
+        [Parameter(ParameterSetName = "ContentPartObject", Mandatory = false)]
+        public override string Tenant { get; set; }
 
-        protected abstract string GetActionName(string contentFieldName, string contentPartName, string tenantName);
-
+        protected abstract string GetActionName(string contentFieldName);
         protected abstract void PerformAction(ContentPartDefinitionBuilder builder, string contentFieldName);
 
-        protected override void ProcessRecord()
+        protected override void ProcessRecord(ShellSettings tenant)
         {
-            string tenantName = this.GetTenantName();
-            if (tenantName != null)
+            ContentPartDefinition contentPart = this.GetContentPartDefinition(tenant.Name);
+            if (contentPart != null)
             {
-                ContentPartDefinition contentPart = this.GetContentPartDefinition(tenantName);
-                if (contentPart != null)
+                string target = "Content Part: " + contentPart.Name + ", Tenant: " + tenant.Name;
+
+                if (this.ShouldProcess(target, this.GetActionName(this.ContentField)))
                 {
-                    string contentFieldName = this.GetContentFieldName();
-                    if (contentFieldName != null)
-                    {
-                        if (this.ShouldProcess(
-                            contentPart.Name,
-                            this.GetActionName(contentFieldName, contentPart.Name, tenantName)))
-                        {
-                            this.UsingWorkContextScope(
-                                tenantName, 
-                                scope => scope.Resolve<IContentDefinitionManager>()
-                                    .AlterPartDefinition(
-                                        contentPart.Name,
-                                        builder => this.PerformAction(builder, contentFieldName)));
-                        }
-                    }
+                    this.UsingWorkContextScope(
+                        tenant.Name,
+                        scope => scope.Resolve<IContentDefinitionManager>()
+                            .AlterPartDefinition(
+                                contentPart.Name,
+                                builder => this.PerformAction(builder, this.ContentField)));
                 }
             }
-        }
-
-        private string GetTenantName()
-        {
-            if (this.ParameterSetName == "TenantObject")
-            {
-                return this.TenantObject.Name;
-            }
-
-            if (this.Tenant != null)
-            {
-                if (this.Resolve<IShellSettingsManager>().LoadSettings().All(t => t.Name != this.Tenant))
-                {
-                    this.WriteError(Error.FailedToFindTenant(this.Tenant));
-                    return null;
-                }
-
-                return this.Tenant;
-            }
-
-            if (this.TenantObject != null)
-            {
-                return this.TenantObject.Name;
-            }
-
-            return this.GetCurrentTenantName() ?? "Default";
         }
 
         private ContentPartDefinition GetContentPartDefinition(string tenantName)
@@ -111,17 +74,6 @@
             }
 
             this.NotifyFailedToFindContentPart(string.Empty, tenantName);
-            return null;
-        }
-
-        private string GetContentFieldName()
-        {
-            if (this.ContentField != null)
-            {
-                return this.ContentField;
-            }
-
-            this.WriteError(Error.InvalidArgument("Invalid content field specified.", "InvalidContentField"));
             return null;
         }
 

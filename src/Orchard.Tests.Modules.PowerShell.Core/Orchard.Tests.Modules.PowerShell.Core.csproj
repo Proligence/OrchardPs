@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Commands\CommandVfsTests.cs" />
     <Compile Include="Commands\InvokeOrchardCommandTests.cs" />
+    <Compile Include="Content\AlterContentPartFieldCmdletBaseTests.cs" />
     <Compile Include="Content\AlterContentTypePartCmdletBaseTests.cs" />
     <Compile Include="Content\GetContentPartDefinitionTests.cs" />
     <Compile Include="Content\GetContentPartTests.cs" />
