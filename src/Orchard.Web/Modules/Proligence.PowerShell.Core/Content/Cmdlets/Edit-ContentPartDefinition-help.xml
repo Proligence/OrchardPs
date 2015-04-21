@@ -30,6 +30,7 @@
     
     <command:syntax>
 
+      <!-- ParameterSet: Default -->
       <command:syntaxItem>
         <maml:name>Edit-ContentPartDefinition</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="1">
@@ -69,6 +70,7 @@
         </command:parameter>
       </command:syntaxItem>
 
+      <!-- ParameterSet: TenantObject -->
       <command:syntaxItem>
         <maml:name>Edit-ContentPartDefinition</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="1">
@@ -78,6 +80,27 @@
           </maml:description>
           <command:parameterValue required="true" variableLength="true">string</command:parameterValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Description</maml:name>
+          <maml:description>
+            <maml:para>Specifies the new description of the content part.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Attachable</maml:name>
+          <maml:description>
+            <maml:para>If set to $true, the content part will be marked as attachable. If set to $false, the content part will be marked as not attachable.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">bool</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Settings</maml:name>
+          <maml:description>
+            <maml:para>Specifies custom settings for the content part.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">ArrayList</command:parameterValue>
+        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="true">
           <maml:name>TenantObject</maml:name>
           <maml:description>
@@ -85,6 +108,18 @@
           </maml:description>
           <command:parameterValue required="false" variableLength="true">ShellSettings</command:parameterValue>
         </command:parameter>
+      </command:syntaxItem>
+
+      <!-- ParameterSet: AllTenants -->
+      <command:syntaxItem>
+        <maml:name>Edit-ContentPartDefinition</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the content part which definition will be modified.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">string</command:parameterValue>
+        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>Description</maml:name>
           <maml:description>
@@ -106,37 +141,44 @@
           </maml:description>
           <command:parameterValue required="false" variableLength="true">ArrayList</command:parameterValue>
         </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>AllTenants</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the command should edit the content part definition in all running Orchard tenants.</maml:para>
+          </maml:description>
+        </command:parameter>
       </command:syntaxItem>
 
+      <!-- ParameterSet: ContentPartDefinitionObject -->
       <command:syntaxItem>
         <maml:name>Edit-ContentPartDefinition</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Description</maml:name>
+          <maml:description>
+            <maml:para>Specifies the new description of the content part.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Attachable</maml:name>
+          <maml:description>
+            <maml:para>If set to $true, the content part will be marked as attachable. If set to $false, the content part will be marked as not attachable.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">bool</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Settings</maml:name>
+          <maml:description>
+            <maml:para>Specifies custom settings for the content part.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">ArrayList</command:parameterValue>
+        </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="true">
           <maml:name>ContentPartDefinition</maml:name>
           <maml:description>
             <maml:para>Specifies the object which represents the content part definition which will be modified. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-ContentPartDefinition cmdlet.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="true">OrchardContentPartDefinition</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
-          <maml:name>Description</maml:name>
-          <maml:description>
-            <maml:para>Specifies the new description of the content part.</maml:para>
-          </maml:description>
-          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
-          <maml:name>Attachable</maml:name>
-          <maml:description>
-            <maml:para>If set to $true, the content part will be marked as attachable. If set to $false, the content part will be marked as not attachable.</maml:para>
-          </maml:description>
-          <command:parameterValue required="false" variableLength="true">bool</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
-          <maml:name>Settings</maml:name>
-          <maml:description>
-            <maml:para>Specifies custom settings for the content part.</maml:para>
-          </maml:description>
-          <command:parameterValue required="false" variableLength="true">ArrayList</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
       
@@ -221,6 +263,14 @@
           <maml:name>bool</maml:name>
           <maml:uri/>
         </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>AllTenants</maml:name>
+        <maml:description>
+          <maml:para>Specifies that the command should edit the content part definition in all running Orchard tenants.</maml:para>
+        </maml:description>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       

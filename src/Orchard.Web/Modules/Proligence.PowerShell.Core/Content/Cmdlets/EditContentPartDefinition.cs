@@ -2,7 +2,6 @@
 {
     using System.Collections;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
@@ -15,125 +14,67 @@
 
     [CmdletAlias("ecpd")]
     [Cmdlet(VerbsData.Edit, "ContentPartDefinition", DefaultParameterSetName = "Default", ConfirmImpact = ConfirmImpact.Medium)]
-    public class EditContentPartDefinition : OrchardCmdlet
+    public class EditContentPartDefinition : TenantCmdlet
     {
         private const string SettingPrefix = "ContentPartSettings.";
         
-        /// <summary>
-        /// Gets or sets the name of the content part to edit.
-        /// </summary>
         [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 1)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = true, Position = 1)]
+        [Parameter(ParameterSetName = "AllTenants", Mandatory = true, Position = 1)]
         public string Name { get; set; }
 
-        /// <summary>
-        /// Gets or sets the content part definition to edit.
-        /// </summary>
         [ValidateNotNull]
         [Parameter(ParameterSetName = "ContentPartDefinitionObject", Mandatory = true, ValueFromPipeline = true)]
         public ContentPartDefinition ContentPartDefinition { get; set; }
 
-        /// <summary>
-        /// Gets or sets the name of the tenant which contains the edited content part definition.
-        /// </summary>
-        [Parameter(ParameterSetName = "Default", Mandatory = false)]
-        public string Tenant { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Orchard tenant for which content part definitions will be edited.
-        /// </summary>
-        [Parameter(ParameterSetName = "TenantObject", Mandatory = false, ValueFromPipeline = true)]
-        public ShellSettings TenantObject { get; set; }
-
-        /// <summary>
-        /// Gets or sets the new description of the content part.
-        /// </summary>
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]
+        [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
         [Parameter(ParameterSetName = "ContentPartDefinitionObject", Mandatory = false)]
         public string Description { get; set; }
 
-        /// <summary>
-        /// Gets or sets the new value of the content part's attachable flag.
-        /// </summary>
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]
+        [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
         [Parameter(ParameterSetName = "ContentPartDefinitionObject", Mandatory = false)]
         public bool? Attachable { get; set; }
 
-        /// <summary>
-        /// Gets or sets the content part settings to update.
-        /// </summary>
-        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [Parameter(ParameterSetName = "Default", ValueFromRemainingArguments = true)]
         [Parameter(ParameterSetName = "TenantObject", ValueFromRemainingArguments = true)]
+        [Parameter(ParameterSetName = "AllTenants", ValueFromRemainingArguments = true)]
         [Parameter(ParameterSetName = "ContentPartDefinitionObject", ValueFromRemainingArguments = true)]
         public ArrayList Settings { get; set; }
 
-        protected override void ProcessRecord()
+        protected override void ProcessRecord(ShellSettings tenant)
         {
-            string tenantName = null;
-            string contentPartName = null;
-            if (this.ParameterSetName == "Default")
-            {
-                contentPartName = this.Name;
-                tenantName = this.GetTenantName();
-            }
-
-            if (contentPartName != null)
-            {
-                ShellSettings tenant = this.Resolve<IShellSettingsManager>()
-                    .LoadSettings()
-                    .FirstOrDefault(t => t.Name == tenantName);
-
-                if (tenant != null)
+            this.UsingWorkContextScope(
+                tenant.Name,
+                scope =>
                 {
-                    this.UsingWorkContextScope(
-                        tenant.Name, 
-                        scope =>
-                        {
-                            var contentDefinitionManager = scope.Resolve<IContentDefinitionManager>();
-
-                            ContentPartDefinition contentPartDefinition = contentDefinitionManager
-                                .ListPartDefinitions()
-                                .FirstOrDefault(cpd => cpd.Name == contentPartName);
-
-                            if (contentPartDefinition != null)
-                            {
-                                this.UpdateContentPartDefinition(contentPartDefinition);
-                                this.InvokeAlterPartDefinition(contentPartDefinition, scope);
-                            }
-                            else
-                            {
-                                this.NotifyFailedToFindContentPartDefinition(contentPartName, tenantName);
-                            }
-                        });
-                }
-                else
-                {
-                    this.WriteError(Error.FailedToFindTenant(tenantName));
-                }
-            }
-            else
-            {
-                this.NotifyFailedToFindContentPartDefinition(null, tenantName);
-            }
+                    var contentPartDefinition = this.GetContentPartDefinition(scope);
+                    if (contentPartDefinition != null)
+                    {
+                        this.UpdateContentPartDefinition(contentPartDefinition);
+                        this.InvokeAlterPartDefinition(contentPartDefinition, scope, tenant.Name);
+                    }
+                    else
+                    {
+                        this.NotifyFailedToFindContentPartDefinition(this.Name, tenant.Name);
+                    }
+                });
         }
 
-        private string GetTenantName()
+        private ContentPartDefinition GetContentPartDefinition(IWorkContextScope scope)
         {
-            if (this.Tenant != null)
+            if (this.ContentPartDefinition != null)
             {
-                return this.Tenant;
+                return this.ContentPartDefinition;
             }
 
-            if (this.TenantObject != null)
-            {
-                return this.TenantObject.Name;
-            }
-
-            return this.GetCurrentTenantName() ?? "Default";
+            return scope.Resolve<IContentDefinitionManager>()
+                .ListPartDefinitions()
+                .FirstOrDefault(cpd => cpd.Name == this.Name);
         }
 
         private void UpdateContentPartDefinition(ContentPartDefinition contentPartDefinition)
@@ -172,10 +113,11 @@
             }
         }
 
-        private void InvokeAlterPartDefinition(ContentPartDefinition definition, IWorkContextScope scope)
+        private void InvokeAlterPartDefinition(ContentPartDefinition definition, IWorkContextScope scope, string tenantName)
         {
-            string target = "ContentPart: " + definition.Name;
+            string target = "Content Part: " + definition.Name + ", Tenant: " + tenantName;
             string action = "Set " + string.Join(", ", definition.Settings.Select(x => x.Key + " = '" + x.Value + "'"));
+            
             if (this.ShouldProcess(target, action))
             {
                 if (definition.Settings != null)
