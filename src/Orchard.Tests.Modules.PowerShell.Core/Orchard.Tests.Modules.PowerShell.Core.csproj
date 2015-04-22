@@ -65,6 +65,7 @@
     <Compile Include="Modules\EnableOrchardFeatureTests.cs" />
     <Compile Include="Modules\GetOrchardThemeTests.cs" />
     <Compile Include="Modules\GetOrchardFeatureTests.cs" />
+    <Compile Include="Modules\ModuleVfsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tenants\GetTenantTests.cs" />
     <Compile Include="Tenants\TenantVfsTests.cs" />
