@@ -51,7 +51,7 @@
             Assert.Equal(1, table.Rows.Count(x => x[0] == "Dashboard"));
         }
 
-        [Fact(Skip = "Needs to be fixed"), Integration]
+        [Fact, Integration]
         public void VfsTenantShouldContainThemes()
         {
             this.powerShell.Session.ProcessInput("Get-ChildItem Orchard:\\Tenants\\Default\\Themes");

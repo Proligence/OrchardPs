@@ -49,7 +49,19 @@
 
         private IEnumerable<OrchardTheme> GetThemes(string tenant)
         {
-            IEnumerable<string> featuresThatNeedUpdate = this.migrations.GetFeaturesThatNeedUpdate();
+            IEnumerable<string> featuresThatNeedUpdate;
+            try
+            {
+                featuresThatNeedUpdate = this.migrations.GetFeaturesThatNeedUpdate();
+            }
+            catch (ObjectDisposedException)
+            {
+                // NOTE (MD):
+                // This is a workaround for issue #OPS-199. The GetFeaturesThatNeedUpdate API seems to fail with
+                // ObjectDisposedException, but only at first call. Subsequent calls work correctly.
+
+                featuresThatNeedUpdate = this.migrations.GetFeaturesThatNeedUpdate();
+            }
 
             string currentThemeId = this.UsingWorkContextScope(
                 tenant,
