@@ -47,5 +47,60 @@
             Assert.Equal(1, table.Rows.Count(x => x[0] == "Site"));
             Assert.Equal(1, table.Rows.Count(x => x[0] == "User"));
         }
+
+        [Fact, Integration]
+        public void VfsTenantShouldContainContentItemTypes()
+        {
+            this.powerShell.Session.ProcessInput("Get-ChildItem Orchard:\\Tenants\\Default\\Content\\Items");
+            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+
+            var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
+            Assert.Equal("Name", table.Header[0]);
+            Assert.Equal("Description", table.Header[1]);
+            Assert.True(table.Rows.Count > 0);
+            Assert.Equal(1, table.Rows.Count(x => x[0] == "Layer"));
+            Assert.Equal(1, table.Rows.Count(x => x[0] == "Site"));
+            Assert.Equal(1, table.Rows.Count(x => x[0] == "User"));
+        }
+
+        [Fact, Integration]
+        public void VfsContentItemTypeShouldContainContentItems()
+        {
+            this.powerShell.Session.ProcessInput("Get-ChildItem Orchard:\\Tenants\\Default\\Content\\Items\\Layer");
+            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+
+            var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
+            Assert.Equal("Id", table.Header[0]);
+            Assert.Equal("ContentType", table.Header[1]);
+            Assert.Equal("Title", table.Header[2]);
+            Assert.True(table.Rows.Count > 0);
+        }
+
+        [Fact, Integration]
+        public void ContentItemsShouldSupportCustomFormatting()
+        {
+            this.powerShell.Session.ProcessInput(
+                "Get-ChildItem Orchard:\\Tenants\\Default\\Content\\Items\\User | where { $_.UserName -eq 'Admin' } | fc");
+
+            var output = this.powerShell.ConsoleConnection.Output.ToString();
+            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            Assert.NotEmpty(output);
+            Assert.Contains("Content Item #", output);
+            Assert.Contains("ContentType = User", output);
+            Assert.Contains("UserPart (Orchard.Users.Models.UserPart)", output);
+            Assert.Contains("UserName = admin", output);
+        }
+
+        [Fact, Integration]
+        public void ContentItemsShouldContainPropertiesFromContentParts()
+        {
+            this.powerShell.Session.ProcessInput(
+                "Get-ChildItem Orchard:\\Tenants\\Default\\Content\\Items\\User | ft UserName, UserPart_UserName");
+            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+
+            var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
+            var userRow = table.Rows.Single(x => x[0] == "admin");
+            Assert.Equal("admin", userRow[1]);
+        }
     }
 }

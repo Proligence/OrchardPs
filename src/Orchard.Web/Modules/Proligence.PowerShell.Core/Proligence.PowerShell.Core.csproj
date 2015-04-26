@@ -102,6 +102,9 @@
     <Compile Include="Content\NavigationProviders\ContentPsNavigationProvider.cs" />
     <Compile Include="Content\Nodes\ContentFieldNode.cs" />
     <Compile Include="Content\Nodes\ContentFieldsNode.cs" />
+    <Compile Include="Content\Nodes\ContentItemNode.cs" />
+    <Compile Include="Content\Nodes\ContentItemsNode.cs" />
+    <Compile Include="Content\Nodes\ContentItemTypeNode.cs" />
     <Compile Include="Content\Nodes\ContentNode.cs" />
     <Compile Include="Content\Nodes\ContentTypeNode.cs" />
     <Compile Include="Content\Nodes\ContentPartNode.cs" />

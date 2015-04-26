@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Configuration>
   <ViewDefinitions>
+    
     <View>
       <Name>OrchardContentFieldDefinitionView</Name>
       <ViewSelectedBy>
@@ -23,6 +24,7 @@
         </TableRowEntries>
       </TableControl>
     </View>
+    
     <View>
       <Name>OrchardContentPartDefinitionView</Name>
       <ViewSelectedBy>
@@ -73,6 +75,7 @@
         </TableRowEntries>
       </TableControl>
     </View>
+    
     <View>
       <Name>OrchardContentTypeDefinitionView</Name>
       <ViewSelectedBy>
@@ -113,6 +116,7 @@
         </TableRowEntries>
       </TableControl>
     </View>
+    
     <View>
       <Name>OrchardContentTypePartDefinitionView</Name>
       <ViewSelectedBy>
@@ -142,5 +146,141 @@
         </TableRowEntries>
       </TableControl>
     </View>
+    
+    <View>
+      <Name>OrchardContentItemView</Name>
+      <ViewSelectedBy>
+        <TypeName>Orchard.ContentManagement.ContentItem</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Id</Label>
+            <Width>10</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>ContentType</Label>
+            <Width>30</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Title</Label>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Id</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>$_.TypeDefinition.Name</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>
+                  foreach ($part in $_.Parts) {
+                      if ($part -is 'Orchard.ContentManagement.Aspects.ITitleAspect') {
+                          $part.Title
+                    }
+                  }
+                </ScriptBlock>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    
+    <View>
+      <Name>OrchardContentItemView-Custom</Name>
+      <ViewSelectedBy>
+        <TypeName>Orchard.ContentManagement.ContentItem</TypeName>
+      </ViewSelectedBy>
+      <CustomControl>
+        <CustomEntries>
+          <CustomEntry>
+            <CustomItem>
+              <Frame>
+                <LeftIndent>0</LeftIndent>
+                <CustomItem>
+                  <ExpressionBinding>
+                    <ScriptBlock>"Content Item #{0} ({1})" -f $_.Record.Id, $_.ContentType</ScriptBlock>
+                  </ExpressionBinding>
+                  <NewLine />
+                </CustomItem>
+              </Frame>
+              <NewLine />
+              <Frame>
+                <LeftIndent>0</LeftIndent>
+                <CustomItem>
+                  <ExpressionBinding>
+                    <ScriptBlock>
+                      foreach ($prop in $_.GetType().GetProperties()) {
+                          "    {0} = {1}" -f $prop.Name, $prop.GetValue($_)
+                      }
+                    </ScriptBlock>
+                    <CustomControl>
+                      <CustomEntries>
+                        <CustomEntry>
+                          <CustomItem>
+                            <ExpressionBinding>
+                              <ScriptBlock>$_</ScriptBlock>
+                            </ExpressionBinding>
+                            <NewLine/>
+                          </CustomItem>
+                        </CustomEntry>
+                      </CustomEntries>
+                    </CustomControl>
+                    <EnumerateCollection />
+                  </ExpressionBinding>
+                </CustomItem>
+              </Frame>
+              <NewLine />
+              <ExpressionBinding>
+                <PropertyName>Parts</PropertyName>
+                <CustomControl>
+                  <CustomEntries>
+                    <CustomEntry>
+                      <CustomItem>
+                        <Frame>
+                          <CustomItem>                  
+                            <ExpressionBinding>
+                              <ScriptBlock>"    {0} ({1})" -f $_.PartDefinition.Name, $_.GetType().FullName</ScriptBlock>
+                            </ExpressionBinding>
+                            <NewLine/>
+                            <ExpressionBinding>
+                              <ScriptBlock>
+                                foreach ($prop in $_.GetType().GetProperties()) {
+                                    "        {0} = {1}" -f $prop.Name, $prop.GetValue($_)
+                                }
+                              </ScriptBlock>
+                              <CustomControl>
+                                <CustomEntries>
+                                  <CustomEntry>
+                                    <CustomItem>
+                                      <ExpressionBinding>
+                                        <ScriptBlock>$_</ScriptBlock>
+                                      </ExpressionBinding>
+                                      <NewLine/>
+                                    </CustomItem>
+                                  </CustomEntry>
+                                </CustomEntries>
+                              </CustomControl>
+                              <EnumerateCollection />
+                            </ExpressionBinding>
+                          </CustomItem>
+                        </Frame>
+                        <NewLine/>
+                      </CustomItem>
+                    </CustomEntry>
+                  </CustomEntries>
+                </CustomControl>
+                <EnumerateCollection />
+              </ExpressionBinding>
+            </CustomItem>
+          </CustomEntry>
+        </CustomEntries>
+      </CustomControl>
+    </View>
+  
   </ViewDefinitions>
 </Configuration>

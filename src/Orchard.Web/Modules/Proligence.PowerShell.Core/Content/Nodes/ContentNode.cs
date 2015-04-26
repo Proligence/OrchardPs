@@ -25,6 +25,7 @@
             yield return new ContentFieldsNode(vfs);
             yield return new ContentPartsNode(vfs);
             yield return new ContentTypesNode(vfs);
+            yield return new ContentItemsNode(vfs);
         }
     }
 }
