@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Management.Automation;
     using Orchard.Environment.Configuration;
     using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Provider.Vfs;
@@ -23,6 +24,12 @@
 
         public TenantNode(IPowerShellVfs vfs, ShellSettings tenant) 
             : base(vfs, tenant.Name) 
+        {
+            this.Item = tenant;
+        }
+
+        public TenantNode(IPowerShellVfs vfs, PSObject tenant, string name)
+            : base(vfs, name)
         {
             this.Item = tenant;
         }

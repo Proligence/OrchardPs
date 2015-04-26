@@ -106,6 +106,7 @@
     <Compile Include="Internal\PsFileSearcher.cs" />
     <Compile Include="TenantCmdlet.cs" />
     <Compile Include="Utilities\Error.cs" />
+    <Compile Include="Vfs\NavigationProviders\DefaultTenantPsNavigationProvider.cs" />
     <Compile Include="Vfs\NavigationProviders\TenantsPsNavigationProvider.cs" />
     <Compile Include="PsProviderAgent.cs" />
     <Compile Include="Utilities\ArgumentList.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="SupportedCmdletAttribute.cs" />
     <Compile Include="Vfs\Items\CollectionItem.cs" />
     <Compile Include="Vfs\Items\DescriptionItem.cs" />
+    <Compile Include="Vfs\Nodes\DefaultShellSettings.cs" />
     <Compile Include="Vfs\Nodes\TenantNode.cs" />
     <Compile Include="Vfs\Nodes\TenantsNode.cs" />
     <Compile Include="Vfs\VfsExtensions.cs" />

@@ -1,6 +1,7 @@
 ﻿namespace Proligence.PowerShell.Provider.Vfs
 {
     using System;
+    using System.Management.Automation;
     using Orchard;
     using Orchard.Environment.Configuration;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
@@ -21,8 +22,14 @@
             while (node != null) 
             {
                 var tenantNode = node as TenantNode;
-                if (tenantNode != null) 
+                if (tenantNode != null)
                 {
+                    var psobj = tenantNode.Item as PSObject;
+                    if (psobj != null)
+                    {
+                        return ((ShellSettings)psobj.ImmediateBaseObject).Name;    
+                    }
+                    
                     return ((ShellSettings)tenantNode.Item).Name;
                 }
 
