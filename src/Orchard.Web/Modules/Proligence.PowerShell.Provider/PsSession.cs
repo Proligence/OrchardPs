@@ -25,12 +25,6 @@
         private readonly AutoResetEvent runspaceLock;
         private readonly AutoResetEvent bufferLock;
         
-        /// <summary>
-        /// Caches the current path of the session's runspace. This cached value is used if the runspace cannot be
-        /// accessed because a cmdlet is being executed in it.
-        /// </summary>
-        private string currentPath;
-
         public PsSession(
             ConsoleHost consoleHost,
             RunspaceConfiguration configuration,
@@ -83,30 +77,7 @@
         /// <summary>
         /// Gets the current session's runspace absolute path.
         /// </summary>
-        public string Path
-        {
-            get
-            {
-                if (this.runspaceLock.WaitOne(0))
-                {
-                    try
-                    {
-                        this.currentPath = this.Runspace.SessionStateProxy.Path.CurrentLocation.ToString();
-                    }
-                    finally
-                    {
-                        this.runspaceLock.Set();
-                    }
-                }
-
-                return this.currentPath ?? string.Empty;
-            }
-
-            set 
-            {
-                this.currentPath = value;
-            }
-        }
+        public string Path { get; set; }
 
         /// <summary>
         /// Delegate used for sending messages up to the user console.
@@ -208,9 +179,16 @@
         /// </summary>
         public void ProcessInput(string line)
         {
+            // Send the input to the command exector
             this.WriteInputBuffer(line);
-            this.bufferLock.WaitOne();
-            this.bufferLock.Set();
+
+            // Wait while the input is being processed
+            SyncWaitHandle(this.bufferLock);
+            
+            // Wait until the runspace is available to make sure that the command execution is finished.
+            SyncWaitHandle(this.RunspaceLock);
+
+            this.Sender(new OutputData { Finished = true, Prompt = this.Path + "> " });
         }
 
         /// <summary>
@@ -276,7 +254,23 @@
             // Intialize the current path after the runspace is opened.
             if (e.RunspaceStateInfo.State == RunspaceState.Opened)
             {
-                this.currentPath = this.Runspace.SessionStateProxy.Path.CurrentLocation.ToString();
+                this.Path = this.Runspace.SessionStateProxy.Path.CurrentLocation.ToString();
+            }
+        }
+
+        private static void SyncWaitHandle(EventWaitHandle handle)
+        {
+            bool acquired = false;
+            try
+            {
+                acquired = handle.WaitOne();
+            }
+            finally
+            {
+                if (acquired)
+                {
+                    handle.Set();
+                }
             }
         }
     }

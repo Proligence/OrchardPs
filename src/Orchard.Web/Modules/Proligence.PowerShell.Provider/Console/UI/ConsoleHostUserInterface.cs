@@ -150,7 +150,7 @@
                 this.consoleHost.Session.Sender(
                     new OutputData 
                     {
-                        Path = desc.Name + ": ",
+                        Prompt = desc.Name + ": ",
                         NewLine = true
                     });
 
@@ -218,7 +218,7 @@
                 this.consoleHost.Session.Sender(
                 new OutputData
                 {
-                    Path = "I choose > ",
+                    Prompt = "I choose > ",
                     NewLine = true
                 });
 

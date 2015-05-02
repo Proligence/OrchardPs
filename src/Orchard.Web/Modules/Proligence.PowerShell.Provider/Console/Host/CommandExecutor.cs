@@ -104,16 +104,14 @@
 
         private void OnPipelineStateChanged(object sender, PipelineStateEventArgs e)
         {
-            PipelineState state = e.PipelineStateInfo.State;
+            this.session.Path = this.session.Runspace.SessionStateProxy.Path.CurrentLocation.ToString();
 
             // Handled finished pipeline.
+            PipelineState state = e.PipelineStateInfo.State;
             if ((state == PipelineState.Completed) || (state == PipelineState.Failed) || (state == PipelineState.Stopped))
             {
                 try
                 {
-                    // When pipeline finished, update current session's path
-                    this.session.Path = this.session.Runspace.SessionStateProxy.Path.CurrentLocation.ToString();
-
                     // Display an error for failed pipelines.
                     if (state == PipelineState.Failed)
                     {
@@ -136,13 +134,15 @@
                 }
                 finally
                 {
-                    // NOTE (MD): We need to free the runspace lock _before_ sending the output data, because the
-                    // session will need to query the runspace for the current path as soon as all output is sent
-                    // to the console. It cannot do that without aquiring the lock!
-                    this.session.RunspaceLock.Set();
-
-                    // Sending information about finishing command
-                    this.session.Sender(new OutputData { Finished = true });
+                    try
+                    {
+                        // Sending information about finishing command
+                        this.session.Sender(new OutputData { Finished = true });
+                    }
+                    finally
+                    {
+                        this.session.RunspaceLock.Set();
+                    }
                 }
             }
         }

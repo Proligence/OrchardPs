@@ -65,7 +65,7 @@
         {
             if (this.lastOutputData != null)
             {
-                Console.Write(this.lastOutputData.Path);
+                Console.Write(this.lastOutputData.Prompt);
             }
 
             return Console.ReadLine();

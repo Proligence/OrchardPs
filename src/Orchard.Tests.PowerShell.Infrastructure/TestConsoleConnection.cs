@@ -22,6 +22,8 @@
         public StringBuilder ErrorOutput { get; private set; }
         public StringBuilder Output { get; private set; }
 
+        public OutputData LastOutputData { get; private set; }
+
         public void Initialize()
         {
         }
@@ -35,6 +37,8 @@
         {
             if (data != null)
             {
+                this.LastOutputData = data;
+
                 if (data.Output != null)
                 {
                     string output = data.NewLine 

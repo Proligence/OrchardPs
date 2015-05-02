@@ -114,10 +114,11 @@ namespace Proligence.PowerShell.Provider
 
             session.Initialize();
             consoleHost.AttachToSession(session);
+            session.Path = session.Runspace.SessionStateProxy.Path.CurrentLocation.ToString();
 
             session.Sender = data => 
             {
-                data.Path = data.Path ?? session.Path + "> ";
+                data.Prompt = data.Prompt ?? session.Path + "> ";
                 connection.Send(connectionId, data);
             };
 
@@ -130,7 +131,7 @@ namespace Proligence.PowerShell.Provider
                     return session;
                 });
 
-            var outputData = new OutputData { Path = session.Path };
+            var outputData = new OutputData { Prompt = session.Path + "> " };
             connection.Send(connectionId, outputData);
 
             DisplayWelcomeBanner(session);

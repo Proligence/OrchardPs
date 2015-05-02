@@ -71,5 +71,27 @@
             Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
             Assert.NotEmpty(this.powerShell.ConsoleConnection.Output.ToString());
         }
+
+        [Fact, Integration]
+        public void VfsShouldUpdateCurrentLocationDisplay()
+        {
+            this.powerShell.Session.ProcessInput("cd \\");
+            Assert.Equal("Orchard:\\> ", this.GetCurrentLocationPrompt());
+            this.powerShell.Session.ProcessInput("cd Tenants");
+            Assert.Equal("Orchard:\\Tenants> ", this.GetCurrentLocationPrompt());
+            this.powerShell.Session.ProcessInput("cd Default");
+            Assert.Equal("Orchard:\\Tenants\\Default> ", this.GetCurrentLocationPrompt());
+            this.powerShell.Session.ProcessInput("cd Content");
+            Assert.Equal("Orchard:\\Tenants\\Default\\Content> ", this.GetCurrentLocationPrompt());
+            this.powerShell.Session.ProcessInput("cd Items");
+            Assert.Equal("Orchard:\\Tenants\\Default\\Content\\Items> ", this.GetCurrentLocationPrompt());
+            this.powerShell.Session.ProcessInput("cd Layer");
+            Assert.Equal("Orchard:\\Tenants\\Default\\Content\\Items\\Layer> ", this.GetCurrentLocationPrompt());
+        }
+
+        private string GetCurrentLocationPrompt()
+        {
+            return this.powerShell.ConsoleConnection.LastOutputData.Prompt;
+        }
     }
 }

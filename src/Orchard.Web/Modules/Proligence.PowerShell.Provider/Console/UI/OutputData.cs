@@ -11,9 +11,9 @@
         public string Output { get; set; }
 
         /// <summary>
-        /// The current VFS location in the PS session.
+        /// The current location console prompt (the text before the command entered by the user to the console).
         /// </summary>
-        public string Path { get; set; }
+        public string Prompt { get; set; }
 
         /// <summary>
         /// Specifies the type of the output.
