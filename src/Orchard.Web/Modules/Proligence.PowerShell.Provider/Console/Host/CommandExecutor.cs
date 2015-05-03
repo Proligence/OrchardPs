@@ -104,7 +104,10 @@
 
         private void OnPipelineStateChanged(object sender, PipelineStateEventArgs e)
         {
-            this.session.Path = this.session.Runspace.SessionStateProxy.Path.CurrentLocation.ToString();
+            if (e.PipelineStateInfo.State != PipelineState.Running)
+            {
+                this.session.Path = this.session.Runspace.SessionStateProxy.Path.CurrentLocation.ToString();
+            }
 
             // Handled finished pipeline.
             PipelineState state = e.PipelineStateInfo.State;
