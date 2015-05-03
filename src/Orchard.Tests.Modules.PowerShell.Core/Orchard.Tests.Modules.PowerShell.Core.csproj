@@ -57,6 +57,7 @@
     <Compile Include="Content\AlterContentTypePartCmdletBaseTests.cs" />
     <Compile Include="Content\ContentVfsNodes.cs" />
     <Compile Include="Content\EditContentPartDefinitionTests.cs" />
+    <Compile Include="Content\GetContentItemTests.cs" />
     <Compile Include="Content\GetContentPartDefinitionTests.cs" />
     <Compile Include="Content\GetContentPartTests.cs" />
     <Compile Include="Content\GetContentTypeTests.cs" />
