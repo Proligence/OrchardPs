@@ -1,5 +1,6 @@
 ﻿namespace Proligence.PowerShell.Core.Content.Nodes
 {
+    using System;
     using System.Linq;
     using System.Management.Automation;
     using System.Reflection;
@@ -22,7 +23,13 @@
 
             foreach (ContentPart part in contentItem.Parts)
             {
-                foreach (PropertyInfo propertyInfo in part.GetType().GetProperties())
+                Type partType = part.GetType();
+                if (!psobj.Properties.Match(partType.Name).Any())
+                {
+                    psobj.Properties.Add(new PSNoteProperty(partType.Name, part));
+                }
+
+                foreach (PropertyInfo propertyInfo in partType.GetProperties())
                 {
                     object value = propertyInfo.GetValue(part);
 
@@ -30,9 +37,6 @@
                     {
                         psobj.Properties.Add(new PSNoteProperty(propertyInfo.Name, value));
                     }
-
-                    string fullName = part.PartDefinition.Name + "_" + propertyInfo.Name;
-                    psobj.Properties.Add(new PSNoteProperty(fullName, value));
                 }
             }
 

@@ -95,12 +95,12 @@
         public void ContentItemsShouldContainPropertiesFromContentParts()
         {
             this.powerShell.Session.ProcessInput(
-                "Get-ChildItem Orchard:\\Tenants\\Default\\Content\\Items\\User | ft UserName, UserPart_UserName");
+                "Get-ChildItem Orchard:\\Tenants\\Default\\Content\\Items\\User | ft UserName, UserPart");
             Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
 
             var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
             var userRow = table.Rows.Single(x => x[0] == "admin");
-            Assert.Equal("admin", userRow[1]);
+            Assert.Equal("Orchard.Users.Models.UserPart", userRow[1]);
         }
     }
 }
