@@ -4,6 +4,7 @@
     using System.Management.Automation;
     using Orchard.ContentManagement;
     using Orchard.Environment.Configuration;
+    using Proligence.PowerShell.Core.Content.Nodes;
     using Proligence.PowerShell.Provider;
 
     [CmdletAlias("gcit")]
@@ -39,7 +40,7 @@
                 {
                     foreach (ContentItem item in this.GetContentItems(scope.Resolve<IContentManager>()))
                     {
-                        this.WriteObject(item);
+                        this.WriteObject(ContentItemNode.BuildPSObject(item));
                     }
                 });
         }

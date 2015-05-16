@@ -16,7 +16,7 @@
         }
 
         // ReSharper disable once InconsistentNaming
-        private static PSObject BuildPSObject(ContentItem contentItem)
+        public static PSObject BuildPSObject(ContentItem contentItem)
         {
             var psobj = PSObject.AsPSObject(contentItem);
 
