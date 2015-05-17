@@ -40,7 +40,10 @@
                 {
                     foreach (ContentItem item in this.GetContentItems(scope.Resolve<IContentManager>()))
                     {
-                        this.WriteObject(ContentItemNode.BuildPSObject(item));
+                        if (item != null)
+                        {
+                            this.WriteObject(ContentItemNode.BuildPSObject(item));
+                        }
                     }
                 });
         }
