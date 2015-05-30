@@ -96,29 +96,9 @@
 
         private VersionOptions GetVersionOptions()
         {
-            if (this.VersionOptions == VersionOptionsEnum.Latest)
+            if (this.VersionOptions != null)
             {
-                return Orchard.ContentManagement.VersionOptions.Latest;
-            }
-
-            if (this.VersionOptions == VersionOptionsEnum.Published)
-            {
-                return Orchard.ContentManagement.VersionOptions.Published;
-            }
-
-            if (this.VersionOptions == VersionOptionsEnum.Draft)
-            {
-                return Orchard.ContentManagement.VersionOptions.Draft;
-            }
-
-            if (this.VersionOptions == VersionOptionsEnum.DraftRequired)
-            {
-                return Orchard.ContentManagement.VersionOptions.DraftRequired;
-            }
-
-            if (this.VersionOptions == VersionOptionsEnum.AllVersions)
-            {
-                return Orchard.ContentManagement.VersionOptions.AllVersions;
+                return this.VersionOptions.Value.ToVersionOptions();
             }
 
             if (this.Version != null)
@@ -128,14 +108,5 @@
 
             return null;
         }
-    }
-
-    public enum VersionOptionsEnum
-    {
-        Latest,
-        Published,
-        Draft,
-        DraftRequired,
-        AllVersions
     }
 }

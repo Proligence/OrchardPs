@@ -101,6 +101,8 @@
     <Compile Include="Content\Cmdlets\EditContentType.cs" />
     <Compile Include="Content\Cmdlets\NewContentType.cs" />
     <Compile Include="Content\Cmdlets\RemoveContentType.cs" />
+    <Compile Include="Content\Cmdlets\UpdateContentItem.cs" />
+    <Compile Include="Content\Cmdlets\VersionOptionsEnum.cs" />
     <Compile Include="Content\NavigationProviders\ContentPsNavigationProvider.cs" />
     <Compile Include="Content\Nodes\ContentFieldNode.cs" />
     <Compile Include="Content\Nodes\ContentFieldsNode.cs" />
