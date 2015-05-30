@@ -1,0 +1,441 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<helpItems xmlns="http://msh" schema="maml">
+  <command:command 
+    xmlns:maml="http://schemas.microsoft.com/maml/2004/10"
+    xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10"
+    xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+
+    <!-- Cmdlet details section-->
+    
+    <command:details>
+      <command:name>Remove-ContentItem</command:name>
+      <maml:description>
+        <maml:para>Removes an Orchard content item.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Remove</command:verb>
+      <command:noun>ContentItem</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+
+    <!-- Cmdlet description section-->
+    
+    <maml:description>
+      <maml:para>The Remove-ContentItem cmdlet removes an Orchard content item.</maml:para>
+    </maml:description>
+
+    <!-- Cmdlet syntax section-->
+    
+    <command:syntax>
+
+      <!-- ParameterSet: Default -->
+      <command:syntaxItem>
+        <maml:name>Remove-ContentItem</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Id</maml:name>
+          <maml:description>
+            <maml:para>Specifies the identifier of the content item to remove.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">int</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>VersionOptions</maml:name>
+          <maml:description>
+            <maml:para>Specifies the version options to use when retriving the content item which will be removed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">Proligence.PowerShell.Core.Content.Cmdlets.VersionOptionsEnum</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>Version</maml:name>
+          <maml:description>
+            <maml:para>Specifies the version number of the content item to remove.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">int</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>Destroy</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the content item will be permanently destroyed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">SwtichParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Tenant</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the tenant from which the content item will be removed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+
+      <!-- ParameterSet: ContentItemObject -->
+      <command:syntaxItem>
+        <maml:name>Remove-ContentItem</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true" position="1">
+          <maml:name>ContentItem</maml:name>
+          <maml:description>
+            <maml:para>Specifies the content item to remove.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Orchard.ContentManagement.ContentItem</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>Destroy</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the content item will be permanently destroyed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">SwtichParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Tenant</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the tenant from which the content item will be removed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+
+      <!-- ParameterSet: TenantObject -->
+      <command:syntaxItem>
+        <maml:name>Remove-ContentItem</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Id</maml:name>
+          <maml:description>
+            <maml:para>Specifies the identifier of the content item to remove.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">int</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>VersionOptions</maml:name>
+          <maml:description>
+            <maml:para>Specifies the version options to use when retriving the content item which will be removed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">Proligence.PowerShell.Core.Content.Cmdlets.VersionOptionsEnum</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>Version</maml:name>
+          <maml:description>
+            <maml:para>Specifies the version number of the content item to remove.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">int</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>Destroy</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the content item will be permanently destroyed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">SwtichParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="true">
+          <maml:name>TenantObject</maml:name>
+          <maml:description>
+            <maml:para>Specifies the object that represents the Orchard tenant from which the content item will be removed. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet. This parameter is required.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">Orchard.Environment.Configuration.ShellSettings</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+
+      <!-- ParameterSet: AllTenants -->
+      <command:syntaxItem>
+        <maml:name>Remove-ContentItem</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Id</maml:name>
+          <maml:description>
+            <maml:para>Specifies the identifier of the content item to remove.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">int</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>VersionOptions</maml:name>
+          <maml:description>
+            <maml:para>Specifies the version options to use when retriving the content item which will be removed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">Proligence.PowerShell.Core.Content.Cmdlets.VersionOptionsEnum</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>Version</maml:name>
+          <maml:description>
+            <maml:para>Specifies the version number of the content item to remove.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">int</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>Destroy</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the content item will be permanently destroyed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">SwtichParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>AllTenants</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the command should remove the content item in all running Orchard tenants.</maml:para>
+          </maml:description>
+        </command:parameter>
+      </command:syntaxItem>
+
+    </command:syntax>
+
+    <!-- Cmdlet parameters section-->
+    
+    <command:parameters>
+
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true" position="1">
+        <maml:name>Id</maml:name>
+        <maml:description>
+          <maml:para>Specifies the identifier of the content item to remove.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">int</command:parameterValue>
+        <dev:type>
+          <maml:name>int</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+        <maml:name>VersionOptions</maml:name>
+        <maml:description>
+          <maml:para>Specifies the version options to use when retriving the content item which will be removed.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="true">Proligence.PowerShell.Core.Content.Cmdlets.VersionOptionsEnum</command:parameterValue>
+        <dev:type>
+          <maml:name>Proligence.PowerShell.Core.Content.Cmdlets.VersionOptionsEnum</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>Version</maml:name>
+        <maml:description>
+          <maml:para>Specifies the version number of the content item to remove.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">int</command:parameterValue>
+        <dev:type>
+          <maml:name>int</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>Destroy</maml:name>
+        <maml:description>
+          <maml:para>Specifies that the content item will be permanently destroyed.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="true">SwtichParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwtichParameter</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true" position="1">
+        <maml:name>ContentItem</maml:name>
+        <maml:description>
+          <maml:para>Specifies the content item to remove.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Orchard.ContentManagement.ContentItem</command:parameterValue>
+        <dev:type>
+          <maml:name>Orchard.ContentManagement.ContentItem</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>Tenant</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the tenant from which the content item will be removed.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true">
+        <maml:name>TenantObject</maml:name>
+        <maml:description>
+          <maml:para>Specifies the object that represents the Orchard tenant from which the content item will be removed. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">Orchard.Environment.Configuration.ShellSettings</command:parameterValue>
+        <dev:type>
+          <maml:name>Orchard.Environment.Configuration.ShellSettings</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>AllTenants</maml:name>
+        <maml:description>
+          <maml:para>Specifies that the command should remove the content item in all running Orchard tenants.</maml:para>
+        </maml:description>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      
+    </command:parameters>
+
+    <!-- Input - Output section-->
+    
+    <command:inputTypes>
+      
+      <command:inputType>
+        <dev:type>
+          <maml:name>Orchard.Environment.Configuration.ShellSettings</maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe instances of the ShellSettings class to Remove-ContentItem. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
+        </maml:description>
+      </command:inputType>
+
+      <command:inputType>
+        <dev:type>
+          <maml:name>Orchard.ContentManagement.ContentItem</maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe instances of the ContentItem class to Remove-ContentItem. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-ContentItem cmdlet.</maml:para>
+        </maml:description>
+      </command:inputType>
+      
+    </command:inputTypes>
+
+    <command:returnValues />
+
+    <!-- Error section-->
+    
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+
+    <!-- Notes section  -->
+
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+          When no tenant is specified, then the command will use the tenant at the current location in the Orchard drive. If the location is not in any Orchard tenant, then the Default tenant is used.
+        </maml:para>
+      </maml:alert>
+    </maml:alertSet>
+
+    <!-- Example section  -->
+    
+    <command:examples>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>Orchard:\&gt; </maml:para>
+        </maml:introduction>
+        <dev:code>
+          Remove-ContentItem -Id 123
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command removes the content item with ID 123.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>Orchard:\&gt; </maml:para>
+        </maml:introduction>
+        <dev:code>
+          Get-ContentItem -Id 123 | Remove-ContentItem
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command removes the content item with ID 123. The content item is first retrieved using the Get-ContentItem and then piped to Remove-ContentItem.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 3 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>Orchard:\&gt; </maml:para>
+        </maml:introduction>
+        <dev:code>
+          Remove-ContentItem -Id 123 -Destroy
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command permanently removes (destroys) the content item with ID 123.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+    </command:examples>
+
+    <!-- Related links section  -->
+
+    <RelatedLinks>
+      <navigationLink>
+        <linkText>Get-ContentItem</linkText>
+        <uri/>
+      </navigationLink>
+      <navigationLink>
+        <linkText>New-ContentItem</linkText>
+        <uri/>
+      </navigationLink>
+      <navigationLink>
+        <linkText>Update-ContentItem</linkText>
+        <uri/>
+      </navigationLink>
+      <navigationLink>
+        <linkText>Get-Tenant</linkText>
+        <uri/>
+      </navigationLink>
+      <navigationLink>
+        <linkText>Get-ChildItem</linkText>
+        <uri/>
+      </navigationLink>
+    </RelatedLinks>
+
+  </command:command>
+</helpItems>

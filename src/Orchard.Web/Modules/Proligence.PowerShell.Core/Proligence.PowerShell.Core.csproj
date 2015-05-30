@@ -85,6 +85,7 @@
     <Compile Include="Commands\NavigationProviders\CommandsPsNavigationProvider.cs" />
     <Compile Include="Commands\Nodes\CommandNode.cs" />
     <Compile Include="Commands\Nodes\CommandsNode.cs" />
+    <Compile Include="Content\Cmdlets\AlterContentItemCmdletBase.cs" />
     <Compile Include="Content\Cmdlets\AlterContentTypeCmdletBase.cs" />
     <Compile Include="Content\Cmdlets\GetContentItem.cs" />
     <Compile Include="Content\Cmdlets\NewContentItem.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Content\Cmdlets\AddContentField.cs" />
     <Compile Include="Content\Cmdlets\AlterContentPartFieldCmdletBase.cs" />
     <Compile Include="Content\Cmdlets\AlterContentTypePartCmdletBase.cs" />
+    <Compile Include="Content\Cmdlets\RemoveContentItem.cs" />
     <Compile Include="Content\Cmdlets\RemoveContentPart.cs" />
     <Compile Include="Content\Cmdlets\AddContentPart.cs" />
     <Compile Include="Content\Cmdlets\EditContentPartDefinition.cs" />
@@ -146,6 +148,7 @@
   <ItemGroup>
     <Content Include="Commands\Cmdlets\Invoke-OrchardCommand-help.xml" />
     <Content Include="Content\Cmdlets\Get-ContentItem-help.xml" />
+    <Content Include="Content\Cmdlets\Remove-ContentItem-help.xml" />
     <Content Include="Content\Cmdlets\Update-ContentItem-help.xml" />
     <Content Include="Content\Cmdlets\New-ContentItem-help.xml" />
     <Content Include="Content\Cmdlets\Remove-ContentField-help.xml" />
