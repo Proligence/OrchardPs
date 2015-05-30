@@ -146,6 +146,7 @@
   <ItemGroup>
     <Content Include="Commands\Cmdlets\Invoke-OrchardCommand-help.xml" />
     <Content Include="Content\Cmdlets\Get-ContentItem-help.xml" />
+    <Content Include="Content\Cmdlets\Update-ContentItem-help.xml" />
     <Content Include="Content\Cmdlets\New-ContentItem-help.xml" />
     <Content Include="Content\Cmdlets\Remove-ContentField-help.xml" />
     <Content Include="Content\Cmdlets\Add-ContentField-help.xml" />

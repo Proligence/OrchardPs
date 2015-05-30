@@ -1,6 +1,5 @@
 ﻿namespace Proligence.PowerShell.Core.Content.Cmdlets
 {
-    using System;
     using System.Linq;
     using System.Management.Automation;
     using Orchard.ContentManagement;
