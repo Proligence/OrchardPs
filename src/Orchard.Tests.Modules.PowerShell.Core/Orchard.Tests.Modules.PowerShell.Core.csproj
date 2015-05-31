@@ -64,6 +64,7 @@
     <Compile Include="Content\EditContentTypeTests.cs" />
     <Compile Include="Content\NewContentItemTests.cs" />
     <Compile Include="Content\NewContentTypeTests.cs" />
+    <Compile Include="Content\PublishContentItemTests.cs" />
     <Compile Include="Content\RemoveContentItemTests.cs" />
     <Compile Include="Content\RemoveContentTypeTests.cs" />
     <Compile Include="Content\UpdateContentItemTests.cs" />

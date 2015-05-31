@@ -89,6 +89,7 @@
     <Compile Include="Content\Cmdlets\AlterContentTypeCmdletBase.cs" />
     <Compile Include="Content\Cmdlets\GetContentItem.cs" />
     <Compile Include="Content\Cmdlets\NewContentItem.cs" />
+    <Compile Include="Content\Cmdlets\PublishContentItem.cs" />
     <Compile Include="Content\Cmdlets\RemoveContentField.cs" />
     <Compile Include="Content\Cmdlets\AddContentField.cs" />
     <Compile Include="Content\Cmdlets\AlterContentPartFieldCmdletBase.cs" />
@@ -148,6 +149,7 @@
   <ItemGroup>
     <Content Include="Commands\Cmdlets\Invoke-OrchardCommand-help.xml" />
     <Content Include="Content\Cmdlets\Get-ContentItem-help.xml" />
+    <Content Include="Content\Cmdlets\Publish-ContentItem-help.xml" />
     <Content Include="Content\Cmdlets\Remove-ContentItem-help.xml" />
     <Content Include="Content\Cmdlets\Update-ContentItem-help.xml" />
     <Content Include="Content\Cmdlets\New-ContentItem-help.xml" />

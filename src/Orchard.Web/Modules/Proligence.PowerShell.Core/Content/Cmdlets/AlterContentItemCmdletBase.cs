@@ -74,7 +74,7 @@
 
                 item = this.VersionOptions != null
                     ? contentManager.Get(id, this.GetVersionOptions())
-                    : contentManager.Get(id);
+                    : contentManager.Get(id, Orchard.ContentManagement.VersionOptions.Latest);
             }
 
             if (item == null)
