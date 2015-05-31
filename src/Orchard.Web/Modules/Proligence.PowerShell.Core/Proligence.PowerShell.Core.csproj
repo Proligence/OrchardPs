@@ -105,6 +105,7 @@
     <Compile Include="Content\Cmdlets\EditContentType.cs" />
     <Compile Include="Content\Cmdlets\NewContentType.cs" />
     <Compile Include="Content\Cmdlets\RemoveContentType.cs" />
+    <Compile Include="Content\Cmdlets\RestoreContentItem.cs" />
     <Compile Include="Content\Cmdlets\UnpublishContentItem.cs" />
     <Compile Include="Content\Cmdlets\UpdateContentItem.cs" />
     <Compile Include="Content\Cmdlets\VersionOptionsEnum.cs" />
@@ -152,6 +153,7 @@
     <Content Include="Commands\Cmdlets\Invoke-OrchardCommand-help.xml" />
     <Content Include="Content\Cmdlets\Get-ContentItem-help.xml" />
     <Content Include="Content\Cmdlets\Copy-ContentItem-help.xml" />
+    <Content Include="Content\Cmdlets\Restore-ContentItem-help.xml" />
     <Content Include="Content\Cmdlets\Unpublish-ContentItem-help.xml" />
     <Content Include="Content\Cmdlets\Publish-ContentItem-help.xml" />
     <Content Include="Content\Cmdlets\Remove-ContentItem-help.xml" />
