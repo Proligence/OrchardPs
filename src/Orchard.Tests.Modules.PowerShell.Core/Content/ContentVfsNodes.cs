@@ -73,6 +73,7 @@
             Assert.Equal("Id", table.Header[0]);
             Assert.Equal("ContentType", table.Header[1]);
             Assert.Equal("Title", table.Header[2]);
+            Assert.Equal("Published", table.Header[3]);
             Assert.True(table.Rows.Count > 0);
         }
 

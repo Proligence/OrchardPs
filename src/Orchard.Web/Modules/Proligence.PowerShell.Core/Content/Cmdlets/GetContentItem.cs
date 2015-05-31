@@ -52,14 +52,15 @@
         {
             if (this.Id != null)
             {
+                var id = this.Id.Value;
                 var versionOptions = this.GetVersionOptions();
                 if (versionOptions != null)
                 {
-                    yield return contentManager.Get(this.Id.Value, versionOptions);
+                    yield return contentManager.Get(id, versionOptions);
                 }
                 else
                 {
-                    yield return contentManager.Get(this.Id.Value);
+                    yield return contentManager.Get(id, Orchard.ContentManagement.VersionOptions.Latest);
                 }
             }
             else
@@ -89,6 +90,10 @@
             if (versionOptions != null)
             {
                 query.ForVersion(versionOptions);
+            }
+            else
+            {
+                query.ForVersion(Orchard.ContentManagement.VersionOptions.Latest);
             }
 
             return query.List();

@@ -39,6 +39,7 @@
                 {
                     return scope.Resolve<IContentManager>()
                         .Query(this.definition.Name)
+                        .ForVersion(VersionOptions.Latest)
                         .List()
                         .Select(item => new ContentItemNode(this.Vfs, this, item))
                         .ToArray();

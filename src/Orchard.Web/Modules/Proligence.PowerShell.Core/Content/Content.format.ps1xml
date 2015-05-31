@@ -165,6 +165,10 @@
           <TableColumnHeader>
             <Label>Title</Label>
           </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Published</Label>
+            <Width>10</Width>
+          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -183,6 +187,9 @@
                     }
                   }
                 </ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>$_.VersionRecord.Published</ScriptBlock>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
