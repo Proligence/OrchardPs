@@ -9,6 +9,8 @@
     /// Implements a VFS node which represents an Orchard content part definition.
     /// </summary>
     [SupportedCmdlet("Edit-ContentPartDefinition")]
+    [SupportedCmdlet("Add-ContentField")]
+    [SupportedCmdlet("Remove-ContentField")]
     public class ContentPartNode : ObjectNode
     {
         public ContentPartNode(IPowerShellVfs vfs, ContentPartDefinition definition)

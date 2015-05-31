@@ -5,9 +5,16 @@
     using System.Management.Automation;
     using System.Reflection;
     using Orchard.ContentManagement;
+    using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Provider.Vfs;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
 
+    [SupportedCmdlet("Update-ContentItem")]
+    [SupportedCmdlet("Remove-ContentItem")]
+    [SupportedCmdlet("Publish-ContentItem")]
+    [SupportedCmdlet("Unpublish-ContentItem")]
+    [SupportedCmdlet("Copy-ContentItem")]
+    [SupportedCmdlet("Restore-ContentItem")]
     public class ContentItemNode : ObjectNode
     {
         public ContentItemNode(IPowerShellVfs vfs, VfsNode parentNode, ContentItem item)

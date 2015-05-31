@@ -4,10 +4,17 @@
     using System.Linq;
     using Orchard.ContentManagement;
     using Orchard.ContentManagement.MetaData.Models;
+    using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Provider.Vfs;
     using Proligence.PowerShell.Provider.Vfs.Items;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
 
+    [SupportedCmdlet("Update-ContentItem")]
+    [SupportedCmdlet("Remove-ContentItem")]
+    [SupportedCmdlet("Publish-ContentItem")]
+    [SupportedCmdlet("Unpublish-ContentItem")]
+    [SupportedCmdlet("Copy-ContentItem")]
+    [SupportedCmdlet("Restore-ContentItem")]
     public class ContentItemTypeNode : ContainerNode
     {
         private readonly ContentTypeDefinition definition;

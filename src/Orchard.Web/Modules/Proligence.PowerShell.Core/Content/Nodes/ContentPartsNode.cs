@@ -12,6 +12,8 @@ namespace Proligence.PowerShell.Core.Content.Nodes
     /// Implements a VFS node which contains content part definitions for an Orchard tenant.
     /// </summary>
     [SupportedCmdlet("Edit-ContentPartDefinition")]
+    [SupportedCmdlet("Add-ContentField")]
+    [SupportedCmdlet("Remove-ContentField")]
     public class ContentPartsNode : ContainerNode
     {
         public ContentPartsNode(IPowerShellVfs vfs)
