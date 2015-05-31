@@ -73,6 +73,20 @@
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Orchard.ContentManagement.ContentItem</command:parameterValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>VersionOptions</maml:name>
+          <maml:description>
+            <maml:para>Specifies the version options to use when retriving the content item which will be published.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">Proligence.PowerShell.Core.Content.Cmdlets.VersionOptionsEnum</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>Version</maml:name>
+          <maml:description>
+            <maml:para>Specifies the version number of the content item to publish.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">int</command:parameterValue>
+        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>Tenant</maml:name>
           <maml:description>
