@@ -104,6 +104,7 @@
     <Compile Include="Content\Cmdlets\EditContentType.cs" />
     <Compile Include="Content\Cmdlets\NewContentType.cs" />
     <Compile Include="Content\Cmdlets\RemoveContentType.cs" />
+    <Compile Include="Content\Cmdlets\UnpublishContentItem.cs" />
     <Compile Include="Content\Cmdlets\UpdateContentItem.cs" />
     <Compile Include="Content\Cmdlets\VersionOptionsEnum.cs" />
     <Compile Include="Content\NavigationProviders\ContentPsNavigationProvider.cs" />
@@ -149,6 +150,7 @@
   <ItemGroup>
     <Content Include="Commands\Cmdlets\Invoke-OrchardCommand-help.xml" />
     <Content Include="Content\Cmdlets\Get-ContentItem-help.xml" />
+    <Content Include="Content\Cmdlets\Unpublish-ContentItem-help.xml" />
     <Content Include="Content\Cmdlets\Publish-ContentItem-help.xml" />
     <Content Include="Content\Cmdlets\Remove-ContentItem-help.xml" />
     <Content Include="Content\Cmdlets\Update-ContentItem-help.xml" />
