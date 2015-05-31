@@ -17,12 +17,12 @@
         [Parameter(ParameterSetName = "Default", Mandatory = false, Position = 2)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false, Position = 2)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]
-        public VersionOptionsEnum? VersionOptions { get; set; }
+        public virtual VersionOptionsEnum? VersionOptions { get; set; }
 
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
-        public int? Version { get; set; }
+        public virtual int? Version { get; set; }
 
         [Parameter(ParameterSetName = "ContentItemObject", Mandatory = true, ValueFromPipeline = true, Position = 1)]
         public ContentItem ContentItem { get; set; }
