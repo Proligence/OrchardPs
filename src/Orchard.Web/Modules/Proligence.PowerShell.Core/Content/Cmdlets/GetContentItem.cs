@@ -11,16 +11,16 @@
     [Cmdlet(VerbsCommon.Get, "ContentItem", DefaultParameterSetName = "Default", ConfirmImpact = ConfirmImpact.None)]
     public class GetContentItem : TenantCmdlet
     {
-        [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = false, Position = 1)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false, Position = 1)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false, Position = 1)]
-        public string ContentType { get; set; }
+        public int? Id { get; set; }
 
+        [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
-        public int? Id { get; set; }
+        public string ContentType { get; set; }
 
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]

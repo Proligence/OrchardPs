@@ -33,19 +33,19 @@
       <!-- ParameterSet: Default -->
       <command:syntaxItem>
         <maml:name>Get-ContentItem</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
-          <maml:name>ContentType</maml:name>
-          <maml:description>
-            <maml:para>Specifies the name of the content type of the content items which will be retrieved.</maml:para>
-          </maml:description>
-          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
           <maml:name>Id</maml:name>
           <maml:description>
             <maml:para>Specifies the identifier of the content item which will be retrieved.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="false">int</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>ContentType</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the content type of the content items which will be retrieved.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
           <maml:name>Version</maml:name>
@@ -73,19 +73,19 @@
       <!-- ParameterSet: TenantObject -->
       <command:syntaxItem>
         <maml:name>Get-ContentItem</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
-          <maml:name>ContentType</maml:name>
-          <maml:description>
-            <maml:para>Specifies the name of the content type of the content items which will be retrieved.</maml:para>
-          </maml:description>
-          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
           <maml:name>Id</maml:name>
           <maml:description>
             <maml:para>Specifies the identifier of the content item which will be retrieved.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="false">int</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>ContentType</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the content type of the content items which will be retrieved.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
           <maml:name>Version</maml:name>
@@ -113,14 +113,7 @@
       <!-- ParameterSet: AllTenants -->
       <command:syntaxItem>
         <maml:name>Get-ContentItem</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
-          <maml:name>ContentType</maml:name>
-          <maml:description>
-            <maml:para>Specifies the name of the content type of the content items which will be retrieved.</maml:para>
-          </maml:description>
-          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
           <maml:name>Id</maml:name>
           <maml:description>
             <maml:para>Specifies the identifier of the content item which will be retrieved.</maml:para>
@@ -154,8 +147,21 @@
     <!-- Cmdlet parameters section-->
     
     <command:parameters>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>Id</maml:name>
+        <maml:description>
+          <maml:para>Specifies the identifier of the content item which will be retrieved.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">int</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
       
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
         <maml:name>ContentType</maml:name>
         <maml:description>
           <maml:para>Specifies the name of the content type of the content items which will be retrieved.</maml:para>
@@ -168,20 +174,7 @@
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
 
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
-        <maml:name>Id</maml:name>
-        <maml:description>
-          <maml:para>Specifies the identifier of the content item which will be retrieved.</maml:para>
-        </maml:description>
-        <command:parameterValue required="false" variableLength="false">int</command:parameterValue>
-        <dev:type>
-          <maml:name>string</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
         <maml:name>Version</maml:name>
         <maml:description>
           <maml:para>Specifies a specific version number of the content items to retrieve.</maml:para>
@@ -194,7 +187,7 @@
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
 
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
         <maml:name>VersionOptions</maml:name>
         <maml:description>
           <maml:para>Specifies which version of the content items will be retrieved.</maml:para>
@@ -298,7 +291,7 @@
           <maml:para>Orchard:\Tenants\MyTenant&gt; </maml:para>
         </maml:introduction>
         <dev:code>
-          Get-ContentItem BlogPost
+          Get-ContentItem -ContentType BlogPost
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
@@ -324,7 +317,7 @@
           <maml:para>Orchard:\&gt; </maml:para>
         </maml:introduction>
         <dev:code>
-          Get-ContentItem -Id 123 -Tenant MyTenant
+          Get-ContentItem 123 -Tenant MyTenant
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
@@ -350,7 +343,7 @@
           <maml:para>Orchard:\&gt; </maml:para>
         </maml:introduction>
         <dev:code>
-          Get-ContentItem -Id 123 -VersionOptions Draft
+          Get-ContentItem 123 -VersionOptions Draft
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
@@ -376,7 +369,7 @@
           <maml:para>Orchard:\&gt; </maml:para>
         </maml:introduction>
         <dev:code>
-          Get-ContentItem -Id 123 -Version 2
+          Get-ContentItem 123 -Version 2
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>

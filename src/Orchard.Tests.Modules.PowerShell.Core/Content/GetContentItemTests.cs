@@ -44,7 +44,7 @@
         [Fact, Integration]
         public void ShouldGetContentItemById()
         {
-            this.powerShell.Session.ProcessInput("Get-ContentItem -Id 1");
+            this.powerShell.Session.ProcessInput("Get-ContentItem 1");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
             Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
@@ -55,12 +55,10 @@
             Assert.Empty(table.Rows.Single()[2]);
         }
 
-        [Theory, Integration]
-        [InlineData("Get-ContentItem Layer")]
-        [InlineData("Get-ContentItem -ContentType Layer")]
-        public void ShouldGetContentItemByContentType(string command)
+        [Fact, Integration]
+        public void ShouldGetContentItemByContentType()
         {
-            this.powerShell.Session.ProcessInput(command);
+            this.powerShell.Session.ProcessInput("Get-ContentItem -ContentType Layer");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
             Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
@@ -71,11 +69,11 @@
         }
 
         [Theory, Integration]
-        [InlineData("Get-ContentItem -Id 1 -VersionOptions Latest")]
-        [InlineData("Get-ContentItem -Id 1 -VersionOptions Published")]
-        [InlineData("Get-ContentItem -Id 1 -VersionOptions Draft")]
-        [InlineData("Get-ContentItem -Id 1 -VersionOptions DraftRequired")]
-        [InlineData("Get-ContentItem -Id 1 -VersionOptions AllVersions")]
+        [InlineData("Get-ContentItem 1 -VersionOptions Latest")]
+        [InlineData("Get-ContentItem 1 -VersionOptions Published")]
+        [InlineData("Get-ContentItem 1 -VersionOptions Draft")]
+        [InlineData("Get-ContentItem 1 -VersionOptions DraftRequired")]
+        [InlineData("Get-ContentItem 1 -VersionOptions AllVersions")]
         public void ShouldGetContentItemWithVersionOptions(string command)
         {
             this.powerShell.Session.ProcessInput(command);
@@ -97,8 +95,8 @@
             
             var commands = new[]
             {
-                "Get-ContentItem -Id 1 -VersionOptions DraftRequired",
-                "Get-ContentItem -Id 1 -VersionOptions Draft",
+                "Get-ContentItem 1 -VersionOptions DraftRequired",
+                "Get-ContentItem 1 -VersionOptions Draft",
             };
             
             foreach (var command in commands)
