@@ -61,8 +61,10 @@
                     {
                         this.ErrorOutput.Append(output);
                     }
-
-                    this.Output.Append(output);
+                    else
+                    {
+                        this.Output.Append(output);                        
+                    }
                 }
             }
         }
