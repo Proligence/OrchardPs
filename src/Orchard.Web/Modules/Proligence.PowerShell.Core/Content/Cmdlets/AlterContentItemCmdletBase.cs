@@ -59,32 +59,40 @@
 
         private ContentItem GetContentItem(IContentManager contentManager, string tenantName)
         {
-            int id = 0;
-            ContentItem item = null;
+            var id = 0;
+            var versionOptions = Orchard.ContentManagement.VersionOptions.Latest;
 
             if (this.ContentItem != null)
             {
                 id = this.ContentItem.Id;
-                item = contentManager.Get(id, Orchard.ContentManagement.VersionOptions.Number(this.ContentItem.Version));
+                versionOptions = Orchard.ContentManagement.VersionOptions.Number(this.ContentItem.Version);
             }
 
             if (this.Id != null)
             {
                 id = this.Id.Value;
-
-                item = this.VersionOptions != null
-                    ? contentManager.Get(id, this.GetVersionOptions())
-                    : contentManager.Get(id, Orchard.ContentManagement.VersionOptions.Latest);
+                versionOptions = Orchard.ContentManagement.VersionOptions.Latest;
             }
 
-            if (item == null)
+            if (this.VersionOptions != null)
+            {
+                versionOptions = this.GetVersionOptions();
+            }
+
+            if (this.Version != null)
+            {
+                versionOptions = Orchard.ContentManagement.VersionOptions.Number(this.Version.Value);
+            }
+
+            var contentItem = contentManager.Get(id, versionOptions);
+            if (contentItem == null)
             {
                 this.WriteError(Error.InvalidArgument(
                     "Failed to find content item with ID '" + id + "' in tenant '" + tenantName + "'.",
                     "FailedToFindContentItem"));
             }
 
-            return item;
+            return contentItem;
         }
 
         private VersionOptions GetVersionOptions()
