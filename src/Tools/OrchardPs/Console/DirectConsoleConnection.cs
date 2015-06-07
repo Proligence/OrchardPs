@@ -1,6 +1,7 @@
 ﻿namespace OrchardPs.Console
 {
     using System;
+    using System.Collections.Generic;
     using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Provider.Console.UI;
 
@@ -11,6 +12,7 @@
         private const ConsoleColor DebugColor = ConsoleColor.Yellow;
         private const ConsoleColor ErrorColor = ConsoleColor.Red;
 
+        private readonly IList<string> inputHistory = new List<string>();
         private OutputData lastOutputData;
 
         public void Initialize()
@@ -67,7 +69,10 @@
                 ? this.lastOutputData.Prompt
                 : string.Empty;
 
-            return new ConsoleInputBuffer(prompt).ReadLine();
+            string line = new ConsoleInputBuffer(prompt, this.inputHistory).ReadLine();
+            this.inputHistory.Insert(0, line);
+
+            return line;
         }
 
         private static void WriteOutput(OutputData data)

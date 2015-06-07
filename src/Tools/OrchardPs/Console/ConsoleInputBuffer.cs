@@ -1,18 +1,23 @@
 ﻿namespace OrchardPs.Console
 {
     using System;
+    using System.Collections.Generic;
     using System.Text;
     using Console = System.Console;
 
     internal class ConsoleInputBuffer
     {
         private readonly string prompt;
+        private readonly IList<string> inputHistory;
         private readonly StringBuilder buffer = new StringBuilder();
+        private int? historyPosition;
 
-        public ConsoleInputBuffer(string prompt)
+        public ConsoleInputBuffer(string prompt, IList<string> inputHistory)
         {
             this.prompt = prompt ?? string.Empty;
             Console.Write(prompt);
+
+            this.inputHistory = inputHistory ?? new List<string>();
         }
 
         public string ReadLine()
@@ -31,11 +36,20 @@
                     case ConsoleKey.RightArrow:
                         this.HandleRightArrow();
                         break;
+                    case ConsoleKey.UpArrow:
+                        this.HandleUpArrow();
+                        break;
+                    case ConsoleKey.DownArrow:
+                        this.HandleDownArrow();
+                        break;
                     case ConsoleKey.Backspace:
                         this.HandleBackspace();
                         break;
                     case ConsoleKey.Delete:
                         this.HandleDelete();
+                        break;
+                    case ConsoleKey.Escape:
+                        this.HandleEscape();
                         break;
                     case ConsoleKey.Tab:
                         this.HandleTab();
@@ -62,6 +76,43 @@
             if (Console.CursorLeft < this.prompt.Length + this.buffer.Length)
             {
                 Console.CursorLeft++;   
+            }
+        }
+
+        private void HandleUpArrow()
+        {
+            if (this.historyPosition == null)
+            {
+                this.historyPosition = 0;
+                this.RestoreHistoryInput();
+            }
+            else if (this.historyPosition < this.inputHistory.Count - 1)
+            {
+                this.historyPosition++;
+                this.RestoreHistoryInput();
+            }
+        }
+
+        private void HandleDownArrow()
+        {
+            if ((this.historyPosition != null) && (this.historyPosition.Value > 0))
+            {
+                this.historyPosition--;
+                this.RestoreHistoryInput();
+            }
+        }
+
+        private void RestoreHistoryInput()
+        {
+            if (this.historyPosition != null)
+            {
+                int index = this.historyPosition.Value;
+                if ((index >= 0) && (index < this.inputHistory.Count))
+                {
+                    this.buffer.Clear();
+                    this.buffer.Append(this.inputHistory[this.historyPosition.Value]);
+                    Console.Write("\r" + this.prompt + this.buffer);   
+                }
             }
         }
 
@@ -97,6 +148,13 @@
                 Console.Write(tail + " ");
                 Console.CursorLeft = index;
             }
+        }
+
+        private void HandleEscape()
+        {
+            Console.Write("\r" + this.prompt + new string(' ', this.buffer.Length));
+            Console.CursorLeft = this.prompt.Length;
+            this.buffer.Clear();
         }
 
         private void HandleTab()
