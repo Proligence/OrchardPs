@@ -45,6 +45,8 @@
             {
                 var session = hostContext.Session;
                 var connection = (DirectConsoleConnection)hostContext.OrchardHost.Connection;
+                connection.CommandCompletionProvider = new CommandCompletionProvider(session);
+                
                 while (running)
                 {
                     string input = connection.GetInput();

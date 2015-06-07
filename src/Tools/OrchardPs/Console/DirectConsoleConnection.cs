@@ -15,6 +15,8 @@
         private readonly IList<string> inputHistory = new List<string>();
         private OutputData lastOutputData;
 
+        public CommandCompletionProvider CommandCompletionProvider { get; set; }
+
         public void Initialize()
         {
         }
@@ -69,7 +71,8 @@
                 ? this.lastOutputData.Prompt
                 : string.Empty;
 
-            string line = new ConsoleInputBuffer(prompt, this.inputHistory).ReadLine();
+            var consoleInputBuffer = new ConsoleInputBuffer(prompt, this.inputHistory, this.CommandCompletionProvider);
+            var line = consoleInputBuffer.ReadLine();
             this.inputHistory.Insert(0, line);
 
             return line;

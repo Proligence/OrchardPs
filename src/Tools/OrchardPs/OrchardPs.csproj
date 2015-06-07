@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Console\Banner.cs" />
+    <Compile Include="Console\CommandCompletionProvider.cs" />
     <Compile Include="Console\ConsoleInputBuffer.cs" />
     <Compile Include="Console\ConsoleHelper.cs" />
     <Compile Include="Console\DirectConsoleConnection.cs" />
