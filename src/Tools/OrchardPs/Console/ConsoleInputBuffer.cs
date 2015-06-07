@@ -53,6 +53,12 @@
                     case ConsoleKey.DownArrow:
                         this.HandleDownArrow();
                         break;
+                    case ConsoleKey.Home:
+                        this.HandleHome();
+                        break;
+                    case ConsoleKey.End:
+                        this.HandleEnd();
+                        break;
                     case ConsoleKey.Backspace:
                         this.HandleBackspace();
                         break;
@@ -65,6 +71,11 @@
                     case ConsoleKey.Tab:
                         this.HandleTab(key.Modifiers.HasFlag(ConsoleModifiers.Shift));
                         break;
+
+                    // NOTE: 255 is returned before Home and End, we need to discard it
+                    case (ConsoleKey)255:
+                        break;
+                    
                     default:
                         this.InsertCharIntoBuffer(key.KeyChar);
                         break;
@@ -111,6 +122,16 @@
                 this.historyPosition--;
                 this.RestoreHistoryInput();
             }
+        }
+
+        private void HandleHome()
+        {
+            Console.CursorLeft = this.prompt.Length;
+        }
+
+        private void HandleEnd()
+        {
+            Console.CursorLeft = this.prompt.Length + this.buffer.Length;
         }
 
         private void RestoreHistoryInput()
