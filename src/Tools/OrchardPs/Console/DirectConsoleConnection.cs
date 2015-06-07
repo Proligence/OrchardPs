@@ -63,12 +63,11 @@
 
         public string GetInput()
         {
-            if (this.lastOutputData != null)
-            {
-                Console.Write(this.lastOutputData.Prompt);
-            }
+            string prompt = this.lastOutputData != null
+                ? this.lastOutputData.Prompt
+                : string.Empty;
 
-            return Console.ReadLine();
+            return new ConsoleInputBuffer(prompt).ReadLine();
         }
 
         private static void WriteOutput(OutputData data)
