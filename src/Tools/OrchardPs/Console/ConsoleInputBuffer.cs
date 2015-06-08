@@ -42,10 +42,10 @@
                         Console.WriteLine();
                         return this.buffer.ToString();
                     case ConsoleKey.LeftArrow:
-                        this.HandleLeftArrow();
+                        this.HandleLeftArrow(key.Modifiers.HasFlag(ConsoleModifiers.Control));
                         break;
                     case ConsoleKey.RightArrow:
-                        this.HandleRightArrow();
+                        this.HandleRightArrow(key.Modifiers.HasFlag(ConsoleModifiers.Control));
                         break;
                     case ConsoleKey.UpArrow:
                         this.HandleUpArrow();
@@ -85,19 +85,68 @@
             }
         }
 
-        private void HandleLeftArrow()
+        private void HandleLeftArrow(bool ctrl)
         {
-            if (Console.CursorLeft > this.prompt.Length)
+            if (ctrl)
             {
-                Console.CursorLeft--;                
+                int index = Console.CursorLeft - this.prompt.Length - 1;
+                if (index > 0)
+                {
+                    // Skip any whitespace
+                    while ((index > 0) && char.IsWhiteSpace(this.buffer[index]))
+                    {
+                        index--;
+                    }
+
+                    // Move to the begining of the current word
+                    if (!char.IsWhiteSpace(this.buffer[index]) && !char.IsWhiteSpace(this.buffer[index - 1]))
+                    {
+                        while ((index > 0) && !char.IsWhiteSpace(this.buffer[index - 1]))
+                        {
+                            index--;
+                        }
+                    }
+
+                    Console.CursorLeft = this.prompt.Length + index;
+                }
+            }
+            else
+            {
+                if (Console.CursorLeft > this.prompt.Length)
+                {
+                    Console.CursorLeft--;
+                }
             }
         }
 
-        private void HandleRightArrow()
+        private void HandleRightArrow(bool ctrl)
         {
-            if (Console.CursorLeft < this.prompt.Length + this.buffer.Length)
+            if (ctrl)
             {
-                Console.CursorLeft++;   
+                int index = Console.CursorLeft - this.prompt.Length;
+                if (index < this.buffer.Length)
+                {
+                    // Move to the end of the current word
+                    while ((index < this.buffer.Length) && !char.IsWhiteSpace(this.buffer[index]))
+                    {
+                        index++;
+                    }
+
+                    // Skip any whitespace
+                    while ((index < this.buffer.Length) && char.IsWhiteSpace(this.buffer[index]))
+                    {
+                        index++;
+                    }
+
+                    Console.CursorLeft = this.prompt.Length + index;
+                }
+            }
+            else
+            {
+                if (Console.CursorLeft < (this.prompt.Length + this.buffer.Length))
+                {
+                    Console.CursorLeft++;
+                }
             }
         }
 
