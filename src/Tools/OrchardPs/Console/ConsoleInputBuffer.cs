@@ -190,6 +190,7 @@
                 int index = this.historyPosition.Value;
                 if ((index >= 0) && (index < this.inputHistory.Count))
                 {
+                    Console.Write("\r" + this.prompt + new string(' ', this.buffer.Length));
                     this.buffer.Clear();
                     this.buffer.Append(this.inputHistory[this.historyPosition.Value]);
                     Console.Write("\r" + this.prompt + this.buffer);
