@@ -8,6 +8,7 @@
     using System.Security;
     using System.Threading;
     using Proligence.PowerShell.Provider.Console.Host;
+    using Proligence.PowerShell.Provider.Models;
 
     public class ConsoleHostUserInterface : PSHostUserInterface
     {
@@ -15,11 +16,11 @@
         private readonly AutoResetEvent promptLock;
         private readonly ConsoleHostRawUserInterface rawUserInterface;
 
-        public ConsoleHostUserInterface(ConsoleHost consoleHost)
+        public ConsoleHostUserInterface(ConsoleHost consoleHost, IPowerShellSettings settings)
         {
             this.consoleHost = consoleHost;
             this.promptLock = new AutoResetEvent(false);
-            this.rawUserInterface = new ConsoleHostRawUserInterface(this);
+            this.rawUserInterface = new ConsoleHostRawUserInterface(this, settings);
         }
 
         public EventWaitHandle PromptLock

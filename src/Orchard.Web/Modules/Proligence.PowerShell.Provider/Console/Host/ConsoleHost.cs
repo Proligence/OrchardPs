@@ -6,8 +6,11 @@
     using System.Management.Automation.Host;
     using System.Threading;
     using Autofac;
+    using Orchard;
+    using Orchard.ContentManagement;
     using Orchard.Validation;
     using Proligence.PowerShell.Provider.Console.UI;
+    using Proligence.PowerShell.Provider.Models;
 
     public class ConsoleHost : PSHost, IDisposable
     {
@@ -21,11 +24,14 @@
 
         public ConsoleHost(IComponentContext componentContext)
         {
+            var orchardServices = componentContext.Resolve<IOrchardServices>();
+            var settings = orchardServices.WorkContext.CurrentSite.As<PowerShellSettingsPart>();
+
             this.instanceId = Guid.NewGuid();
             this.currentCulture = Thread.CurrentThread.CurrentCulture;
             this.currentUiCulture = Thread.CurrentThread.CurrentUICulture;
             this.privateData = new ConsoleHostPrivateData { ComponentContext = componentContext };
-            this.ui = new ConsoleHostUserInterface(this);
+            this.ui = new ConsoleHostUserInterface(this, settings);
         }
 
         public IPsSession Session 

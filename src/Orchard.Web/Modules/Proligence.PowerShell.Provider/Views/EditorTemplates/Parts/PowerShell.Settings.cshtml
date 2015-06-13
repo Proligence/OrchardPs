@@ -1,0 +1,17 @@
+﻿@model Proligence.PowerShell.Provider.Models.PowerShellSettingsPart
+
+<fieldset>
+    <legend>@T("PowerShell")</legend>
+    <div>
+        @Html.LabelFor(m => m.ConsoleWidth, T("Console Width"))
+        @Html.TextBoxFor(m => m.ConsoleWidth, new {@class = "text small"}) @T("chars")
+        @Html.ValidationMessage("ConsoleWidth", "*")
+        <span class="hint">@T("The width of the PowerShell console (in chars).")</span>
+    </div>
+    <div>
+        @Html.LabelFor(m => m.ConsoleHeight, T("Console Height"))
+        @Html.TextBoxFor(m => m.ConsoleHeight, new { @class = "text small" }) @T("chars")
+        @Html.ValidationMessage("ConsoleHeight", "*")
+        <span class="hint">@T("The height of the PowerShell console (in chars).")</span>
+    </div>
+</fieldset>

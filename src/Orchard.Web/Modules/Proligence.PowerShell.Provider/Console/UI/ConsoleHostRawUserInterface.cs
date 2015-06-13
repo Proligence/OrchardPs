@@ -3,21 +3,30 @@ namespace Proligence.PowerShell.Provider.Console.UI
     using System;
     using System.Management.Automation;
     using System.Management.Automation.Host;
+    using Proligence.PowerShell.Provider.Models;
 
     public class ConsoleHostRawUserInterface : PSHostRawUserInterface
     {
         // ReSharper disable once NotAccessedField.Local
         private readonly ConsoleHostUserInterface consoleHostUserInterface;
 
-        public ConsoleHostRawUserInterface(ConsoleHostUserInterface consoleHostUserInterface)
+        public ConsoleHostRawUserInterface(ConsoleHostUserInterface consoleHostUserInterface, IPowerShellSettings settings)
         {
             this.consoleHostUserInterface = consoleHostUserInterface;
+
+            int consoleWidth = settings.ConsoleWidth == 0
+                ? PowerShellSettings.DefaultConsoleWidth
+                : Math.Min(PowerShellSettings.MaximumConsoleWidth, Math.Max(PowerShellSettings.MinimumConsoleWidth, settings.ConsoleWidth));
+
+            int consoleHeight = settings.ConsoleHeight == 0
+                ? PowerShellSettings.DefaultConsoleHeight
+                : Math.Min(PowerShellSettings.MaximumConsoleHeight, Math.Max(PowerShellSettings.MinimumConsoleHeight, settings.ConsoleHeight));
 
             /* ReSharper disable DoNotCallOverridableMethodsInConstructor */
             this.ForegroundColor = ConsoleColor.White;
             this.BackgroundColor = ConsoleColor.Blue;
-            this.BufferSize = new Size(200, 1000);
-            this.WindowSize = new Size(200, 72);
+            this.BufferSize = new Size(consoleWidth, 1000);
+            this.WindowSize = new Size(consoleWidth, consoleHeight);
             /* ReSharper restore DoNotCallOverridableMethodsInConstructor */
         }
 

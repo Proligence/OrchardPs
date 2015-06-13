@@ -108,9 +108,12 @@
     <Compile Include="Cmdlets\OrchardTransactionCmdletBase.cs" />
     <Compile Include="Cmdlets\StartOrchardTransaction.cs" />
     <Compile Include="Console\UI\OutputType.cs" />
+    <Compile Include="Handlers\PowerShellSettingsPartHandler.cs" />
     <Compile Include="IConsoleConnection.cs" />
     <Compile Include="Internal\IPsFileSearcher.cs" />
     <Compile Include="Internal\PsFileSearcher.cs" />
+    <Compile Include="Models\IPowerShellSettings.cs" />
+    <Compile Include="Models\PowerShellSettingsPart.cs" />
     <Compile Include="TenantCmdlet.cs" />
     <Compile Include="Utilities\Error.cs" />
     <Compile Include="Vfs\NavigationProviders\DefaultTenantPsNavigationProvider.cs" />
@@ -186,6 +189,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Vfs\Vfs.format.ps1xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\EditorTemplates\Parts\PowerShell.Settings.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Placement.info" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
