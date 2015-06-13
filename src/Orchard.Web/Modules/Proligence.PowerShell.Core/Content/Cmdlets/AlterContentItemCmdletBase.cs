@@ -14,16 +14,19 @@
         [Parameter(ParameterSetName = "AllTenants", Mandatory = true, Position = 1)]
         public int? Id { get; set; }
 
+        [Alias("vo")]
         [Parameter(ParameterSetName = "Default", Mandatory = false, Position = 2)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false, Position = 2)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]
         public virtual VersionOptionsEnum? VersionOptions { get; set; }
 
+        [Alias("v")]
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
         public virtual int? Version { get; set; }
 
+        [Alias("ci")]
         [Parameter(ParameterSetName = "ContentItemObject", Mandatory = true, ValueFromPipeline = true, Position = 1)]
         public ContentItem ContentItem { get; set; }
 

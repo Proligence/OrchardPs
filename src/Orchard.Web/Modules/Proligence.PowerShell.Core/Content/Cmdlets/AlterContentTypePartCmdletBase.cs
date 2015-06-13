@@ -35,6 +35,7 @@
             }
         }
 
+        [Alias("ct")]
         [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 1)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = true, Position = 1)]
@@ -42,6 +43,7 @@
         [Parameter(ParameterSetName = "ContentPartObject", Mandatory = true, Position = 1)]
         public string ContentType { get; set; }
 
+        [Alias("cp")]
         [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 2)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = true, Position = 2)]

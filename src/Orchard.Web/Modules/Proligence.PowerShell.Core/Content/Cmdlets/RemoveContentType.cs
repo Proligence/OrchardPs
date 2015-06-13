@@ -12,6 +12,7 @@
         {
         }
 
+        [Alias("n")]
         [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 1)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false, Position = 1)]
@@ -29,6 +30,7 @@
             }
         }
 
+        [Alias("ct")]
         [Parameter(ParameterSetName = "ContentTypeObject", Mandatory = true, ValueFromPipeline = true)]
         public ContentTypeDefinition ContentType { get; set; }
 

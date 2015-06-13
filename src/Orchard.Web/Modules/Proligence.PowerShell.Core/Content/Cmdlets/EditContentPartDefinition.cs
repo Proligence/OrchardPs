@@ -18,6 +18,7 @@
     {
         private const string SettingPrefix = "ContentPartSettings.";
         
+        [Alias("n")]
         [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 1)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = true, Position = 1)]
@@ -28,18 +29,21 @@
         [Parameter(ParameterSetName = "ContentPartDefinitionObject", Mandatory = true, ValueFromPipeline = true)]
         public ContentPartDefinition ContentPartDefinition { get; set; }
 
+        [Alias("desc")]
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
         [Parameter(ParameterSetName = "ContentPartDefinitionObject", Mandatory = false)]
         public string Description { get; set; }
 
+        [Alias("at")]
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
         [Parameter(ParameterSetName = "ContentPartDefinitionObject", Mandatory = false)]
         public bool? Attachable { get; set; }
 
+        [Alias("se")]
         [Parameter(ParameterSetName = "Default", ValueFromRemainingArguments = true)]
         [Parameter(ParameterSetName = "TenantObject", ValueFromRemainingArguments = true)]
         [Parameter(ParameterSetName = "AllTenants", ValueFromRemainingArguments = true)]

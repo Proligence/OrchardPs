@@ -14,6 +14,7 @@
         /// </remarks>>
         public override VersionOptionsEnum? VersionOptions { get; set; }
 
+        [Alias("v")]
         [Parameter(ParameterSetName = "Default", Mandatory = false, Position = 2)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false, Position = 2)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false, Position = 2)]

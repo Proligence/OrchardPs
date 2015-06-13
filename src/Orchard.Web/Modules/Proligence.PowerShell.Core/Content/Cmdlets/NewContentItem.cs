@@ -12,18 +12,21 @@
     [Cmdlet(VerbsCommon.New, "ContentItem", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Low)]
     public class NewContentItem : TenantCmdlet
     {
+        [Alias("ct")]
         [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 1)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = true, Position = 1)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = true, Position = 1)]
         public string ContentType { get; set; }
 
+        [Alias("d")]
         [Parameter(ParameterSetName = "Default")]
         [Parameter(ParameterSetName = "TenantObject")]
         [Parameter(ParameterSetName = "AllTenants")]
         [Parameter(ParameterSetName = "ContentTypeObject")]
         public SwitchParameter Draft { get; set; }
 
+        [Alias("p")]
         [Parameter(ParameterSetName = "Default")]
         [Parameter(ParameterSetName = "TenantObject")]
         [Parameter(ParameterSetName = "AllTenants")]

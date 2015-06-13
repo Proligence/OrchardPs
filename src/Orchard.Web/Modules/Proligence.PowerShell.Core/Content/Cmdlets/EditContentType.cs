@@ -12,6 +12,7 @@
     [Cmdlet(VerbsData.Edit, "ContentType", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
     public class EditContentType : AlterContentTypeCmdletBase
     {
+        [Alias("n")]
         [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 1)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false, Position = 1)]
@@ -29,42 +30,49 @@
             }
         }
 
+        [Alias("dn")]
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
         [Parameter(ParameterSetName = "ContentTypeObject", Mandatory = false)]
         public string DisplayName { get; set; }
 
+        [Alias("st")]
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
         [Parameter(ParameterSetName = "ContentTypeObject", Mandatory = false)]
         public string Stereotype { get; set; }
 
+        [Alias("c")]
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
         [Parameter(ParameterSetName = "ContentTypeObject", Mandatory = false)]
         public SwitchParameter Creatable { get; set; }
 
+        [Alias("l")]
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
         [Parameter(ParameterSetName = "ContentTypeObject", Mandatory = false)]
         public SwitchParameter Listable { get; set; }
 
+        [Alias("d")]
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
         [Parameter(ParameterSetName = "ContentTypeObject", Mandatory = false)]
         public SwitchParameter Draftable { get; set; }
 
+        [Alias("s")]
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
         [Parameter(ParameterSetName = "ContentTypeObject", Mandatory = false)]
         public SwitchParameter Securable { get; set; }
 
+        [Alias("se")]
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]

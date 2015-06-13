@@ -8,6 +8,7 @@
     [Cmdlet(VerbsCommon.Remove, "ContentItem", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Low)]
     public class RemoveContentItem : AlterContentItemCmdletBase
     {
+        [Alias("d")]
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]

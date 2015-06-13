@@ -13,11 +13,13 @@
     [Cmdlet(VerbsData.Update, "ContentItem", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Low)]
     public class UpdateContentItem : TenantCmdlet
     {
+        [Alias("ci")]
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 1, ValueFromPipeline = true)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = true, Position = 1, ValueFromPipeline = true)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = true)]
         public ContentItem ContentItem { get; set; }
 
+        [Alias("vo")]
         [Parameter(ParameterSetName = "Default", Mandatory = false, Position = 2)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false, Position = 2)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]

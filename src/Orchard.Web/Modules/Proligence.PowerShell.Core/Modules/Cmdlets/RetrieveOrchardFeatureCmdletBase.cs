@@ -16,6 +16,7 @@
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
         public string Id { get; set; }
 
+        [Alias("n")]
         [Parameter(ParameterSetName = "Name", Mandatory = true)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
@@ -26,6 +27,7 @@
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         public override string Tenant { get; set; }
 
+        [Alias("e")]
         [Parameter(ParameterSetName = "Id", Mandatory = false)]
         [Parameter(ParameterSetName = "Name", Mandatory = false)]
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
@@ -33,6 +35,7 @@
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
         public SwitchParameter Enabled { get; set; }
 
+        [Alias("d")]
         [Parameter(ParameterSetName = "Id", Mandatory = false)]
         [Parameter(ParameterSetName = "Name", Mandatory = false)]
         [Parameter(ParameterSetName = "Default", Mandatory = false)]

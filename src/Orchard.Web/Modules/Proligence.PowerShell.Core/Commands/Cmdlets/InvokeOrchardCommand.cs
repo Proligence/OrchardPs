@@ -16,22 +16,14 @@
     [Cmdlet(VerbsLifecycle.Invoke, "OrchardCommand", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
     public class InvokeOrchardCommand : OrchardCmdlet
     {
-        /// <summary>
-        /// Gets or sets the name and arguments of the command to execute.
-        /// </summary>
+        [Alias("n")]
         [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 1)]
         public string Name { get; set; }
 
-        /// <summary>
-        /// Gets or sets the <see cref="OrchardCommand"/> object which represents the orchard command to execute.
-        /// </summary>
         [Parameter(ParameterSetName = "CommandObject", ValueFromPipeline = true)]
         public OrchardCommand Command { get; set; }
 
-        /// <summary>
-        /// Gets or sets the switches which will be passed to the executed command.
-        /// </summary>
         [Parameter(ParameterSetName = "Default", Position = 2, ValueFromRemainingArguments = true)]
         [Parameter(ParameterSetName = "CommandObject", Position = 2, ValueFromRemainingArguments = true)]
         public ArrayList Parameters { get; set; }

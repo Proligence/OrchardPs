@@ -11,13 +11,16 @@
     [Cmdlet(VerbsCommon.Get, "Tenant", DefaultParameterSetName = "Default", ConfirmImpact = ConfirmImpact.None)]
     public class GetTenant : OrchardCmdlet
     {
+        [Alias("n")]
         [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = false, Position = 1)]
         public string Name { get; set; }
 
+        [Alias("e")]
         [Parameter(ParameterSetName = "Enabled", Mandatory = false)]
         public SwitchParameter Enabled { get; set; }
 
+        [Alias("d")]
         [Parameter(ParameterSetName = "Disabled", Mandatory = false)]
         public SwitchParameter Disabled { get; set; }
 

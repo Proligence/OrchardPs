@@ -21,6 +21,7 @@
         [Parameter(ParameterSetName = "AllTenants", Mandatory = true, Position = 1)]
         public string Id { get; set; }
 
+        [Alias("f")]
         [ValidateNotNull]
         [Parameter(ParameterSetName = "FeatureObject", ValueFromPipeline = true)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = true, Position = 1)]

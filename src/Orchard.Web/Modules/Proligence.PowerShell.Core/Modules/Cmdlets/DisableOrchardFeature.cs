@@ -12,6 +12,7 @@
     [Cmdlet(VerbsLifecycle.Disable, "OrchardFeature", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
     public class DisableOrchardFeature : AlterOrchardFeatureCmdletBase<FeatureDescriptor>
     {
+        [Alias("wd")]
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         [Parameter(ParameterSetName = "FeatureObject", Mandatory = false)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = true, Position = 1)]
