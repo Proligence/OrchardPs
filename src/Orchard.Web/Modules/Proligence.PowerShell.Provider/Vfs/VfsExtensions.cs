@@ -22,6 +22,14 @@
         {
             Argument.ThrowIfNull(vfs, "vfs");
             Argument.ThrowIfNull(action, "action");
+
+            // Use explicit transaction if active
+            IWorkContextScope explicitScope = GetExplicitTransactionScope(tenantName, vfs);
+            if (explicitScope != null)
+            {
+                action(explicitScope);
+                return;
+            }
             
             var tenantContextManager = vfs.Drive.ComponentContext.Resolve<ITenantContextManager>();
 
@@ -65,6 +73,13 @@
             Argument.ThrowIfNull(vfs, "vfs");
             Argument.ThrowIfNull(action, "action");
 
+            // Use explicit transaction if active
+            IWorkContextScope explicitScope = GetExplicitTransactionScope(tenantName, vfs);
+            if (explicitScope != null)
+            {
+                return action(explicitScope);
+            }
+
             var tenantContextManager = vfs.Drive.ComponentContext.Resolve<ITenantContextManager>();
 
             using (IWorkContextScope scope = tenantContextManager.CreateWorkContextScope(tenantName ?? "Default"))
@@ -89,6 +104,12 @@
                     throw;
                 }
             }
+        }
+
+        private static IWorkContextScope GetExplicitTransactionScope(string tenantName, IPowerShellVfs vfs)
+        {
+            var drive = vfs.Drive as OrchardDriveInfo;
+            return drive != null ? drive.GetTransactionScope(tenantName) : null;
         }
     }
 }

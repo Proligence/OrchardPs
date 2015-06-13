@@ -58,6 +58,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cmdlets\OrchardTransactionCmdletBaseTests.cs" />
     <Compile Include="Utilities\ArgumentListTests.cs" />
     <Compile Include="CmdletAliasAttributeTests.cs" />
     <Compile Include="Cmdlets\GetOrchardPsCommandTests.cs" />

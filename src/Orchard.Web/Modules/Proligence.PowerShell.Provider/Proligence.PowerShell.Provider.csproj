@@ -77,6 +77,9 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Cmdlets\Undo-OrchardTransaction-help.xml" />
+    <Content Include="Cmdlets\Complete-OrchardTransaction-help.xml" />
+    <Content Include="Cmdlets\Start-OrchardTransaction-help.xml" />
     <Content Include="Cmdlets\Get-OrchardPsCommand-help.xml" />
     <Content Include="Module.txt" />
   </ItemGroup>
@@ -99,7 +102,11 @@
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cmdlets\UndoOrchardTransaction.cs" />
     <Compile Include="Cmdlets\GetOrchardPsCommand.cs" />
+    <Compile Include="Cmdlets\CompleteOrchardTransaction.cs" />
+    <Compile Include="Cmdlets\OrchardTransactionCmdletBase.cs" />
+    <Compile Include="Cmdlets\StartOrchardTransaction.cs" />
     <Compile Include="Console\UI\OutputType.cs" />
     <Compile Include="IConsoleConnection.cs" />
     <Compile Include="Internal\IPsFileSearcher.cs" />
