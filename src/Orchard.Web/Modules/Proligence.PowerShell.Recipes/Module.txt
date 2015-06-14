@@ -1,0 +1,8 @@
+﻿Name: PowerShell Recipes
+AntiForgery: enabled
+Author: Proligence / Marek Dzikiewicz
+Version: 2.0.0
+OrchardVersion: 1.8.0
+Description: Integrates PowerShell with Orchard recipes functionality
+Category: Management
+Dependencies: Proligence.PowerShell.Provider
