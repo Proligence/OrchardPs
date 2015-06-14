@@ -102,6 +102,7 @@
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BufferConsoleConnection.cs" />
     <Compile Include="Cmdlets\UndoOrchardTransaction.cs" />
     <Compile Include="Cmdlets\GetOrchardPsCommand.cs" />
     <Compile Include="Cmdlets\CompleteOrchardTransaction.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="IConsoleConnection.cs" />
     <Compile Include="Internal\IPsFileSearcher.cs" />
     <Compile Include="Internal\PsFileSearcher.cs" />
+    <Compile Include="PsSessionManagerExtensions.cs" />
     <Compile Include="TenantCmdlet.cs" />
     <Compile Include="Utilities\Error.cs" />
     <Compile Include="Vfs\NavigationProviders\DefaultTenantPsNavigationProvider.cs" />
