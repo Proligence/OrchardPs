@@ -47,6 +47,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Module.txt" />
+    <Content Include="Recipes\Sample.recipe.xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

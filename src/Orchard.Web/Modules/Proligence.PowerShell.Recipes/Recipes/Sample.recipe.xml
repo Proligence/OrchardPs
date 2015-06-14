@@ -1,0 +1,19 @@
+﻿<?xml version="1.0"?>
+<Orchard>
+  
+  <Recipe>
+    <Name>PowerShell Sample</Name>
+    <Description>Sample recipe using PowerShell commands.</Description>
+    <Author>Proligence / Marek Dzikiewicz</Author>
+    <Version>1.0</Version>
+  </Recipe>
+  
+  <PowerShellCommand>
+    Start-OrchardTransaction
+    $x = New-ContentItem -ContentType Page -Draft
+    $x.TitlePart.Title = "Recipe Sample! " + [System.Environment]::TickCount
+    $x | Publish-ContentItem
+    Complete-OrchardTransaction
+  </PowerShellCommand>
+  
+</Orchard>
