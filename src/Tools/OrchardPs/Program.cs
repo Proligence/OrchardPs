@@ -4,6 +4,7 @@
     using Autofac.Core.Registration;
     using OrchardPs.Console;
     using OrchardPs.Host;
+    using Proligence.PowerShell.Provider.Models;
 
     public static class Program
     {
@@ -92,6 +93,20 @@
                 hostContextProvider.Shutdown(context);
                 throw new ApplicationException("Failed to initialize Orchard session.");
             }
+
+            var settings = context.Session.Settings;
+
+            int consoleWidth = settings.ConsoleWidth == 0
+                ? PowerShellSettings.DefaultConsoleWidth
+                : Math.Min(PowerShellSettings.MaximumConsoleWidth, Math.Max(PowerShellSettings.MinimumConsoleWidth, settings.ConsoleWidth));
+
+            int consoleHeight = settings.ConsoleHeight == 0
+                ? PowerShellSettings.DefaultConsoleHeight
+                : Math.Min(PowerShellSettings.MaximumConsoleHeight, Math.Max(PowerShellSettings.MinimumConsoleHeight, settings.ConsoleHeight));
+            
+            System.Console.WindowWidth = consoleWidth;
+            System.Console.WindowHeight = consoleHeight;
+            System.Console.BufferWidth = consoleWidth;
             
             return context;
         }

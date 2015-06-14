@@ -8,6 +8,7 @@
     using Proligence.PowerShell.Provider.Console.Host;
     using Proligence.PowerShell.Provider.Console.UI;
     using Proligence.PowerShell.Provider.Internal;
+    using Proligence.PowerShell.Provider.Models;
     using Proligence.PowerShell.Provider.Vfs;
 
     /// <summary>
@@ -56,6 +57,11 @@
         /// Gets the session's Orchard VFS instance.
         /// </summary>
         IPowerShellVfs Vfs { get; }
+
+        /// <summary>
+        /// Gets the settings of the Orchard PowerShell provider.
+        /// </summary>
+        IPowerShellSettings Settings { get; }
 
         /// <summary>
         /// SignalR connection identifier for this particular session.

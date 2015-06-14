@@ -113,6 +113,7 @@
     <Compile Include="Internal\IPsFileSearcher.cs" />
     <Compile Include="Internal\PsFileSearcher.cs" />
     <Compile Include="Models\IPowerShellSettings.cs" />
+    <Compile Include="Models\PowerShellSettings.cs" />
     <Compile Include="Models\PowerShellSettingsPart.cs" />
     <Compile Include="TenantCmdlet.cs" />
     <Compile Include="Utilities\Error.cs" />

@@ -10,6 +10,7 @@
     using Orchard.ContentManagement;
     using Orchard.Validation;
     using Proligence.PowerShell.Provider.Console.UI;
+    using Proligence.PowerShell.Provider.Internal;
     using Proligence.PowerShell.Provider.Models;
 
     public class ConsoleHost : PSHost, IDisposable
@@ -24,8 +25,13 @@
 
         public ConsoleHost(IComponentContext componentContext)
         {
-            var orchardServices = componentContext.Resolve<IOrchardServices>();
-            var settings = orchardServices.WorkContext.CurrentSite.As<PowerShellSettingsPart>();
+            IPowerShellSettings settings;
+            var tenantContextManager = componentContext.Resolve<ITenantContextManager>();
+            using (var scope = tenantContextManager.CreateWorkContextScope("Default"))
+            {
+                var wca = scope.Resolve<IWorkContextAccessor>();
+                settings = wca.GetContext().CurrentSite.As<PowerShellSettingsPart>();
+            }
 
             this.instanceId = Guid.NewGuid();
             this.currentCulture = Thread.CurrentThread.CurrentCulture;

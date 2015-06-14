@@ -8,9 +8,12 @@
     using System.Threading;
     using Autofac;
     using Console;
+    using Orchard;
+    using Orchard.ContentManagement;
     using Proligence.PowerShell.Provider.Console.Host;
     using Proligence.PowerShell.Provider.Console.UI;
     using Proligence.PowerShell.Provider.Internal;
+    using Proligence.PowerShell.Provider.Models;
     using Proligence.PowerShell.Provider.Vfs;
 
     /// <summary>
@@ -33,6 +36,13 @@
         {
             this.ConsoleHost = consoleHost;
             this.ConnectionId = connectionId;
+
+            var tenantContextManager = componentContext.Resolve<ITenantContextManager>();
+            using (var scope = tenantContextManager.CreateWorkContextScope("Default"))
+            {
+                var wca = scope.Resolve<IWorkContextAccessor>();
+                this.Settings = wca.GetContext().CurrentSite.As<PowerShellSettingsPart>().PowerShellSettings;
+            }
 
             this.queue = new ConcurrentQueue<string>();
             this.configuration = configuration;
@@ -115,6 +125,11 @@
                 return null;
             }
         }
+
+        /// <summary>
+        /// Gets the settings of the Orchard PowerShell provider.
+        /// </summary>
+        public IPowerShellSettings Settings { get; private set; }
 
         /// <summary>
         /// Connection identifier for this particular session.
