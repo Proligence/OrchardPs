@@ -112,6 +112,7 @@
     <Compile Include="IConsoleConnection.cs" />
     <Compile Include="Internal\IPsFileSearcher.cs" />
     <Compile Include="Internal\PsFileSearcher.cs" />
+    <Compile Include="PowerShellException.cs" />
     <Compile Include="PsSessionManagerExtensions.cs" />
     <Compile Include="TenantCmdlet.cs" />
     <Compile Include="Utilities\Error.cs" />
