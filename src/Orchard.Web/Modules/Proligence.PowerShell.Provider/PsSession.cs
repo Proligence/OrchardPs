@@ -8,6 +8,8 @@
     using System.Threading;
     using Autofac;
     using Console;
+    using Orchard;
+    using Orchard.Data;
     using Proligence.PowerShell.Provider.Console.Host;
     using Proligence.PowerShell.Provider.Console.UI;
     using Proligence.PowerShell.Provider.Internal;
@@ -228,6 +230,13 @@
         {
             if (disposing)
             {
+                // Rollback any uncommited explicit transactions
+                foreach (var transactionScope in this.OrchardDrive.TransactionScopes.ToArray())
+                {
+                    this.OrchardDrive.TransactionScopes.Remove(transactionScope);
+                    this.CleanupExplicitWorkContextScope(transactionScope.Value);
+                }
+
                 if (this.Runspace != null)
                 {
                     this.Runspace.Dispose();
@@ -271,6 +280,31 @@
                 {
                     handle.Set();
                 }
+            }
+        }
+
+        private void CleanupExplicitWorkContextScope(IWorkContextScope scope)
+        {
+            try
+            {
+                ITransactionManager transactionManager;
+                if (scope.TryResolve(out transactionManager))
+                {
+                    transactionManager.Cancel();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex.Message);
+            }
+
+            try
+            {
+                scope.Dispose();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex.Message);
             }
         }
     }

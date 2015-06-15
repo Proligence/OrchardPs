@@ -18,6 +18,11 @@
         {
         }
 
+        internal IDictionary<string, IWorkContextScope> TransactionScopes
+        {
+            get { return this.transactionScopes; }
+        }
+
         /// <summary>
         /// Sets the work context scope used for the current explict transaction.
         /// </summary>
