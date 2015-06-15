@@ -1,7 +1,6 @@
 ﻿namespace Proligence.PowerShell.Recipes.RecipeHandlers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using Orchard.Logging;
     using Orchard.Recipes.Models;
@@ -29,27 +28,17 @@
                     .Select(cmd => cmd.Trim())
                     .Where(cmd => !string.IsNullOrWhiteSpace(cmd));
 
-                this.ExecuteCommands(commands);
-                recipeContext.Executed = true;
-            }
-        }
-
-        private void ExecuteCommands(IEnumerable<string> commands)
-        {
-            BufferConsoleConnection connection;
-            using (var session = this.sessionManager.CreateSession(out connection))
-            {
-                foreach (string command in commands)
+                try
                 {
-                    session.ProcessInput(command);
-
-                    if (connection.ErrorOutput.Length != 0)
-                    {
-                        var errorMessage = connection.ErrorOutput.ToString();
-                        this.Logger.Error(errorMessage);
-                        throw new InvalidOperationException(errorMessage);
-                    }
+                    this.sessionManager.Execute(commands);
                 }
+                catch (PowerShellException ex)
+                {
+                    this.Logger.Error(ex.Message);
+                    throw;
+                }
+                
+                recipeContext.Executed = true;
             }
         }
     }
