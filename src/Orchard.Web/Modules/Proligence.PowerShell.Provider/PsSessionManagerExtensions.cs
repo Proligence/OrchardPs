@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Management.Automation;
-    using System.Management.Automation.Runspaces;
 
     public static class PsSessionManagerExtensions
     {
@@ -28,6 +27,7 @@
             BufferConsoleConnection connection;
             using (var session = CreateSession(sessionManager, out connection))
             {
+                connection.Reset();
                 session.ProcessInput(command);
             }
 
@@ -49,6 +49,8 @@
             BufferConsoleConnection connection;
             using (var session = CreateSession(sessionManager, out connection))
             {
+                connection.Reset();
+
                 foreach (string command in commands)
                 {
                     if (!string.IsNullOrWhiteSpace(command))
@@ -68,7 +70,7 @@
 
         public static ICollection<PSObject> ExecutePipeline(
             this IPsSessionManager sessionManager,
-            Action<Pipeline> action,
+            Action<PowerShellPipelineBuilder> action,
             params object[] input)
         {
             if (action == null)
@@ -83,16 +85,27 @@
                 {
                     using (var pipeline = session.Runspace.CreatePipeline())
                     {
-                        action(pipeline);
+                        var builder = new PowerShellPipelineBuilder(pipeline);
+                        action(builder);
+                        builder.Build();
+                        pipeline.Input.Close();
 
                         ICollection<PSObject> result;
-                        if ((input != null) && (input.Length > 0))
+
+                        try
                         {
-                            result = pipeline.Invoke(input);
+                            if ((input != null) && (input.Length > 0))
+                            {
+                                result = pipeline.Invoke(input);
+                            }
+                            else
+                            {
+                                result = pipeline.Invoke();
+                            }
                         }
-                        else
+                        catch (Exception ex)
                         {
-                            result = pipeline.Invoke();
+                            throw new PowerShellException(ex.Message, ex);
                         }
 
                         if (pipeline.HadErrors)
