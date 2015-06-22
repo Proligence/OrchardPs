@@ -148,7 +148,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Commands\Cmdlets\Invoke-OrchardCommand-help.xml" />
-    <Content Include="Content\Cmdlets\Get-ContentItem-help.xml" />
+    <Content Include="Content\Cmdlets\Get-ContentItem-help.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Content\Cmdlets\Copy-ContentItem-help.xml" />
     <Content Include="Content\Cmdlets\Restore-ContentItem-help.xml" />
     <Content Include="Content\Cmdlets\Unpublish-ContentItem-help.xml" />
@@ -165,7 +167,9 @@
     <Content Include="Content\Cmdlets\Edit-ContentType-help.xml" />
     <Content Include="Content\Cmdlets\New-ContentType-help.xml" />
     <Content Include="Content\Cmdlets\Edit-ContentPartDefinition-help.xml" />
-    <Content Include="Content\Cmdlets\Get-ContentType-help.xml" />
+    <Content Include="Content\Cmdlets\Get-ContentType-help.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Content\Cmdlets\Get-ContentPartDefinition-help.xml" />
     <Content Include="Module.txt" />
   </ItemGroup>

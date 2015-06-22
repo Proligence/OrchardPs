@@ -46,10 +46,12 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="Cmdlets\Get-OrchardRecipe-help.xml" />
     <Content Include="Module.txt" />
     <Content Include="Recipes\Sample.recipe.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cmdlets\GetOrchardRecipe.cs" />
     <Compile Include="NavigationProviders\RecipePsNavigationProvider.cs" />
     <Compile Include="Nodes\RecipeNode.cs" />
     <Compile Include="Nodes\RecipesNode.cs" />
@@ -82,11 +84,14 @@
       <Name>Orchard.Recipes</Name>
     </ProjectReference>
     <ProjectReference Include="..\Proligence.PowerShell.Provider\Proligence.PowerShell.Provider.csproj">
-      <Project>{2c286142-7875-44c6-a44b-332397a59fd4}</Project>
+      <Project>{2C286142-7875-44C6-A44B-332397A59FD4}</Project>
       <Name>Proligence.PowerShell.Provider</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>../../../../lib/powershell/System.Management.Automation.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
