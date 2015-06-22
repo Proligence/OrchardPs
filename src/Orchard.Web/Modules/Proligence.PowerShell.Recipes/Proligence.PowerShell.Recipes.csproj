@@ -50,6 +50,9 @@
     <Content Include="Recipes\Sample.recipe.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NavigationProviders\RecipePsNavigationProvider.cs" />
+    <Compile Include="Nodes\RecipeNode.cs" />
+    <Compile Include="Nodes\RecipesNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecipeHandlers\PowerShellRecipeHandler.cs" />
   </ItemGroup>
@@ -57,6 +60,7 @@
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Nodes\Recipe.format.ps1xml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -86,6 +90,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
