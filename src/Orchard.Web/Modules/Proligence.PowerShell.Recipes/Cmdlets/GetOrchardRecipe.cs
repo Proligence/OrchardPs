@@ -21,13 +21,11 @@
 
         [Parameter(ParameterSetName = "Default", Mandatory = false, Position = 1)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false, Position = 1)]
-        [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
         public string Name { get; set; }
 
         [Alias("e")]
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false)]
-        [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
         public string ExtensionId { get; set; }
 
         protected override void ProcessRecord(ShellSettings tenant)
