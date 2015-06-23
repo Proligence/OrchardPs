@@ -46,12 +46,14 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="Cmdlets\Invoke-OrchardRecipe-help.xml" />
     <Content Include="Cmdlets\Get-OrchardRecipe-help.xml" />
     <Content Include="Module.txt" />
     <Content Include="Recipes\Sample.recipe.xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cmdlets\GetOrchardRecipe.cs" />
+    <Compile Include="Cmdlets\InvokeOrchardRecipe.cs" />
     <Compile Include="NavigationProviders\RecipePsNavigationProvider.cs" />
     <Compile Include="Nodes\RecipeNode.cs" />
     <Compile Include="Nodes\RecipesNode.cs" />
