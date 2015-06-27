@@ -24,8 +24,6 @@ namespace Proligence.PowerShell.Provider
             = new ConcurrentDictionary<string, IPsSession>();
 
         private readonly IComponentContext componentContext;
-        private readonly IExtensionManager extensionManager;
-        private readonly ShellDescriptor shellDescriptor;
         private readonly OrchardPsSnapIn snapIn;
 
         public PsSessionManager(
@@ -35,8 +33,6 @@ namespace Proligence.PowerShell.Provider
             ShellDescriptor shellDescriptor)
         {
             this.componentContext = componentContext;
-            this.extensionManager = extensionManager;
-            this.shellDescriptor = shellDescriptor;
             this.snapIn = new OrchardPsSnapIn(fileSearcher, extensionManager, shellDescriptor);
         }
 
