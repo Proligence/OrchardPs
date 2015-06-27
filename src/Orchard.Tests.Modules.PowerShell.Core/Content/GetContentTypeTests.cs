@@ -18,12 +18,7 @@
         [Fact, Integration]
         public void ShouldGetAllContentTypes()
         {
-            this.powerShell.Session.ProcessInput("Get-ContentType");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-ContentType");            
             Assert.Equal(1, table.Rows.Count(r => r[0] == "Site"));
         }
 
@@ -32,12 +27,7 @@
         [InlineData("Get-ContentType -Name Site")]
         public void ShouldContentTypesByName(string command)
         {
-            this.powerShell.Session.ProcessInput(command);
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable(command);
             Assert.Equal("Site", table.Rows.Single()[0]);
         }
 
@@ -46,12 +36,7 @@
         [InlineData("Get-ContentType -Name S*")]
         public void ShouldGetContentTypesByWildcardName(string command)
         {
-            this.powerShell.Session.ProcessInput(command);
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable(command);
             Assert.Equal(1, table.Rows.Count(r => r[0] == "Site"));
             Assert.True(table.Rows.All(r => r[0].StartsWith("S")));
         }
@@ -59,24 +44,14 @@
         [Fact, Integration]
         public void ShouldGetContentTypesFromSpecificTenant()
         {
-            this.powerShell.Session.ProcessInput("Get-ContentType -Tenant Default");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-ContentType -Tenant Default");
             Assert.Equal(1, table.Rows.Count(r => r[0] == "Site"));
         }
 
         [Fact, Integration]
         public void ShouldGetContentPartsFromAllTenants()
         {
-            this.powerShell.Session.ProcessInput("Get-ContentType -AllTenants");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-ContentType -AllTenants");
             Assert.True(table.Rows.Count(r => r[0] == "Site") > 0);
         }
     }

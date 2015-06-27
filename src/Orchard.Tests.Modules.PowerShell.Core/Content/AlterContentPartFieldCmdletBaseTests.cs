@@ -23,14 +23,12 @@
             {
                 if (this.HasContentField("TitlePart", "BooleanField"))
                 {
-                    this.powerShell.Session.ProcessInput("Remove-ContentField TitlePart BooleanField");
-                    this.powerShell.ConsoleConnection.AssertNoErrors();
+                    this.powerShell.Execute("Remove-ContentField TitlePart BooleanField");
                     Assert.False(this.HasContentField("TitlePart", "BooleanField"));
                 }
                 else
                 {
-                    this.powerShell.Session.ProcessInput("Add-ContentField TitlePart BooleanField");
-                    this.powerShell.ConsoleConnection.AssertNoErrors();
+                    this.powerShell.Execute("Add-ContentField TitlePart BooleanField");
                     Assert.True(this.HasContentField("TitlePart", "BooleanField"));
                 }
             }
@@ -44,16 +42,12 @@
             {
                 if (this.HasContentField("TitlePart", "BooleanField"))
                 {
-                    this.powerShell.Session.ProcessInput(
-                        "Get-ContentPartDefinition TitlePart | Remove-ContentField -ContentField BooleanField");
-                    this.powerShell.ConsoleConnection.AssertNoErrors();
+                    this.powerShell.Execute("Get-ContentPartDefinition TitlePart | Remove-ContentField -ContentField BooleanField");
                     Assert.False(this.HasContentField("TitlePart", "BooleanField"));
                 }
                 else
                 {
-                    this.powerShell.Session.ProcessInput(
-                        "Get-ContentPartDefinition TitlePart | Add-ContentField -ContentField BooleanField");
-                    this.powerShell.ConsoleConnection.AssertNoErrors();
+                    this.powerShell.Execute("Get-ContentPartDefinition TitlePart | Add-ContentField -ContentField BooleanField");
                     Assert.True(this.HasContentField("TitlePart", "BooleanField"));
                 }
             }
@@ -62,8 +56,7 @@
         private bool HasContentField(string contentPart, string contentField)
         {
             this.powerShell.ConsoleConnection.Reset();
-            this.powerShell.Session.ProcessInput("(Get-ContentPartDefinition " + contentPart + ").Fields");
-            var output = this.powerShell.ConsoleConnection.Output.ToString();
+            var output = this.powerShell.Execute("(Get-ContentPartDefinition " + contentPart + ").Fields");
             this.powerShell.ConsoleConnection.Reset();
 
             if (!string.IsNullOrEmpty(output))

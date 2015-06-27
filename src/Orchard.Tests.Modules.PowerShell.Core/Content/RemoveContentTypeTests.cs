@@ -18,38 +18,27 @@
         public void ShouldRemoveContentTypeByName()
         {
             this.EnsureContentTypeExists("Foo");
-
-            this.powerShell.Session.ProcessInput("Remove-ContentType Foo");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            this.powerShell.Session.ProcessInput("Get-ContentType Foo");
-            Assert.Empty(this.powerShell.ConsoleConnection.Output.ToString().Trim());
+            this.powerShell.Execute("Remove-ContentType Foo");
+            Assert.Empty(this.powerShell.Execute("Get-ContentType Foo"));
         }
 
         [Fact, Integration]
         public void ShouldRemoveContentTypeByObject()
         {
             this.EnsureContentTypeExists("Foo");
-
-            this.powerShell.Session.ProcessInput("Get-ContentType Foo | Remove-ContentType");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            this.powerShell.Session.ProcessInput("Get-ContentType Foo");
-            Assert.Empty(this.powerShell.ConsoleConnection.Output.ToString().Trim());
+            this.powerShell.Execute("Get-ContentType Foo | Remove-ContentType");
+            Assert.Empty(this.powerShell.Execute("Get-ContentType Foo"));
         }
 
         private void EnsureContentTypeExists(string name)
         {
             this.powerShell.ConsoleConnection.Reset();
-            this.powerShell.Session.ProcessInput("Get-ContentType " + name);
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-
+            var output = this.powerShell.Execute("Get-ContentType " + name);
             if (string.IsNullOrEmpty(output))
             {
-                this.powerShell.Session.ProcessInput("New-ContentType " + name);
+                this.powerShell.Execute("New-ContentType " + name);
                 this.powerShell.ConsoleConnection.Reset();
-                this.powerShell.Session.ProcessInput("Get-ContentType " + name);
-                Assert.NotEmpty(this.powerShell.ConsoleConnection.Output.ToString());
+                Assert.NotEmpty(this.powerShell.Execute("Get-ContentType " + name));
             }
 
             this.powerShell.ConsoleConnection.Reset();

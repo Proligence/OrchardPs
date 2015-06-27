@@ -20,10 +20,8 @@
         {
             int id = this.CreateContentItem();
             this.AssertContentItemTitle(id, "baz");
-
-            this.powerShell.Session.ProcessInput("Restore-ContentItem " + id + " 2 -Verbose");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
+            this.powerShell.Execute("Restore-ContentItem " + id + " 2 -Verbose");
+            
             Assert.Equal(
                 "Performing the operation \"Restore\" on target \"Content Item: " + id + ", Version: 2, Tenant: Default\".",
                 this.powerShell.ConsoleConnection.VerboseOutput.ToString().Trim());
@@ -36,10 +34,9 @@
         {
             int id = this.CreateContentItem();
             this.AssertContentItemTitle(id, "baz");
-
-            this.powerShell.Session.ProcessInput(
+            
+            this.powerShell.Execute(
                 "Get-ContentItem -Id " + id + " -VersionOptions Latest | Restore-ContentItem -Version 2 -Verbose");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             Assert.Equal(
                 "Performing the operation \"Restore\" on target \"Content Item: " + id + ", Version: 2, Tenant: Default\".",
@@ -53,7 +50,6 @@
         {
             int id = this.CreateContentItem();
             this.AssertContentItemTitle(id, "baz");
-
             this.powerShell.Session.ProcessInput("Restore-ContentItem " + id + " -Verbose");
 
             var expected = "The VersionOptions or Version parameter must be specified.";
@@ -63,26 +59,24 @@
 
         private int CreateContentItem()
         {
-            this.powerShell.Session.ProcessInput("$item = New-ContentItem Page -Draft");
-            this.powerShell.Session.ProcessInput("$item.Id");
-            int id = Convert.ToInt32(this.powerShell.ConsoleConnection.Output.ToString().Trim());
+            this.powerShell.Execute("$item = New-ContentItem Page -Draft");
+            int id = Convert.ToInt32(this.powerShell.Execute("$item.Id"));
 
             // Version 1
-            this.powerShell.Session.ProcessInput("$item.TitlePart.Title = 'foo'");
-            this.powerShell.Session.ProcessInput("Update-ContentItem $item -VersionOptions DraftRequired");
-            this.powerShell.Session.ProcessInput("Publish-ContentItem $item -VersionOptions Latest");
+            this.powerShell.Execute("$item.TitlePart.Title = 'foo'");
+            this.powerShell.Execute("Update-ContentItem $item -VersionOptions DraftRequired");
+            this.powerShell.Execute("Publish-ContentItem $item -VersionOptions Latest");
 
             // Version 2
-            this.powerShell.Session.ProcessInput("$item.TitlePart.Title = 'bar'");
-            this.powerShell.Session.ProcessInput("Update-ContentItem $item -VersionOptions DraftRequired");
-            this.powerShell.Session.ProcessInput("Publish-ContentItem $item -VersionOptions Latest");
+            this.powerShell.Execute("$item.TitlePart.Title = 'bar'");
+            this.powerShell.Execute("Update-ContentItem $item -VersionOptions DraftRequired");
+            this.powerShell.Execute("Publish-ContentItem $item -VersionOptions Latest");
 
             // Version 3
-            this.powerShell.Session.ProcessInput("$item.TitlePart.Title = 'baz'");
-            this.powerShell.Session.ProcessInput("Update-ContentItem $item -VersionOptions DraftRequired");
-            this.powerShell.Session.ProcessInput("Publish-ContentItem $item -VersionOptions Latest");
+            this.powerShell.Execute("$item.TitlePart.Title = 'baz'");
+            this.powerShell.Execute("Update-ContentItem $item -VersionOptions DraftRequired");
+            this.powerShell.Execute("Publish-ContentItem $item -VersionOptions Latest");
             
-            this.powerShell.ConsoleConnection.AssertNoErrors();
             this.powerShell.ConsoleConnection.Reset();
 
             return id;
@@ -91,8 +85,7 @@
         private void AssertContentItemTitle(int id, string expectedTitle)
         {
             this.powerShell.ConsoleConnection.Reset();
-            this.powerShell.Session.ProcessInput("(Get-ContentItem -Id " + id + " -VersionOptions Latest).Title");
-            Assert.Equal(expectedTitle, this.powerShell.ConsoleConnection.Output.ToString().Trim());
+            Assert.Equal(expectedTitle, this.powerShell.Execute("(Get-ContentItem -Id " + id + " -VersionOptions Latest).Title"));
         }
     }
 }

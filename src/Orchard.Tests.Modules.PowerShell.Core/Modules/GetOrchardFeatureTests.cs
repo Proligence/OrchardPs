@@ -19,12 +19,7 @@
         [Fact, Integration]
         public void ShouldGetAllFeatures()
         {
-            this.powerShell.Session.ProcessInput("Get-OrchardFeature");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-OrchardFeature");
             var dashboardRow = table.Rows.Single(r => r[0] == "Dashboard");
             Assert.Equal("Dashboard", dashboardRow[1]);
         }
@@ -32,12 +27,7 @@
         [Fact, Integration]
         public void ShouldGetFeatureById()
         {
-            this.powerShell.Session.ProcessInput("Get-OrchardFeature Orchard.Blogs");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-OrchardFeature Orchard.Blogs");
             Assert.Equal(1, table.Rows.Count);
             Assert.Equal("Orchard.Blogs", table.Rows.Single()[0]);
         }
@@ -45,12 +35,7 @@
         [Fact, Integration]
         public void ShouldGetFeatureByName()
         {
-            this.powerShell.Session.ProcessInput("Get-OrchardFeature -Name Blogs");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-OrchardFeature -Name Blogs");
             Assert.Equal(1, table.Rows.Count);
             Assert.Equal("Orchard.Blogs", table.Rows.Single()[0]);
         }
@@ -58,12 +43,7 @@
         [Fact, Integration]
         public void ShouldGetFeaturesByWildcardId()
         {
-            this.powerShell.Session.ProcessInput("Get-OrchardFeature Se*");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-OrchardFeature Se*");
             Assert.True(table.Rows.Count > 0);
 
             foreach (var row in table.Rows)
@@ -75,12 +55,7 @@
         [Fact, Integration]
         public void ShouldGetFeaturesByWildcardName()
         {
-            this.powerShell.Session.ProcessInput("Get-OrchardFeature -Name Se*");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-OrchardFeature -Name Se*");
             Assert.True(table.Rows.Count > 0);
 
             foreach (var row in table.Rows)
@@ -92,60 +67,35 @@
         [Fact, Integration]
         public void ShouldGetEnabledFeatures()
         {
-            this.powerShell.Session.ProcessInput("Get-OrchardFeature -Enabled");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-OrchardFeature -Enabled");
             Assert.Equal(1, table.Rows.Count(r => r[0] == "Dashboard"));
         }
 
         [Fact, Integration]
         public void ShouldGetDisabledFeatures()
         {
-            this.powerShell.Session.ProcessInput("Get-OrchardFeature -Disabled");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-OrchardFeature -Disabled");
             Assert.Equal(0, table.Rows.Count(r => r[0] == "Dashboard"));
         }
 
         [Fact, Integration]
         public void ShouldGetFeaturesFromSpecificTenant()
         {
-            this.powerShell.Session.ProcessInput("Get-OrchardFeature -Tenant Default");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-OrchardFeature -Tenant Default");
             Assert.Equal(1, table.Rows.Count(r => r[0] == "Dashboard"));
         }
 
         [Fact, Integration]
         public void ShouldGetFeaturesFromSpecificTenantByObject()
         {
-            this.powerShell.Session.ProcessInput("Get-Tenant Default | Get-OrchardFeature");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-Tenant Default | Get-OrchardFeature");
             Assert.Equal(1, table.Rows.Count(r => r[0] == "Dashboard"));
         }
 
         [Fact, Integration]
         public void ShouldGetFeaturesFromAllTenants()
         {
-            this.powerShell.Session.ProcessInput("Get-OrchardFeature -AllTenants");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-OrchardFeature -AllTenants");
             Assert.True(table.Rows.Count(r => r[0] == "Dashboard") >= 1);
         }
     }

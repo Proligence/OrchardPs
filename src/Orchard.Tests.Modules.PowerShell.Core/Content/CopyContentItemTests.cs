@@ -20,14 +20,12 @@
         public void ShouldCopyContentItemById()
         {
             int id = this.CreateContentItem();
-            this.powerShell.Session.ProcessInput("Copy-ContentItem " + id + " -Verbose");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
+            var table = this.powerShell.ExecuteTable("Copy-ContentItem " + id + " -Verbose");
+            
             Assert.Equal(
                 "Performing the operation \"Copy\" on target \"Content Item: " + id + ", Version: 1, Tenant: Default\".",
                 this.powerShell.ConsoleConnection.VerboseOutput.ToString().Trim());
-
-            var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
+            
             var newId = Convert.ToInt32(table.Rows.Single()[0]);
             Assert.True(newId > id);
         }
@@ -36,24 +34,22 @@
         public void ShouldCopyContentItemByObject()
         {
             int id = this.CreateContentItem();
-            this.powerShell.Session.ProcessInput(
+            
+            var table = this.powerShell.ExecuteTable(
                 "Get-ContentItem -Id " + id + " -VersionOptions Latest | Copy-ContentItem -Verbose");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
+            
             Assert.Equal(
                 "Performing the operation \"Copy\" on target \"Content Item: " + id + ", Version: 1, Tenant: Default\".",
                 this.powerShell.ConsoleConnection.VerboseOutput.ToString().Trim());
 
-            var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
             var newId = Convert.ToInt32(table.Rows.Single()[0]);
             Assert.True(newId > id);
         }
 
         private int CreateContentItem()
         {
-            this.powerShell.Session.ProcessInput("$item = New-ContentItem Page -Published");
-            this.powerShell.Session.ProcessInput("$item.Id");
-            string output = this.powerShell.ConsoleConnection.Output.ToString().Trim();
+            this.powerShell.Execute("$item = New-ContentItem Page -Published");
+            var output = this.powerShell.Execute("$item.Id");
             this.powerShell.ConsoleConnection.Reset();
 
             return Convert.ToInt32(output);

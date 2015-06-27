@@ -18,56 +18,41 @@
         [Fact, Integration]
         public void ShouldCompleteTransaction()
         {
-            this.powerShell.Session.ProcessInput("Start-OrchardTransaction");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
+            this.powerShell.Execute("Start-OrchardTransaction");
+            
             string title = Guid.NewGuid().ToString("N");
             this.CreateContentItem(title);
 
-            this.powerShell.Session.ProcessInput("Get-ContentItem -ContentType Page | where { $_.Title -eq '" + title + "' }");
-            var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString().Trim());
+            var table = this.powerShell.ExecuteTable("Get-ContentItem -ContentType Page | where { $_.Title -eq '" + title + "' }");
             Assert.Equal(1, table.Rows.Count);
 
-            this.powerShell.Session.ProcessInput("Complete-OrchardTransaction");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            this.powerShell.ConsoleConnection.Reset();
-            this.powerShell.Session.ProcessInput("Get-ContentItem -ContentType Page | where { $_.Title -eq '" + title + "' }");
-            table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString().Trim());
+            this.powerShell.Execute("Complete-OrchardTransaction");
+            table = this.powerShell.ExecuteTable("Get-ContentItem -ContentType Page | where { $_.Title -eq '" + title + "' }");
             Assert.Equal(1, table.Rows.Count);
         }
 
         [Fact, Integration]
         public void ShouldUndoTransaction()
         {
-            this.powerShell.Session.ProcessInput("Start-OrchardTransaction");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
+            this.powerShell.Execute("Start-OrchardTransaction");
+            
             string title = Guid.NewGuid().ToString("N");
             this.CreateContentItem(title);
             
-            this.powerShell.Session.ProcessInput("Get-ContentItem -ContentType Page | where { $_.Title -eq '" + title + "' }");
-            var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString().Trim());
+            var table = this.powerShell.ExecuteTable("Get-ContentItem -ContentType Page | where { $_.Title -eq '" + title + "' }");
             Assert.Equal(1, table.Rows.Count);
 
-            this.powerShell.Session.ProcessInput("Undo-OrchardTransaction");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
+            this.powerShell.Execute("Undo-OrchardTransaction");
             this.powerShell.ConsoleConnection.Reset();
-            this.powerShell.Session.ProcessInput("Get-ContentItem -ContentType Page | where { $_.Title -eq '" + title + "' }");
-            Assert.Empty(this.powerShell.ConsoleConnection.Output.ToString().Trim());
+            var output = this.powerShell.Execute("Get-ContentItem -ContentType Page | where { $_.Title -eq '" + title + "' }");
+            Assert.Empty(output);
         }
 
         private void CreateContentItem(string title)
         {
-            this.powerShell.Session.ProcessInput("$x = New-ContentItem -ContentType Page -Draft");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            this.powerShell.Session.ProcessInput("$x.TitlePart.Title = '" + title + "'");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            this.powerShell.Session.ProcessInput("$x | Publish-ContentItem");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
+            this.powerShell.Execute("$x = New-ContentItem -ContentType Page -Draft");
+            this.powerShell.Execute("$x.TitlePart.Title = '" + title + "'");
+            this.powerShell.Execute("$x | Publish-ContentItem");
         }
     }
 }

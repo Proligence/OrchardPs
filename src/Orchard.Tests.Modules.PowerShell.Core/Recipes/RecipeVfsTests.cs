@@ -18,10 +18,7 @@
         [Fact, Integration]
         public void VfsTenantShouldContainRecipes()
         {
-            this.powerShell.Session.ProcessInput("Get-ChildItem Orchard:\\Tenants\\Default\\Recipes");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
+            var table = this.powerShell.ExecuteTable("Get-ChildItem Orchard:\\Tenants\\Default\\Recipes");
             Assert.Equal("Name", table.Header[0]);
             Assert.Equal("Version", table.Header[1]);
             Assert.Equal("Description", table.Header[2]);

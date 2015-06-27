@@ -17,15 +17,13 @@
         [Fact, Integration]
         public void ShouldInvokeRecipeByName()
         {
-            this.powerShell.Session.ProcessInput("Invoke-OrchardRecipe \"PowerShell Sample\"");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
+            this.powerShell.Execute("Invoke-OrchardRecipe \"PowerShell Sample\"");
         }
 
         [Fact, Integration]
         public void ShouldInvokeRecipeByObject()
         {
-            this.powerShell.Session.ProcessInput("Get-OrchardRecipe \"PowerShell Sample\" | Invoke-OrchardRecipe");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
+            this.powerShell.Execute("Get-OrchardRecipe \"PowerShell Sample\" | Invoke-OrchardRecipe");
         }
     }
 }

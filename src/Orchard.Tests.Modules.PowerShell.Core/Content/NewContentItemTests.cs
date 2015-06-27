@@ -19,10 +19,7 @@
         [Fact, Integration]
         public void ShouldCreateContentItem()
         {
-            this.powerShell.Session.ProcessInput("New-ContentItem Page");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
+            var table = this.powerShell.ExecuteTable("New-ContentItem Page");
             Assert.Equal("0", table.Rows.Single()[0]);
             Assert.Equal("Page", table.Rows.Single()[1]);
         }
@@ -30,10 +27,7 @@
         [Fact, Integration]
         public void ShouldCreateContentItemFromContentTypeObject()
         {
-            this.powerShell.Session.ProcessInput("Get-ContentType Page | New-ContentItem");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
+            var table = this.powerShell.ExecuteTable("Get-ContentType Page | New-ContentItem");
             Assert.Equal("0", table.Rows.Single()[0]);
             Assert.Equal("Page", table.Rows.Single()[1]);
         }
@@ -41,33 +35,27 @@
         [Fact, Integration]
         public void ShouldCreateDraftContentItem()
         {
-            this.powerShell.Session.ProcessInput("New-ContentItem Page -Draft");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
+            var table = this.powerShell.ExecuteTable("New-ContentItem Page -Draft");
             int id = Convert.ToInt32(table.Rows.Single()[0]);
             Assert.True(id > 0);
             Assert.Equal("Page", table.Rows.Single()[1]);
 
             this.powerShell.ConsoleConnection.Reset();
-            this.powerShell.Session.ProcessInput("(Get-ContentItem -Id " + id + " -VersionOptions Draft).VersionRecord.Published");
-            Assert.Equal("False", this.powerShell.ConsoleConnection.Output.ToString().Trim());
+            var output = this.powerShell.Execute("(Get-ContentItem -Id " + id + " -VersionOptions Draft).VersionRecord.Published");
+            Assert.Equal("False", output);
         }
 
         [Fact, Integration]
         public void ShouldCreatePublishedContentItem()
         {
-            this.powerShell.Session.ProcessInput("New-ContentItem Page -Published");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
+            var table = this.powerShell.ExecuteTable("New-ContentItem Page -Published");
             int id = Convert.ToInt32(table.Rows.Single()[0]);
             Assert.True(id > 0);
             Assert.Equal("Page", table.Rows.Single()[1]);
 
             this.powerShell.ConsoleConnection.Reset();
-            this.powerShell.Session.ProcessInput("(Get-ContentItem -Id " + id + " -VersionOptions Published).VersionRecord.Published");
-            Assert.Equal("True", this.powerShell.ConsoleConnection.Output.ToString().Trim());
+            var output = this.powerShell.Execute("(Get-ContentItem -Id " + id + " -VersionOptions Published).VersionRecord.Published");
+            Assert.Equal("True", output);
         }
     }
 }

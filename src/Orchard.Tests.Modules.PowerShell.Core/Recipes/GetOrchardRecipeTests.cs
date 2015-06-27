@@ -18,10 +18,7 @@
         [Fact, Integration]
         public void ShouldGetAllRecipes()
         {
-            this.powerShell.Session.ProcessInput("Get-OrchardRecipe");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
+            var table = this.powerShell.ExecuteTable("Get-OrchardRecipe");
             Assert.Equal("Name", table.Header[0]);
             Assert.Equal("Version", table.Header[1]);
             Assert.Equal("Description", table.Header[2]);
@@ -34,10 +31,7 @@
         [Fact, Integration]
         public void ShouldGetRecipesByName()
         {
-            this.powerShell.Session.ProcessInput("Get-OrchardRecipe Core");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
+            var table = this.powerShell.ExecuteTable("Get-OrchardRecipe Core");
             Assert.Equal("Name", table.Header[0]);
             Assert.Equal("Version", table.Header[1]);
             Assert.Equal("Description", table.Header[2]);
@@ -48,10 +42,7 @@
         [Fact, Integration]
         public void ShouldGetRecipesByPartialName()
         {
-            this.powerShell.Session.ProcessInput("Get-OrchardRecipe C*");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
+            var table = this.powerShell.ExecuteTable("Get-OrchardRecipe C*");
             Assert.Equal("Name", table.Header[0]);
             Assert.Equal("Version", table.Header[1]);
             Assert.Equal("Description", table.Header[2]);
@@ -64,10 +55,7 @@
         [Fact, Integration]
         public void ShouldGetRecipesByExtensionId()
         {
-            this.powerShell.Session.ProcessInput("Get-OrchardRecipe -ExtensionId Orchard.Setup");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
+            var table = this.powerShell.ExecuteTable("Get-OrchardRecipe -ExtensionId Orchard.Setup");
             Assert.Equal(3, table.Rows.Count);
             Assert.Equal(1, table.Rows.Count(x => x[0] == "Blog"));
             Assert.Equal(1, table.Rows.Count(x => x[0] == "Core"));

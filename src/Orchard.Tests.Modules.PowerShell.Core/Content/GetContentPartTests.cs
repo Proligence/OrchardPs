@@ -20,12 +20,7 @@
         [InlineData("Get-ContentPart -ContentType Blog")]
         public void ShouldGetAllContentParts(string command)
         {
-            this.powerShell.Session.ProcessInput(command);
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable(command);
             Assert.Equal(1, table.Rows.Count(r => r[0] == "BlogPart"));
             Assert.Equal(1, table.Rows.Count(r => r[0] == "CommonPart"));
             Assert.Equal(1, table.Rows.Count(r => r[0] == "TitlePart"));
@@ -36,12 +31,7 @@
         [InlineData("Get-ContentPart -ContentType Blog -Name BlogPart")]
         public void ShouldGetContentPartsByName(string command)
         {
-            this.powerShell.Session.ProcessInput(command);
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable(command);
             Assert.Equal("BlogPart", table.Rows.Single()[0]);
         }
 
@@ -50,12 +40,7 @@
         [InlineData("Get-ContentPart -ContentType Blog -Name Bl*")]
         public void ShouldGetContentPartsByWildcardName(string command)
         {
-            this.powerShell.Session.ProcessInput(command);
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable(command);
             Assert.Equal(1, table.Rows.Count(r => r[0] == "BlogPart"));
             Assert.True(table.Rows.All(r => r[0].StartsWith("Bl")));
         }
@@ -63,12 +48,7 @@
         [Fact, Integration]
         public void ShouldGetContentPartsFromContentTypeObject()
         {
-            this.powerShell.Session.ProcessInput("Get-ContentType Blog | Get-ContentPart");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-ContentType Blog | Get-ContentPart");
             Assert.Equal(1, table.Rows.Count(r => r[0] == "BlogPart"));
             Assert.Equal(1, table.Rows.Count(r => r[0] == "CommonPart"));
             Assert.Equal(1, table.Rows.Count(r => r[0] == "TitlePart"));
@@ -77,12 +57,7 @@
         [Fact, Integration]
         public void ShouldGetContentPartsFromSpecificTenant()
         {
-            this.powerShell.Session.ProcessInput("Get-ContentPart Blog -Tenant Default");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-ContentPart Blog -Tenant Default");
             Assert.Equal(1, table.Rows.Count(r => r[0] == "BlogPart"));
             Assert.Equal(1, table.Rows.Count(r => r[0] == "CommonPart"));
             Assert.Equal(1, table.Rows.Count(r => r[0] == "TitlePart"));
@@ -91,12 +66,7 @@
         [Fact, Integration]
         public void ShouldGetContentPartsFromAllTenants()
         {
-            this.powerShell.Session.ProcessInput("Get-ContentPart Blog -AllTenants");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-ContentPart Blog -AllTenants");
             Assert.True(table.Rows.Count(r => r[0] == "BlogPart") > 0);
             Assert.True(table.Rows.Count(r => r[0] == "CommonPart") > 0);
             Assert.True(table.Rows.Count(r => r[0] == "TitlePart") > 0);

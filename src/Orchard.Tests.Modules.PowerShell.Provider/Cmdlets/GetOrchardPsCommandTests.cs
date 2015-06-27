@@ -17,32 +17,19 @@
         [Fact, Integration]
         public void ShouldListCommands()
         {
-            this.powerShell.Session.ProcessInput("Get-OrchardPsCommand");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-            Assert.Contains("Get-OrchardPsCommand", output);
+            Assert.Contains("Get-OrchardPsCommand", this.powerShell.Execute("Get-OrchardPsCommand"));
         }
 
         [Fact, Integration]
         public void ShouldListAllCommands()
         {
-            this.powerShell.Session.ProcessInput("Get-OrchardPsCommand -All");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-            Assert.Contains("Get-OrchardPsCommand", output);
+            Assert.Contains("Get-OrchardPsCommand", this.powerShell.Execute("Get-OrchardPsCommand -All"));
         }
 
         [Fact, Integration]
         public void ShouldListCommandsForPath()
         {
-            this.powerShell.Session.ProcessInput("Get-OrchardPsCommand -Path Tenants\\Default\\Commands");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-OrchardPsCommand -Path Tenants\\Default\\Commands");
             Assert.Equal(1, table.Rows.Count);
             Assert.Equal("Invoke-OrchardCommand", table[0, "Name"]);
         }
@@ -52,12 +39,7 @@
         [InlineData("Get-OrchardPsCommand -Name Get*")]
         public void ShouldFilterCommands(string command)
         {
-            this.powerShell.Session.ProcessInput(command);
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable(command);
             for (int i = 0; i < table.Rows.Count; i++)
             {
                 Assert.True(table[i, "Name"].StartsWith("Get"));

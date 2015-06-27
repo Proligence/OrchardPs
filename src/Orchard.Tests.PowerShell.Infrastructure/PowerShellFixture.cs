@@ -4,6 +4,7 @@
     using System.IO;
     using OrchardPs.Host;
     using Proligence.PowerShell.Provider;
+    using Xunit;
 
     public class PowerShellFixture
     {
@@ -29,6 +30,33 @@
         public TestConsoleConnection ConsoleConnection
         {
             get { return consoleConnection; }
+        }
+
+        public string Execute(string command)
+        {
+            this.Session.ProcessInput(command);
+            this.ConsoleConnection.AssertNoErrors();
+
+            return this.ConsoleConnection.Output.ToString().Trim();
+        }
+
+        public PsTable ExecuteTable(string command)
+        {
+            this.ConsoleConnection.Reset();
+            this.Session.ProcessInput(command);
+            this.ConsoleConnection.AssertNoErrors();
+
+            string output = this.ConsoleConnection.Output.ToString();
+
+            try
+            {
+                return PsTable.Parse(output);
+            }
+            catch (Exception ex)
+            {
+                Assert.True(false, "Failed to parse table: " + ex.Message + Environment.NewLine + output);
+                throw;
+            }
         }
 
         private static OrchardHostContext InitializeOrchardHost()

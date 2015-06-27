@@ -19,23 +19,16 @@
         public void ShouldEnableFeatureByName()
         {
             // First make sure that the feature is disabled
-            this.powerShell.Session.ProcessInput("Invoke-OrchardCommand feature disable " + TestFeatureId);
+            this.powerShell.Execute("Invoke-OrchardCommand feature disable " + TestFeatureId);
             Assert.Equal("False", this.GetOrchardFeature(TestFeatureId)[0, "Enabled"]);
             
-            this.powerShell.Session.ProcessInput("Enable-OrchardFeature " + TestFeatureId);
-
-            this.powerShell.ConsoleConnection.AssertNoErrors();
+            this.powerShell.Execute("Enable-OrchardFeature " + TestFeatureId);
             Assert.Equal("True", this.GetOrchardFeature(TestFeatureId)[0, "Enabled"]);
         }
 
         private PsTable GetOrchardFeature(string featureId)
         {
-            this.powerShell.ConsoleConnection.Reset();
-            this.powerShell.Session.ProcessInput("Get-OrchardFeature " + featureId);
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-OrchardFeature " + featureId);
             this.powerShell.ConsoleConnection.Reset();
 
             return table;

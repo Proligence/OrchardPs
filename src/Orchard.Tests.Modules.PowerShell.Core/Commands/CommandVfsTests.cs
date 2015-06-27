@@ -18,12 +18,8 @@
         [Fact, Integration]
         public void VfsTenantShouldContainCommands()
         {
-            this.powerShell.Session.ProcessInput("Get-ChildItem Orchard:\\Tenants\\Default\\Commands");
+            var table = this.powerShell.ExecuteTable("Get-ChildItem Orchard:\\Tenants\\Default\\Commands");
 
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
             Assert.Equal("Name", table.Header[0]);
             Assert.Equal("Help", table.Header[1]);
             Assert.True(table.Rows.Count > 0);

@@ -17,31 +17,21 @@
         [Fact, Integration]
         public void ShouldInvokeLegacyCommand()
         {
-            this.powerShell.Session.ProcessInput("Invoke-OrchardCommand help commands");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
+            var output = this.powerShell.Execute("Invoke-OrchardCommand help commands");
             Assert.Contains("List of available commands:", output);
         }
 
         [Fact, Integration]
         public void ShouldInvokeLegacyCommandWithParameter()
         {
-            this.powerShell.Session.ProcessInput("Invoke-OrchardCommand theme list /Summary:true");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
+            var output = this.powerShell.Execute("Invoke-OrchardCommand theme list /Summary:true");
             Assert.Contains("The Theme Machine", output);
         }
 
         [Fact, Integration]
         public void ShouldInvokeLegacyCommandFromObject()
         {
-            this.powerShell.Session.ProcessInput(
-                "Get-ChildItem 'Tenants\\Default\\Commands\\help commands' | Invoke-OrchardCommand");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
+            var output = this.powerShell.Execute("Get-ChildItem 'Tenants\\Default\\Commands\\help commands' | Invoke-OrchardCommand");
             Assert.Contains("List of available commands:", output);
         }
     }

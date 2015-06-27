@@ -19,9 +19,8 @@
         public void ShouldUnpublishContentItemById()
         {
             int id = this.CreateContentItem();
-            this.powerShell.Session.ProcessInput("Unpublish-ContentItem " + id + " -Verbose");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
+            this.powerShell.Execute("Unpublish-ContentItem " + id + " -Verbose");
+            
             Assert.Equal(
                 "Performing the operation \"Unpublish\" on target \"Content Item: " + id + ", Version: 1, Tenant: Default\".",
                 this.powerShell.ConsoleConnection.VerboseOutput.ToString().Trim());
@@ -33,10 +32,8 @@
         public void ShouldUnpublishContentItemByObject()
         {
             int id = this.CreateContentItem();
-            this.powerShell.Session.ProcessInput(
-                "Get-ContentItem -Id " + id + " -VersionOptions Latest | Unpublish-ContentItem -Verbose");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
+            this.powerShell.Execute("Get-ContentItem -Id " + id + " -VersionOptions Latest | Unpublish-ContentItem -Verbose");
+            
             Assert.Equal(
                 "Performing the operation \"Unpublish\" on target \"Content Item: " + id + ", Version: 1, Tenant: Default\".",
                 this.powerShell.ConsoleConnection.VerboseOutput.ToString().Trim());
@@ -46,9 +43,8 @@
 
         private int CreateContentItem()
         {
-            this.powerShell.Session.ProcessInput("$item = New-ContentItem Page -Published");
-            this.powerShell.Session.ProcessInput("$item.Id");
-            string output = this.powerShell.ConsoleConnection.Output.ToString().Trim();
+            this.powerShell.Execute("$item = New-ContentItem Page -Published");
+            var output = this.powerShell.Execute("$item.Id");
             this.powerShell.ConsoleConnection.Reset();
 
             return Convert.ToInt32(output);
@@ -57,8 +53,8 @@
         private void AssertContentItemNotPublished(int id)
         {
             this.powerShell.ConsoleConnection.Reset();
-            this.powerShell.Session.ProcessInput("(Get-ContentItem -Id " + id + " -VersionOptions Latest).VersionRecord.Published");
-            Assert.Equal("False", this.powerShell.ConsoleConnection.Output.ToString().Trim());
+            var output = this.powerShell.Execute("(Get-ContentItem -Id " + id + " -VersionOptions Latest).VersionRecord.Published");
+            Assert.Equal("False", output);
         }
     }
 }

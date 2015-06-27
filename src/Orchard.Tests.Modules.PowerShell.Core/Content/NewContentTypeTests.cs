@@ -19,12 +19,8 @@
         public void ShouldCreateContentType()
         {
             this.EnsureContentTypeDoesNotExist("Foo");
-
-            this.powerShell.Session.ProcessInput("New-ContentType Foo");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            this.powerShell.Session.ProcessInput("Get-ContentType Foo");
-            var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
+            this.powerShell.Execute("New-ContentType Foo");
+            var table = this.powerShell.ExecuteTable("Get-ContentType Foo");
             Assert.Equal("Foo", table.Rows.Single()[0]);
         }
 
@@ -32,12 +28,8 @@
         public void ShouldCreateContentTypeWithCustomDisplayName()
         {
             this.EnsureContentTypeDoesNotExist("Foo");
-
-            this.powerShell.Session.ProcessInput("New-ContentType Foo -DisplayName 'My Foo'");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            this.powerShell.Session.ProcessInput("Get-ContentType Foo");
-            var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
+            this.powerShell.Execute("New-ContentType Foo -DisplayName 'My Foo'");
+            var table = this.powerShell.ExecuteTable("Get-ContentType Foo");
             Assert.Equal("Foo", table.Rows.Single()[0]);
             Assert.Equal("My Foo", table.Rows.Single()[1]);
         }
@@ -46,12 +38,9 @@
         public void ShouldCreateNewContentTypeWithCustomStereotype()
         {
             this.EnsureContentTypeDoesNotExist("Foo");
-
-            this.powerShell.Session.ProcessInput("New-ContentType Foo -Stereotype Bar");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            this.powerShell.Session.ProcessInput("(Get-ContentType Foo).Settings['Stereotype']");
-            Assert.Equal("Bar", this.powerShell.ConsoleConnection.Output.ToString().Trim());
+            this.powerShell.Execute("New-ContentType Foo -Stereotype Bar");
+            var output = this.powerShell.Execute("(Get-ContentType Foo).Settings['Stereotype']");
+            Assert.Equal("Bar", output);
         }
 
         [Theory, Integration]
@@ -62,24 +51,17 @@
         public void ShouldCreateContentTypeWithStandardSettings(string switchName, string settingName)
         {
             this.EnsureContentTypeDoesNotExist("Foo");
-
-            this.powerShell.Session.ProcessInput("New-ContentType Foo -" + switchName);
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            this.powerShell.Session.ProcessInput("(Get-ContentType Foo).Settings['" + settingName + "']");
-            Assert.Equal("True", this.powerShell.ConsoleConnection.Output.ToString().Trim());
+            this.powerShell.Execute("New-ContentType Foo -" + switchName);
+            var output = this.powerShell.Execute("(Get-ContentType Foo).Settings['" + settingName + "']");
+            Assert.Equal("True", output);
         }
 
         [Fact, Integration]
         public void ShouldCreateNewContentTypeWithContentParts()
         {
             this.EnsureContentTypeDoesNotExist("Foo");
-
-            this.powerShell.Session.ProcessInput("New-ContentType Foo -Parts ('CommonPart', 'TitlePart')");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            this.powerShell.Session.ProcessInput("Get-ContentType Foo");
-            var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
+            this.powerShell.Execute("New-ContentType Foo -Parts ('CommonPart', 'TitlePart')");
+            var table = this.powerShell.ExecuteTable("Get-ContentType Foo");
             Assert.Equal("Foo", table.Rows.Single()[0]);
             Assert.Equal("CommonPart, TitlePart", table.Rows.Single()[2]);
         }
@@ -88,12 +70,8 @@
         public void ShouldCreateContentTypeWithCustomSettings()
         {
             this.EnsureContentTypeDoesNotExist("Foo");
-
-            this.powerShell.Session.ProcessInput("New-ContentType Foo -Settings @{'Bar'='Bar value'; 'Baz'='Baz value'}");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            this.powerShell.Session.ProcessInput("(Get-ContentType Foo).Settings");
-            var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
+            this.powerShell.Execute("New-ContentType Foo -Settings @{'Bar'='Bar value'; 'Baz'='Baz value'}");
+            var table = this.powerShell.ExecuteTable("(Get-ContentType Foo).Settings");
             Assert.Equal(2, table.Rows.Count);
             Assert.Equal("Bar", table[0, "Key"]);
             Assert.Equal("Bar value", table[0, "Value"]);
@@ -103,15 +81,12 @@
 
         private void EnsureContentTypeDoesNotExist(string name)
         {
-            this.powerShell.Session.ProcessInput("Get-ContentType " + name);
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            
+            var output = this.powerShell.Execute("Get-ContentType " + name);
             if (!string.IsNullOrEmpty(output))
             {
-                this.powerShell.Session.ProcessInput("Remove-ContentType " + name);
+                this.powerShell.Execute("Remove-ContentType " + name);
                 this.powerShell.ConsoleConnection.Reset();
-                this.powerShell.Session.ProcessInput("Get-ContentType " + name);
-                Assert.Empty(this.powerShell.ConsoleConnection.Output.ToString());
+                Assert.Empty(this.powerShell.Execute("Get-ContentType " + name));
             }
         }
     }

@@ -18,24 +18,14 @@
         [Fact, Integration]
         public void ShouldGetAllContentItems()
         {
-            this.powerShell.Session.ProcessInput("Get-ContentItem");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-ContentItem");
             Assert.True(table.Rows.Count > 0);
         }
 
         [Fact, Integration]
         public void ShouldFormatContentItemsInGrid()
         {
-            this.powerShell.Session.ProcessInput("Get-ContentItem");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-ContentItem");
             Assert.Equal("Id", table.Header[0]);
             Assert.Equal("ContentType", table.Header[1]);
             Assert.Equal("Title", table.Header[2]);
@@ -44,12 +34,7 @@
         [Fact, Integration]
         public void ShouldGetContentItemById()
         {
-            this.powerShell.Session.ProcessInput("Get-ContentItem 1");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-ContentItem 1");
             Assert.Equal("1", table.Rows.Single()[0]);
             Assert.Equal("Site", table.Rows.Single()[1]);
             Assert.Empty(table.Rows.Single()[2]);
@@ -58,12 +43,7 @@
         [Fact, Integration]
         public void ShouldGetContentItemByContentType()
         {
-            this.powerShell.Session.ProcessInput("Get-ContentItem -ContentType Layer");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-ContentItem -ContentType Layer");
             Assert.True(table.Rows.Count > 0);
             Assert.All(table.Rows, row => Assert.Equal("Layer", row[1]));
         }
@@ -76,12 +56,7 @@
         [InlineData("Get-ContentItem 1 -VersionOptions AllVersions")]
         public void ShouldGetContentItemWithVersionOptions(string command)
         {
-            this.powerShell.Session.ProcessInput(command);
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable(command);
             Assert.True(table.Rows.Count > 0);
             Assert.All(table.Rows, row => Assert.Equal("Site", row[1]));
         }
@@ -101,13 +76,7 @@
             
             foreach (var command in commands)
             {
-                this.powerShell.ConsoleConnection.Reset();
-                this.powerShell.Session.ProcessInput(command);
-
-                string output = this.powerShell.ConsoleConnection.Output.ToString();
-                this.powerShell.ConsoleConnection.AssertNoErrors();
-
-                var table = PsTable.Parse(output);
+                var table = this.powerShell.ExecuteTable(command);
                 Assert.True(table.Rows.Count > 0);
                 Assert.All(table.Rows, row => Assert.Equal("Site", row[1]));
             }
@@ -116,12 +85,7 @@
         [Fact, Integration]
         public void ShouldGetContentItemByVersionNumber()
         {
-            this.powerShell.Session.ProcessInput("Get-ContentItem -Id 1 -Version 1 | Format-Table Id, Version");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-ContentItem -Id 1 -Version 1 | Format-Table Id, Version");
             Assert.Equal("1", table.Rows.Single()[0]);
             Assert.Equal("1", table.Rows.Single()[1]);
         }

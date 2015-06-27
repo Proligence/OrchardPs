@@ -18,49 +18,29 @@
         [Fact, Integration]
         public void ShouldUpdateContentItem()
         {
-            this.powerShell.Session.ProcessInput("$item = New-ContentItem Page -Published");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-            
+            this.powerShell.Execute("$item = New-ContentItem Page -Published");
             var title = Guid.NewGuid().ToString("N");
-            this.powerShell.Session.ProcessInput("$item.TitlePart.Title = '" + title + "'");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            this.powerShell.Session.ProcessInput("$item.Id");
-            int id = Convert.ToInt32(this.powerShell.ConsoleConnection.Output.ToString());
+            this.powerShell.Execute("$item.TitlePart.Title = '" + title + "'");
+            int id = Convert.ToInt32(this.powerShell.Execute("$item.Id"));
             this.powerShell.ConsoleConnection.Reset();
-
-            this.powerShell.Session.ProcessInput("Update-ContentItem $item");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            this.powerShell.Session.ProcessInput("(Get-ContentItem -Id " + id + ").Title");
-            string output = this.powerShell.ConsoleConnection.Output.ToString().Trim();
-
-            Assert.Equal(title, output);
+            this.powerShell.Execute("Update-ContentItem $item");
+            Assert.Equal(title, this.powerShell.Execute("(Get-ContentItem -Id " + id + ").Title"));
         }
 
         [Fact, Integration]
         public void ShouldUpdateLatestVersionOfContentItem()
         {
-            this.powerShell.Session.ProcessInput("$item = New-ContentItem Page -Published");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
+            this.powerShell.Execute("$item = New-ContentItem Page -Published");
             var title = Guid.NewGuid().ToString("N");
-            this.powerShell.Session.ProcessInput("$item.TitlePart.Title = '" + title + "'");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            this.powerShell.Session.ProcessInput("$item.Id");
-            int id = Convert.ToInt32(this.powerShell.ConsoleConnection.Output.ToString());
+            this.powerShell.Execute("$item.TitlePart.Title = '" + title + "'");
+            int id = Convert.ToInt32(this.powerShell.Execute("$item.Id"));
             this.powerShell.ConsoleConnection.Reset();
-
-            this.powerShell.Session.ProcessInput("Update-ContentItem $item -VersionOptions Latest -Verbose");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
+            this.powerShell.Execute("Update-ContentItem $item -VersionOptions Latest -Verbose");
             string verbose = this.powerShell.ConsoleConnection.VerboseOutput.ToString().Trim();
             Assert.Equal("Performing the operation \"Update Latest\" on target \"Content Item: " + id + ", Tenant: Default\".", verbose);
+            
             this.powerShell.ConsoleConnection.Reset();
-
-            this.powerShell.Session.ProcessInput("(Get-ContentItem -Id " + id + ").Title");
-            string output = this.powerShell.ConsoleConnection.Output.ToString().Trim();
-            Assert.Equal(title, output);
+            Assert.Equal(title, this.powerShell.Execute("(Get-ContentItem -Id " + id + ").Title"));
         }
     }
 }

@@ -18,12 +18,7 @@
         [Fact, Integration]
         public void VfsRootShouldContainTenants()
         {
-            this.powerShell.Session.ProcessInput("Get-ChildItem Orchard:\\");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-ChildItem Orchard:\\");
             Assert.Equal("Name", table.Header[0]);
             Assert.Equal(1, table.Rows.Count(x => x[0] == "Tenants"));
         }
@@ -31,12 +26,7 @@
         [Fact, Integration]
         public void VfsShouldContainDefaultTenant()
         {
-            this.powerShell.Session.ProcessInput("Get-ChildItem Orchard:\\Tenants");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-ChildItem Orchard:\\Tenants");
             Assert.Equal("Name", table.Header[0]);
             Assert.Equal("State", table.Header[1]);
             Assert.Equal(1, table.Rows.Count(x => x[0] == "Default"));
@@ -46,20 +36,13 @@
         [Fact, Integration]
         public void VfsShouldListTenantContents()
         {
-            this.powerShell.Session.ProcessInput("Get-ChildItem Orchard:\\Tenants\\Default");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-            Assert.NotEmpty(this.powerShell.ConsoleConnection.Output.ToString());
+            Assert.NotEmpty(this.powerShell.Execute("Get-ChildItem Orchard:\\Tenants\\Default"));
         }
 
         [Fact, Integration]
         public void VfsShouldContainRootDefaultTenant()
         {
-            this.powerShell.Session.ProcessInput("Get-ChildItem Orchard:\\");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-ChildItem Orchard:\\");
             Assert.Equal("Name", table.Header[0]);
             Assert.Equal(1, table.Rows.Count(x => x[0] == "$"));
         }
@@ -67,25 +50,23 @@
         [Fact, Integration]
         public void VfsShouldListRootDefaultTenantContents()
         {
-            this.powerShell.Session.ProcessInput("Get-ChildItem Orchard:\\$");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-            Assert.NotEmpty(this.powerShell.ConsoleConnection.Output.ToString());
+            Assert.NotEmpty(this.powerShell.Execute("Get-ChildItem Orchard:\\$"));
         }
 
         [Fact, Integration]
         public void VfsShouldUpdateCurrentLocationDisplay()
         {
-            this.powerShell.Session.ProcessInput("cd \\");
+            this.powerShell.Execute("cd \\");
             Assert.Equal("Orchard:\\> ", this.GetCurrentLocationPrompt());
-            this.powerShell.Session.ProcessInput("cd Tenants");
+            this.powerShell.Execute("cd Tenants");
             Assert.Equal("Orchard:\\Tenants> ", this.GetCurrentLocationPrompt());
-            this.powerShell.Session.ProcessInput("cd Default");
+            this.powerShell.Execute("cd Default");
             Assert.Equal("Orchard:\\Tenants\\Default> ", this.GetCurrentLocationPrompt());
-            this.powerShell.Session.ProcessInput("cd Content");
+            this.powerShell.Execute("cd Content");
             Assert.Equal("Orchard:\\Tenants\\Default\\Content> ", this.GetCurrentLocationPrompt());
-            this.powerShell.Session.ProcessInput("cd Items");
+            this.powerShell.Execute("cd Items");
             Assert.Equal("Orchard:\\Tenants\\Default\\Content\\Items> ", this.GetCurrentLocationPrompt());
-            this.powerShell.Session.ProcessInput("cd Layer");
+            this.powerShell.Execute("cd Layer");
             Assert.Equal("Orchard:\\Tenants\\Default\\Content\\Items\\Layer> ", this.GetCurrentLocationPrompt());
         }
 

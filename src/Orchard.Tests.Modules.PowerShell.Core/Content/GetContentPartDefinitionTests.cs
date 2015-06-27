@@ -18,12 +18,7 @@
         [Fact, Integration]
         public void ShouldGetAllContentParts()
         {
-            this.powerShell.Session.ProcessInput("Get-ContentPartDefinition");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-ContentPartDefinition");
             Assert.Equal(1, table.Rows.Count(r => r[0] == "BodyPart"));
             Assert.Equal(1, table.Rows.Count(r => r[0] == "CommonPart"));
             Assert.Equal(1, table.Rows.Count(r => r[0] == "IdentityPart"));
@@ -36,12 +31,7 @@
         [InlineData("Get-ContentPartDefinition -Name CommonPart")]
         public void ShouldGetContentPartsByName(string command)
         {
-            this.powerShell.Session.ProcessInput(command);
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable(command);
             Assert.Equal("CommonPart", table.Rows.Single()[0]);
         }
 
@@ -50,12 +40,7 @@
         [InlineData("Get-ContentPartDefinition -Name Co*")]
         public void ShouldGetContentPartsByWildcardName(string command)
         {
-            this.powerShell.Session.ProcessInput(command);
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable(command);
             Assert.Equal(1, table.Rows.Count(r => r[0] == "CommonPart"));
             Assert.True(table.Rows.All(r => r[0].StartsWith("Co")));
         }
@@ -63,12 +48,7 @@
         [Fact, Integration]
         public void ShouldGetContentPartsFromSpecificTenant()
         {
-            this.powerShell.Session.ProcessInput("Get-ContentPartDefinition -Tenant Default");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-ContentPartDefinition -Tenant Default");
             Assert.Equal(1, table.Rows.Count(r => r[0] == "BodyPart"));
             Assert.Equal(1, table.Rows.Count(r => r[0] == "CommonPart"));
             Assert.Equal(1, table.Rows.Count(r => r[0] == "IdentityPart"));
@@ -79,12 +59,7 @@
         [Fact, Integration]
         public void ShouldGetContentPartsFromAllTenants()
         {
-            this.powerShell.Session.ProcessInput("Get-ContentPartDefinition -AllTenants");
-
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            this.powerShell.ConsoleConnection.AssertNoErrors();
-
-            var table = PsTable.Parse(output);
+            var table = this.powerShell.ExecuteTable("Get-ContentPartDefinition -AllTenants");
             Assert.True(table.Rows.Count(r => r[0] == "BodyPart") > 0);
             Assert.True(table.Rows.Count(r => r[0] == "CommonPart") > 0);
             Assert.True(table.Rows.Count(r => r[0] == "IdentityPart") > 0);

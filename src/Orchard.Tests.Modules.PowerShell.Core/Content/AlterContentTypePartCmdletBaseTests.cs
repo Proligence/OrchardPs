@@ -25,12 +25,12 @@
             {
                 if (this.HasContentPart("Foo", "TitlePart"))
                 {
-                    this.powerShell.Session.ProcessInput("Remove-ContentPart Foo TitlePart");
+                    this.powerShell.Execute("Remove-ContentPart Foo TitlePart");
                     Assert.False(this.HasContentPart("Foo", "TitlePart"));
                 }
                 else
                 {
-                    this.powerShell.Session.ProcessInput("Add-ContentPart Foo TitlePart");
+                    this.powerShell.Execute("Add-ContentPart Foo TitlePart");
                     Assert.True(this.HasContentPart("Foo", "TitlePart"));
                 }
             }
@@ -46,12 +46,12 @@
             {
                 if (this.HasContentPart("Foo", "TitlePart"))
                 {
-                    this.powerShell.Session.ProcessInput("Get-ContentType Foo | Remove-ContentPart -ContentPart TitlePart");
+                    this.powerShell.Execute("Get-ContentType Foo | Remove-ContentPart -ContentPart TitlePart");
                     Assert.False(this.HasContentPart("Foo", "TitlePart"));
                 }
                 else
                 {
-                    this.powerShell.Session.ProcessInput("Get-ContentType Foo | Add-ContentPart -ContentPart TitlePart");
+                    this.powerShell.Execute("Get-ContentType Foo | Add-ContentPart -ContentPart TitlePart");
                     Assert.True(this.HasContentPart("Foo", "TitlePart"));
                 }
             }
@@ -67,12 +67,12 @@
             {
                 if (this.HasContentPart("Foo", "TitlePart"))
                 {
-                    this.powerShell.Session.ProcessInput("Get-ContentPartDefinition TitlePart | Remove-ContentPart -ContentType Foo");
+                    this.powerShell.Execute("Get-ContentPartDefinition TitlePart | Remove-ContentPart -ContentType Foo");
                     Assert.False(this.HasContentPart("Foo", "TitlePart"));
                 }
                 else
                 {
-                    this.powerShell.Session.ProcessInput("Get-ContentPartDefinition TitlePart | Add-ContentPart -ContentType Foo");
+                    this.powerShell.Execute("Get-ContentPartDefinition TitlePart | Add-ContentPart -ContentType Foo");
                     Assert.True(this.HasContentPart("Foo", "TitlePart"));
                 }
             }
@@ -80,15 +80,12 @@
 
         private void EnsureContentTypeExists(string name)
         {
-            this.powerShell.Session.ProcessInput("Get-ContentType " + name);
-            string output = this.powerShell.ConsoleConnection.Output.ToString();
-            
+            var output = this.powerShell.Execute("Get-ContentType " + name);
             if (string.IsNullOrEmpty(output))
             {
-                this.powerShell.Session.ProcessInput("New-ContentType " + name);
+                this.powerShell.Execute("New-ContentType " + name);
                 this.powerShell.ConsoleConnection.Reset();
-                this.powerShell.Session.ProcessInput("Get-ContentType " + name);
-                Assert.NotEmpty(this.powerShell.ConsoleConnection.Output.ToString());
+                Assert.NotEmpty(this.powerShell.Execute("Get-ContentType " + name));
             }
 
             this.powerShell.ConsoleConnection.Reset();
@@ -96,9 +93,7 @@
 
         private bool HasContentPart(string contentType, string contentPart)
         {
-            this.powerShell.ConsoleConnection.Reset();
-            this.powerShell.Session.ProcessInput("Get-ContentType " + contentType);
-            var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
+            var table = this.powerShell.ExecuteTable("Get-ContentType " + contentType);
             var parts = table[0, "Parts"].Split(',').Select(str => str.Trim()).ToArray();
             this.powerShell.ConsoleConnection.Reset();
 

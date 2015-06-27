@@ -20,9 +20,7 @@
         public void ShouldUpdateDescription()
         {
             string newDescription = Guid.NewGuid().ToString("N");
-            this.powerShell.Session.ProcessInput("Edit-ContentPartDefinition CommonPart -Description '" + newDescription + "'");
-
-            this.powerShell.ConsoleConnection.AssertNoErrors();
+            this.powerShell.Execute("Edit-ContentPartDefinition CommonPart -Description '" + newDescription + "'");
             Assert.Equal(newDescription, this.GetDescription("CommonPart"));
         }
 
@@ -34,14 +32,12 @@
             {
                 if (this.IsAttachable("CommentPart"))
                 {
-                    this.powerShell.Session.ProcessInput("Edit-ContentPartDefinition CommentPart -Attachable $false");
-                    this.powerShell.ConsoleConnection.AssertNoErrors();
+                    this.powerShell.Execute("Edit-ContentPartDefinition CommentPart -Attachable $false");
                     Assert.False(this.IsAttachable("CommentPart"));
                 }
                 else
                 {
-                    this.powerShell.Session.ProcessInput("Edit-ContentPartDefinition CommentPart -Attachable $true");
-                    this.powerShell.ConsoleConnection.AssertNoErrors();
+                    this.powerShell.Execute("Edit-ContentPartDefinition CommentPart -Attachable $true");
                     Assert.True(this.IsAttachable("CommentPart"));
                 }
             }
@@ -51,12 +47,11 @@
         public void ShouldUpdateCustomSetting()
         {
             var settingName = Guid.NewGuid().ToString("N");
-            this.powerShell.Session.ProcessInput("Edit-ContentPartDefinition CommonPart -" + settingName + " value");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
+
+            this.powerShell.Execute("Edit-ContentPartDefinition CommonPart -" + settingName + " value");
             Assert.Equal("value", this.GetSettingValue("CommonPart", settingName));
 
-            this.powerShell.Session.ProcessInput("Edit-ContentPartDefinition CommonPart -" + settingName + " 'new value'");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
+            this.powerShell.Execute("Edit-ContentPartDefinition CommonPart -" + settingName + " 'new value'");
             Assert.Equal("new value", this.GetSettingValue("CommonPart", settingName));
         }
 
@@ -64,12 +59,11 @@
         public void ShouldDeleteCustomSetting()
         {
             var settingName = Guid.NewGuid().ToString("N");
-            this.powerShell.Session.ProcessInput("Edit-ContentPartDefinition CommonPart -" + settingName + " value");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
+
+            this.powerShell.Execute("Edit-ContentPartDefinition CommonPart -" + settingName + " value");
             Assert.Equal("value", this.GetSettingValue("CommonPart", settingName));
 
-            this.powerShell.Session.ProcessInput("Edit-ContentPartDefinition CommonPart -" + settingName + " $null");
-            this.powerShell.ConsoleConnection.AssertNoErrors();
+            this.powerShell.Execute("Edit-ContentPartDefinition CommonPart -" + settingName + " $null");
             Assert.Null(this.GetSettingValue("CommonPart", settingName));
         }
 
@@ -77,18 +71,16 @@
         public void ShouldUpdateContentPartDefinitionObject()
         {
             string newDescription = Guid.NewGuid().ToString("N");
-            this.powerShell.Session.ProcessInput(
+            
+            this.powerShell.Execute(
                 "Get-ContentPartDefinition CommonPart | Edit-ContentPartDefinition -Description '" + newDescription + "'");
             
-            this.powerShell.ConsoleConnection.AssertNoErrors();
             Assert.Equal(newDescription, this.GetDescription("CommonPart"));
         }
 
         private string GetDescription(string contentPart)
         {
-            this.powerShell.ConsoleConnection.Reset();
-            this.powerShell.Session.ProcessInput("Get-ContentPartDefinition " + contentPart);
-            var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
+            var table = this.powerShell.ExecuteTable("Get-ContentPartDefinition " + contentPart);
             this.powerShell.ConsoleConnection.Reset();
 
             return table[0, "Description"];
@@ -96,9 +88,7 @@
 
         private bool IsAttachable(string contentPart)
         {
-            this.powerShell.ConsoleConnection.Reset();
-            this.powerShell.Session.ProcessInput("Get-ContentPartDefinition " + contentPart);
-            var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
+            var table = this.powerShell.ExecuteTable("Get-ContentPartDefinition " + contentPart);
             this.powerShell.ConsoleConnection.Reset();
 
             return table[0, "Attachable"].Equals("true", StringComparison.OrdinalIgnoreCase);
@@ -106,9 +96,7 @@
 
         private string GetSettingValue(string contentType, string settingName)
         {
-            this.powerShell.ConsoleConnection.Reset();
-            this.powerShell.Session.ProcessInput("(Get-ContentPartDefinition " + contentType + ").Settings");
-            var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
+            var table = this.powerShell.ExecuteTable("(Get-ContentPartDefinition " + contentType + ").Settings");
             this.powerShell.ConsoleConnection.Reset();
 
             var row = table.Rows.FirstOrDefault(r => r[0] == "ContentPartSettings." + settingName);
