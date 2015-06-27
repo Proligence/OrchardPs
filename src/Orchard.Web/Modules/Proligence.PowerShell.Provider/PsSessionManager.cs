@@ -8,6 +8,8 @@ namespace Proligence.PowerShell.Provider
     using System.Management.Automation.Host;
     using System.Management.Automation.Runspaces;
     using Autofac;
+    using Orchard.Environment.Descriptor.Models;
+    using Orchard.Environment.Extensions;
     using Orchard.Validation;
     using Proligence.PowerShell.Provider.Console.Host;
     using Proligence.PowerShell.Provider.Console.UI;
@@ -22,12 +24,20 @@ namespace Proligence.PowerShell.Provider
             = new ConcurrentDictionary<string, IPsSession>();
 
         private readonly IComponentContext componentContext;
+        private readonly IExtensionManager extensionManager;
+        private readonly ShellDescriptor shellDescriptor;
         private readonly OrchardPsSnapIn snapIn;
 
-        public PsSessionManager(IComponentContext componentContext, IPsFileSearcher fileSearcher)
+        public PsSessionManager(
+            IComponentContext componentContext,
+            IPsFileSearcher fileSearcher,
+            IExtensionManager extensionManager,
+            ShellDescriptor shellDescriptor)
         {
             this.componentContext = componentContext;
-            this.snapIn = new OrchardPsSnapIn(fileSearcher);
+            this.extensionManager = extensionManager;
+            this.shellDescriptor = shellDescriptor;
+            this.snapIn = new OrchardPsSnapIn(fileSearcher, extensionManager, shellDescriptor);
         }
 
         public IPsSession NewSession(string connectionId, IConsoleConnection connection)

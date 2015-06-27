@@ -9,6 +9,8 @@
     using System.Management.Automation;
     using System.Management.Automation.Runspaces;
     using System.Reflection;
+    using Orchard.Environment.Descriptor.Models;
+    using Orchard.Environment.Extensions;
     using Proligence.PowerShell.Provider.Internal;
     using Proligence.PowerShell.Provider.Vfs.Navigation;
 
@@ -19,14 +21,18 @@
     public class OrchardPsSnapIn : CustomPSSnapIn 
     {
         private readonly IPsFileSearcher fileSearcher;
+        private readonly IExtensionManager extensionManager;
+        private readonly ShellDescriptor shellDescriptor;
         private Collection<ProviderConfigurationEntry> providers;
         private Collection<CmdletConfigurationEntry> cmdlets;
         private Collection<FormatConfigurationEntry> formats;
         private Collection<TypeConfigurationEntry> types;
 
-        public OrchardPsSnapIn(IPsFileSearcher fileSearcher)
+        public OrchardPsSnapIn(IPsFileSearcher fileSearcher, IExtensionManager extensionManager, ShellDescriptor shellDescriptor)
         {
             this.fileSearcher = fileSearcher;
+            this.extensionManager = extensionManager;
+            this.shellDescriptor = shellDescriptor;
             this.Aliases = new Dictionary<string, string>();
         }
 
@@ -122,7 +128,14 @@
                         {
                             if (typeof(Cmdlet).IsAssignableFrom(type))
                             {
-                                this.LoadCmdlet(cmdletsCollection, type);
+                                var featureAttr = (OrchardFeatureAttribute)Attribute.GetCustomAttribute(
+                                    type,
+                                    typeof(OrchardFeatureAttribute));
+
+                                if ((featureAttr == null) || this.IsFeatureEnabled(featureAttr.FeatureName))
+                                {
+                                    this.LoadCmdlet(cmdletsCollection, type);
+                                }
                             }
                         }
                         catch (Exception ex) 
@@ -182,6 +195,13 @@
             {
                 typesCollection.Add(new TypeConfigurationEntry(fileName));
             }
+        }
+
+        private bool IsFeatureEnabled(string featureId)
+        {
+            return this.extensionManager
+                .EnabledFeatures(this.shellDescriptor)
+                .Any(f => f.Id == featureId);
         }
     }
 }
