@@ -21,7 +21,7 @@
             this.powerShell.Session.ProcessInput("Get-ContentItem");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.True(table.Rows.Count > 0);
@@ -33,7 +33,7 @@
             this.powerShell.Session.ProcessInput("Get-ContentItem");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal("Id", table.Header[0]);
@@ -47,7 +47,7 @@
             this.powerShell.Session.ProcessInput("Get-ContentItem 1");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal("1", table.Rows.Single()[0]);
@@ -61,7 +61,7 @@
             this.powerShell.Session.ProcessInput("Get-ContentItem -ContentType Layer");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.True(table.Rows.Count > 0);
@@ -79,7 +79,7 @@
             this.powerShell.Session.ProcessInput(command);
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.True(table.Rows.Count > 0);
@@ -105,7 +105,7 @@
                 this.powerShell.Session.ProcessInput(command);
 
                 string output = this.powerShell.ConsoleConnection.Output.ToString();
-                Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+                this.powerShell.ConsoleConnection.AssertNoErrors();
 
                 var table = PsTable.Parse(output);
                 Assert.True(table.Rows.Count > 0);
@@ -119,7 +119,7 @@
             this.powerShell.Session.ProcessInput("Get-ContentItem -Id 1 -Version 1 | Format-Table Id, Version");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal("1", table.Rows.Single()[0]);

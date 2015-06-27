@@ -21,7 +21,7 @@
             this.powerShell.Session.ProcessInput("Get-ContentType");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal(1, table.Rows.Count(r => r[0] == "Site"));
@@ -35,7 +35,7 @@
             this.powerShell.Session.ProcessInput(command);
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal("Site", table.Rows.Single()[0]);
@@ -49,7 +49,7 @@
             this.powerShell.Session.ProcessInput(command);
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal(1, table.Rows.Count(r => r[0] == "Site"));
@@ -62,7 +62,7 @@
             this.powerShell.Session.ProcessInput("Get-ContentType -Tenant Default");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal(1, table.Rows.Count(r => r[0] == "Site"));
@@ -74,7 +74,7 @@
             this.powerShell.Session.ProcessInput("Get-ContentType -AllTenants");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.True(table.Rows.Count(r => r[0] == "Site") > 0);

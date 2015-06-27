@@ -20,7 +20,7 @@
         public void ShouldCreateContentItem()
         {
             this.powerShell.Session.ProcessInput("New-ContentItem Page");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
             Assert.Equal("0", table.Rows.Single()[0]);
@@ -31,7 +31,7 @@
         public void ShouldCreateContentItemFromContentTypeObject()
         {
             this.powerShell.Session.ProcessInput("Get-ContentType Page | New-ContentItem");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
             Assert.Equal("0", table.Rows.Single()[0]);
@@ -42,7 +42,7 @@
         public void ShouldCreateDraftContentItem()
         {
             this.powerShell.Session.ProcessInput("New-ContentItem Page -Draft");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
             int id = Convert.ToInt32(table.Rows.Single()[0]);
@@ -58,7 +58,7 @@
         public void ShouldCreatePublishedContentItem()
         {
             this.powerShell.Session.ProcessInput("New-ContentItem Page -Published");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
             int id = Convert.ToInt32(table.Rows.Single()[0]);

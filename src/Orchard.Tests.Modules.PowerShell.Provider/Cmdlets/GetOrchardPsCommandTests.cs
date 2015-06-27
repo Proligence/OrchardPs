@@ -20,7 +20,7 @@
             this.powerShell.Session.ProcessInput("Get-OrchardPsCommand");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
             Assert.Contains("Get-OrchardPsCommand", output);
         }
 
@@ -30,7 +30,7 @@
             this.powerShell.Session.ProcessInput("Get-OrchardPsCommand -All");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
             Assert.Contains("Get-OrchardPsCommand", output);
         }
 
@@ -40,7 +40,7 @@
             this.powerShell.Session.ProcessInput("Get-OrchardPsCommand -Path Tenants\\Default\\Commands");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal(1, table.Rows.Count);
@@ -55,7 +55,7 @@
             this.powerShell.Session.ProcessInput(command);
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             for (int i = 0; i < table.Rows.Count; i++)

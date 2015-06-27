@@ -20,7 +20,7 @@
             this.powerShell.Session.ProcessInput("Invoke-OrchardCommand help commands");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
             Assert.Contains("List of available commands:", output);
         }
 
@@ -30,7 +30,7 @@
             this.powerShell.Session.ProcessInput("Invoke-OrchardCommand theme list /Summary:true");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
             Assert.Contains("The Theme Machine", output);
         }
 
@@ -41,7 +41,7 @@
                 "Get-ChildItem 'Tenants\\Default\\Commands\\help commands' | Invoke-OrchardCommand");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
             Assert.Contains("List of available commands:", output);
         }
     }

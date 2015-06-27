@@ -21,7 +21,7 @@
             this.powerShell.Session.ProcessInput("Get-ContentPartDefinition");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal(1, table.Rows.Count(r => r[0] == "BodyPart"));
@@ -39,7 +39,7 @@
             this.powerShell.Session.ProcessInput(command);
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal("CommonPart", table.Rows.Single()[0]);
@@ -53,7 +53,7 @@
             this.powerShell.Session.ProcessInput(command);
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal(1, table.Rows.Count(r => r[0] == "CommonPart"));
@@ -66,7 +66,7 @@
             this.powerShell.Session.ProcessInput("Get-ContentPartDefinition -Tenant Default");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal(1, table.Rows.Count(r => r[0] == "BodyPart"));
@@ -82,7 +82,7 @@
             this.powerShell.Session.ProcessInput("Get-ContentPartDefinition -AllTenants");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.True(table.Rows.Count(r => r[0] == "BodyPart") > 0);

@@ -20,7 +20,7 @@
         {
             int id = this.CreateContentItem();
             this.powerShell.Session.ProcessInput("Remove-ContentItem " + id + " -Verbose");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             Assert.Equal(
                 "Performing the operation \"Remove\" on target \"Content Item: " + id + ", Version: 1, Tenant: Default\".",
@@ -34,7 +34,7 @@
         {
             int id = this.CreateContentItem();
             this.powerShell.Session.ProcessInput("Remove-ContentItem " + id + " -Destroy -Verbose");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             Assert.Equal(
                 "Performing the operation \"Destroy\" on target \"Content Item: " + id + ", Version: 1, Tenant: Default\".",
@@ -48,7 +48,7 @@
         {
             int id = this.CreateContentItem();
             this.powerShell.Session.ProcessInput("Get-ContentItem -Id " + id + " | Remove-ContentItem -Verbose");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             Assert.Equal(
                 "Performing the operation \"Remove\" on target \"Content Item: " + id + ", Version: 1, Tenant: Default\".",
@@ -62,7 +62,7 @@
         {
             int id = this.CreateContentItem();
             this.powerShell.Session.ProcessInput("Get-ContentItem -Id " + id + " | Remove-ContentItem -Destroy -Verbose");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             Assert.Equal(
                 "Performing the operation \"Destroy\" on target \"Content Item: " + id + ", Version: 1, Tenant: Default\".",

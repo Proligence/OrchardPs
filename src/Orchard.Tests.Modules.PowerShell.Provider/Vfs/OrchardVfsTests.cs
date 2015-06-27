@@ -21,7 +21,7 @@
             this.powerShell.Session.ProcessInput("Get-ChildItem Orchard:\\");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal("Name", table.Header[0]);
@@ -34,7 +34,7 @@
             this.powerShell.Session.ProcessInput("Get-ChildItem Orchard:\\Tenants");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal("Name", table.Header[0]);
@@ -47,7 +47,7 @@
         public void VfsShouldListTenantContents()
         {
             this.powerShell.Session.ProcessInput("Get-ChildItem Orchard:\\Tenants\\Default");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
             Assert.NotEmpty(this.powerShell.ConsoleConnection.Output.ToString());
         }
 
@@ -57,7 +57,7 @@
             this.powerShell.Session.ProcessInput("Get-ChildItem Orchard:\\");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal("Name", table.Header[0]);
@@ -68,7 +68,7 @@
         public void VfsShouldListRootDefaultTenantContents()
         {
             this.powerShell.Session.ProcessInput("Get-ChildItem Orchard:\\$");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
             Assert.NotEmpty(this.powerShell.ConsoleConnection.Output.ToString());
         }
 

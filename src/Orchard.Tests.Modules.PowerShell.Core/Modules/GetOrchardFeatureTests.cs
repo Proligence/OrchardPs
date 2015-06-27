@@ -22,7 +22,7 @@
             this.powerShell.Session.ProcessInput("Get-OrchardFeature");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             var dashboardRow = table.Rows.Single(r => r[0] == "Dashboard");
@@ -35,7 +35,7 @@
             this.powerShell.Session.ProcessInput("Get-OrchardFeature Orchard.Blogs");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal(1, table.Rows.Count);
@@ -48,7 +48,7 @@
             this.powerShell.Session.ProcessInput("Get-OrchardFeature -Name Blogs");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal(1, table.Rows.Count);
@@ -61,7 +61,7 @@
             this.powerShell.Session.ProcessInput("Get-OrchardFeature Se*");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.True(table.Rows.Count > 0);
@@ -78,7 +78,7 @@
             this.powerShell.Session.ProcessInput("Get-OrchardFeature -Name Se*");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.True(table.Rows.Count > 0);
@@ -95,7 +95,7 @@
             this.powerShell.Session.ProcessInput("Get-OrchardFeature -Enabled");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal(1, table.Rows.Count(r => r[0] == "Dashboard"));
@@ -107,7 +107,7 @@
             this.powerShell.Session.ProcessInput("Get-OrchardFeature -Disabled");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal(0, table.Rows.Count(r => r[0] == "Dashboard"));
@@ -119,7 +119,7 @@
             this.powerShell.Session.ProcessInput("Get-OrchardFeature -Tenant Default");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal(1, table.Rows.Count(r => r[0] == "Dashboard"));
@@ -131,7 +131,7 @@
             this.powerShell.Session.ProcessInput("Get-Tenant Default | Get-OrchardFeature");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal(1, table.Rows.Count(r => r[0] == "Dashboard"));
@@ -143,7 +143,7 @@
             this.powerShell.Session.ProcessInput("Get-OrchardFeature -AllTenants");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.True(table.Rows.Count(r => r[0] == "Dashboard") >= 1);

@@ -22,7 +22,7 @@
             this.powerShell.Session.ProcessInput("Get-OrchardTheme");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             var row = table.Rows.Single(r => r[0] == "TheThemeMachine");
@@ -36,7 +36,7 @@
             this.powerShell.Session.ProcessInput("Get-OrchardTheme TheThemeMachine");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal(1, table.Rows.Count);
@@ -49,7 +49,7 @@
             this.powerShell.Session.ProcessInput("Get-OrchardTheme -Name 'The Theme Machine'");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal(1, table.Rows.Count);
@@ -62,7 +62,7 @@
             this.powerShell.Session.ProcessInput("Get-OrchardTheme The*");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.True(table.Rows.Count > 0);
@@ -79,7 +79,7 @@
             this.powerShell.Session.ProcessInput("Get-OrchardTheme -Name The*");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.True(table.Rows.Count > 0);
@@ -96,7 +96,7 @@
             this.powerShell.Session.ProcessInput("Get-OrchardTheme -Enabled");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal(1, table.Rows.Count);
@@ -109,7 +109,7 @@
             this.powerShell.Session.ProcessInput("Get-OrchardTheme -Disabled");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             // NOTE: Output will be empty if there are no disabled themes
             if (!string.IsNullOrEmpty(output))
@@ -128,7 +128,7 @@
             this.powerShell.Session.ProcessInput("Get-OrchardTheme -Tenant Default");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             var row = table.Rows.Single(r => r[0] == "TheThemeMachine");
@@ -141,7 +141,7 @@
             this.powerShell.Session.ProcessInput("Get-Tenant Default | Get-OrchardTheme");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             var row = table.Rows.Single(r => r[0] == "TheThemeMachine");
@@ -154,7 +154,7 @@
             this.powerShell.Session.ProcessInput("Get-OrchardTheme -AllTenants");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.True(table.Rows.Count(r => r[0] == "TheThemeMachine") >= 1);

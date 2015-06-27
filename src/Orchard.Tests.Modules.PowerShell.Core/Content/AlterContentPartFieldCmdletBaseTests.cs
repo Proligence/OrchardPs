@@ -24,13 +24,13 @@
                 if (this.HasContentField("TitlePart", "BooleanField"))
                 {
                     this.powerShell.Session.ProcessInput("Remove-ContentField TitlePart BooleanField");
-                    Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+                    this.powerShell.ConsoleConnection.AssertNoErrors();
                     Assert.False(this.HasContentField("TitlePart", "BooleanField"));
                 }
                 else
                 {
                     this.powerShell.Session.ProcessInput("Add-ContentField TitlePart BooleanField");
-                    Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+                    this.powerShell.ConsoleConnection.AssertNoErrors();
                     Assert.True(this.HasContentField("TitlePart", "BooleanField"));
                 }
             }
@@ -46,14 +46,14 @@
                 {
                     this.powerShell.Session.ProcessInput(
                         "Get-ContentPartDefinition TitlePart | Remove-ContentField -ContentField BooleanField");
-                    Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+                    this.powerShell.ConsoleConnection.AssertNoErrors();
                     Assert.False(this.HasContentField("TitlePart", "BooleanField"));
                 }
                 else
                 {
                     this.powerShell.Session.ProcessInput(
                         "Get-ContentPartDefinition TitlePart | Add-ContentField -ContentField BooleanField");
-                    Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+                    this.powerShell.ConsoleConnection.AssertNoErrors();
                     Assert.True(this.HasContentField("TitlePart", "BooleanField"));
                 }
             }

@@ -21,7 +21,7 @@
             this.powerShell.Session.ProcessInput("Get-Tenant");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal("Running", table.Rows.Single(x => x[0] == "Default")[1]);
@@ -33,7 +33,7 @@
             this.powerShell.Session.ProcessInput("Get-Tenant Default");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal(1, table.Rows.Count);
@@ -46,7 +46,7 @@
             this.powerShell.Session.ProcessInput("Get-Tenant Def*");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal("Running", table.Rows.Single(x => x[0] == "Default")[1]);
@@ -58,7 +58,7 @@
             this.powerShell.Session.ProcessInput("Get-Tenant -Enabled");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal("Running", table.Rows.Single(x => x[0] == "Default")[1]);
@@ -70,7 +70,7 @@
             this.powerShell.Session.ProcessInput("Get-Tenant -Disabled");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             // NOTE: When there are no disabled tenants, the output will be empty.
             if (!string.IsNullOrEmpty(output))

@@ -23,7 +23,7 @@
 
             string newDisplayName = Guid.NewGuid().ToString("N");
             this.powerShell.Session.ProcessInput("Edit-ContentType Foo -DisplayName '" + newDisplayName + "'");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             this.powerShell.Session.ProcessInput("(Get-ContentType Foo).DisplayName");
             Assert.Equal(newDisplayName, this.powerShell.ConsoleConnection.Output.ToString().Trim());
@@ -36,7 +36,7 @@
 
             string newStereotype = Guid.NewGuid().ToString("N");
             this.powerShell.Session.ProcessInput("Edit-ContentType Foo -Stereotype " + newStereotype);
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
             Assert.Equal(newStereotype, this.GetSettingValue("Foo", "Stereotype"));
         }
 
@@ -55,13 +55,13 @@
                 if (this.GetSettingValue("Foo", settingName) == "True")
                 {
                     this.powerShell.Session.ProcessInput("Edit-ContentType Foo -" + switchName + ":$false");
-                    Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+                    this.powerShell.ConsoleConnection.AssertNoErrors();
                     Assert.Equal("False", this.GetSettingValue("Foo", settingName));
                 }
                 else
                 {
                     this.powerShell.Session.ProcessInput("Edit-ContentType Foo -" + switchName);
-                    Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+                    this.powerShell.ConsoleConnection.AssertNoErrors();
                     Assert.Equal("True", this.GetSettingValue("Foo", settingName));
                 }
             }
@@ -74,11 +74,11 @@
 
             var settingName = Guid.NewGuid().ToString("N");
             this.powerShell.Session.ProcessInput("Edit-ContentType Foo -Settings @{'" + settingName + "'='value'}");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
             Assert.Equal("value", this.GetSettingValue("Foo", settingName));
 
             this.powerShell.Session.ProcessInput("Edit-ContentType Foo -Settings @{'" + settingName + "'='new value'}");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
             Assert.Equal("new value", this.GetSettingValue("Foo", settingName));
         }
 
@@ -89,11 +89,11 @@
 
             var settingName = Guid.NewGuid().ToString("N");
             this.powerShell.Session.ProcessInput("Edit-ContentType Foo -Settings @{'" + settingName + "'='value'}");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
             Assert.Equal("value", this.GetSettingValue("Foo", settingName));
             
             this.powerShell.Session.ProcessInput("Edit-ContentType Foo -Settings @{'" + settingName + "'=$null}");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
             Assert.Null(this.GetSettingValue("Foo", settingName));
         }
 
@@ -104,7 +104,7 @@
 
             string newDisplayName = Guid.NewGuid().ToString("N");
             this.powerShell.Session.ProcessInput("Get-ContentType Foo | Edit-ContentType -DisplayName '" + newDisplayName + "'");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             this.powerShell.Session.ProcessInput("(Get-ContentType Foo).DisplayName");
             Assert.Equal(newDisplayName, this.powerShell.ConsoleConnection.Output.ToString().Trim());

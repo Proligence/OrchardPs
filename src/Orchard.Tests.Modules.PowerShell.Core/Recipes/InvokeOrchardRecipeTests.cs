@@ -18,14 +18,14 @@
         public void ShouldInvokeRecipeByName()
         {
             this.powerShell.Session.ProcessInput("Invoke-OrchardRecipe \"PowerShell Sample\"");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
         }
 
         [Fact, Integration]
         public void ShouldInvokeRecipeByObject()
         {
             this.powerShell.Session.ProcessInput("Get-OrchardRecipe \"PowerShell Sample\" | Invoke-OrchardRecipe");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
         }
     }
 }

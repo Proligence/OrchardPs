@@ -19,7 +19,7 @@
         public void VfsTenantShouldContainContentParts()
         {
             this.powerShell.Session.ProcessInput("Get-ChildItem Orchard:\\Tenants\\Default\\Content\\Parts");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
             Assert.Equal("Name", table.Header[0]);
@@ -36,7 +36,7 @@
         public void VfsTenantShouldContainContentTypes()
         {
             this.powerShell.Session.ProcessInput("Get-ChildItem Orchard:\\Tenants\\Default\\Content\\Types");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
             Assert.Equal("Name", table.Header[0]);
@@ -52,7 +52,7 @@
         public void VfsTenantShouldContainContentItemTypes()
         {
             this.powerShell.Session.ProcessInput("Get-ChildItem Orchard:\\Tenants\\Default\\Content\\Items");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
             Assert.Equal("Name", table.Header[0]);
@@ -67,7 +67,7 @@
         public void VfsContentItemTypeShouldContainContentItems()
         {
             this.powerShell.Session.ProcessInput("Get-ChildItem Orchard:\\Tenants\\Default\\Content\\Items\\Layer");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
             Assert.Equal("Id", table.Header[0]);
@@ -84,7 +84,7 @@
                 "Get-ChildItem Orchard:\\Tenants\\Default\\Content\\Items\\User | where { $_.UserName -eq 'Admin' } | fc");
 
             var output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
             Assert.NotEmpty(output);
             Assert.Contains("Content Item #", output);
             Assert.Contains("ContentType = User", output);
@@ -97,7 +97,7 @@
         {
             this.powerShell.Session.ProcessInput(
                 "Get-ChildItem Orchard:\\Tenants\\Default\\Content\\Items\\User | ft UserName, UserPart");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
             var userRow = table.Rows.Single(x => x[0] == "admin");

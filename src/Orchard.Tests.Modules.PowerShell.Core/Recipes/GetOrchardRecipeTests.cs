@@ -19,7 +19,7 @@
         public void ShouldGetAllRecipes()
         {
             this.powerShell.Session.ProcessInput("Get-OrchardRecipe");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
             Assert.Equal("Name", table.Header[0]);
@@ -35,7 +35,7 @@
         public void ShouldGetRecipesByName()
         {
             this.powerShell.Session.ProcessInput("Get-OrchardRecipe Core");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
             Assert.Equal("Name", table.Header[0]);
@@ -49,7 +49,7 @@
         public void ShouldGetRecipesByPartialName()
         {
             this.powerShell.Session.ProcessInput("Get-OrchardRecipe C*");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
             Assert.Equal("Name", table.Header[0]);
@@ -65,7 +65,7 @@
         public void ShouldGetRecipesByExtensionId()
         {
             this.powerShell.Session.ProcessInput("Get-OrchardRecipe -ExtensionId Orchard.Setup");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
             Assert.Equal(3, table.Rows.Count);

@@ -22,7 +22,7 @@
             string newDescription = Guid.NewGuid().ToString("N");
             this.powerShell.Session.ProcessInput("Edit-ContentPartDefinition CommonPart -Description '" + newDescription + "'");
 
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
             Assert.Equal(newDescription, this.GetDescription("CommonPart"));
         }
 
@@ -35,13 +35,13 @@
                 if (this.IsAttachable("CommentPart"))
                 {
                     this.powerShell.Session.ProcessInput("Edit-ContentPartDefinition CommentPart -Attachable $false");
-                    Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+                    this.powerShell.ConsoleConnection.AssertNoErrors();
                     Assert.False(this.IsAttachable("CommentPart"));
                 }
                 else
                 {
                     this.powerShell.Session.ProcessInput("Edit-ContentPartDefinition CommentPart -Attachable $true");
-                    Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+                    this.powerShell.ConsoleConnection.AssertNoErrors();
                     Assert.True(this.IsAttachable("CommentPart"));
                 }
             }
@@ -52,11 +52,11 @@
         {
             var settingName = Guid.NewGuid().ToString("N");
             this.powerShell.Session.ProcessInput("Edit-ContentPartDefinition CommonPart -" + settingName + " value");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
             Assert.Equal("value", this.GetSettingValue("CommonPart", settingName));
 
             this.powerShell.Session.ProcessInput("Edit-ContentPartDefinition CommonPart -" + settingName + " 'new value'");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
             Assert.Equal("new value", this.GetSettingValue("CommonPart", settingName));
         }
 
@@ -65,11 +65,11 @@
         {
             var settingName = Guid.NewGuid().ToString("N");
             this.powerShell.Session.ProcessInput("Edit-ContentPartDefinition CommonPart -" + settingName + " value");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
             Assert.Equal("value", this.GetSettingValue("CommonPart", settingName));
 
             this.powerShell.Session.ProcessInput("Edit-ContentPartDefinition CommonPart -" + settingName + " $null");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
             Assert.Null(this.GetSettingValue("CommonPart", settingName));
         }
 
@@ -80,7 +80,7 @@
             this.powerShell.Session.ProcessInput(
                 "Get-ContentPartDefinition CommonPart | Edit-ContentPartDefinition -Description '" + newDescription + "'");
             
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
             Assert.Equal(newDescription, this.GetDescription("CommonPart"));
         }
 

@@ -20,7 +20,7 @@
             this.EnsureContentTypeExists("Foo");
 
             this.powerShell.Session.ProcessInput("Remove-ContentType Foo");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             this.powerShell.Session.ProcessInput("Get-ContentType Foo");
             Assert.Empty(this.powerShell.ConsoleConnection.Output.ToString().Trim());
@@ -32,7 +32,7 @@
             this.EnsureContentTypeExists("Foo");
 
             this.powerShell.Session.ProcessInput("Get-ContentType Foo | Remove-ContentType");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             this.powerShell.Session.ProcessInput("Get-ContentType Foo");
             Assert.Empty(this.powerShell.ConsoleConnection.Output.ToString().Trim());

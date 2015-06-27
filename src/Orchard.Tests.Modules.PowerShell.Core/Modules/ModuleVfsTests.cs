@@ -19,7 +19,7 @@
         public void VfsTenantShouldContainModules()
         {
             this.powerShell.Session.ProcessInput("Get-ChildItem Orchard:\\Tenants\\Default\\Modules");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
             Assert.Equal("Name", table.Header[0]);
@@ -37,7 +37,7 @@
         public void VfsTenantShouldContainFeatures()
         {
             this.powerShell.Session.ProcessInput("Get-ChildItem Orchard:\\Tenants\\Default\\Features");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
             Assert.Equal("Id", table.Header[0]);
@@ -55,7 +55,7 @@
         public void VfsTenantShouldContainThemes()
         {
             this.powerShell.Session.ProcessInput("Get-ChildItem Orchard:\\Tenants\\Default\\Themes");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(this.powerShell.ConsoleConnection.Output.ToString());
             Assert.Equal("Id", table.Header[0]);

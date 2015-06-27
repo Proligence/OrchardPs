@@ -19,7 +19,7 @@
         public void ShouldCompleteTransaction()
         {
             this.powerShell.Session.ProcessInput("Start-OrchardTransaction");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             string title = Guid.NewGuid().ToString("N");
             this.CreateContentItem(title);
@@ -29,7 +29,7 @@
             Assert.Equal(1, table.Rows.Count);
 
             this.powerShell.Session.ProcessInput("Complete-OrchardTransaction");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             this.powerShell.ConsoleConnection.Reset();
             this.powerShell.Session.ProcessInput("Get-ContentItem -ContentType Page | where { $_.Title -eq '" + title + "' }");
@@ -41,7 +41,7 @@
         public void ShouldUndoTransaction()
         {
             this.powerShell.Session.ProcessInput("Start-OrchardTransaction");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             string title = Guid.NewGuid().ToString("N");
             this.CreateContentItem(title);
@@ -51,7 +51,7 @@
             Assert.Equal(1, table.Rows.Count);
 
             this.powerShell.Session.ProcessInput("Undo-OrchardTransaction");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             this.powerShell.ConsoleConnection.Reset();
             this.powerShell.Session.ProcessInput("Get-ContentItem -ContentType Page | where { $_.Title -eq '" + title + "' }");
@@ -61,13 +61,13 @@
         private void CreateContentItem(string title)
         {
             this.powerShell.Session.ProcessInput("$x = New-ContentItem -ContentType Page -Draft");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             this.powerShell.Session.ProcessInput("$x.TitlePart.Title = '" + title + "'");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             this.powerShell.Session.ProcessInput("$x | Publish-ContentItem");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
         }
     }
 }

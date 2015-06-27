@@ -22,7 +22,7 @@
             this.AssertContentItemTitle(id, "baz");
 
             this.powerShell.Session.ProcessInput("Restore-ContentItem " + id + " 2 -Verbose");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             Assert.Equal(
                 "Performing the operation \"Restore\" on target \"Content Item: " + id + ", Version: 2, Tenant: Default\".",
@@ -39,7 +39,7 @@
 
             this.powerShell.Session.ProcessInput(
                 "Get-ContentItem -Id " + id + " -VersionOptions Latest | Restore-ContentItem -Version 2 -Verbose");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             Assert.Equal(
                 "Performing the operation \"Restore\" on target \"Content Item: " + id + ", Version: 2, Tenant: Default\".",
@@ -82,7 +82,7 @@
             this.powerShell.Session.ProcessInput("Update-ContentItem $item -VersionOptions DraftRequired");
             this.powerShell.Session.ProcessInput("Publish-ContentItem $item -VersionOptions Latest");
             
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
             this.powerShell.ConsoleConnection.Reset();
 
             return id;

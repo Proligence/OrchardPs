@@ -21,7 +21,7 @@
             this.powerShell.Session.ProcessInput("Get-ChildItem Orchard:\\Tenants\\Default\\Commands");
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             var table = PsTable.Parse(output);
             Assert.Equal("Name", table.Header[0]);

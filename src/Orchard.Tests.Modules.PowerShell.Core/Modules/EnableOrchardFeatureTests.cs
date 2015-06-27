@@ -24,7 +24,7 @@
             
             this.powerShell.Session.ProcessInput("Enable-OrchardFeature " + TestFeatureId);
 
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
             Assert.Equal("True", this.GetOrchardFeature(TestFeatureId)[0, "Enabled"]);
         }
 
@@ -32,7 +32,7 @@
         {
             this.powerShell.ConsoleConnection.Reset();
             this.powerShell.Session.ProcessInput("Get-OrchardFeature " + featureId);
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             string output = this.powerShell.ConsoleConnection.Output.ToString();
             var table = PsTable.Parse(output);

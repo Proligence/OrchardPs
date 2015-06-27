@@ -21,7 +21,7 @@
         {
             int id = this.CreateContentItem();
             this.powerShell.Session.ProcessInput("Copy-ContentItem " + id + " -Verbose");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             Assert.Equal(
                 "Performing the operation \"Copy\" on target \"Content Item: " + id + ", Version: 1, Tenant: Default\".",
@@ -38,7 +38,7 @@
             int id = this.CreateContentItem();
             this.powerShell.Session.ProcessInput(
                 "Get-ContentItem -Id " + id + " -VersionOptions Latest | Copy-ContentItem -Verbose");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             Assert.Equal(
                 "Performing the operation \"Copy\" on target \"Content Item: " + id + ", Version: 1, Tenant: Default\".",

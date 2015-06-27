@@ -20,7 +20,7 @@
         {
             int id = this.CreateContentItem();
             this.powerShell.Session.ProcessInput("Publish-ContentItem " + id + " -Verbose");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             Assert.Equal(
                 "Performing the operation \"Publish\" on target \"Content Item: " + id + ", Version: 1, Tenant: Default\".",
@@ -35,7 +35,7 @@
             int id = this.CreateContentItem();
             this.powerShell.Session.ProcessInput(
                 "Get-ContentItem -Id " + id + " -VersionOptions Latest | Publish-ContentItem -Verbose");
-            Assert.Empty(this.powerShell.ConsoleConnection.ErrorOutput.ToString());
+            this.powerShell.ConsoleConnection.AssertNoErrors();
 
             Assert.Equal(
                 "Performing the operation \"Publish\" on target \"Content Item: " + id + ", Version: 1, Tenant: Default\".",
