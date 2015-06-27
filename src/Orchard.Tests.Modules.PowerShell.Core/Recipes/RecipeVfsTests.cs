@@ -1,4 +1,4 @@
-﻿namespace Orchard.Tests.Modules.PowerShell.Recipes
+﻿namespace Orchard.Tests.Modules.PowerShell.Core.Recipes
 {
     using System.Linq;
     using Orchard.Tests.PowerShell.Infrastructure;

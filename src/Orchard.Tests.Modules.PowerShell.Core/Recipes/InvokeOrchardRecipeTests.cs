@@ -1,4 +1,4 @@
-﻿namespace Orchard.Tests.Modules.PowerShell.Recipes
+﻿namespace Orchard.Tests.Modules.PowerShell.Core.Recipes
 {
     using Orchard.Tests.PowerShell.Infrastructure;
     using Xunit;

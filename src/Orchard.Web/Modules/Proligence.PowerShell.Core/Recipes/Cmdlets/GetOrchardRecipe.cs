@@ -1,4 +1,4 @@
-﻿namespace Proligence.PowerShell.Recipes.Cmdlets
+﻿namespace Proligence.PowerShell.Core.Recipes.Cmdlets
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -11,6 +11,7 @@
     using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Provider.Utilities;
 
+    [OrchardFeature("Proligence.PowerShell.Recipes")]
     [Cmdlet(VerbsCommon.Get, "OrchardRecipe", DefaultParameterSetName = "Default", ConfirmImpact = ConfirmImpact.None)]
     public class GetOrchardRecipe : TenantCmdlet
     {

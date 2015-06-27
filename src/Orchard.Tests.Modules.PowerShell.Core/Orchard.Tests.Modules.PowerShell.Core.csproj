@@ -76,6 +76,9 @@
     <Compile Include="Modules\GetOrchardFeatureTests.cs" />
     <Compile Include="Modules\ModuleVfsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Recipes\GetOrchardRecipeTests.cs" />
+    <Compile Include="Recipes\InvokeOrchardRecipeTests.cs" />
+    <Compile Include="Recipes\RecipeVfsTests.cs" />
     <Compile Include="Tenants\GetTenantTests.cs" />
     <Compile Include="Tenants\TenantVfsTests.cs" />
   </ItemGroup>

@@ -1,4 +1,4 @@
-﻿namespace Proligence.PowerShell.Recipes.Cmdlets
+﻿namespace Proligence.PowerShell.Core.Recipes.Cmdlets
 {
     using System.Management.Automation;
     using Orchard;
@@ -10,6 +10,7 @@
     using Proligence.PowerShell.Provider;
     using Proligence.PowerShell.Provider.Utilities;
 
+    [OrchardFeature("Proligence.PowerShell.Recipes")]
     [Cmdlet(VerbsLifecycle.Invoke, "OrchardRecipe", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
     public class InvokeOrchardRecipe : TenantCmdlet
     {

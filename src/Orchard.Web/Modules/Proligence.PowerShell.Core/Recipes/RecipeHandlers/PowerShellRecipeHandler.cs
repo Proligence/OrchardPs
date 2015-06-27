@@ -1,12 +1,14 @@
-﻿namespace Proligence.PowerShell.Recipes.RecipeHandlers
+﻿namespace Proligence.PowerShell.Core.Recipes.RecipeHandlers
 {
     using System;
     using System.Linq;
+    using Orchard.Environment.Extensions;
     using Orchard.Logging;
     using Orchard.Recipes.Models;
     using Orchard.Recipes.Services;
     using Proligence.PowerShell.Provider;
 
+    [OrchardFeature("Proligence.PowerShell.Recipes")]
     public class PowerShellRecipeHandler : IRecipeHandler 
     {
         private readonly IPsSessionManager sessionManager;

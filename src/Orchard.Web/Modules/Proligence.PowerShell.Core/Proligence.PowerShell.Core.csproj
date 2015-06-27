@@ -135,6 +135,12 @@
     <Compile Include="Modules\Nodes\ModulesNode.cs" />
     <Compile Include="Modules\Nodes\ThemeNode.cs" />
     <Compile Include="Modules\Nodes\ThemesNode.cs" />
+    <Compile Include="Recipes\Cmdlets\GetOrchardRecipe.cs" />
+    <Compile Include="Recipes\Cmdlets\InvokeOrchardRecipe.cs" />
+    <Compile Include="Recipes\NavigationProviders\RecipePsNavigationProvider.cs" />
+    <Compile Include="Recipes\Nodes\RecipeNode.cs" />
+    <Compile Include="Recipes\Nodes\RecipesNode.cs" />
+    <Compile Include="Recipes\RecipeHandlers\PowerShellRecipeHandler.cs" />
     <Compile Include="Tenants\Cmdlets\AlterTenantCmdletBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tenants\Cmdlets\DisableTenant.cs" />
@@ -197,6 +203,9 @@
     <Content Include="Modules\Cmdlets\Enable-OrchardTheme-help.xml" />
     <Content Include="Modules\Cmdlets\Get-OrchardFeature-help.xml" />
     <Content Include="Modules\Cmdlets\Get-OrchardTheme-help.xml" />
+    <Content Include="Recipes\Cmdlets\Get-OrchardRecipe-help.xml" />
+    <Content Include="Recipes\Cmdlets\Invoke-OrchardRecipe-help.xml" />
+    <Content Include="Recipes\Recipes\Sample.recipe.xml" />
     <Content Include="Tenants\Cmdlets\Disable-Tenant-help.xml" />
     <Content Include="Tenants\Cmdlets\Edit-Tenant-help.xml" />
     <Content Include="Tenants\Cmdlets\Enable-Tenant-help.xml" />
@@ -218,6 +227,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Content.types.ps1xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Recipes\Nodes\Recipe.format.ps1xml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
