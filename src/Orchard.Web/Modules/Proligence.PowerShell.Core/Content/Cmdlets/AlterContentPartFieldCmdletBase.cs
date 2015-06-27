@@ -17,7 +17,7 @@
         [Parameter(ParameterSetName = "AllTenants", Mandatory = true, Position = 1)]
         public string ContentPart { get; set; }
 
-        [Alias("cf")]
+        [Alias("cfd")]
         [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 2)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = true, Position = 2)]
