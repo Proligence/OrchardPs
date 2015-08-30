@@ -178,7 +178,7 @@
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
 
-      <command:parameter required="false" variableLength="treu" globbing="false" pipelineInput="false">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
         <maml:name>Tenant</maml:name>
         <maml:description>
           <maml:para>Specifies the name of the tenant in which the content item will be restored.</maml:para>

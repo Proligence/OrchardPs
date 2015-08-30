@@ -43,7 +43,7 @@
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
           <maml:name>VersionOptions</maml:name>
           <maml:description>
-            <maml:para>Specifies the version options to use when retriving the content item which will be unpublished.</maml:para>
+            <maml:para>Specifies the version options to use when retrieving the content item which will be unpublished.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="false">Proligence.PowerShell.Core.Content.Cmdlets.VersionOptionsEnum</command:parameterValue>
         </command:parameter>
@@ -95,7 +95,7 @@
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
           <maml:name>VersionOptions</maml:name>
           <maml:description>
-            <maml:para>Specifies the version options to use when retriving the content item which will be unpublished.</maml:para>
+            <maml:para>Specifies the version options to use when retrieving the content item which will be unpublished.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="false">Proligence.PowerShell.Core.Content.Cmdlets.VersionOptionsEnum</command:parameterValue>
         </command:parameter>
@@ -128,7 +128,7 @@
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
           <maml:name>VersionOptions</maml:name>
           <maml:description>
-            <maml:para>Specifies the version options to use when retriving the content item which will be unpublished.</maml:para>
+            <maml:para>Specifies the version options to use when retrieving the content item which will be unpublished.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="false">Proligence.PowerShell.Core.Content.Cmdlets.VersionOptionsEnum</command:parameterValue>
         </command:parameter>
@@ -169,7 +169,7 @@
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
         <maml:name>VersionOptions</maml:name>
         <maml:description>
-          <maml:para>Specifies the version options to use when retriving the content item which will be unpublished.</maml:para>
+          <maml:para>Specifies the version options to use when retrieving the content item which will be unpublished.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">Proligence.PowerShell.Core.Content.Cmdlets.VersionOptionsEnum</command:parameterValue>
         <dev:type>
@@ -205,7 +205,7 @@
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
 
-      <command:parameter required="false" variableLength="treu" globbing="false" pipelineInput="false">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
         <maml:name>Tenant</maml:name>
         <maml:description>
           <maml:para>Specifies the name of the tenant in which the content item will be unpublished.</maml:para>
