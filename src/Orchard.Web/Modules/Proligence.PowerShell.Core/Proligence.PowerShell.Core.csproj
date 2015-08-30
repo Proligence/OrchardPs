@@ -86,6 +86,7 @@
     <Compile Include="Content\Cmdlets\AlterContentItemCmdletBase.cs" />
     <Compile Include="Content\Cmdlets\AlterContentTypeCmdletBase.cs" />
     <Compile Include="Content\Cmdlets\CopyContentItem.cs" />
+    <Compile Include="Content\Cmdlets\ImportContentItem.cs" />
     <Compile Include="Content\Cmdlets\ExportContentItem.cs" />
     <Compile Include="Content\Cmdlets\GetContentItem.cs" />
     <Compile Include="Content\Cmdlets\NewContentItem.cs" />
@@ -156,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Commands\Cmdlets\Invoke-OrchardCommand-help.xml" />
+    <Content Include="Content\Cmdlets\Import-ContentItem-help.xml" />
     <Content Include="Content\Cmdlets\Get-ContentItem-help.xml">
       <SubType>Designer</SubType>
     </Content>

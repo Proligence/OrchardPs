@@ -367,6 +367,10 @@
         <uri/>
       </navigationLink>
       <navigationLink>
+        <linkText>Import-ContentItem</linkText>
+        <uri/>
+      </navigationLink>
+      <navigationLink>
         <linkText>Get-Tenant</linkText>
         <uri/>
       </navigationLink>
