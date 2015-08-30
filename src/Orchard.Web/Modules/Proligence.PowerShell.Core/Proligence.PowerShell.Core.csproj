@@ -86,6 +86,7 @@
     <Compile Include="Content\Cmdlets\AlterContentItemCmdletBase.cs" />
     <Compile Include="Content\Cmdlets\AlterContentTypeCmdletBase.cs" />
     <Compile Include="Content\Cmdlets\CopyContentItem.cs" />
+    <Compile Include="Content\Cmdlets\ExportContentItem.cs" />
     <Compile Include="Content\Cmdlets\GetContentItem.cs" />
     <Compile Include="Content\Cmdlets\NewContentItem.cs" />
     <Compile Include="Content\Cmdlets\PublishContentItem.cs" />
@@ -159,6 +160,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Content\Cmdlets\Copy-ContentItem-help.xml" />
+    <Content Include="Content\Cmdlets\Export-ContentItem-help.xml" />
     <Content Include="Content\Cmdlets\Restore-ContentItem-help.xml" />
     <Content Include="Content\Cmdlets\Unpublish-ContentItem-help.xml" />
     <Content Include="Content\Cmdlets\Publish-ContentItem-help.xml" />
