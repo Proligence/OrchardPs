@@ -16,3 +16,8 @@ Features:
         Description: Integrates PowerShell with Orchard recipes
         Category: Management
         Dependencies: Proligence.PowerShell.Provider, Orchard.Recipes
+    Proligence.PowerShell.Caching:
+        Name: PowerShell Cache Management
+        Description: Provides PowerShell extensions for managing the Orchard cache
+        Category: Management
+        Dependencies: Proligence.PowerShell.Provider, Orchard.Caching

@@ -78,6 +78,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Caching\Cmdlets\ClearOrchardCache.cs" />
     <Compile Include="Commands\Cmdlets\InvokeOrchardCommand.cs" />
     <Compile Include="Commands\Items\OrchardCommand.cs" />
     <Compile Include="Commands\NavigationProviders\CommandsPsNavigationProvider.cs" />
@@ -156,6 +157,7 @@
     <Compile Include="Tenants\Nodes\TenantConfigurationNode.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Caching\Cmdlets\Clear-OrchardCache-help.xml" />
     <Content Include="Commands\Cmdlets\Invoke-OrchardCommand-help.xml" />
     <Content Include="Content\Cmdlets\Import-ContentItem-help.xml" />
     <Content Include="Content\Cmdlets\Get-ContentItem-help.xml">
@@ -185,6 +187,10 @@
     <Content Include="Module.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Orchard.Caching\Orchard.Caching.csproj">
+      <Project>{7528BF74-25C7-4ABE-883A-443B4EEC4776}</Project>
+      <Name>Orchard.Caching</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Orchard.Themes\Orchard.Themes.csproj">
       <Project>{cde24a24-01d3-403c-84b9-37722e18dfb7}</Project>
       <Name>Orchard.Themes</Name>

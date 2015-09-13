@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{74E681ED-FECC-4034-B9BD-01B0BB1BDECA}"
 EndProject
@@ -43,11 +43,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orchard.Tests.Modules.Power
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orchard.Tests.PowerShell.Infrastructure", "Orchard.Tests.PowerShell.Infrastructure\Orchard.Tests.PowerShell.Infrastructure.csproj", "{6B662CF8-56BF-469D-9012-7EA3B8F8DC6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proligence.PowerShell.Recipes", "Orchard.Web\Modules\Proligence.PowerShell.Recipes\Proligence.PowerShell.Recipes.csproj", "{F56884D6-CF61-43B3-8E79-B53685C976F5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orchard.Tests.Modules.PowerShell.Recipes", "Orchard.Tests.Modules.PowerShell.Recipes\Orchard.Tests.Modules.PowerShell.Recipes.csproj", "{4A7A98A2-27BE-4ADD-9522-7E8A7BB14EE4}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orchard.Recipes", "Orchard.Web\Modules\Orchard.Recipes\Orchard.Recipes.csproj", "{FC1D74E8-7A4D-48F4-83DE-95C6173780C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orchard.Caching", "Orchard.Web\Modules\Orchard.Caching\Orchard.Caching.csproj", "{7528BF74-25C7-4ABE-883A-443B4EEC4776}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -218,26 +216,6 @@ Global
 		{6B662CF8-56BF-469D-9012-7EA3B8F8DC6C}.FxCop|Any CPU.Build.0 = Release|Any CPU
 		{6B662CF8-56BF-469D-9012-7EA3B8F8DC6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B662CF8-56BF-469D-9012-7EA3B8F8DC6C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F56884D6-CF61-43B3-8E79-B53685C976F5}.CodeCoverage|Any CPU.ActiveCfg = Release|Any CPU
-		{F56884D6-CF61-43B3-8E79-B53685C976F5}.CodeCoverage|Any CPU.Build.0 = Release|Any CPU
-		{F56884D6-CF61-43B3-8E79-B53685C976F5}.Coverage|Any CPU.ActiveCfg = Release|Any CPU
-		{F56884D6-CF61-43B3-8E79-B53685C976F5}.Coverage|Any CPU.Build.0 = Release|Any CPU
-		{F56884D6-CF61-43B3-8E79-B53685C976F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F56884D6-CF61-43B3-8E79-B53685C976F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F56884D6-CF61-43B3-8E79-B53685C976F5}.FxCop|Any CPU.ActiveCfg = Release|Any CPU
-		{F56884D6-CF61-43B3-8E79-B53685C976F5}.FxCop|Any CPU.Build.0 = Release|Any CPU
-		{F56884D6-CF61-43B3-8E79-B53685C976F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F56884D6-CF61-43B3-8E79-B53685C976F5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4A7A98A2-27BE-4ADD-9522-7E8A7BB14EE4}.CodeCoverage|Any CPU.ActiveCfg = Release|Any CPU
-		{4A7A98A2-27BE-4ADD-9522-7E8A7BB14EE4}.CodeCoverage|Any CPU.Build.0 = Release|Any CPU
-		{4A7A98A2-27BE-4ADD-9522-7E8A7BB14EE4}.Coverage|Any CPU.ActiveCfg = Release|Any CPU
-		{4A7A98A2-27BE-4ADD-9522-7E8A7BB14EE4}.Coverage|Any CPU.Build.0 = Release|Any CPU
-		{4A7A98A2-27BE-4ADD-9522-7E8A7BB14EE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4A7A98A2-27BE-4ADD-9522-7E8A7BB14EE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4A7A98A2-27BE-4ADD-9522-7E8A7BB14EE4}.FxCop|Any CPU.ActiveCfg = Release|Any CPU
-		{4A7A98A2-27BE-4ADD-9522-7E8A7BB14EE4}.FxCop|Any CPU.Build.0 = Release|Any CPU
-		{4A7A98A2-27BE-4ADD-9522-7E8A7BB14EE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4A7A98A2-27BE-4ADD-9522-7E8A7BB14EE4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FC1D74E8-7A4D-48F4-83DE-95C6173780C4}.CodeCoverage|Any CPU.ActiveCfg = Release|Any CPU
 		{FC1D74E8-7A4D-48F4-83DE-95C6173780C4}.CodeCoverage|Any CPU.Build.0 = Release|Any CPU
 		{FC1D74E8-7A4D-48F4-83DE-95C6173780C4}.Coverage|Any CPU.ActiveCfg = Release|Any CPU
@@ -248,6 +226,16 @@ Global
 		{FC1D74E8-7A4D-48F4-83DE-95C6173780C4}.FxCop|Any CPU.Build.0 = Release|Any CPU
 		{FC1D74E8-7A4D-48F4-83DE-95C6173780C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC1D74E8-7A4D-48F4-83DE-95C6173780C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7528BF74-25C7-4ABE-883A-443B4EEC4776}.CodeCoverage|Any CPU.ActiveCfg = Release|Any CPU
+		{7528BF74-25C7-4ABE-883A-443B4EEC4776}.CodeCoverage|Any CPU.Build.0 = Release|Any CPU
+		{7528BF74-25C7-4ABE-883A-443B4EEC4776}.Coverage|Any CPU.ActiveCfg = Release|Any CPU
+		{7528BF74-25C7-4ABE-883A-443B4EEC4776}.Coverage|Any CPU.Build.0 = Release|Any CPU
+		{7528BF74-25C7-4ABE-883A-443B4EEC4776}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7528BF74-25C7-4ABE-883A-443B4EEC4776}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7528BF74-25C7-4ABE-883A-443B4EEC4776}.FxCop|Any CPU.ActiveCfg = Release|Any CPU
+		{7528BF74-25C7-4ABE-883A-443B4EEC4776}.FxCop|Any CPU.Build.0 = Release|Any CPU
+		{7528BF74-25C7-4ABE-883A-443B4EEC4776}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7528BF74-25C7-4ABE-883A-443B4EEC4776}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -265,8 +253,7 @@ Global
 		{301B0B38-603A-4B9E-ADE3-4A4FE797F753} = {74E681ED-FECC-4034-B9BD-01B0BB1BDECA}
 		{209830E7-7C24-47CB-BCCB-042D8F1851A9} = {74E681ED-FECC-4034-B9BD-01B0BB1BDECA}
 		{6B662CF8-56BF-469D-9012-7EA3B8F8DC6C} = {74E681ED-FECC-4034-B9BD-01B0BB1BDECA}
-		{F56884D6-CF61-43B3-8E79-B53685C976F5} = {66F2661D-F0D3-430A-BBAC-63B75945A5F9}
-		{4A7A98A2-27BE-4ADD-9522-7E8A7BB14EE4} = {74E681ED-FECC-4034-B9BD-01B0BB1BDECA}
 		{FC1D74E8-7A4D-48F4-83DE-95C6173780C4} = {66F2661D-F0D3-430A-BBAC-63B75945A5F9}
+		{7528BF74-25C7-4ABE-883A-443B4EEC4776} = {66F2661D-F0D3-430A-BBAC-63B75945A5F9}
 	EndGlobalSection
 EndGlobal

@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Caching\ClearOrchardCacheTests.cs" />
     <Compile Include="Commands\CommandVfsTests.cs" />
     <Compile Include="Commands\InvokeOrchardCommandTests.cs" />
     <Compile Include="Content\AlterContentPartFieldCmdletBaseTests.cs" />
@@ -86,6 +87,10 @@
     <ProjectReference Include="..\Orchard.Tests.PowerShell.Infrastructure\Orchard.Tests.PowerShell.Infrastructure.csproj">
       <Project>{6b662cf8-56bf-469d-9012-7ea3b8f8dc6c}</Project>
       <Name>Orchard.Tests.PowerShell.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orchard.Web\Modules\Orchard.Caching\Orchard.Caching.csproj">
+      <Project>{7528bf74-25c7-4abe-883a-443b4eec4776}</Project>
+      <Name>Orchard.Caching</Name>
     </ProjectReference>
     <ProjectReference Include="..\Orchard.Web\Modules\Proligence.PowerShell.Core\Proligence.PowerShell.Core.csproj">
       <Project>{9c300795-5e99-4894-aeb1-e6b38dff0d78}</Project>
