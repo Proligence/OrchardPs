@@ -3,7 +3,7 @@ using Xunit.Sdk;
 
 namespace Orchard.Tests.PowerShell.Infrastructure {
     [AttributeUsage(AttributeTargets.Method)]
-    [TraitDiscoverer("Orchard.Tests.Modules.PowerShell.Core.Infrastructure.IntegrationTraitDiscoverer", "Orchard.Tests.Modules.PowerShell.Core")]
+    [TraitDiscoverer("Orchard.Tests.PowerShell.Infrastructure.IntegrationTraitDiscoverer", "Orchard.Tests.PowerShell.Infrastructure")]
     public class IntegrationAttribute : Attribute, ITraitAttribute {
     }
 }
