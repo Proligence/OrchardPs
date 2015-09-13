@@ -304,7 +304,7 @@
           <maml:para>Orchard:\Tenants\Default\Features&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          Get-ChldItem a* | Enable-OrchardFeature
+          Get-ChildItem a* | Enable-OrchardFeature
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>

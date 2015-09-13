@@ -56,7 +56,7 @@
         </command:parameter>
       </command:syntaxItem>
 
-      <!-- ParamterSet: TenantObject -->
+      <!-- ParameterSet: TenantObject -->
       <command:syntaxItem>
         <maml:name>Get-OrchardRecipe</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">

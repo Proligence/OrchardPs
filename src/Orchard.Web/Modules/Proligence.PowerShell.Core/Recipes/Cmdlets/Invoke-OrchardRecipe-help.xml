@@ -49,7 +49,7 @@
         </command:parameter>
       </command:syntaxItem>
 
-      <!-- ParamterSet: RecipeObject -->
+      <!-- ParameterSet: RecipeObject -->
       <command:syntaxItem>
         <maml:name>Invoke-OrchardRecipe</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="true">
@@ -68,7 +68,7 @@
         </command:parameter>
       </command:syntaxItem>
 
-      <!-- ParamterSet: TenantObject -->
+      <!-- ParameterSet: TenantObject -->
       <command:syntaxItem>
         <maml:name>Invoke-OrchardRecipe</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">

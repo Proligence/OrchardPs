@@ -102,7 +102,7 @@
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true">
           <maml:name>TenantObject</maml:name>
           <maml:description>
-            <maml:para>Specifies the object that represents the Orchard tenant in which the content item will be resotred. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet. This parameter is required.</maml:para>
+            <maml:para>Specifies the object that represents the Orchard tenant in which the content item will be restored. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet. This parameter is required.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="false">Orchard.Environment.Configuration.ShellSettings</command:parameterValue>
         </command:parameter>

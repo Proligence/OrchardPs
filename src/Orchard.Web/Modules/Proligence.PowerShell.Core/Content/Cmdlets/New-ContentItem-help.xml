@@ -45,14 +45,14 @@
           <maml:description>
             <maml:para>Specifies whether the content item should be persisted as a draft.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+          <command:parameterValue required="true" variableLength="true">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>Published</maml:name>
           <maml:description>
             <maml:para>Specifies whether the content item should be published.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+          <command:parameterValue required="true" variableLength="true">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>Tenant</maml:name>
@@ -78,14 +78,14 @@
           <maml:description>
             <maml:para>Specifies whether the content item should be persisted as a draft.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+          <command:parameterValue required="true" variableLength="true">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>Published</maml:name>
           <maml:description>
             <maml:para>Specifies whether the content item should be published.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+          <command:parameterValue required="true" variableLength="true">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>Tenant</maml:name>
@@ -111,14 +111,14 @@
           <maml:description>
             <maml:para>Specifies whether the content item should be persisted as a draft.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+          <command:parameterValue required="true" variableLength="true">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>Published</maml:name>
           <maml:description>
             <maml:para>Specifies whether the content item should be published.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+          <command:parameterValue required="true" variableLength="true">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="true">
           <maml:name>TenantObject</maml:name>
@@ -144,14 +144,14 @@
           <maml:description>
             <maml:para>Specifies whether the content item should be persisted as a draft.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+          <command:parameterValue required="true" variableLength="true">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>Published</maml:name>
           <maml:description>
             <maml:para>Specifies whether the content item should be published.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+          <command:parameterValue required="true" variableLength="true">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false">
           <maml:name>AllTenants</maml:name>
@@ -185,9 +185,9 @@
         <maml:description>
           <maml:para>Specifies whether the content item should be persisted as a draft.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">SwtichParameter</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">SwitchParameter</command:parameterValue>
         <dev:type>
-          <maml:name>SwtichParameter</maml:name>
+          <maml:name>SwitchParameter</maml:name>
           <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
@@ -198,9 +198,9 @@
         <maml:description>
           <maml:para>Specifies whether the content item should be published.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">SwtichParameter</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">SwitchParameter</command:parameterValue>
         <dev:type>
-          <maml:name>SwtichParameter</maml:name>
+          <maml:name>SwitchParameter</maml:name>
           <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>

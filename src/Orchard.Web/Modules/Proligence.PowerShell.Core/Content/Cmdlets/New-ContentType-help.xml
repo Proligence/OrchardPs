@@ -66,28 +66,28 @@
           <maml:description>
             <maml:para>Specifies whether an instance of the new content type can be created through the UI.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+          <command:parameterValue required="true" variableLength="true">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>Listable</maml:name>
           <maml:description>
             <maml:para>Specifies whether an instance of the new content type can be listed through the UI.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+          <command:parameterValue required="true" variableLength="true">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>Draftable</maml:name>
           <maml:description>
             <maml:para>Specifies whether the new content type supports draft versions.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+          <command:parameterValue required="true" variableLength="true">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>Securable</maml:name>
           <maml:description>
             <maml:para>Specifies whether the new content type can have custom permissions.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+          <command:parameterValue required="true" variableLength="true">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>Settings</maml:name>
@@ -141,28 +141,28 @@
           <maml:description>
             <maml:para>Specifies whether an instance of the new content type can be created through the UI.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+          <command:parameterValue required="true" variableLength="true">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>Listable</maml:name>
           <maml:description>
             <maml:para>Specifies whether an instance of the new content type can be listed through the UI.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+          <command:parameterValue required="true" variableLength="true">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>Draftable</maml:name>
           <maml:description>
             <maml:para>Specifies whether the new content type supports draft versions.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+          <command:parameterValue required="true" variableLength="true">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>Securable</maml:name>
           <maml:description>
             <maml:para>Specifies whether the new content type can have custom permissions.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+          <command:parameterValue required="true" variableLength="true">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>Settings</maml:name>
@@ -216,28 +216,28 @@
           <maml:description>
             <maml:para>Specifies whether an instance of the new content type can be created through the UI.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+          <command:parameterValue required="true" variableLength="true">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>Listable</maml:name>
           <maml:description>
             <maml:para>Specifies whether an instance of the new content type can be listed through the UI.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+          <command:parameterValue required="true" variableLength="true">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>Draftable</maml:name>
           <maml:description>
             <maml:para>Specifies whether the new content type supports draft versions.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+          <command:parameterValue required="true" variableLength="true">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>Securable</maml:name>
           <maml:description>
             <maml:para>Specifies whether the new content type can have custom permissions.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="true">SwtichParameter</command:parameterValue>
+          <command:parameterValue required="true" variableLength="true">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
           <maml:name>Settings</maml:name>
@@ -317,9 +317,9 @@
         <maml:description>
           <maml:para>Specifies whether an instance of the new content type can be created through the UI.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">SwtichParameter</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">SwitchParameter</command:parameterValue>
         <dev:type>
-          <maml:name>SwtichParameter</maml:name>
+          <maml:name>SwitchParameter</maml:name>
           <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
@@ -330,9 +330,9 @@
         <maml:description>
           <maml:para>Specifies whether an instance of the new content type can be listed through the UI.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">SwtichParameter</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">SwitchParameter</command:parameterValue>
         <dev:type>
-          <maml:name>SwtichParameter</maml:name>
+          <maml:name>SwitchParameter</maml:name>
           <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
@@ -343,9 +343,9 @@
         <maml:description>
           <maml:para>Specifies whether the new content type supports draft versions.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">SwtichParameter</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">SwitchParameter</command:parameterValue>
         <dev:type>
-          <maml:name>SwtichParameter</maml:name>
+          <maml:name>SwitchParameter</maml:name>
           <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
@@ -356,9 +356,9 @@
         <maml:description>
           <maml:para>Specifies whether the new content type can have custom permissions.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">SwtichParameter</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">SwitchParameter</command:parameterValue>
         <dev:type>
-          <maml:name>SwtichParameter</maml:name>
+          <maml:name>SwitchParameter</maml:name>
           <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
@@ -371,7 +371,7 @@
         </maml:description>
         <command:parameterValue required="false" variableLength="true">Hashtable</command:parameterValue>
         <dev:type>
-          <maml:name>SwtichParameter</maml:name>
+          <maml:name>SwitchParameter</maml:name>
           <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
@@ -567,7 +567,7 @@
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>This command creates a new content type named 'MyType' in all tenants whoose name starts with 'MyTenant'. For example, if the Orchard site would contain tenants 'MyTenant1', 'MyTenant2' and 'MyTenant3', then the command would create a new content type in each of those tenants.</maml:para>
+          <maml:para>This command creates a new content type named 'MyType' in all tenants whose name starts with 'MyTenant'. For example, if the Orchard site would contain tenants 'MyTenant1', 'MyTenant2' and 'MyTenant3', then the command would create a new content type in each of those tenants.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>

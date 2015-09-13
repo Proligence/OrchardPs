@@ -212,7 +212,7 @@
         <maml:description>
           <maml:para>Specifies the new data table prefix of the edited tenant.</maml:para>
         </maml:description>
-        <command:parameterValue required="fase" variableLength="false">string</command:parameterValue>
+        <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
         <dev:type>
           <maml:name>string</maml:name>
           <maml:uri/>

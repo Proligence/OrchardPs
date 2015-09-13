@@ -30,7 +30,7 @@
     
     <command:syntax>
       
-      <!-- ParamterSet: Default -->
+      <!-- ParameterSet: Default -->
       <command:syntaxItem>
         <maml:name>Enable-OrchardTheme</maml:name>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
@@ -146,7 +146,7 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true">
         <maml:name>TenantObject</maml:name>
         <maml:description>
-          <maml:para>Specifies the object that represents the Orchard tenant for which to enalbe the theme. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
+          <maml:para>Specifies the object that represents the Orchard tenant for which to enable the theme. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Orchard.Environment.Configuration.ShellSettings</command:parameterValue>
         <dev:type>
@@ -251,7 +251,7 @@
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>This command enables 'The Theme Machine' theme on the current tenat (Default). It does the same operation as example 1, but uses an OrchardTheme object aquired from the Get-OrchardTheme cmdlet.</maml:para>
+          <maml:para>This command enables 'The Theme Machine' theme on the current tenat (Default). It does the same operation as example 1, but uses an OrchardTheme object acquired from the Get-OrchardTheme cmdlet.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
