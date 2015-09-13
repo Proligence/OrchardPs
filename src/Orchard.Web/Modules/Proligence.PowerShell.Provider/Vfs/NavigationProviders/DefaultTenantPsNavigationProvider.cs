@@ -1,29 +1,24 @@
-﻿namespace Proligence.PowerShell.Provider.Vfs.NavigationProviders
-{
-    using System.Linq;
-    using System.Management.Automation;
-    using Orchard.Environment.Configuration;
-    using Proligence.PowerShell.Provider.Vfs.Navigation;
-    using Proligence.PowerShell.Provider.Vfs.Nodes;
+﻿using System.Linq;
+using System.Management.Automation;
+using Orchard.Environment.Configuration;
+using Proligence.PowerShell.Provider.Vfs.Navigation;
+using Proligence.PowerShell.Provider.Vfs.Nodes;
 
-    public class DefaultTenantPsNavigationProvider : PsNavigationProvider
-    {
-        private readonly IShellSettingsManager shellSettingsManager;
+namespace Proligence.PowerShell.Provider.Vfs.NavigationProviders {
+    public class DefaultTenantPsNavigationProvider : PsNavigationProvider {
+        private readonly IShellSettingsManager _shellSettingsManager;
 
         public DefaultTenantPsNavigationProvider(IShellSettingsManager shellSettingsManager)
-            : base(NodeType.Global)
-        {
-            this.shellSettingsManager = shellSettingsManager;
+            : base(NodeType.Global) {
+            _shellSettingsManager = shellSettingsManager;
         }
 
-        protected override void InitializeInternal()
-        {
-            ShellSettings tenant = this.shellSettingsManager
+        protected override void InitializeInternal() {
+            ShellSettings tenant = _shellSettingsManager
                 .LoadSettings()
                 .First(t => t.Name == "Default");
 
-            var defaultTenant = new DefaultShellSettings
-            {
+            var defaultTenant = new DefaultShellSettings {
                 Name = tenant.Name,
                 State = tenant.State,
                 DataConnectionString = tenant.DataConnectionString,
@@ -43,7 +38,7 @@
             psobj.Properties.Add(new PSNoteProperty("Name", "$"));
             psobj.Properties.Add(new PSNoteProperty("Description", "$ -> Tenants\\Default"));
 
-            this.Node = new TenantNode(this.Vfs, psobj, "$");
+            Node = new TenantNode(Vfs, psobj, "$");
         }
     }
 }

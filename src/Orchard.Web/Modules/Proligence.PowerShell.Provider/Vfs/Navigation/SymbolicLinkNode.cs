@@ -1,45 +1,40 @@
-﻿namespace Proligence.PowerShell.Provider.Vfs.Navigation
-{
-    using System.Collections.Generic;
-    using Orchard.Validation;
+﻿using System.Collections.Generic;
+using Orchard.Validation;
 
+namespace Proligence.PowerShell.Provider.Vfs.Navigation {
     /// <summary>
     /// Implements a node which works as a symbolic link (shortcut) to another node in the PowerShell VFS.
     /// </summary>
-    public class SymbolicLinkNode : ContainerNode 
-    {
-        public SymbolicLinkNode(IPowerShellVfs vfs, string name, VfsNode node) 
-            : base(vfs, name) 
-        {
+    public class SymbolicLinkNode : ContainerNode {
+        public SymbolicLinkNode(IPowerShellVfs vfs, string name, VfsNode node)
+            : base(vfs, name) {
             Argument.ThrowIfNull(node, "node");
-            
-            this.TargetNode = node;
-            this.Item = node.Item;
-            
-            this.InvokeDefaultActionHandler = node.InvokeDefaultActionHandler;
-            this.InvokeDefaultActionName = node.InvokeDefaultActionName;
-            this.SetItemHandler = node.SetItemHandler;
-            this.SetItemName = node.SetItemName;
-            this.ClearItemHandler = node.ClearItemHandler;
-            this.ClearItemName = node.ClearItemName;
+
+            TargetNode = node;
+            Item = node.Item;
+
+            InvokeDefaultActionHandler = node.InvokeDefaultActionHandler;
+            InvokeDefaultActionName = node.InvokeDefaultActionName;
+            SetItemHandler = node.SetItemHandler;
+            SetItemName = node.SetItemName;
+            ClearItemHandler = node.ClearItemHandler;
+            ClearItemName = node.ClearItemName;
 
             var containerNode = node as ContainerNode;
-            if (containerNode != null) 
-            {
-                this.NewItemHandler = containerNode.NewItemHandler;
-                this.NewItemName = containerNode.NewItemName;
-                this.CopyItemHandler = containerNode.CopyItemHandler;
-                this.CopyItemName = containerNode.CopyItemName;
-                this.MoveItemHandler = containerNode.MoveItemHandler;
-                this.MoveItemName = containerNode.MoveItemName;
-                this.RemoveItemHandler = containerNode.RemoveItemHandler;
-                this.RemoveItemName = containerNode.RemoveItemName;
-                this.RenameItemHandler = containerNode.RenameItemHandler;
-                this.RenameItemName = containerNode.RemoveItemName;
+            if (containerNode != null) {
+                NewItemHandler = containerNode.NewItemHandler;
+                NewItemName = containerNode.NewItemName;
+                CopyItemHandler = containerNode.CopyItemHandler;
+                CopyItemName = containerNode.CopyItemName;
+                MoveItemHandler = containerNode.MoveItemHandler;
+                MoveItemName = containerNode.MoveItemName;
+                RemoveItemHandler = containerNode.RemoveItemHandler;
+                RemoveItemName = containerNode.RemoveItemName;
+                RenameItemHandler = containerNode.RenameItemHandler;
+                RenameItemName = containerNode.RemoveItemName;
 
-                foreach (VfsNode staticNode in containerNode.StaticNodes) 
-                {
-                    this.AddStaticNode(staticNode);
+                foreach (VfsNode staticNode in containerNode.StaticNodes) {
+                    AddStaticNode(staticNode);
                 }
             }
         }
@@ -49,11 +44,9 @@
         /// </summary>
         public VfsNode TargetNode { get; protected set; }
 
-        protected override IEnumerable<VfsNode> GetVirtualNodesInternal() 
-        {
-            var containerNode = this.TargetNode as ContainerNode;
-            if (containerNode == null) 
-            {
+        protected override IEnumerable<VfsNode> GetVirtualNodesInternal() {
+            var containerNode = TargetNode as ContainerNode;
+            if (containerNode == null) {
                 return new VfsNode[0];
             }
 

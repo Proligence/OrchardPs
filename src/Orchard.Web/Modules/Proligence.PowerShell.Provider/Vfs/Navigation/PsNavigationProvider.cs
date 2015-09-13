@@ -1,29 +1,24 @@
-﻿namespace Proligence.PowerShell.Provider.Vfs.Navigation
-{
+﻿namespace Proligence.PowerShell.Provider.Vfs.Navigation {
     /// <summary>
     /// The base class for classes which extend the PowerShell Virtual File System by adding new static nodes to the
     /// VFS tree.
     /// </summary>
-    public abstract class PsNavigationProvider : IPsNavigationProvider 
-    {
-        protected PsNavigationProvider(NodeType nodeType)
-        {
-            this.NodeType = nodeType;
-            this.Path = "\\";
+    public abstract class PsNavigationProvider : IPsNavigationProvider {
+        protected PsNavigationProvider(NodeType nodeType) {
+            NodeType = nodeType;
+            Path = "\\";
         }
 
-        protected PsNavigationProvider(NodeType nodeType, VfsNode node) 
-        {
-            this.Path = "\\";
-            this.NodeType = nodeType;
-            this.Node = node;
+        protected PsNavigationProvider(NodeType nodeType, VfsNode node) {
+            Path = "\\";
+            NodeType = nodeType;
+            Node = node;
         }
 
-        protected PsNavigationProvider(NodeType nodeType, string path, VfsNode node) 
-        {
-            this.Path = path;
-            this.NodeType = nodeType;
-            this.Node = node;
+        protected PsNavigationProvider(NodeType nodeType, string path, VfsNode node) {
+            Path = path;
+            NodeType = nodeType;
+            Node = node;
         }
 
         /// <summary>
@@ -54,17 +49,14 @@
         /// <summary>
         /// Initializes the properties of the navigation provider.
         /// </summary>
-        public void Initialize()
-        {
-            if (!this.IsInitialized)
-            {
-                this.InitializeInternal();
-                this.IsInitialized = true;
+        public void Initialize() {
+            if (!IsInitialized) {
+                InitializeInternal();
+                IsInitialized = true;
             }
         }
 
-        protected virtual void InitializeInternal()
-        {
+        protected virtual void InitializeInternal() {
         }
     }
 }

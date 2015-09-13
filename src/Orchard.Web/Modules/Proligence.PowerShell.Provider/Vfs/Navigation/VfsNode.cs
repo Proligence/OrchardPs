@@ -1,32 +1,28 @@
-﻿namespace Proligence.PowerShell.Provider.Vfs.Navigation
-{
-    using System;
-    using System.Management.Automation.Provider;
+﻿using System;
+using System.Management.Automation.Provider;
 
+namespace Proligence.PowerShell.Provider.Vfs.Navigation {
     /// <summary>
     /// The base class for classes which represent nodes in the PowerShell Virtual File System (VFS).
     /// </summary>
-    public abstract class VfsNode 
-    {
-        protected VfsNode(IPowerShellVfs vfs, string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                name = this.GetType().Name;
+    public abstract class VfsNode {
+        protected VfsNode(IPowerShellVfs vfs, string name) {
+            if (string.IsNullOrWhiteSpace(name)) {
+                name = GetType().Name;
             }
 
-            this.Vfs = vfs;
-            this.Name = name;
-            this.InvokeDefaultActionName = "Invoke default action";
-            this.SetItemName = "Set item";
-            this.ClearItemName = "Clear item";
-            this.CopyItemName = "Copy item";
-            this.MoveItemName = "Move item";
-            this.RemoveItemName = "Remove item";
-            this.RenameItemName = "Rename item";
-            this.GetContentName = "Get content";
-            this.SetContentName = "Set content";
-            this.ClearContentName = "Clear content";
+            Vfs = vfs;
+            Name = name;
+            InvokeDefaultActionName = "Invoke default action";
+            SetItemName = "Set item";
+            ClearItemName = "Clear item";
+            CopyItemName = "Copy item";
+            MoveItemName = "Move item";
+            RemoveItemName = "Remove item";
+            RenameItemName = "Rename item";
+            GetContentName = "Get content";
+            SetContentName = "Set content";
+            ClearContentName = "Clear content";
         }
 
         /// <summary>
@@ -48,7 +44,7 @@
         /// Gets or sets the item encapsulated by the node.
         /// </summary>
         public object Item { get; protected set; }
-        
+
         /// <summary>
         /// Gets or sets the action which implements the <c>Invoke-Item</c> cmdlet.
         /// </summary>
@@ -171,20 +167,17 @@
         /// Gets the full path of the node.
         /// </summary>
         /// <returns>The full path of the node.</returns>
-        public string GetPath() 
-        {
-            if (this.Parent == null) 
-            {
-                return this.Name;
+        public string GetPath() {
+            if (Parent == null) {
+                return Name;
             }
 
-            string path = this.Vfs.PathValidator.JoinPath(this.Parent.GetPath(), this.Name);
+            string path = Vfs.PathValidator.JoinPath(Parent.GetPath(), Name);
             int index = 0;
-            while (path[index] == '\\' && index < path.Length) 
-            {
+            while (path[index] == '\\' && index < path.Length) {
                 index++;
             }
-            
+
             return path.Substring(index);
         }
 
@@ -196,20 +189,16 @@
         /// The child node under the specified relative path or <c>null</c> if there is no child node under the
         /// specified relative path.
         /// </returns>
-        public virtual VfsNode NavigatePath(string path)
-        {
-            if (path == null)
-            {
+        public virtual VfsNode NavigatePath(string path) {
+            if (path == null) {
                 return this;
             }
 
-            if (path.StartsWith("\\", StringComparison.Ordinal))
-            {
+            if (path.StartsWith("\\", StringComparison.Ordinal)) {
                 path = path.Substring(1);
             }
 
-            if (string.IsNullOrEmpty(path))
-            {
+            if (string.IsNullOrEmpty(path)) {
                 return this;
             }
 

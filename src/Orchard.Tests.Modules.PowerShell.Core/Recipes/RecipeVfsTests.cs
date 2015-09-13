@@ -1,24 +1,20 @@
-﻿namespace Orchard.Tests.Modules.PowerShell.Core.Recipes
-{
-    using System.Linq;
-    using Orchard.Tests.PowerShell.Infrastructure;
-    using Xunit;
+﻿using System.Linq;
+using Orchard.Tests.PowerShell.Infrastructure;
+using Xunit;
 
+namespace Orchard.Tests.Modules.PowerShell.Core.Recipes {
     [Collection("PowerShell")]
-    public class RecipeVfsTests : IClassFixture<PowerShellFixture>
-    {
-        private readonly PowerShellFixture powerShell;
+    public class RecipeVfsTests : IClassFixture<PowerShellFixture> {
+        private readonly PowerShellFixture _powerShell;
 
-        public RecipeVfsTests(PowerShellFixture powerShell)
-        {
-            this.powerShell = powerShell;
-            this.powerShell.ConsoleConnection.Reset();
+        public RecipeVfsTests(PowerShellFixture powerShell) {
+            _powerShell = powerShell;
+            _powerShell.ConsoleConnection.Reset();
         }
 
         [Fact, Integration]
-        public void VfsTenantShouldContainRecipes()
-        {
-            var table = this.powerShell.ExecuteTable("Get-ChildItem Orchard:\\Tenants\\Default\\Recipes");
+        public void VfsTenantShouldContainRecipes() {
+            var table = _powerShell.ExecuteTable("Get-ChildItem Orchard:\\Tenants\\Default\\Recipes");
             Assert.Equal("Name", table.Header[0]);
             Assert.Equal("Version", table.Header[1]);
             Assert.Equal("Description", table.Header[2]);

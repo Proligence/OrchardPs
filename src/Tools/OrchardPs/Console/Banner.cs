@@ -1,20 +1,16 @@
-﻿namespace OrchardPs.Console
-{
-    using System;
-    using System.Globalization;
-    using System.Reflection;
-    using System.Text;
+﻿using System;
+using System.Globalization;
+using System.Reflection;
+using System.Text;
 
-    internal static class Banner
-    {
-        public static string GetBanner()
-        {
+namespace OrchardPs.Console {
+    internal static class Banner {
+        public static string GetBanner() {
             var banner = new StringBuilder();
             banner.AppendLine("Proligence Orchard PowerShell");
 
             var versionAttribute = GetAssemblyAttribute<AssemblyFileVersionAttribute>();
-            if (versionAttribute != null)
-            {
+            if (versionAttribute != null) {
                 Version version = Assembly.GetEntryAssembly().GetName().Version;
                 string versionString = string.Format(
                     CultureInfo.CurrentCulture,
@@ -30,13 +26,11 @@
         }
 
         private static TAttribute GetAssemblyAttribute<TAttribute>()
-            where TAttribute : Attribute
-        {
-            var assembly = typeof(Program).Assembly;
-            var attributes = assembly.GetCustomAttributes(typeof(TAttribute), false);
-            if (attributes.Length > 0)
-            {
-                return (TAttribute)attributes[0];
+            where TAttribute : Attribute {
+            var assembly = typeof (Program).Assembly;
+            var attributes = assembly.GetCustomAttributes(typeof (TAttribute), false);
+            if (attributes.Length > 0) {
+                return (TAttribute) attributes[0];
             }
 
             return null;

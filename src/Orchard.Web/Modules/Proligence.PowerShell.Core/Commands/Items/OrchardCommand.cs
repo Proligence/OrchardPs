@@ -1,13 +1,11 @@
-﻿namespace Proligence.PowerShell.Core.Commands.Items 
-{
-    using System;
+﻿using System;
 
+namespace Proligence.PowerShell.Core.Commands.Items {
     /// <summary>
     /// Represents a legacy Orchard command.
     /// </summary>
     [Serializable]
-    public class OrchardCommand 
-    {
+    public class OrchardCommand {
         /// <summary>
         /// Gets or sets the name (and arguments) of the command.
         /// </summary>

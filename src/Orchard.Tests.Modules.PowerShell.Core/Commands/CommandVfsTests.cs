@@ -1,24 +1,20 @@
-﻿namespace Orchard.Tests.Modules.PowerShell.Core.Commands
-{
-    using System.Linq;
-    using Orchard.Tests.PowerShell.Infrastructure;
-    using Xunit;
+﻿using System.Linq;
+using Orchard.Tests.PowerShell.Infrastructure;
+using Xunit;
 
+namespace Orchard.Tests.Modules.PowerShell.Core.Commands {
     [Collection("PowerShell")]
-    public class CommandVfsTests : IClassFixture<PowerShellFixture>
-    {
-        private readonly PowerShellFixture powerShell;
+    public class CommandVfsTests : IClassFixture<PowerShellFixture> {
+        private readonly PowerShellFixture _powerShell;
 
-        public CommandVfsTests(PowerShellFixture powerShell)
-        {
-            this.powerShell = powerShell;
-            this.powerShell.ConsoleConnection.Reset();
+        public CommandVfsTests(PowerShellFixture powerShell) {
+            _powerShell = powerShell;
+            _powerShell.ConsoleConnection.Reset();
         }
 
         [Fact, Integration]
-        public void VfsTenantShouldContainCommands()
-        {
-            var table = this.powerShell.ExecuteTable("Get-ChildItem Orchard:\\Tenants\\Default\\Commands");
+        public void VfsTenantShouldContainCommands() {
+            var table = _powerShell.ExecuteTable("Get-ChildItem Orchard:\\Tenants\\Default\\Commands");
 
             Assert.Equal("Name", table.Header[0]);
             Assert.Equal("Help", table.Header[1]);

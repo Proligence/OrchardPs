@@ -1,12 +1,11 @@
-﻿namespace Proligence.PowerShell.Provider
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Management.Automation;
-    using Orchard.Environment.Configuration;
-    using Proligence.PowerShell.Provider.Utilities;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Management.Automation;
+using Orchard.Environment.Configuration;
+using Proligence.PowerShell.Provider.Utilities;
 
+namespace Proligence.PowerShell.Provider {
     /// <summary>
     /// The base class for cmdlets which work in the context of an Orchard tenant.
     /// </summary>
@@ -14,8 +13,7 @@
     /// This base class adds support for the <c>TenantObject</c>, <c>TenantObject</c> and <c>AllTenant</c>
     /// cmdlet parameters.
     /// </remarks>
-    public abstract class TenantCmdlet : OrchardCmdlet
-    {
+    public abstract class TenantCmdlet : OrchardCmdlet {
         [Parameter(ParameterSetName = "Default", Mandatory = false)]
         public virtual string Tenant { get; set; }
 
@@ -27,11 +25,10 @@
 
         protected ShellSettings[] AvailableTenants { get; private set; }
 
-        protected override void BeginProcessing()
-        {
+        protected override void BeginProcessing() {
             base.BeginProcessing();
 
-            this.AvailableTenants = this.Resolve<IShellSettingsManager>()
+            AvailableTenants = this.Resolve<IShellSettingsManager>()
                 .LoadSettings()
                 .Where(t => t.State == TenantState.Running)
                 .ToArray();
@@ -39,60 +36,47 @@
 
         protected abstract void ProcessRecord(ShellSettings tenant);
 
-        protected override void ProcessRecord()
-        {
-            foreach (ShellSettings tenant in this.FilterTenants(this.AvailableTenants))
-            {
-                this.ProcessRecord(tenant);
+        protected override void ProcessRecord() {
+            foreach (ShellSettings tenant in FilterTenants(AvailableTenants)) {
+                ProcessRecord(tenant);
             }
         }
 
-        private IEnumerable<ShellSettings> FilterTenants(IEnumerable<ShellSettings> tenants)
-        {
+        private IEnumerable<ShellSettings> FilterTenants(IEnumerable<ShellSettings> tenants) {
             var result = new List<ShellSettings>();
 
-            if (this.AllTenants.ToBool())
-            {
+            if (AllTenants.ToBool()) {
                 result.AddRange(tenants);
             }
-            else if (!string.IsNullOrEmpty(this.Tenant))
-            {
+            else if (!string.IsNullOrEmpty(Tenant)) {
                 ShellSettings[] namedTenants = tenants
-                    .Where(s => s.Name.Equals(this.Tenant, StringComparison.OrdinalIgnoreCase))
+                    .Where(s => s.Name.Equals(Tenant, StringComparison.OrdinalIgnoreCase))
                     .ToArray();
 
-                if (namedTenants.Any())
-                {
+                if (namedTenants.Any()) {
                     result.AddRange(namedTenants);
                 }
-                else
-                {
-                    this.WriteError(Error.FailedToFindTenant(this.Tenant));
+                else {
+                    WriteError(Error.FailedToFindTenant(Tenant));
                 }
             }
-            else if (this.TenantObject != null)
-            {
-                result.Add(this.TenantObject);
+            else if (TenantObject != null) {
+                result.Add(TenantObject);
             }
-            else
-            {
+            else {
                 ShellSettings currentTenant = this.GetCurrentTenant();
-                if (currentTenant != null)
-                {
+                if (currentTenant != null) {
                     result.Add(currentTenant);
                 }
-                else
-                {
+                else {
                     ShellSettings defaultTenant = tenants.SingleOrDefault(
                         s => s.Name.Equals("Default", StringComparison.OrdinalIgnoreCase));
 
-                    if (defaultTenant != null)
-                    {
+                    if (defaultTenant != null) {
                         result.Add(defaultTenant);
                     }
-                    else
-                    {
-                        this.WriteError(Error.FailedToFindTenant("Default"));
+                    else {
+                        WriteError(Error.FailedToFindTenant("Default"));
                     }
                 }
             }

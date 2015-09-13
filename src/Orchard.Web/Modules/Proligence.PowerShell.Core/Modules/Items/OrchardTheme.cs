@@ -1,11 +1,9 @@
-﻿namespace Proligence.PowerShell.Core.Modules.Items
-{
-    using System;
-    using Orchard.Environment.Extensions.Models;
+﻿using System;
+using Orchard.Environment.Extensions.Models;
 
+namespace Proligence.PowerShell.Core.Modules.Items {
     [Serializable]
-    public class OrchardTheme
-    {
+    public class OrchardTheme {
         /// <summary>
         /// Gets or sets the Orchard module which provides the theme.
         /// </summary>
@@ -14,23 +12,15 @@
         /// <summary>
         /// Gets the identifier of the theme.
         /// </summary>
-        public string Id
-        {
-            get
-            {
-                return this.Module.Id;
-            }
+        public string Id {
+            get { return Module.Id; }
         }
 
         /// <summary>
         /// Gets the theme's name.
         /// </summary>
-        public string Name
-        {
-            get
-            {
-                return this.Module.Name;
-            }
+        public string Name {
+            get { return Module.Name; }
         }
 
         /// <summary>
@@ -48,9 +38,8 @@
         /// </summary>
         public string TenantName { get; set; }
 
-        public override string ToString()
-        {
-            return this.Name;
+        public override string ToString() {
+            return Name;
         }
     }
 }

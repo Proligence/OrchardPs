@@ -1,11 +1,9 @@
-namespace Proligence.PowerShell.Provider.Console 
-{
-    using System;
-    using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 
+namespace Proligence.PowerShell.Provider.Console {
     [Serializable]
-    public class CompletionData 
-    {
+    public class CompletionData {
         public IList<string> Results { get; set; }
         public int CurrentMatchIndex { get; set; }
         public int ReplacementIndex { get; set; }

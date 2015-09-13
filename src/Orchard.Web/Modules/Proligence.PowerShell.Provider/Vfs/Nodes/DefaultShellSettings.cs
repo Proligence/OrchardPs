@@ -1,7 +1,6 @@
-﻿namespace Proligence.PowerShell.Provider.Vfs.Nodes
-{
-    using Orchard.Environment.Configuration;
+﻿using Orchard.Environment.Configuration;
 
+namespace Proligence.PowerShell.Provider.Vfs.Nodes {
     /// <summary>
     /// This class is used to represent the default tenant in the root '$' node.
     /// </summary>
@@ -10,7 +9,6 @@
     /// to the root node view in the PowerShell formatting file. Mapping the root view to <see cref="ShellSettings"/>
     /// would also change the view of the 'Tenants' node view.
     /// </remarks>
-    public class DefaultShellSettings : ShellSettings
-    {
+    public class DefaultShellSettings : ShellSettings {
     }
 }

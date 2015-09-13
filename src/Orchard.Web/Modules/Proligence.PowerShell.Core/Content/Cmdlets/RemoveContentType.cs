@@ -1,15 +1,12 @@
-﻿namespace Proligence.PowerShell.Core.Content.Cmdlets
-{
-    using System.Management.Automation;
-    using Orchard.ContentManagement.MetaData;
-    using Orchard.ContentManagement.MetaData.Models;
+﻿using System.Management.Automation;
+using Orchard.ContentManagement.MetaData;
+using Orchard.ContentManagement.MetaData.Models;
 
+namespace Proligence.PowerShell.Core.Content.Cmdlets {
     [Cmdlet(VerbsCommon.Remove, "ContentType", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
-    public class RemoveContentType : AlterContentTypeCmdletBase
-    {
+    public class RemoveContentType : AlterContentTypeCmdletBase {
         public RemoveContentType()
-            : base(failIfDoesNotExist: true)
-        {
+            : base(failIfDoesNotExist: true) {
         }
 
         [Alias("n")]
@@ -17,17 +14,13 @@
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 1)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false, Position = 1)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false, Position = 1)]
-        public override string Name
-        {
-            get
-            {
-                return this.ContentType != null ? this.ContentType.Name : base.Name;
+        public override string Name {
+            get {
+                return ContentType != null
+                    ? ContentType.Name
+                    : base.Name;
             }
-
-            set
-            {
-                base.Name = value;
-            }
+            set { base.Name = value; }
         }
 
         [Alias("ct")]
@@ -38,14 +31,12 @@
         [Parameter(ParameterSetName = "ContentTypeObject", Mandatory = false)]
         public override string Tenant { get; set; }
 
-        protected override string GetActionName()
-        {
+        protected override string GetActionName() {
             return "Remove";
         }
 
-        protected override void PerformAction(IContentDefinitionManager contentDefinitionManager)
-        {
-            contentDefinitionManager.DeleteTypeDefinition(this.Name);
+        protected override void PerformAction(IContentDefinitionManager contentDefinitionManager) {
+            contentDefinitionManager.DeleteTypeDefinition(Name);
         }
     }
 }

@@ -1,12 +1,10 @@
-namespace Proligence.PowerShell.Provider
-{
-    using System.Management.Automation;
+using System.Management.Automation;
 
+namespace Proligence.PowerShell.Provider {
     /// <summary>
     /// Defines the API for classes which implement Orchard cmdlets.
     /// </summary>
-    public interface IOrchardCmdlet
-    {
+    public interface IOrchardCmdlet {
         /// <summary>
         /// Reports a nonterminating error to the error pipeline when the cmdlet cannot process a record but can
         /// continue to process other records.

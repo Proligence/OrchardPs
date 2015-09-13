@@ -1,14 +1,11 @@
-﻿namespace Orchard.Tests.Modules.PowerShell.Provider.Utilities
-{
-    using Proligence.PowerShell.Provider.Utilities;
-    using Xunit;
+﻿using Proligence.PowerShell.Provider.Utilities;
+using Xunit;
 
-    public class PropertyMapperTests
-    {
+namespace Orchard.Tests.Modules.PowerShell.Provider.Utilities {
+    public class PropertyMapperTests {
         [Fact]
-        public void MapPropertiesShouldMapProperties()
-        {
-            var foo = new Foo { A = "text", B = 5, C = true };
+        public void MapPropertiesShouldMapProperties() {
+            var foo = new Foo {A = "text", B = 5, C = true};
             var bar = new Bar();
 
             PropertyMapper.Instance.MapProperties(foo, bar);
@@ -19,9 +16,8 @@
         }
 
         [Fact]
-        public void MapPropertiesShouldNotMapPropertiesDisabledAtSource()
-        {
-            var foo = new Foo { D = "text1", E = "text2" };
+        public void MapPropertiesShouldNotMapPropertiesDisabledAtSource() {
+            var foo = new Foo {D = "text1", E = "text2"};
             var bar = new Bar();
 
             PropertyMapper.Instance.MapProperties(foo, bar);
@@ -31,9 +27,8 @@
         }
 
         [Fact]
-        public void MapPropertiesShouldNotMapPropertiesDisabledAtTarget()
-        {
-            var foo = new Foo { F = "text" };
+        public void MapPropertiesShouldNotMapPropertiesDisabledAtTarget() {
+            var foo = new Foo {F = "text"};
             var bar = new Bar();
 
             PropertyMapper.Instance.MapProperties(foo, bar);
@@ -43,8 +38,7 @@
 
         /* ReSharper disable UnusedAutoPropertyAccessor.Local */
 
-        private class Foo
-        {
+        private class Foo {
             [Mappable]
             public string A { get; set; }
 
@@ -63,8 +57,7 @@
             public string F { get; set; }
         }
 
-        private class Bar
-        {
+        private class Bar {
             public string A { get; set; }
             public int B { get; set; }
             public bool C { get; set; }

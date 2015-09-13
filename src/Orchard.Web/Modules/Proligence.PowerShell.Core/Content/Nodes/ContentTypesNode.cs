@@ -1,13 +1,12 @@
-namespace Proligence.PowerShell.Core.Content.Nodes
-{
-    using System.Collections.Generic;
-    using System.Linq;
-    using Orchard.ContentManagement.MetaData;
-    using Proligence.PowerShell.Provider;
-    using Proligence.PowerShell.Provider.Vfs;
-    using Proligence.PowerShell.Provider.Vfs.Items;
-    using Proligence.PowerShell.Provider.Vfs.Navigation;
-    
+using System.Collections.Generic;
+using System.Linq;
+using Orchard.ContentManagement.MetaData;
+using Proligence.PowerShell.Provider;
+using Proligence.PowerShell.Provider.Vfs;
+using Proligence.PowerShell.Provider.Vfs.Items;
+using Proligence.PowerShell.Provider.Vfs.Navigation;
+
+namespace Proligence.PowerShell.Core.Content.Nodes {
     /// <summary>
     /// Implements a VFS node which contains content type definitions for an Orchard tenant.
     /// </summary>
@@ -16,35 +15,29 @@ namespace Proligence.PowerShell.Core.Content.Nodes
     [SupportedCmdlet("Add-ContentPart")]
     [SupportedCmdlet("Remove-ContentPart")]
     [SupportedCmdlet("New-ContentItem")]
-    public class ContentTypesNode : ContainerNode
-    {
+    public class ContentTypesNode : ContainerNode {
         public ContentTypesNode(IPowerShellVfs vfs)
-            : base(vfs, "Types")
-        {
-            this.Item = new CollectionItem(this)
-            {
+            : base(vfs, "Types") {
+            Item = new CollectionItem(this) {
                 Name = "Types",
                 Description = "Contains the definitions of content types in the current tenant."
             };
         }
 
-        public override IEnumerable<VfsNode> GetVirtualNodes()
-        {
+        public override IEnumerable<VfsNode> GetVirtualNodes() {
             string tenantName = this.GetCurrentTenantName();
-            if (tenantName == null)
-            {
+            if (tenantName == null) {
                 return new VfsNode[0];
             }
 
             return this.UsingWorkContextScope(
                 tenantName,
-                scope =>
-                    {
-                        return scope.Resolve<IContentDefinitionManager>()
-                            .ListTypeDefinitions()
-                            .Select(definition => new ContentTypeNode(this.Vfs, definition))
-                            .ToArray();
-                    });
+                scope => {
+                    return scope.Resolve<IContentDefinitionManager>()
+                        .ListTypeDefinitions()
+                        .Select(definition => new ContentTypeNode(Vfs, definition))
+                        .ToArray();
+                });
         }
     }
 }

@@ -1,22 +1,18 @@
-﻿namespace Proligence.PowerShell.Core.Modules.NavigationProviders 
-{
-    using Orchard.Environment.Extensions;
-    using Proligence.PowerShell.Core.Modules.Nodes;
-    using Proligence.PowerShell.Provider.Vfs.Navigation;
+﻿using Orchard.Environment.Extensions;
+using Proligence.PowerShell.Core.Modules.Nodes;
+using Proligence.PowerShell.Provider.Vfs.Navigation;
 
-    public class FeaturesPsNavigationProvider : PsNavigationProvider 
-    {
-        private readonly IExtensionManager extensionManager;
+namespace Proligence.PowerShell.Core.Modules.NavigationProviders {
+    public class FeaturesPsNavigationProvider : PsNavigationProvider {
+        private readonly IExtensionManager _extensionManager;
 
         public FeaturesPsNavigationProvider(IExtensionManager extensionManager)
-            : base(NodeType.Tenant)
-        {
-            this.extensionManager = extensionManager;
+            : base(NodeType.Tenant) {
+            _extensionManager = extensionManager;
         }
 
-        protected override void InitializeInternal()
-        {
-            this.Node = new FeaturesNode(this.Vfs, this.extensionManager);
+        protected override void InitializeInternal() {
+            Node = new FeaturesNode(Vfs, _extensionManager);
         }
     }
 }

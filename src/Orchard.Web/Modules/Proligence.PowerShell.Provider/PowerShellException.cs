@@ -1,63 +1,52 @@
-﻿namespace Proligence.PowerShell.Provider
-{
-    using System;
-    using System.Management.Automation;
-    using System.Runtime.Serialization;
+﻿using System;
+using System.Management.Automation;
+using System.Runtime.Serialization;
 
+namespace Proligence.PowerShell.Provider {
     [Serializable]
-    public class PowerShellException : Exception
-    {
-        private readonly string command;
-        private readonly ErrorRecord errorRecord;
+    public class PowerShellException : Exception {
+        private readonly string _command;
+        private readonly ErrorRecord _errorRecord;
 
-        public string Command
-        {
-            get { return this.command; }
+        public string Command {
+            get { return _command; }
         }
 
-        public ErrorRecord ErrorRecord
-        {
-            get { return this.errorRecord; }
+        public ErrorRecord ErrorRecord {
+            get { return _errorRecord; }
         }
 
-        public PowerShellException()
-        {
+        public PowerShellException() {
         }
-    
+
         public PowerShellException(string message)
-            : base(message)
-        {
+            : base(message) {
         }
 
         public PowerShellException(string message, string command)
-            : base(message)
-        {
-            this.command = command;
+            : base(message) {
+            _command = command;
         }
 
         public PowerShellException(ErrorRecord errorRecord)
-            : base(errorRecord.Exception.Message, errorRecord.Exception)
-        {
+            : base(errorRecord.Exception.Message, errorRecord.Exception) {
         }
-    
+
         public PowerShellException(string message, Exception innerException)
-            : base(message, innerException)
-        {
+            : base(message, innerException) {
         }
 
         protected PowerShellException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-            this.command = info.GetString("command");
-            this.errorRecord = (ErrorRecord)info.GetValue("errorRecord", typeof(ErrorRecord));
+            : base(info, context) {
+            _command = info.GetString("command");
+            _errorRecord = (ErrorRecord) info.GetValue("errorRecord", typeof (ErrorRecord));
         }
 
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
+        public override void GetObjectData(SerializationInfo info, StreamingContext context) {
             base.GetObjectData(info, context);
 
-            info.AddValue("command", this.command);
-            info.AddValue("errorRecord", this.errorRecord);
+            info.AddValue("command", _command);
+            info.AddValue("errorRecord", _errorRecord);
         }
     }
 }

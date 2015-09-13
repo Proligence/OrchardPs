@@ -1,14 +1,12 @@
-﻿namespace Proligence.PowerShell.Core.Content.Cmdlets
-{
-    using System.Management.Automation;
-    using System.Xml.Linq;
-    using Orchard.ContentManagement;
-    using Proligence.PowerShell.Provider;
+﻿using System.Management.Automation;
+using System.Xml.Linq;
+using Orchard.ContentManagement;
+using Proligence.PowerShell.Provider;
 
+namespace Proligence.PowerShell.Core.Content.Cmdlets {
     [CmdletAlias("ecit")]
     [Cmdlet(VerbsData.Export, "ContentItem", DefaultParameterSetName = "Default", ConfirmImpact = ConfirmImpact.None)]
-    public class ExportContentItem : AlterContentItemCmdletBase
-    {
+    public class ExportContentItem : AlterContentItemCmdletBase {
         [Alias("vo")]
         [Parameter(ParameterSetName = "Default", Mandatory = false, Position = 2)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false, Position = 2)]
@@ -23,15 +21,13 @@
         [Parameter(ParameterSetName = "ContentItemObject", Mandatory = false)]
         public override int? Version { get; set; }
 
-        protected override string GetActionName()
-        {
+        protected override string GetActionName() {
             return "Export";
         }
 
-        protected override void PerformAction(IContentManager contentManager, ContentItem contentItem)
-        {
+        protected override void PerformAction(IContentManager contentManager, ContentItem contentItem) {
             string xml = contentManager.Export(contentItem).ToString(SaveOptions.None);
-            this.WriteObject(xml);
+            WriteObject(xml);
         }
     }
 }

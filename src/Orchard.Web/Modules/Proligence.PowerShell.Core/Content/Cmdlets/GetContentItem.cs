@@ -1,16 +1,14 @@
-﻿namespace Proligence.PowerShell.Core.Content.Cmdlets
-{
-    using System.Collections.Generic;
-    using System.Management.Automation;
-    using Orchard.ContentManagement;
-    using Orchard.Environment.Configuration;
-    using Proligence.PowerShell.Core.Content.Nodes;
-    using Proligence.PowerShell.Provider;
+﻿using System.Collections.Generic;
+using System.Management.Automation;
+using Orchard.ContentManagement;
+using Orchard.Environment.Configuration;
+using Proligence.PowerShell.Core.Content.Nodes;
+using Proligence.PowerShell.Provider;
 
+namespace Proligence.PowerShell.Core.Content.Cmdlets {
     [CmdletAlias("gcit")]
     [Cmdlet(VerbsCommon.Get, "ContentItem", DefaultParameterSetName = "Default", ConfirmImpact = ConfirmImpact.None)]
-    public class GetContentItem : TenantCmdlet
-    {
+    public class GetContentItem : TenantCmdlet {
         [Parameter(ParameterSetName = "Default", Mandatory = false, Position = 1)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false, Position = 1)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false, Position = 1)]
@@ -35,83 +33,60 @@
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
         public VersionOptionsEnum? VersionOptions { get; set; }
 
-        protected override void ProcessRecord(ShellSettings tenant)
-        {
+        protected override void ProcessRecord(ShellSettings tenant) {
             this.UsingWorkContextScope(
                 tenant.Name,
-                scope =>
-                {
-                    foreach (ContentItem item in this.GetContentItems(scope.Resolve<IContentManager>()))
-                    {
-                        if (item != null)
-                        {
-                            this.WriteObject(ContentItemNode.BuildPSObject(item));
+                scope => {
+                    foreach (ContentItem item in GetContentItems(scope.Resolve<IContentManager>())) {
+                        if (item != null) {
+                            WriteObject(ContentItemNode.BuildPSObject(item));
                         }
                     }
                 });
         }
 
-        private IEnumerable<ContentItem> GetContentItems(IContentManager contentManager)
-        {
-            if (this.Id != null)
-            {
-                var id = this.Id.Value;
-                var versionOptions = this.GetVersionOptions();
-                if (versionOptions != null)
-                {
+        private IEnumerable<ContentItem> GetContentItems(IContentManager contentManager) {
+            if (Id != null) {
+                var id = Id.Value;
+                var versionOptions = GetVersionOptions();
+                if (versionOptions != null) {
                     yield return contentManager.Get(id, versionOptions);
                 }
-                else
-                {
+                else {
                     yield return contentManager.Get(id, Orchard.ContentManagement.VersionOptions.Latest);
                 }
             }
-            else
-            {
-                foreach (var contentItem in this.QueryContentItems(contentManager))
-                {
+            else {
+                foreach (var contentItem in QueryContentItems(contentManager)) {
                     yield return contentItem;
                 }
             }
         }
 
-        private IEnumerable<ContentItem> QueryContentItems(IContentManager contentManager)
-        {
+        private IEnumerable<ContentItem> QueryContentItems(IContentManager contentManager) {
             IContentQuery<ContentItem> query;
 
             // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
-            if (!string.IsNullOrEmpty(this.ContentType))
-            {
-                query = contentManager.Query(this.ContentType);
+            if (!string.IsNullOrEmpty(ContentType)) {
+                query = contentManager.Query(ContentType);
             }
-            else
-            {
+            else {
                 query = contentManager.Query();
             }
 
-            var versionOptions = this.GetVersionOptions();
-            if (versionOptions != null)
-            {
-                query.ForVersion(versionOptions);
-            }
-            else
-            {
-                query.ForVersion(Orchard.ContentManagement.VersionOptions.Latest);
-            }
+            var versionOptions = GetVersionOptions();
+            query.ForVersion(versionOptions ?? Orchard.ContentManagement.VersionOptions.Latest);
 
             return query.List();
         }
 
-        private VersionOptions GetVersionOptions()
-        {
-            if (this.VersionOptions != null)
-            {
-                return this.VersionOptions.Value.ToVersionOptions();
+        private VersionOptions GetVersionOptions() {
+            if (VersionOptions != null) {
+                return VersionOptions.Value.ToVersionOptions();
             }
 
-            if (this.Version != null)
-            {
-                return Orchard.ContentManagement.VersionOptions.Number(this.Version.Value);
+            if (Version != null) {
+                return Orchard.ContentManagement.VersionOptions.Number(Version.Value);
             }
 
             return null;

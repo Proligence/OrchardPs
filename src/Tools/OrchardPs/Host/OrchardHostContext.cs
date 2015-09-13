@@ -1,12 +1,10 @@
-namespace OrchardPs.Host
-{
-    using Proligence.PowerShell.Provider;
+using Proligence.PowerShell.Provider;
 
+namespace OrchardPs.Host {
     /// <summary>
     /// Represents Orchard session context.
     /// </summary>
-    public class OrchardHostContext
-    {
+    public class OrchardHostContext {
         /// <summary>
         /// Gets or sets the directory of the Orchard installation.
         /// </summary>

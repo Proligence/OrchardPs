@@ -1,15 +1,13 @@
-﻿namespace Proligence.PowerShell.Provider
-{
-    using System;
-    using Autofac;
-    using Orchard;
-    using Orchard.Environment.Configuration;
-    using Proligence.PowerShell.Provider.Vfs;
-    using Proligence.PowerShell.Provider.Vfs.Navigation;
-    using Proligence.PowerShell.Provider.Vfs.Nodes;
+﻿using System;
+using Autofac;
+using Orchard;
+using Orchard.Environment.Configuration;
+using Proligence.PowerShell.Provider.Vfs;
+using Proligence.PowerShell.Provider.Vfs.Navigation;
+using Proligence.PowerShell.Provider.Vfs.Nodes;
 
-    public static class OrchardCmdletExtensions
-    {
+namespace Proligence.PowerShell.Provider {
+    public static class OrchardCmdletExtensions {
         /// <summary>
         /// Gets the Orchard tenant from which the cmdlet was invoked.
         /// </summary>
@@ -18,19 +16,15 @@
         /// The <see cref="ShellSettings"/> object which represents the current tenant or <c>null</c> if the cmdlet was
         /// invoked from a path which is not under any Orchard tenant.
         /// </returns>
-        public static ShellSettings GetCurrentTenant(this OrchardCmdlet cmdlet)
-        {
-            if (cmdlet == null)
-            {
+        public static ShellSettings GetCurrentTenant(this OrchardCmdlet cmdlet) {
+            if (cmdlet == null) {
                 throw new ArgumentNullException("cmdlet");
             }
 
             VfsNode currentNode = cmdlet.CurrentNode;
-            while (currentNode != null)
-            {
+            while (currentNode != null) {
                 var tenantNode = currentNode as TenantNode;
-                if (tenantNode != null)
-                {
+                if (tenantNode != null) {
                     return tenantNode.Item as ShellSettings;
                 }
 
@@ -48,16 +42,13 @@
         /// The name of the current tenant or <c>null</c> if the cmdlet was invoked from a path which is not under any
         /// Orchard tenant.
         /// </returns>
-        public static string GetCurrentTenantName(this OrchardCmdlet cmdlet)
-        {
-            if (cmdlet == null)
-            {
+        public static string GetCurrentTenantName(this OrchardCmdlet cmdlet) {
+            if (cmdlet == null) {
                 throw new ArgumentNullException("cmdlet");
             }
 
             ShellSettings tenant = cmdlet.GetCurrentTenant();
-            if (tenant != null)
-            {
+            if (tenant != null) {
                 return tenant.Name;
             }
 
@@ -73,10 +64,8 @@
         public static void UsingWorkContextScope(
             this OrchardCmdlet cmdlet,
             string tenantName,
-            Action<IWorkContextScope> action)
-        {
-            if (cmdlet == null)
-            {
+            Action<IWorkContextScope> action) {
+            if (cmdlet == null) {
                 throw new ArgumentNullException("cmdlet");
             }
 
@@ -94,10 +83,8 @@
         public static T UsingWorkContextScope<T>(
             this OrchardCmdlet cmdlet,
             string tenantName,
-            Func<IWorkContextScope, T> action)
-        {
-            if (cmdlet == null)
-            {
+            Func<IWorkContextScope, T> action) {
+            if (cmdlet == null) {
                 throw new ArgumentNullException("cmdlet");
             }
 
@@ -109,10 +96,8 @@
         /// </summary>
         /// <typeparam name="T">The type of service to resolve.</typeparam>
         /// <returns>The resolved service instance.</returns>
-        public static T Resolve<T>(this OrchardCmdlet cmdlet)
-        {
-            if (cmdlet == null)
-            {
+        public static T Resolve<T>(this OrchardCmdlet cmdlet) {
+            if (cmdlet == null) {
                 throw new ArgumentNullException("cmdlet");
             }
 

@@ -68,7 +68,6 @@
     <Compile Include="Host\OrchardHost.cs" />
     <Compile Include="Host\OrchardHostContext.cs" />
     <Compile Include="Host\OrchardHostContextProvider.cs" />
-    <Compile Include="Host\ReturnCode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

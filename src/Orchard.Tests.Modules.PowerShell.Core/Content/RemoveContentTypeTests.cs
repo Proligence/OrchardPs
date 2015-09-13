@@ -1,47 +1,40 @@
-﻿namespace Orchard.Tests.Modules.PowerShell.Core.Content
-{
-    using Orchard.Tests.PowerShell.Infrastructure;
-    using Xunit;
+﻿using Orchard.Tests.PowerShell.Infrastructure;
+using Xunit;
 
+namespace Orchard.Tests.Modules.PowerShell.Core.Content {
     [Collection("PowerShell")]
-    public class RemoveContentTypeTests : IClassFixture<PowerShellFixture>
-    {
-        private readonly PowerShellFixture powerShell;
+    public class RemoveContentTypeTests : IClassFixture<PowerShellFixture> {
+        private readonly PowerShellFixture _powerShell;
 
-        public RemoveContentTypeTests(PowerShellFixture powerShell)
-        {
-            this.powerShell = powerShell;
-            this.powerShell.ConsoleConnection.Reset();
+        public RemoveContentTypeTests(PowerShellFixture powerShell) {
+            _powerShell = powerShell;
+            _powerShell.ConsoleConnection.Reset();
         }
 
         [Fact, Integration]
-        public void ShouldRemoveContentTypeByName()
-        {
-            this.EnsureContentTypeExists("Foo");
-            this.powerShell.Execute("Remove-ContentType Foo");
-            Assert.Empty(this.powerShell.Execute("Get-ContentType Foo"));
+        public void ShouldRemoveContentTypeByName() {
+            EnsureContentTypeExists("Foo");
+            _powerShell.Execute("Remove-ContentType Foo");
+            Assert.Empty(_powerShell.Execute("Get-ContentType Foo"));
         }
 
         [Fact, Integration]
-        public void ShouldRemoveContentTypeByObject()
-        {
-            this.EnsureContentTypeExists("Foo");
-            this.powerShell.Execute("Get-ContentType Foo | Remove-ContentType");
-            Assert.Empty(this.powerShell.Execute("Get-ContentType Foo"));
+        public void ShouldRemoveContentTypeByObject() {
+            EnsureContentTypeExists("Foo");
+            _powerShell.Execute("Get-ContentType Foo | Remove-ContentType");
+            Assert.Empty(_powerShell.Execute("Get-ContentType Foo"));
         }
 
-        private void EnsureContentTypeExists(string name)
-        {
-            this.powerShell.ConsoleConnection.Reset();
-            var output = this.powerShell.Execute("Get-ContentType " + name);
-            if (string.IsNullOrEmpty(output))
-            {
-                this.powerShell.Execute("New-ContentType " + name);
-                this.powerShell.ConsoleConnection.Reset();
-                Assert.NotEmpty(this.powerShell.Execute("Get-ContentType " + name));
+        private void EnsureContentTypeExists(string name) {
+            _powerShell.ConsoleConnection.Reset();
+            var output = _powerShell.Execute("Get-ContentType " + name);
+            if (string.IsNullOrEmpty(output)) {
+                _powerShell.Execute("New-ContentType " + name);
+                _powerShell.ConsoleConnection.Reset();
+                Assert.NotEmpty(_powerShell.Execute("Get-ContentType " + name));
             }
 
-            this.powerShell.ConsoleConnection.Reset();
+            _powerShell.ConsoleConnection.Reset();
         }
     }
 }

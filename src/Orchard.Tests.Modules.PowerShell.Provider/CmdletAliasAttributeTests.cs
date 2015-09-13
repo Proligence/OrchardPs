@@ -1,16 +1,13 @@
-﻿namespace Orchard.Tests.Modules.PowerShell.Provider
-{
-    using System;
-    using Proligence.PowerShell.Provider;
-    using Xunit;
+﻿using System;
+using Proligence.PowerShell.Provider;
+using Xunit;
 
-    public class CmdletAliasAttributeTests
-    {
+namespace Orchard.Tests.Modules.PowerShell.Provider {
+    public class CmdletAliasAttributeTests {
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        public void TestConstructorWhenAliasNullOrEmpty(string alias)
-        {
+        public void TestConstructorWhenAliasNullOrEmpty(string alias) {
             var exception = Assert.Throws<ArgumentException>(
                 () => new CmdletAliasAttribute(alias));
 
@@ -18,8 +15,7 @@
         }
 
         [Fact]
-        public void TestConstructorWhenValidArgs()
-        {
+        public void TestConstructorWhenValidArgs() {
             var attr = new CmdletAliasAttribute("MyAlias");
 
             Assert.Equal("MyAlias", attr.Alias);

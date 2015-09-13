@@ -1,20 +1,18 @@
-﻿namespace Proligence.PowerShell.Provider
-{
-    using System;
-    using System.Management.Automation.Runspaces;
-    using System.Threading;
-    using Autofac;
-    using Console;
-    using Proligence.PowerShell.Provider.Console.Host;
-    using Proligence.PowerShell.Provider.Console.UI;
-    using Proligence.PowerShell.Provider.Internal;
-    using Proligence.PowerShell.Provider.Vfs;
+﻿using System;
+using System.Management.Automation.Runspaces;
+using System.Threading;
+using Autofac;
+using Proligence.PowerShell.Provider.Console;
+using Proligence.PowerShell.Provider.Console.Host;
+using Proligence.PowerShell.Provider.Console.UI;
+using Proligence.PowerShell.Provider.Internal;
+using Proligence.PowerShell.Provider.Vfs;
 
+namespace Proligence.PowerShell.Provider {
     /// <summary>
     /// Represents a PowerShell user session.
     /// </summary>
-    public interface IPsSession : IDisposable
-    {
+    public interface IPsSession : IDisposable {
         event EventHandler<DataReceivedEventArgs> DataReceived;
 
         /// <summary>
@@ -33,7 +31,7 @@
         Runspace Runspace { get; }
 
         /// <summary>
-        /// Gets the lock which must be aquired before acessing the session's runspace.
+        /// Gets the lock which must be acquired before acessing the session's runspace.
         /// </summary>
         EventWaitHandle RunspaceLock { get; }
 
@@ -65,7 +63,7 @@
         /// <summary>
         /// Gets or sets the current session's runspace absolute path.
         /// </summary>
-        string Path { get; set;  }
+        string Path { get; set; }
 
         /// <summary>
         /// Initializes the session.

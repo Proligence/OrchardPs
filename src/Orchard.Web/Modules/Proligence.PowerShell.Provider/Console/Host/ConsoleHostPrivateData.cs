@@ -1,10 +1,8 @@
-﻿namespace Proligence.PowerShell.Provider.Console.Host
-{
-    using Autofac;
-    using Proligence.PowerShell.Provider.Internal;
+﻿using Autofac;
+using Proligence.PowerShell.Provider.Internal;
 
-    public class ConsoleHostPrivateData
-    {
+namespace Proligence.PowerShell.Provider.Console.Host {
+    public class ConsoleHostPrivateData {
         /// <summary>
         /// Gets or sets the dependency injection container of the Orchard application.
         /// </summary>

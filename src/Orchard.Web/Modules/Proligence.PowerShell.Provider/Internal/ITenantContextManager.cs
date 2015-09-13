@@ -1,13 +1,11 @@
-﻿namespace Proligence.PowerShell.Provider.Internal
-{
-    using Autofac;
-    using Orchard;
+﻿using Autofac;
+using Orchard;
 
+namespace Proligence.PowerShell.Provider.Internal {
     /// <summary>
     /// Manages dependency injection containers in the Orchard web application.
     /// </summary>
-    public interface ITenantContextManager : ISingletonDependency
-    {
+    public interface ITenantContextManager : ISingletonDependency {
         /// <summary>
         /// Gets the dependency injection container for the specified tenant.
         /// </summary>

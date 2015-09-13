@@ -1,13 +1,11 @@
-﻿namespace Proligence.PowerShell.Provider.Vfs
-{
-    using Proligence.PowerShell.Provider.Vfs.Navigation;
-    using Proligence.PowerShell.Provider.Vfs.Provider;
+﻿using Proligence.PowerShell.Provider.Vfs.Navigation;
+using Proligence.PowerShell.Provider.Vfs.Provider;
 
+namespace Proligence.PowerShell.Provider.Vfs {
     /// <summary>
     /// Defines the interface for objects which implement the PowerShell Virtual File System (VFS).
     /// </summary>
-    public interface IPowerShellVfs
-    {
+    public interface IPowerShellVfs {
         /// <summary>
         /// Gets the Orchard drive instance.
         /// </summary>
@@ -27,7 +25,7 @@
         /// Gets the object which implements input path validation.
         /// </summary>
         IPathValidator PathValidator { get; }
-        
+
         /// <summary>
         /// Initializes the VFS instance.
         /// </summary>

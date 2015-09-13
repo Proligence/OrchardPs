@@ -1,21 +1,17 @@
-﻿namespace Proligence.PowerShell.Provider.Vfs.Navigation
-{
-    using System.Collections.Generic;
-    using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
+namespace Proligence.PowerShell.Provider.Vfs.Navigation {
     /// <summary>
     /// Implements a VFS node which contains a flat key-value store.
     /// </summary>
-    public abstract class PropertyStoreNode : ContainerNode
-    {
+    public abstract class PropertyStoreNode : ContainerNode {
         protected PropertyStoreNode(IPowerShellVfs vfs, string name)
-            : base(vfs, name)
-        {
+            : base(vfs, name) {
         }
 
         protected PropertyStoreNode(IPowerShellVfs vfs, string name, IEnumerable<VfsNode> staticNodes)
-            : base(vfs, name, staticNodes)
-        {
+            : base(vfs, name, staticNodes) {
         }
 
         /// <summary>
@@ -38,9 +34,8 @@
         /// <returns>The value of the specified key.</returns>
         public abstract object GetValue(string name);
 
-        protected override IEnumerable<VfsNode> GetVirtualNodesInternal()
-        {
-            return this.GetKeys().Select(key => new PropertyNode(this, key, this.GetValue(key)));
+        protected override IEnumerable<VfsNode> GetVirtualNodesInternal() {
+            return GetKeys().Select(key => new PropertyNode(this, key, GetValue(key)));
         }
     }
 }

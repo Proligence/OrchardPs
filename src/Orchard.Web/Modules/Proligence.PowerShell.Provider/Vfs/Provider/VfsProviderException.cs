@@ -1,60 +1,52 @@
-﻿namespace Proligence.PowerShell.Provider.Vfs.Provider
-{
-    using System;
-    using System.Management.Automation;
-    using System.Runtime.Serialization;
+﻿using System;
+using System.Management.Automation;
+using System.Runtime.Serialization;
 
+namespace Proligence.PowerShell.Provider.Vfs.Provider {
     /// <summary>
     /// The base class for exceptions which represent errors from the PowerShell VFS PS provider.
     /// </summary>
     [Serializable]
-    public class VfsProviderException : Exception 
-    {
-        public VfsProviderException()
-        {
+    public class VfsProviderException : Exception {
+        public VfsProviderException() {
         }
 
-        public VfsProviderException(string message) 
-            : base(message)
-        {
+        public VfsProviderException(string message)
+            : base(message) {
         }
 
         public VfsProviderException(
-            string message, 
-            bool fatal, 
-            string errorId, 
-            ErrorCategory category = ErrorCategory.NotSpecified) 
-            : base(message) 
-        {
-            this.IsFatal = fatal;
-            this.ErrorId = errorId;
-            this.ErrorCategory = category;
+            string message,
+            bool fatal,
+            string errorId,
+            ErrorCategory category = ErrorCategory.NotSpecified)
+            : base(message) {
+            IsFatal = fatal;
+            ErrorId = errorId;
+            ErrorCategory = category;
         }
 
-        public VfsProviderException(string message, Exception inner) 
-            : base(message, inner)
-        {
+        public VfsProviderException(string message, Exception inner)
+            : base(message, inner) {
         }
 
         public VfsProviderException(
-            string message, 
-            Exception inner, 
-            bool fatal, 
-            string errorId, 
-            ErrorCategory category = ErrorCategory.NotSpecified) 
-            : base(message, inner) 
-        {
-            this.IsFatal = fatal;
-            this.ErrorId = errorId;
-            this.ErrorCategory = category;
+            string message,
+            Exception inner,
+            bool fatal,
+            string errorId,
+            ErrorCategory category = ErrorCategory.NotSpecified)
+            : base(message, inner) {
+            IsFatal = fatal;
+            ErrorId = errorId;
+            ErrorCategory = category;
         }
 
-        protected VfsProviderException(SerializationInfo info, StreamingContext context) 
-            : base(info, context) 
-        {
-            this.IsFatal = info.GetBoolean("IsFatal");
-            this.ErrorId = info.GetString("ErrorId");
-            this.ErrorCategory = (ErrorCategory)info.GetValue("ErrorCategory", typeof(ErrorCategory));
+        protected VfsProviderException(SerializationInfo info, StreamingContext context)
+            : base(info, context) {
+            IsFatal = info.GetBoolean("IsFatal");
+            ErrorId = info.GetString("ErrorId");
+            ErrorCategory = (ErrorCategory) info.GetValue("ErrorCategory", typeof (ErrorCategory));
         }
 
         /// <summary>
@@ -72,13 +64,11 @@
         /// </summary>
         public ErrorCategory ErrorCategory { get; private set; }
 
-        public override void GetObjectData(SerializationInfo info, StreamingContext context) 
-        {
+        public override void GetObjectData(SerializationInfo info, StreamingContext context) {
             base.GetObjectData(info, context);
-            
-            info.AddValue("IsFatal", this.IsFatal);
-            info.AddValue("ErrorId", this.ErrorId);
-            info.AddValue("ErrorCategory", this.ErrorCategory);
+            info.AddValue("IsFatal", IsFatal);
+            info.AddValue("ErrorId", ErrorId);
+            info.AddValue("ErrorCategory", ErrorCategory);
         }
     }
 }

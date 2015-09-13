@@ -1,17 +1,14 @@
-﻿namespace Proligence.PowerShell.Provider.Cmdlets
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Management.Automation;
-    using Proligence.PowerShell.Provider.Utilities;
-    using Provider;
-    using Provider.Vfs.Navigation;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Management.Automation;
+using Proligence.PowerShell.Provider.Utilities;
+using Proligence.PowerShell.Provider.Vfs.Navigation;
 
+namespace Proligence.PowerShell.Provider.Cmdlets {
     [CmdletAlias("gopc")]
     [Cmdlet(VerbsCommon.Get, "OrchardPsCommand", DefaultParameterSetName = "Default", SupportsShouldProcess = false, ConfirmImpact = ConfirmImpact.None)]
-    public class GetOrchardPsCommand : OrchardCmdlet
-    {
+    public class GetOrchardPsCommand : OrchardCmdlet {
         /// <summary>
         /// Gets or sets a value indicating whether all Orchard-related cmdlets should be returned.
         /// </summary>
@@ -31,79 +28,67 @@
         [Parameter(Mandatory = false, ParameterSetName = "Path", Position = 2)]
         public string Path { get; set; }
 
-        protected override void ProcessRecord()
-        {
+        protected override void ProcessRecord() {
             CmdletInfo[] cmdlets;
 
-            if (this.All)
-            {
-                cmdlets = this.GetAllCmdlets();
+            if (All) {
+                cmdlets = GetAllCmdlets();
             }
-            else
-            {
-                cmdlets = this.GetCmdletsForCurrentLocation();
+            else {
+                cmdlets = GetCmdletsForCurrentLocation();
 
-                if ((this.Path == null) && (cmdlets.Length == 0))
-                {
-                    cmdlets = this.GetAllCmdlets();
+                if ((Path == null) && (cmdlets.Length == 0)) {
+                    cmdlets = GetAllCmdlets();
                 }
             }
 
-            if (this.Name != null)
-            {
-                cmdlets = cmdlets.Where(c => c.Name.WildcardEquals(this.Name)).ToArray();
+            if (Name != null) {
+                cmdlets = cmdlets.Where(c => c.Name.WildcardEquals(Name)).ToArray();
             }
 
-            foreach (CmdletInfo cmdlet in cmdlets.OrderBy(c => c.Name))
-            {
-                this.WriteObject(cmdlet);
+            foreach (CmdletInfo cmdlet in cmdlets.OrderBy(c => c.Name)) {
+                WriteObject(cmdlet);
             }
         }
 
-        private CmdletInfo[] GetCmdletsForCurrentLocation()
-        {
+        private CmdletInfo[] GetCmdletsForCurrentLocation() {
             var results = new List<CmdletInfo>();
 
             VfsNode node;
-            if (string.IsNullOrEmpty(this.Path))
-            {
-                node = this.CurrentNode;
+            if (string.IsNullOrEmpty(Path)) {
+                node = CurrentNode;
             }
-            else
-            {
-                this.Path = this.Path.TrimStart('.', '\\');
-                node = this.CurrentNode.Vfs.NavigatePath(this.Path);
+            else {
+                Path = Path.TrimStart('.', '\\');
+                node = CurrentNode.Vfs.NavigatePath(Path);
 
-                if (node == null)
-                {
-                    this.WriteError(Error.InvalidOperation(
-                        "Failed to find item '" + this.Path + "'.",
+                if (node == null) {
+                    WriteError(Error.InvalidOperation(
+                        "Failed to find item '" + Path + "'.",
                         ErrorIds.FailedToFindItem,
-                        this.Path));
+                        Path));
                 }
             }
 
-            if (node != null)
-            {
+            if (node != null) {
                 Attribute[] attributes = Attribute.GetCustomAttributes(
                     node.GetType(),
-                    typeof(SupportedCmdletAttribute));
+                    typeof (SupportedCmdletAttribute));
 
                 results.AddRange(
                     attributes
                         .Cast<SupportedCmdletAttribute>()
-                        .Select(attribute => this.InvokeCommand.GetCmdlet(attribute.CmdletName))
+                        .Select(attribute => InvokeCommand.GetCmdlet(attribute.CmdletName))
                         .Where(cmdletInfo => cmdletInfo != null));
             }
 
             return results.ToArray();
         }
 
-        private CmdletInfo[] GetAllCmdlets()
-        {
-            return this.InvokeCommand
+        private CmdletInfo[] GetAllCmdlets() {
+            return InvokeCommand
                 .GetCmdlets()
-                .Where(cmdletInfo => cmdletInfo.ImplementingType.GetInterfaces().Any(t => t == typeof(IOrchardCmdlet)))
+                .Where(cmdletInfo => cmdletInfo.ImplementingType.GetInterfaces().Any(t => t == typeof (IOrchardCmdlet)))
                 .ToArray();
         }
     }

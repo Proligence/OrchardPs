@@ -1,13 +1,11 @@
-﻿namespace Proligence.PowerShell.Provider.Vfs.Navigation
-{
-    using Orchard;
+﻿using Orchard;
 
+namespace Proligence.PowerShell.Provider.Vfs.Navigation {
     /// <summary>
     /// Defines the interface for classes which extend the PowerShell Virtual File System by adding new static nodes
     /// to the VFS tree.
     /// </summary>
-    public interface IPsNavigationProvider : IDependency
-    {
+    public interface IPsNavigationProvider : IDependency {
         /// <summary>
         /// Gets the path of the added node's parent node.
         /// </summary>

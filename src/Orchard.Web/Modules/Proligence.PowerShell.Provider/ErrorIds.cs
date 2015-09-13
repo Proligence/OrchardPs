@@ -1,10 +1,8 @@
-﻿namespace Proligence.PowerShell.Provider
-{
+﻿namespace Proligence.PowerShell.Provider {
     /// <summary>
     /// Defines well known error identifiers used with PowerShell by the Orchard PS provider.
     /// </summary>
-    public static class ErrorIds 
-    {
+    public static class ErrorIds {
         /// <summary>
         /// Failed to close PowerShell VFS drive.
         /// </summary>

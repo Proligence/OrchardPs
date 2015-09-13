@@ -1,19 +1,16 @@
-﻿namespace Proligence.PowerShell.Core.Content.Cmdlets
-{
-    using System.Collections;
-    using System.Management.Automation;
-    using Orchard.ContentManagement.MetaData;
-    using Orchard.Core.Contents.Extensions;
-    using Proligence.PowerShell.Provider;
+﻿using System.Collections;
+using System.Management.Automation;
+using Orchard.ContentManagement.MetaData;
+using Orchard.Core.Contents.Extensions;
+using Proligence.PowerShell.Provider;
 
+namespace Proligence.PowerShell.Core.Content.Cmdlets {
     [CmdletAlias("nct")]
     [Cmdlet(VerbsCommon.New, "ContentType", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
-    public class NewContentType : AlterContentTypeCmdletBase
-    {
+    public class NewContentType : AlterContentTypeCmdletBase {
         // ReSharper disable once RedundantArgumentNameForLiteralExpression
         public NewContentType()
-            : base(failIfExists: true)
-        {
+            : base(failIfExists: true) {
         }
 
         [Alias("dn")]
@@ -65,60 +62,49 @@
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false)]
         public Hashtable Settings { get; set; }
 
-        protected override string GetActionName()
-        {
+        protected override string GetActionName() {
             return "Create";
         }
 
-        protected override void PerformAction(IContentDefinitionManager contentDefinitionManager)
-        {
+        protected override void PerformAction(IContentDefinitionManager contentDefinitionManager) {
             contentDefinitionManager.AlterTypeDefinition(
-                this.Name,
-                builder =>
-                {
-                    if (!string.IsNullOrWhiteSpace(this.DisplayName))
-                    {
-                        builder.DisplayedAs(this.DisplayName);
+                Name,
+                builder => {
+                    if (!string.IsNullOrWhiteSpace(DisplayName)) {
+                        builder.DisplayedAs(DisplayName);
                     }
 
-                    if (!string.IsNullOrWhiteSpace(this.Stereotype))
-                    {
-                        builder.WithSetting("Stereotype", this.Stereotype);
+                    if (!string.IsNullOrWhiteSpace(Stereotype)) {
+                        builder.WithSetting("Stereotype", Stereotype);
                     }
 
-                    if (this.Creatable.IsPresent)
-                    {
-                        builder.Creatable(this.Creatable.ToBool());
+                    if (Creatable.IsPresent) {
+                        builder.Creatable(Creatable.ToBool());
                     }
 
-                    if (this.Listable.IsPresent)
-                    {
-                        builder.Listable(this.Listable.ToBool());
+                    if (Listable.IsPresent) {
+                        builder.Listable(Listable.ToBool());
                     }
 
-                    if (this.Draftable.IsPresent)
-                    {
-                        builder.Draftable(this.Draftable.ToBool());
+                    if (Draftable.IsPresent) {
+                        builder.Draftable(Draftable.ToBool());
                     }
 
-                    if (this.Securable.IsPresent)
-                    {
-                        builder.Securable(this.Securable.ToBool());
+                    if (Securable.IsPresent) {
+                        builder.Securable(Securable.ToBool());
                     }
 
-                    if (this.Parts != null)
-                    {
-                        foreach (string partName in this.Parts)
-                        {
+                    if (Parts != null) {
+                        foreach (string partName in Parts) {
                             builder.WithPart(partName);
                         }
                     }
 
-                    if (this.Settings != null)
-                    {
-                        foreach (DictionaryEntry setting in this.Settings)
-                        {
-                            string value = setting.Value != null ? setting.Value.ToString() : null;
+                    if (Settings != null) {
+                        foreach (DictionaryEntry setting in Settings) {
+                            string value = setting.Value != null
+                                ? setting.Value.ToString()
+                                : null;
                             builder.WithSetting(setting.Key.ToString(), value);
                         }
                     }

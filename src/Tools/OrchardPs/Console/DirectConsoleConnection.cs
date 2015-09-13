@@ -1,42 +1,33 @@
-﻿namespace OrchardPs.Console
-{
-    using System;
-    using System.Collections.Generic;
-    using Proligence.PowerShell.Provider;
-    using Proligence.PowerShell.Provider.Console.UI;
+﻿using System;
+using System.Collections.Generic;
+using Proligence.PowerShell.Provider;
+using Proligence.PowerShell.Provider.Console.UI;
 
-    public class DirectConsoleConnection : MarshalByRefObject, IConsoleConnection
-    {
+namespace OrchardPs.Console {
+    public class DirectConsoleConnection : MarshalByRefObject, IConsoleConnection {
         private const ConsoleColor VerboseColor = ConsoleColor.Yellow;
         private const ConsoleColor WarningColor = ConsoleColor.Yellow;
         private const ConsoleColor DebugColor = ConsoleColor.Yellow;
         private const ConsoleColor ErrorColor = ConsoleColor.Red;
-
-        private readonly IList<string> inputHistory = new List<string>();
-        private OutputData lastOutputData;
-
+        private readonly IList<string> _inputHistory = new List<string>();
+        private OutputData _lastOutputData;
         public CommandCompletionProvider CommandCompletionProvider { get; set; }
 
-        public void Initialize()
-        {
+        public void Initialize() {
         }
 
-        public override object InitializeLifetimeService()
-        {
+        public override object InitializeLifetimeService() {
             return null;
         }
 
-        public void Send(string connectionId, OutputData data)
-        {
-            if (data != null)
-            {
-                switch (data.Type)
-                {
+        public void Send(string connectionId, OutputData data) {
+            if (data != null) {
+                switch (data.Type) {
                     case OutputType.Verbose:
                         data.Output = "VERBOSE: " + data.Output;
                         WriteOutput(data, VerboseColor);
                         break;
-                    
+
                     case OutputType.Warning:
                         data.Output = "WARNING: " + data.Output;
                         WriteOutput(data, WarningColor);
@@ -61,41 +52,36 @@
                         break;
                 }
 
-                this.lastOutputData = data;
+                _lastOutputData = data;
             }
         }
 
-        public string GetInput()
-        {
-            string prompt = this.lastOutputData != null
-                ? this.lastOutputData.Prompt
+        public string GetInput() {
+            string prompt = _lastOutputData != null
+                ? _lastOutputData.Prompt
                 : string.Empty;
 
-            var consoleInputBuffer = new ConsoleInputBuffer(prompt, this.inputHistory, this.CommandCompletionProvider);
+            var consoleInputBuffer = new ConsoleInputBuffer(prompt, _inputHistory, CommandCompletionProvider);
             var line = consoleInputBuffer.ReadLine();
-            this.inputHistory.Insert(0, line);
+            _inputHistory.Insert(0, line);
 
             return line;
         }
 
-        private static void WriteOutput(OutputData data)
-        {
+        private static void WriteOutput(OutputData data) {
             string text = data.Output;
 
-            if (data.NewLine)
-            {
+            if (data.NewLine) {
                 text += Environment.NewLine;
             }
 
             ConsoleHelper.WriteToConsole(text, data.ForeColor);
         }
 
-        private static void WriteOutput(OutputData data, ConsoleColor color)
-        {
+        private static void WriteOutput(OutputData data, ConsoleColor color) {
             string text = data.Output;
 
-            if (data.NewLine)
-            {
+            if (data.NewLine) {
                 text += Environment.NewLine;
             }
 

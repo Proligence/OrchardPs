@@ -1,19 +1,16 @@
-﻿namespace Proligence.PowerShell.Provider.Vfs.Provider
-{
-    using System.Management.Automation;
-    using Autofac;
-    using Orchard;
-    using Proligence.PowerShell.Provider.Vfs.Navigation;
+﻿using System.Management.Automation;
+using Autofac;
+using Orchard;
+using Proligence.PowerShell.Provider.Vfs.Navigation;
 
+namespace Proligence.PowerShell.Provider.Vfs.Provider {
     /// <summary>
     /// Represents the state of a single drive which uses a PS provider based on PowerShell VFS.
     /// </summary>
-    public class VfsDriveInfo : PSDriveInfo 
-    {
+    public class VfsDriveInfo : PSDriveInfo {
         public VfsDriveInfo(PSDriveInfo driveInfo, IComponentContext componentContext)
-            : base(driveInfo)
-        {
-            this.ComponentContext = componentContext;
+            : base(driveInfo) {
+            ComponentContext = componentContext;
         }
 
         /// <summary>
@@ -29,22 +26,19 @@
         /// <summary>
         /// Initializes the drive.
         /// </summary>
-        public virtual void Initialize()
-        {
-            using (var wca = this.ComponentContext.Resolve<IWorkContextAccessor>().CreateWorkContextScope())
-            {
+        public virtual void Initialize() {
+            using (var wca = ComponentContext.Resolve<IWorkContextAccessor>().CreateWorkContextScope()) {
                 var navigationProviderManager = wca.Resolve<INavigationProviderManager>();
-                var pathValidator = this.ComponentContext.Resolve<IPathValidator>();
-                this.Vfs = new PowerShellVfs(this, navigationProviderManager, pathValidator);
-                this.Vfs.Initialize();
+                var pathValidator = ComponentContext.Resolve<IPathValidator>();
+                Vfs = new PowerShellVfs(this, navigationProviderManager, pathValidator);
+                Vfs.Initialize();
             }
         }
 
         /// <summary>
         /// Closes the drive and disposes of all used resources.
         /// </summary>
-        public virtual void Close()
-        {
+        public virtual void Close() {
         }
     }
 }

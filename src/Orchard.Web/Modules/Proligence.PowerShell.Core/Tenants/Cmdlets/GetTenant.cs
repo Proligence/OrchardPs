@@ -1,16 +1,14 @@
-﻿namespace Proligence.PowerShell.Core.Tenants.Cmdlets
-{
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Management.Automation;
-    using Autofac;
-    using Orchard.Environment.Configuration;
-    using Proligence.PowerShell.Provider;
-    using Proligence.PowerShell.Provider.Utilities;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Management.Automation;
+using Autofac;
+using Orchard.Environment.Configuration;
+using Proligence.PowerShell.Provider;
+using Proligence.PowerShell.Provider.Utilities;
 
+namespace Proligence.PowerShell.Core.Tenants.Cmdlets {
     [Cmdlet(VerbsCommon.Get, "Tenant", DefaultParameterSetName = "Default", ConfirmImpact = ConfirmImpact.None)]
-    public class GetTenant : OrchardCmdlet
-    {
+    public class GetTenant : OrchardCmdlet {
         [Alias("n")]
         [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = false, Position = 1)]
@@ -24,32 +22,25 @@
         [Parameter(ParameterSetName = "Disabled", Mandatory = false)]
         public SwitchParameter Disabled { get; set; }
 
-        protected override void ProcessRecord()
-        {
-            foreach (ShellSettings tenant in this.GetTenantsFromParameters())
-            {
-                this.WriteObject(tenant);
+        protected override void ProcessRecord() {
+            foreach (ShellSettings tenant in GetTenantsFromParameters()) {
+                WriteObject(tenant);
             }
         }
 
-        private IEnumerable<ShellSettings> GetTenantsFromParameters()
-        {
-            var shellSettingsManager = this.OrchardDrive.ComponentContext.Resolve<IShellSettingsManager>();
+        private IEnumerable<ShellSettings> GetTenantsFromParameters() {
+            var shellSettingsManager = OrchardDrive.ComponentContext.Resolve<IShellSettingsManager>();
             IEnumerable<ShellSettings> tenants = shellSettingsManager.LoadSettings().ToArray();
 
-            if (!string.IsNullOrEmpty(this.Name))
-            {
-                tenants = tenants.Where(t => t.Name.WildcardEquals(this.Name));
+            if (!string.IsNullOrEmpty(Name)) {
+                tenants = tenants.Where(t => t.Name.WildcardEquals(Name));
             }
-            else
-            {
-                if (this.Enabled.ToBool())
-                {
+            else {
+                if (Enabled.ToBool()) {
                     tenants = tenants.Where(t => t.State == TenantState.Running);
                 }
 
-                if (this.Disabled.ToBool())
-                {
+                if (Disabled.ToBool()) {
                     tenants = tenants.Where(t => t.State == TenantState.Disabled);
                 }
             }

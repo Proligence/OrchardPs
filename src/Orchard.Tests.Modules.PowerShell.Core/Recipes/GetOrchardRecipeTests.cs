@@ -1,24 +1,20 @@
-﻿namespace Orchard.Tests.Modules.PowerShell.Core.Recipes
-{
-    using System.Linq;
-    using Orchard.Tests.PowerShell.Infrastructure;
-    using Xunit;
+﻿using System.Linq;
+using Orchard.Tests.PowerShell.Infrastructure;
+using Xunit;
 
+namespace Orchard.Tests.Modules.PowerShell.Core.Recipes {
     [Collection("PowerShell")]
-    public class GetOrchardRecipeTests : IClassFixture<PowerShellFixture>
-    {
-        private readonly PowerShellFixture powerShell;
+    public class GetOrchardRecipeTests : IClassFixture<PowerShellFixture> {
+        private readonly PowerShellFixture _powerShell;
 
-        public GetOrchardRecipeTests(PowerShellFixture powerShell)
-        {
-            this.powerShell = powerShell;
-            this.powerShell.ConsoleConnection.Reset();
+        public GetOrchardRecipeTests(PowerShellFixture powerShell) {
+            _powerShell = powerShell;
+            _powerShell.ConsoleConnection.Reset();
         }
 
         [Fact, Integration]
-        public void ShouldGetAllRecipes()
-        {
-            var table = this.powerShell.ExecuteTable("Get-OrchardRecipe");
+        public void ShouldGetAllRecipes() {
+            var table = _powerShell.ExecuteTable("Get-OrchardRecipe");
             Assert.Equal("Name", table.Header[0]);
             Assert.Equal("Version", table.Header[1]);
             Assert.Equal("Description", table.Header[2]);
@@ -29,9 +25,8 @@
         }
 
         [Fact, Integration]
-        public void ShouldGetRecipesByName()
-        {
-            var table = this.powerShell.ExecuteTable("Get-OrchardRecipe Core");
+        public void ShouldGetRecipesByName() {
+            var table = _powerShell.ExecuteTable("Get-OrchardRecipe Core");
             Assert.Equal("Name", table.Header[0]);
             Assert.Equal("Version", table.Header[1]);
             Assert.Equal("Description", table.Header[2]);
@@ -40,9 +35,8 @@
         }
 
         [Fact, Integration]
-        public void ShouldGetRecipesByPartialName()
-        {
-            var table = this.powerShell.ExecuteTable("Get-OrchardRecipe C*");
+        public void ShouldGetRecipesByPartialName() {
+            var table = _powerShell.ExecuteTable("Get-OrchardRecipe C*");
             Assert.Equal("Name", table.Header[0]);
             Assert.Equal("Version", table.Header[1]);
             Assert.Equal("Description", table.Header[2]);
@@ -53,9 +47,8 @@
         }
 
         [Fact, Integration]
-        public void ShouldGetRecipesByExtensionId()
-        {
-            var table = this.powerShell.ExecuteTable("Get-OrchardRecipe -ExtensionId Orchard.Setup");
+        public void ShouldGetRecipesByExtensionId() {
+            var table = _powerShell.ExecuteTable("Get-OrchardRecipe -ExtensionId Orchard.Setup");
             Assert.Equal(3, table.Rows.Count);
             Assert.Equal(1, table.Rows.Count(x => x[0] == "Blog"));
             Assert.Equal(1, table.Rows.Count(x => x[0] == "Core"));

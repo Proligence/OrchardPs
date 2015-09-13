@@ -1,18 +1,15 @@
-﻿namespace Proligence.PowerShell.Core.Content.Cmdlets
-{
-    using System.Management.Automation;
-    using Orchard.ContentManagement.MetaData;
-    using Orchard.ContentManagement.MetaData.Builders;
-    using Orchard.ContentManagement.MetaData.Models;
-    
+﻿using System.Management.Automation;
+using Orchard.ContentManagement.MetaData;
+using Orchard.ContentManagement.MetaData.Builders;
+using Orchard.ContentManagement.MetaData.Models;
+
+namespace Proligence.PowerShell.Core.Content.Cmdlets {
     /// <summary>
     /// This is the base class for cmdlets which add and remove content parts from a content type.
     /// </summary>
-    public abstract class AlterContentTypePartCmdletBase : AlterContentTypeCmdletBase
-    {
+    public abstract class AlterContentTypePartCmdletBase : AlterContentTypeCmdletBase {
         protected AlterContentTypePartCmdletBase()
-            : base(failIfDoesNotExist: true)
-        {
+            : base(failIfDoesNotExist: true) {
         }
 
         /// <remarks>
@@ -22,16 +19,14 @@
         /// name and content part name). However, the <see cref="Name"/> property must get/set the content type name,
         /// because the base class relies on this property.
         /// </remarks>>
-        public override string Name
-        {
-            get
-            {
-                return this.ContentTypeObject != null ? this.ContentTypeObject.Name : this.ContentType;
+        public override string Name {
+            get {
+                return ContentTypeObject != null
+                    ? ContentTypeObject.Name
+                    : ContentType;
             }
-
-            set
-            {
-                this.ContentType = value;
+            set {
+                ContentType = value;
             }
         }
 
@@ -65,24 +60,25 @@
         protected abstract string GetActionName(string contentPartName);
         protected abstract void PerformAction(ContentTypeDefinitionBuilder builder, string contentPartName);
 
-        protected override string GetTargetName(string tenantName)
-        {
-            return "Content Type: " + this.Name + ", Tenant: " + tenantName;
+        protected override string GetTargetName(string tenantName) {
+            return "Content Type: " + Name + ", Tenant: " + tenantName;
         }
 
-        protected override string GetActionName()
-        {
-            string contentPartName = this.ContentPartObject != null ? this.ContentPartObject.Name : this.ContentPart;
-            return this.GetActionName(contentPartName);
+        protected override string GetActionName() {
+            string contentPartName = ContentPartObject != null
+                ? ContentPartObject.Name
+                : ContentPart;
+            return GetActionName(contentPartName);
         }
 
-        protected override void PerformAction(IContentDefinitionManager contentDefinitionManager)
-        {
-            string contentPartName = this.ContentPartObject != null ? this.ContentPartObject.Name : this.ContentPart;
+        protected override void PerformAction(IContentDefinitionManager contentDefinitionManager) {
+            string contentPartName = ContentPartObject != null
+                ? ContentPartObject.Name
+                : ContentPart;
 
             contentDefinitionManager.AlterTypeDefinition(
-                this.Name,
-                builder => this.PerformAction(builder, contentPartName));
+                Name,
+                builder => PerformAction(builder, contentPartName));
         }
     }
 }

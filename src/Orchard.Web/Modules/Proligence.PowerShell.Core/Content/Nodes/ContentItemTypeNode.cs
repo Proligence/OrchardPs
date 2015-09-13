@@ -1,54 +1,47 @@
-﻿namespace Proligence.PowerShell.Core.Content.Nodes
-{
-    using System.Collections.Generic;
-    using System.Linq;
-    using Orchard.ContentManagement;
-    using Orchard.ContentManagement.MetaData.Models;
-    using Proligence.PowerShell.Provider;
-    using Proligence.PowerShell.Provider.Vfs;
-    using Proligence.PowerShell.Provider.Vfs.Items;
-    using Proligence.PowerShell.Provider.Vfs.Navigation;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Orchard.ContentManagement;
+using Orchard.ContentManagement.MetaData.Models;
+using Proligence.PowerShell.Provider;
+using Proligence.PowerShell.Provider.Vfs;
+using Proligence.PowerShell.Provider.Vfs.Items;
+using Proligence.PowerShell.Provider.Vfs.Navigation;
 
+namespace Proligence.PowerShell.Core.Content.Nodes {
     [SupportedCmdlet("Update-ContentItem")]
     [SupportedCmdlet("Remove-ContentItem")]
     [SupportedCmdlet("Publish-ContentItem")]
     [SupportedCmdlet("Unpublish-ContentItem")]
     [SupportedCmdlet("Copy-ContentItem")]
     [SupportedCmdlet("Restore-ContentItem")]
-    public class ContentItemTypeNode : ContainerNode
-    {
-        private readonly ContentTypeDefinition definition;
+    public class ContentItemTypeNode : ContainerNode {
+        private readonly ContentTypeDefinition _definition;
 
         public ContentItemTypeNode(IPowerShellVfs vfs, VfsNode parentNode, ContentTypeDefinition definition)
-            : base(vfs, definition.Name)
-        {
-            this.Parent = parentNode;
-            this.definition = definition;
-            
-            this.Item = new CollectionItem(this)
-            {
+            : base(vfs, definition.Name) {
+            Parent = parentNode;
+            _definition = definition;
+
+            Item = new CollectionItem(this) {
                 Name = definition.Name,
                 Description = "Contains content items of type: " + definition.DisplayName
             };
         }
 
-        public override IEnumerable<VfsNode> GetVirtualNodes()
-        {
+        public override IEnumerable<VfsNode> GetVirtualNodes() {
             string tenantName = this.GetCurrentTenantName();
-            if (tenantName == null)
-            {
+            if (tenantName == null) {
                 return Enumerable.Empty<VfsNode>();
             }
 
             return this.UsingWorkContextScope(
                 tenantName,
-                scope =>
-                {
+                scope => {
                     return scope.Resolve<IContentManager>()
-                        .Query(this.definition.Name)
+                        .Query(_definition.Name)
                         .ForVersion(VersionOptions.Latest)
                         .List()
-                        .Select(item => new ContentItemNode(this.Vfs, this, item))
+                        .Select(item => new ContentItemNode(Vfs, this, item))
                         .ToArray();
                 });
         }

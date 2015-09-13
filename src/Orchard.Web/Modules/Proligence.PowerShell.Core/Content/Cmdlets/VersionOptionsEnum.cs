@@ -1,13 +1,11 @@
-namespace Proligence.PowerShell.Core.Content.Cmdlets
-{
-    using Orchard.ContentManagement;
+using Orchard.ContentManagement;
 
+namespace Proligence.PowerShell.Core.Content.Cmdlets {
     /// <summary>
     /// This enum was introduced so that different version options can be specified as cmdlet parameters. We need an
     /// enum to support that and the Orchard <see cref="VersionOptions"/> uses properties and constructors.
     /// </summary>
-    public enum VersionOptionsEnum
-    {
+    public enum VersionOptionsEnum {
         Latest,
         Published,
         Draft,
@@ -15,12 +13,9 @@ namespace Proligence.PowerShell.Core.Content.Cmdlets
         AllVersions
     }
 
-    public static class VersionOptionsEnumExtensions
-    {
-        public static VersionOptions ToVersionOptions(this VersionOptionsEnum versionOptions)
-        {
-            switch (versionOptions)
-            {
+    public static class VersionOptionsEnumExtensions {
+        public static VersionOptions ToVersionOptions(this VersionOptionsEnum versionOptions) {
+            switch (versionOptions) {
                 case VersionOptionsEnum.Latest:
                     return VersionOptions.Latest;
                 case VersionOptionsEnum.Published:

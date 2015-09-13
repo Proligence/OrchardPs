@@ -1,27 +1,23 @@
-﻿namespace Proligence.PowerShell.Core.Modules.NavigationProviders
-{
-    using Orchard.Data.Migration;
-    using Orchard.Environment.Extensions;
-    using Proligence.PowerShell.Core.Modules.Nodes;
-    using Proligence.PowerShell.Provider.Vfs.Navigation;
+﻿using Orchard.Data.Migration;
+using Orchard.Environment.Extensions;
+using Proligence.PowerShell.Core.Modules.Nodes;
+using Proligence.PowerShell.Provider.Vfs.Navigation;
 
-    public class ThemesPsNavigationProvider : PsNavigationProvider
-    {
-        private readonly IExtensionManager extensionManager;
-        private readonly IDataMigrationManager dataMigrationManager;
+namespace Proligence.PowerShell.Core.Modules.NavigationProviders {
+    public class ThemesPsNavigationProvider : PsNavigationProvider {
+        private readonly IExtensionManager _extensionManager;
+        private readonly IDataMigrationManager _dataMigrationManager;
 
         public ThemesPsNavigationProvider(
             IExtensionManager extensionManager,
             IDataMigrationManager dataMigrationManager)
-            : base(NodeType.Tenant)
-        {
-            this.extensionManager = extensionManager;
-            this.dataMigrationManager = dataMigrationManager;
+            : base(NodeType.Tenant) {
+            _extensionManager = extensionManager;
+            _dataMigrationManager = dataMigrationManager;
         }
 
-        protected override void InitializeInternal()
-        {
-            this.Node = new ThemesNode(this.Vfs, this.extensionManager, this.dataMigrationManager);
+        protected override void InitializeInternal() {
+            Node = new ThemesNode(Vfs, _extensionManager, _dataMigrationManager);
         }
     }
 }

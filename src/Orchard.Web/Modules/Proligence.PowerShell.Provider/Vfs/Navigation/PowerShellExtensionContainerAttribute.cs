@@ -1,12 +1,10 @@
-﻿namespace Proligence.PowerShell.Provider.Vfs.Navigation
-{
-    using System;
+﻿using System;
 
+namespace Proligence.PowerShell.Provider.Vfs.Navigation {
     /// <summary>
     /// Marks assemblies which contain extensions for the PowerShell VFS.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = false)]
-    public sealed class PowerShellExtensionContainerAttribute : Attribute
-    {
+    [AttributeUsage(AttributeTargets.Assembly)]
+    public sealed class PowerShellExtensionContainerAttribute : Attribute {
     }
 }

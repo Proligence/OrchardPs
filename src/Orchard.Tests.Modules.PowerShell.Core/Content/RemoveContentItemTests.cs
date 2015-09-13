@@ -1,85 +1,80 @@
-﻿namespace Orchard.Tests.Modules.PowerShell.Core.Content
-{
-    using System;
-    using Orchard.Tests.PowerShell.Infrastructure;
-    using Xunit;
+﻿using System;
+using Orchard.Tests.PowerShell.Infrastructure;
+using Xunit;
 
+namespace Orchard.Tests.Modules.PowerShell.Core.Content {
     [Collection("PowerShell")]
-    public class RemoveContentItemTests : IClassFixture<PowerShellFixture>
-    {
-        private readonly PowerShellFixture powerShell;
+    public class RemoveContentItemTests : IClassFixture<PowerShellFixture> {
+        private readonly PowerShellFixture _powerShell;
 
-        public RemoveContentItemTests(PowerShellFixture powerShell)
-        {
-            this.powerShell = powerShell;
-            this.powerShell.ConsoleConnection.Reset();
+        public RemoveContentItemTests(PowerShellFixture powerShell) {
+            _powerShell = powerShell;
+            _powerShell.ConsoleConnection.Reset();
         }
 
         [Fact, Integration]
-        public void ShouldRemoveContentItemById()
-        {
-            int id = this.CreateContentItem();
-            this.powerShell.Execute("Remove-ContentItem " + id + " -Verbose");
-            
-            Assert.Equal(
-                "Performing the operation \"Remove\" on target \"Content Item: " + id + ", Version: 1, Tenant: Default\".",
-                this.powerShell.ConsoleConnection.VerboseOutput.ToString().Trim());
+        public void ShouldRemoveContentItemById() {
+            int id = CreateContentItem();
+            _powerShell.Execute("Remove-ContentItem " + id + " -Verbose");
 
-            this.AssertContentItemDoesNotExist(id);
+            Assert.Equal(
+                "Performing the operation \"Remove\" on target \"Content Item: " + id +
+                ", Version: 1, Tenant: Default\".",
+                _powerShell.ConsoleConnection.VerboseOutput.ToString().Trim());
+
+            AssertContentItemDoesNotExist(id);
         }
 
         [Fact, Integration]
-        public void ShouldDestroyContentItemById()
-        {
-            int id = this.CreateContentItem();
-            this.powerShell.Execute("Remove-ContentItem " + id + " -Destroy -Verbose");
-            
-            Assert.Equal(
-                "Performing the operation \"Destroy\" on target \"Content Item: " + id + ", Version: 1, Tenant: Default\".",
-                this.powerShell.ConsoleConnection.VerboseOutput.ToString().Trim());
+        public void ShouldDestroyContentItemById() {
+            int id = CreateContentItem();
+            _powerShell.Execute("Remove-ContentItem " + id + " -Destroy -Verbose");
 
-            this.AssertContentItemDoesNotExist(id);
+            Assert.Equal(
+                "Performing the operation \"Destroy\" on target \"Content Item: " + id +
+                ", Version: 1, Tenant: Default\".",
+                _powerShell.ConsoleConnection.VerboseOutput.ToString().Trim());
+
+            AssertContentItemDoesNotExist(id);
         }
 
         [Fact, Integration]
-        public void ShouldRemoveContentItemByObject()
-        {
-            int id = this.CreateContentItem();
-            this.powerShell.Execute("Get-ContentItem -Id " + id + " | Remove-ContentItem -Verbose");
-            
-            Assert.Equal(
-                "Performing the operation \"Remove\" on target \"Content Item: " + id + ", Version: 1, Tenant: Default\".",
-                this.powerShell.ConsoleConnection.VerboseOutput.ToString().Trim());
+        public void ShouldRemoveContentItemByObject() {
+            int id = CreateContentItem();
+            _powerShell.Execute("Get-ContentItem -Id " + id + " | Remove-ContentItem -Verbose");
 
-            this.AssertContentItemDoesNotExist(id);
+            Assert.Equal(
+                "Performing the operation \"Remove\" on target \"Content Item: " + id +
+                ", Version: 1, Tenant: Default\".",
+                _powerShell.ConsoleConnection.VerboseOutput.ToString().Trim());
+
+            AssertContentItemDoesNotExist(id);
         }
 
         [Fact, Integration]
-        public void ShouldDestroyContentItemByObject()
-        {
-            int id = this.CreateContentItem();
-            this.powerShell.Execute("Get-ContentItem -Id " + id + " | Remove-ContentItem -Destroy -Verbose");
-            
-            Assert.Equal(
-                "Performing the operation \"Destroy\" on target \"Content Item: " + id + ", Version: 1, Tenant: Default\".",
-                this.powerShell.ConsoleConnection.VerboseOutput.ToString().Trim());
+        public void ShouldDestroyContentItemByObject() {
+            int id = CreateContentItem();
+            _powerShell.Execute("Get-ContentItem -Id " + id + " | Remove-ContentItem -Destroy -Verbose");
 
-            this.AssertContentItemDoesNotExist(id);
+            Assert.Equal(
+                "Performing the operation \"Destroy\" on target \"Content Item: " + id +
+                ", Version: 1, Tenant: Default\".",
+                _powerShell.ConsoleConnection.VerboseOutput.ToString().Trim());
+
+            AssertContentItemDoesNotExist(id);
         }
 
-        private int CreateContentItem()
-        {
-            this.powerShell.Execute("$item = New-ContentItem Page -Published");
-            var output = this.powerShell.Execute("$item.Id");
-            this.powerShell.ConsoleConnection.Reset();
-            
+        private int CreateContentItem() {
+            _powerShell.Execute("$item = New-ContentItem Page -Published");
+            var output = _powerShell.Execute("$item.Id");
+            _powerShell.ConsoleConnection.Reset();
+
             return Convert.ToInt32(output);
         }
 
-        private void AssertContentItemDoesNotExist(int id)
-        {
-            this.powerShell.ConsoleConnection.Reset();
-            Assert.Empty(this.powerShell.Execute("Get-ContentItem " + id));
+        private void AssertContentItemDoesNotExist(int id) {
+            _powerShell.ConsoleConnection.Reset();
+            Assert.Empty(_powerShell.Execute("Get-ContentItem " + id));
         }
     }
 }

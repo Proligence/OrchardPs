@@ -1,25 +1,22 @@
-﻿namespace OrchardPs.Host
-{
-    using System;
-    using System.Reflection;
-    using System.Runtime.Remoting.Lifetime;
-    using System.Security;
-    using System.Web.Hosting;
-    using Proligence.PowerShell.Provider;
+﻿using System;
+using System.Reflection;
+using System.Runtime.Remoting.Lifetime;
+using System.Security;
+using System.Web.Hosting;
+using Proligence.PowerShell.Provider;
 
+namespace OrchardPs.Host {
     /// <summary>
     /// Implements the object which is used to create a session between the PowerShell AppDomain and Orchard web
     /// application's AppDomain.
     /// </summary>
-    public class OrchardHost : MarshalByRefObject, IRegisteredObject 
-    {
-        private object agent;
-        private IPsSession session;
-        private IPsSessionManager sessionManager;
-        private string connectionId;
+    public class OrchardHost : MarshalByRefObject, IRegisteredObject {
+        private object _agent;
+        private IPsSession _session;
+        private IPsSessionManager _sessionManager;
+        private string _connectionId;
 
-        public OrchardHost()
-        {
+        public OrchardHost() {
             HostingEnvironment.RegisterObject(this);
         }
 
@@ -34,8 +31,7 @@
         /// initialized to the value of the <see cref="LifetimeServices.LeaseManagerPollTime"/> property.
         /// </returns>
         [SecurityCritical]
-        public override object InitializeLifetimeService() 
-        {
+        public override object InitializeLifetimeService() {
             return null;
         }
 
@@ -47,49 +43,42 @@
         /// returning; otherwise, <c>false</c>.
         /// </param>
         [SecuritySafeCritical]
-        public void Stop(bool immediate) 
-        {
+        public void Stop(bool immediate) {
             HostingEnvironment.UnregisterObject(this);
         }
 
-        public IPsSession StartSession(IConsoleConnection connection)
-        {
-            if (connection == null)
-            {
+        public IPsSession StartSession(IConsoleConnection connection) {
+            if (connection == null) {
                 throw new ArgumentNullException("connection");
             }
 
-            this.Connection = connection;
+            Connection = connection;
 
-            this.agent = Activator.CreateInstance(
+            _agent = Activator.CreateInstance(
                 "Proligence.PowerShell.Provider",
                 "Proligence.PowerShell.Provider.PsProviderAgent")
                 .Unwrap();
 
-            MethodInfo methodInfo = this.agent.GetType().GetMethod("GetSessionManager");
-            this.sessionManager = (IPsSessionManager)methodInfo.Invoke(this.agent, new object[0]);
-            this.connectionId = Guid.NewGuid().ToString();
-            this.Connection = this.Connection;
-            this.session = this.sessionManager.NewSession(this.connectionId, this.Connection);
+            MethodInfo methodInfo = _agent.GetType().GetMethod("GetSessionManager");
+            _sessionManager = (IPsSessionManager) methodInfo.Invoke(_agent, new object[0]);
+            _connectionId = Guid.NewGuid().ToString();
+            Connection = Connection;
+            _session = _sessionManager.NewSession(_connectionId, Connection);
 
-            return this.session;
+            return _session;
         }
 
-        public void StopSession() 
-        {
-            if (this.agent != null) 
-            {
-                if (this.session != null)
-                {
-                    this.sessionManager.CloseSession(this.session);
-                    this.session = null;
+        public void StopSession() {
+            if (_agent != null) {
+                if (_session != null) {
+                    _sessionManager.CloseSession(_session);
+                    _session = null;
                 }
 
-                if (this.agent != null)
-                {
-                    MethodInfo methodInfo = this.agent.GetType().GetMethod("Dispose");
-                    methodInfo.Invoke(this.agent, new object[0]);
-                    this.agent = null;
+                if (_agent != null) {
+                    MethodInfo methodInfo = _agent.GetType().GetMethod("Dispose");
+                    methodInfo.Invoke(_agent, new object[0]);
+                    _agent = null;
                 }
             }
         }

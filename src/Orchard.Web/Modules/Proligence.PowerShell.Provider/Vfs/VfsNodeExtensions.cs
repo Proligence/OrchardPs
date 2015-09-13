@@ -1,14 +1,12 @@
-﻿namespace Proligence.PowerShell.Provider.Vfs
-{
-    using System;
-    using System.Management.Automation;
-    using Orchard;
-    using Orchard.Environment.Configuration;
-    using Proligence.PowerShell.Provider.Vfs.Navigation;
-    using Proligence.PowerShell.Provider.Vfs.Nodes;
+﻿using System;
+using System.Management.Automation;
+using Orchard;
+using Orchard.Environment.Configuration;
+using Proligence.PowerShell.Provider.Vfs.Navigation;
+using Proligence.PowerShell.Provider.Vfs.Nodes;
 
-    public static class VfsNodeExtensions 
-    {
+namespace Proligence.PowerShell.Provider.Vfs {
+    public static class VfsNodeExtensions {
         /// <summary>
         /// Gets the name of the Orchard tenant which the VFS node belongs to.
         /// </summary>
@@ -17,20 +15,16 @@
         /// The name of the Orchard tenant which the VFS node belongs to or <c>null</c> if the node does not belong to
         /// any Orchard tenant.
         /// </returns>
-        public static string GetCurrentTenantName(this VfsNode node) 
-        {
-            while (node != null) 
-            {
+        public static string GetCurrentTenantName(this VfsNode node) {
+            while (node != null) {
                 var tenantNode = node as TenantNode;
-                if (tenantNode != null)
-                {
+                if (tenantNode != null) {
                     var psobj = tenantNode.Item as PSObject;
-                    if (psobj != null)
-                    {
-                        return ((ShellSettings)psobj.ImmediateBaseObject).Name;    
+                    if (psobj != null) {
+                        return ((ShellSettings) psobj.ImmediateBaseObject).Name;
                     }
-                    
-                    return ((ShellSettings)tenantNode.Item).Name;
+
+                    return ((ShellSettings) tenantNode.Item).Name;
                 }
 
                 node = node.Parent;
@@ -48,10 +42,8 @@
         public static void UsingWorkContextScope(
             this VfsNode node,
             string tenantName,
-            Action<IWorkContextScope> action)
-        {
-            if (node == null)
-            {
+            Action<IWorkContextScope> action) {
+            if (node == null) {
                 throw new ArgumentNullException("node");
             }
 
@@ -69,10 +61,8 @@
         public static T UsingWorkContextScope<T>(
             this VfsNode node,
             string tenantName,
-            Func<IWorkContextScope, T> action)
-        {
-            if (node == null)
-            {
+            Func<IWorkContextScope, T> action) {
+            if (node == null) {
                 throw new ArgumentNullException("node");
             }
 

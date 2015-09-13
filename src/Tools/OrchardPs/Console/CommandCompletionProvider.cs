@@ -1,20 +1,16 @@
-﻿namespace OrchardPs.Console
-{
-    using Proligence.PowerShell.Provider;
-    using Proligence.PowerShell.Provider.Console;
+﻿using Proligence.PowerShell.Provider;
+using Proligence.PowerShell.Provider.Console;
 
-    public class CommandCompletionProvider
-    {
-        private readonly IPsSession session;
+namespace OrchardPs.Console {
+    public class CommandCompletionProvider {
+        private readonly IPsSession _session;
 
-        public CommandCompletionProvider(IPsSession session)
-        {
-            this.session = session;
+        public CommandCompletionProvider(IPsSession session) {
+            _session = session;
         }
 
-        public CompletionData GetCommandCompletion(string command, int cursorPosition)
-        {
-            return this.session.GetCommandCompletion(command, cursorPosition);
+        public CompletionData GetCommandCompletion(string command, int cursorPosition) {
+            return _session.GetCommandCompletion(command, cursorPosition);
         }
     }
 }

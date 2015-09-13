@@ -1,35 +1,32 @@
-﻿namespace Proligence.PowerShell.Provider.Vfs.Navigation
-{
-    using System;
-    using System.Collections;
-    using System.IO;
-    using System.Management.Automation.Provider;
-    using Orchard.Validation;
+﻿using System;
+using System.Collections;
+using System.IO;
+using System.Management.Automation.Provider;
+using Orchard.Validation;
 
+namespace Proligence.PowerShell.Provider.Vfs.Navigation {
     /// <summary>
     /// Implements the <see cref="IContentWriter"/> for <see cref="PropertyNode"/> VFS nodes.
     /// </summary>
-    public sealed class PropertyContentWriter : IContentWriter
-    {
+    public sealed class PropertyContentWriter : IContentWriter {
         /// <summary>
         /// The name of the property which will be set by this content writer.
         /// </summary>
-        private readonly string propertyName;
+        private readonly string _propertyName;
 
         /// <summary>
         /// The <see cref="PropertyStoreNode"/> which contains the property to set.
         /// </summary>
-        private readonly PropertyStoreNode propertyStoreNode;
-        
+        private readonly PropertyStoreNode _propertyStoreNode;
+
         /// <summary>
         /// The value which will be set.
         /// </summary>
-        private object value;
+        private object _value;
 
-        public PropertyContentWriter(string propertyName, PropertyStoreNode propertyStoreNode)
-        {
-            this.propertyName = propertyName;
-            this.propertyStoreNode = propertyStoreNode;
+        public PropertyContentWriter(string propertyName, PropertyStoreNode propertyStoreNode) {
+            _propertyName = propertyName;
+            _propertyStoreNode = propertyStoreNode;
         }
 
         /// <summary>
@@ -41,16 +38,14 @@
         /// <returns>
         /// An <see cref="IList"/> collection that contains the blocks successfully written to the item.
         /// </returns>
-        public IList Write(IList content)
-        {
+        public IList Write(IList content) {
             Argument.ThrowIfNull(content, "content");
-            
-            if ((this.value != null) || (content.Count != 1))
-            {
+
+            if ((_value != null) || (content.Count != 1)) {
                 throw new ArgumentException("Only a single value may be set for property nodes.", "content");
             }
 
-            this.value = content[0];
+            _value = content[0];
             return content;
         }
 
@@ -61,18 +56,15 @@
         /// <param name="origin">
         /// A <see cref="SeekOrigin"/> enumeration constant that specifies the starting point.
         /// </param>
-        public void Seek(long offset, SeekOrigin origin)
-        {
+        public void Seek(long offset, SeekOrigin origin) {
             throw new NotSupportedException();
         }
 
-        public void Close()
-        {
-            this.propertyStoreNode.SetValue(this.propertyName, this.value);
+        public void Close() {
+            _propertyStoreNode.SetValue(_propertyName, _value);
         }
 
-        public void Dispose()
-        {
+        public void Dispose() {
         }
     }
 }

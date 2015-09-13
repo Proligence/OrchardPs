@@ -1,17 +1,15 @@
-﻿namespace Proligence.PowerShell.Core.Content.Cmdlets
-{
-    using System.Management.Automation;
-    using System.Text;
-    using Orchard.ContentManagement;
-    using Orchard.ContentManagement.MetaData.Models;
-    using Orchard.Environment.Configuration;
-    using Proligence.PowerShell.Core.Content.Nodes;
-    using Proligence.PowerShell.Provider;
+﻿using System.Management.Automation;
+using System.Text;
+using Orchard.ContentManagement;
+using Orchard.ContentManagement.MetaData.Models;
+using Orchard.Environment.Configuration;
+using Proligence.PowerShell.Core.Content.Nodes;
+using Proligence.PowerShell.Provider;
 
+namespace Proligence.PowerShell.Core.Content.Cmdlets {
     [CmdletAlias("ncit")]
     [Cmdlet(VerbsCommon.New, "ContentItem", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Low)]
-    public class NewContentItem : TenantCmdlet
-    {
+    public class NewContentItem : TenantCmdlet {
         [Alias("ct")]
         [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 1)]
@@ -41,44 +39,38 @@
         [Parameter(ParameterSetName = "ContentTypeObject", Mandatory = true, ValueFromPipeline = true)]
         public ContentTypeDefinition ContentTypeObject { get; set; }
 
-        protected override void ProcessRecord(ShellSettings tenant)
-        {
-            var contentType = this.ContentTypeObject != null ? this.ContentTypeObject.Name : this.ContentType;
+        protected override void ProcessRecord(ShellSettings tenant) {
+            var contentType = ContentTypeObject != null
+                ? ContentTypeObject.Name
+                : ContentType;
             var target = "Content Type: " + contentType + ", Tenant: " + tenant.Name;
-            
-            if (this.ShouldProcess(target, this.GetAction()))
-            {
+
+            if (ShouldProcess(target, GetAction())) {
                 this.UsingWorkContextScope(
                     tenant.Name,
-                    scope =>
-                    {
+                    scope => {
                         var contentManager = scope.Resolve<IContentManager>();
                         var contentItem = contentManager.New(contentType);
 
-                        if (this.Published.ToBool())
-                        {
+                        if (Published.ToBool()) {
                             contentManager.Create(contentItem, VersionOptions.Published);
                         }
-                        else if (this.Draft.ToBool())
-                        {
+                        else if (Draft.ToBool()) {
                             contentManager.Create(contentItem, VersionOptions.Draft);
                         }
 
-                        this.WriteObject(ContentItemNode.BuildPSObject(contentItem));
+                        WriteObject(ContentItemNode.BuildPSObject(contentItem));
                     });
             }
         }
 
-        private string GetAction()
-        {
+        private string GetAction() {
             var builder = new StringBuilder("Create");
 
-            if (this.Published.ToBool())
-            {
+            if (Published.ToBool()) {
                 builder.Append(" Published");
             }
-            else if (this.Draft.ToBool())
-            {
+            else if (Draft.ToBool()) {
                 builder.Append(" Draft");
             }
 

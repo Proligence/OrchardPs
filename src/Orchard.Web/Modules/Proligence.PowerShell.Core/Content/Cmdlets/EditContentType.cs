@@ -1,31 +1,27 @@
-﻿namespace Proligence.PowerShell.Core.Content.Cmdlets
-{
-    using System.Collections;
-    using System.Management.Automation;
-    using System.Text;
-    using Orchard.ContentManagement.MetaData;
-    using Orchard.ContentManagement.MetaData.Models;
-    using Orchard.Core.Contents.Extensions;
-    using Proligence.PowerShell.Provider;
+﻿using System.Collections;
+using System.Management.Automation;
+using System.Text;
+using Orchard.ContentManagement.MetaData;
+using Orchard.ContentManagement.MetaData.Models;
+using Orchard.Core.Contents.Extensions;
+using Proligence.PowerShell.Provider;
 
+namespace Proligence.PowerShell.Core.Content.Cmdlets {
     [CmdletAlias("ect")]
     [Cmdlet(VerbsData.Edit, "ContentType", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
-    public class EditContentType : AlterContentTypeCmdletBase
-    {
+    public class EditContentType : AlterContentTypeCmdletBase {
         [Alias("n")]
         [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 1)]
         [Parameter(ParameterSetName = "TenantObject", Mandatory = false, Position = 1)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = false, Position = 1)]
-        public override string Name
-        {
-            get
-            {
-                return this.ContentType != null ? this.ContentType.Name : base.Name;
+        public override string Name {
+            get {
+                return ContentType != null
+                    ? ContentType.Name
+                    : base.Name;
             }
-
-            set
-            {
+            set {
                 base.Name = value;
             }
         }
@@ -86,45 +82,38 @@
         [Parameter(ParameterSetName = "ContentTypeObject", Mandatory = false)]
         public override string Tenant { get; set; }
 
-        protected override string GetActionName()
-        {
+        protected override string GetActionName() {
             var builder = new StringBuilder("Edit: ");
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("DisplayName"))
-            {
-                builder.Append("DisplayName='" + this.DisplayName + "' ");
+            if (MyInvocation.BoundParameters.ContainsKey("DisplayName")) {
+                builder.Append("DisplayName='" + DisplayName + "' ");
             }
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("Stereotype"))
-            {
-                builder.Append("Stereotype='" + this.Stereotype + "' ");
+            if (MyInvocation.BoundParameters.ContainsKey("Stereotype")) {
+                builder.Append("Stereotype='" + Stereotype + "' ");
             }
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("Creatable"))
-            {
-                builder.Append("Creatable='" + this.Creatable.ToBool() + "' ");
+            if (MyInvocation.BoundParameters.ContainsKey("Creatable")) {
+                builder.Append("Creatable='" + Creatable.ToBool() + "' ");
             }
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("Listable"))
-            {
-                builder.Append("Listable='" + this.Listable.ToBool() + "' ");
+            if (MyInvocation.BoundParameters.ContainsKey("Listable")) {
+                builder.Append("Listable='" + Listable.ToBool() + "' ");
             }
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("Draftable"))
-            {
-                builder.Append("Draftable='" + this.Draftable.ToBool() + "' ");
+            if (MyInvocation.BoundParameters.ContainsKey("Draftable")) {
+                builder.Append("Draftable='" + Draftable.ToBool() + "' ");
             }
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("Securable"))
-            {
-                builder.Append("Securable='" + this.Securable.ToBool() + "' ");
+            if (MyInvocation.BoundParameters.ContainsKey("Securable")) {
+                builder.Append("Securable='" + Securable.ToBool() + "' ");
             }
 
-            if (this.Settings != null)
-            {
-                foreach (DictionaryEntry setting in this.Settings)
-                {
-                    string value = setting.Value != null ? "'" + setting.Value + "'" : "$null";
+            if (Settings != null) {
+                foreach (DictionaryEntry setting in Settings) {
+                    string value = setting.Value != null
+                        ? "'" + setting.Value + "'"
+                        : "$null";
                     builder.Append(setting.Key + "=" + value + " ");
                 }
             }
@@ -132,47 +121,41 @@
             return builder.ToString().Trim();
         }
 
-        protected override void PerformAction(IContentDefinitionManager contentDefinitionManager)
-        {
+        protected override void PerformAction(IContentDefinitionManager contentDefinitionManager) {
             contentDefinitionManager.AlterTypeDefinition(
-                this.ContentType != null ? this.ContentType.Name : this.Name,
-                builder =>
-                {
-                    if (this.MyInvocation.BoundParameters.ContainsKey("DisplayName"))
-                    {
-                        builder.DisplayedAs(this.DisplayName);
+                ContentType != null
+                    ? ContentType.Name
+                    : Name,
+                builder => {
+                    if (MyInvocation.BoundParameters.ContainsKey("DisplayName")) {
+                        builder.DisplayedAs(DisplayName);
                     }
 
-                    if (this.MyInvocation.BoundParameters.ContainsKey("Stereotype"))
-                    {
-                        builder.WithSetting("Stereotype", this.Stereotype);
+                    if (MyInvocation.BoundParameters.ContainsKey("Stereotype")) {
+                        builder.WithSetting("Stereotype", Stereotype);
                     }
 
-                    if (this.MyInvocation.BoundParameters.ContainsKey("Creatable"))
-                    {
-                        builder.Creatable(this.Creatable.ToBool());
+                    if (MyInvocation.BoundParameters.ContainsKey("Creatable")) {
+                        builder.Creatable(Creatable.ToBool());
                     }
 
-                    if (this.MyInvocation.BoundParameters.ContainsKey("Listable"))
-                    {
-                        builder.Listable(this.Listable.ToBool());
+                    if (MyInvocation.BoundParameters.ContainsKey("Listable")) {
+                        builder.Listable(Listable.ToBool());
                     }
 
-                    if (this.MyInvocation.BoundParameters.ContainsKey("Draftable"))
-                    {
-                        builder.Draftable(this.Draftable.ToBool());
+                    if (MyInvocation.BoundParameters.ContainsKey("Draftable")) {
+                        builder.Draftable(Draftable.ToBool());
                     }
 
-                    if (this.MyInvocation.BoundParameters.ContainsKey("Securable"))
-                    {
-                        builder.Securable(this.Securable.ToBool());
+                    if (MyInvocation.BoundParameters.ContainsKey("Securable")) {
+                        builder.Securable(Securable.ToBool());
                     }
 
-                    if (this.Settings != null)
-                    {
-                        foreach (DictionaryEntry setting in this.Settings)
-                        {
-                            string value = setting.Value != null ? setting.Value.ToString() : null;
+                    if (Settings != null) {
+                        foreach (DictionaryEntry setting in Settings) {
+                            string value = setting.Value != null
+                                ? setting.Value.ToString()
+                                : null;
                             builder.WithSetting(setting.Key.ToString(), value);
                         }
                     }

@@ -1,150 +1,123 @@
-﻿namespace Proligence.PowerShell.Provider.Console.Host
-{
-    using System;
-    using System.Management.Automation;
-    using System.Management.Automation.Runspaces;
-    using System.Text;
-    using Proligence.PowerShell.Provider.Console.UI;
+﻿using System;
+using System.Management.Automation;
+using System.Management.Automation.Runspaces;
+using System.Text;
+using Proligence.PowerShell.Provider.Console.UI;
 
-    public class CommandExecutor : ICommandExecutor
-    {
-        private readonly IPsSession session;
-        private readonly StringBuilder commandBuffer;
-        private Pipeline pipeline;
+namespace Proligence.PowerShell.Provider.Console.Host {
+    public class CommandExecutor : ICommandExecutor {
+        private readonly IPsSession _session;
+        private readonly StringBuilder _commandBuffer;
+        private Pipeline _pipeline;
 
-        public CommandExecutor(IPsSession session)
-        {
-            this.session = session;
-            this.commandBuffer = new StringBuilder();
+        public CommandExecutor(IPsSession session) {
+            _session = session;
+            _commandBuffer = new StringBuilder();
         }
 
-        public void Start()
-        {
-            this.session.DataReceived += this.OnSessionDataReceived;
+        public void Start() {
+            _session.DataReceived += OnSessionDataReceived;
         }
 
-        public void Exit()
-        {
-            this.session.DataReceived -= this.OnSessionDataReceived;
+        public void Exit() {
+            _session.DataReceived -= OnSessionDataReceived;
         }
 
-        private void ExecuteCommandFromBuffer()
-        {
-            string commandText = this.commandBuffer.ToString();
-            this.commandBuffer.Clear();
+        private void ExecuteCommandFromBuffer() {
+            string commandText = _commandBuffer.ToString();
+            _commandBuffer.Clear();
 
-            try
-            {
-                this.session.RunspaceLock.WaitOne();
-                this.pipeline = this.session.Runspace.CreatePipeline(commandText);
-                this.pipeline.Commands[0].MergeMyResults(PipelineResultTypes.Error, PipelineResultTypes.Output);
-                this.pipeline.Commands.Add(new Command("Out-Default", false, true));
-                this.pipeline.Output.DataReady += this.OnPipelineOutputDataReady;
-                this.pipeline.StateChanged += this.OnPipelineStateChanged;
-                this.pipeline.Input.Close();
-                this.pipeline.InvokeAsync();
+            try {
+                _session.RunspaceLock.WaitOne();
+                _pipeline = _session.Runspace.CreatePipeline(commandText);
+                _pipeline.Commands[0].MergeMyResults(PipelineResultTypes.Error, PipelineResultTypes.Output);
+                _pipeline.Commands.Add(new Command("Out-Default", false, true));
+                _pipeline.Output.DataReady += OnPipelineOutputDataReady;
+                _pipeline.StateChanged += OnPipelineStateChanged;
+                _pipeline.Input.Close();
+                _pipeline.InvokeAsync();
             }
-            catch (Exception ex)
-            {
-                this.session.ConsoleHost.UI.WriteErrorLine(ex.Message);
-                this.session.RunspaceLock.Set();
+            catch (Exception ex) {
+                _session.ConsoleHost.UI.WriteErrorLine(ex.Message);
+                _session.RunspaceLock.Set();
             }
         }
 
-        private void OnSessionDataReceived(object sender, DataReceivedEventArgs e)
-        {
-            string str = this.session.ReadInputBuffer();
-            if (str == null) 
-            {
+        private void OnSessionDataReceived(object sender, DataReceivedEventArgs e) {
+            string str = _session.ReadInputBuffer();
+            if (str == null) {
                 return;
             }
 
             bool aborted = str.Contains("\u0003");
-            if (!aborted && (this.pipeline != null) && (this.pipeline.PipelineStateInfo.State != PipelineState.NotStarted))
-            {
+            if (!aborted && (_pipeline != null) && (_pipeline.PipelineStateInfo.State != PipelineState.NotStarted)) {
                 return;
             }
 
-            if (aborted) 
-            {
-                if (this.pipeline != null 
-                    && this.pipeline.PipelineStateInfo.State != PipelineState.Stopped
-                    && this.pipeline.PipelineStateInfo.State != PipelineState.Stopping)
-                {
-                    this.pipeline.StopAsync();
+            if (aborted) {
+                if (_pipeline != null
+                    && _pipeline.PipelineStateInfo.State != PipelineState.Stopped
+                    && _pipeline.PipelineStateInfo.State != PipelineState.Stopping) {
+                    _pipeline.StopAsync();
                 }
-                else
-                {
+                else {
                     // Sending information about finishing command
-                    this.session.Sender(new OutputData { Finished = true });
-                    this.session.SignalInputProcessed();
+                    _session.Sender(new OutputData {Finished = true});
+                    _session.SignalInputProcessed();
                 }
             }
-            else 
-            {
-                this.commandBuffer.Append(str);
+            else {
+                _commandBuffer.Append(str);
 
-                if (!str.TrimEnd().EndsWith("`", StringComparison.Ordinal))
-                {
-                    this.ExecuteCommandFromBuffer();
+                if (!str.TrimEnd().EndsWith("`", StringComparison.Ordinal)) {
+                    ExecuteCommandFromBuffer();
                 }
             }
         }
 
-        private void OnPipelineOutputDataReady(object sender, EventArgs eventArgs)
-        {
-            foreach (PSObject result in this.pipeline.Output.NonBlockingRead())
-            {
-                var resultString = (string)LanguagePrimitives.ConvertTo(result, typeof(string));
-                this.session.ConsoleHost.UI.WriteLine(resultString);
+        private void OnPipelineOutputDataReady(object sender, EventArgs eventArgs) {
+            foreach (PSObject result in _pipeline.Output.NonBlockingRead()) {
+                var resultString = (string) LanguagePrimitives.ConvertTo(result, typeof (string));
+                _session.ConsoleHost.UI.WriteLine(resultString);
             }
 
-            this.session.SignalInputProcessed();
+            _session.SignalInputProcessed();
         }
 
-        private void OnPipelineStateChanged(object sender, PipelineStateEventArgs e)
-        {
-            if (e.PipelineStateInfo.State != PipelineState.Running)
-            {
-                this.session.Path = this.session.Runspace.SessionStateProxy.Path.CurrentLocation.ToString();
+        private void OnPipelineStateChanged(object sender, PipelineStateEventArgs e) {
+            if (e.PipelineStateInfo.State != PipelineState.Running) {
+                _session.Path = _session.Runspace.SessionStateProxy.Path.CurrentLocation.ToString();
             }
 
             // Handled finished pipeline.
             PipelineState state = e.PipelineStateInfo.State;
-            if ((state == PipelineState.Completed) || (state == PipelineState.Failed) || (state == PipelineState.Stopped))
-            {
-                try
-                {
+            if ((state == PipelineState.Completed) || (state == PipelineState.Failed) ||
+                (state == PipelineState.Stopped)) {
+                try {
                     // Display an error for failed pipelines.
-                    if (state == PipelineState.Failed)
-                    {
-                        this.session.ConsoleHost.UI.WriteErrorLine(
+                    if (state == PipelineState.Failed) {
+                        _session.ConsoleHost.UI.WriteErrorLine(
                             "Command did not complete successfully. Reason: " + e.PipelineStateInfo.Reason);
                     }
 
-                    if (state == PipelineState.Stopped)
-                    {
-                        this.session.ConsoleHost.UI.WriteWarningLine(
-                            "Command '" + this.pipeline.Commands[0].CommandText + "' has been cancelled.");
+                    if (state == PipelineState.Stopped) {
+                        _session.ConsoleHost.UI.WriteWarningLine(
+                            "Command '" + _pipeline.Commands[0].CommandText + "' has been cancelled.");
                     }
 
                     // Dispose the current pipeline.
-                    if (this.pipeline != null)
-                    {
-                        this.pipeline.Dispose();
-                        this.pipeline = null;
+                    if (_pipeline != null) {
+                        _pipeline.Dispose();
+                        _pipeline = null;
                     }
                 }
-                finally
-                {
-                    try
-                    {
+                finally {
+                    try {
                         // Sending information about finishing command
-                        this.session.Sender(new OutputData { Finished = true });
+                        _session.Sender(new OutputData {Finished = true});
                     }
-                    finally
-                    {
-                        this.session.RunspaceLock.Set();
+                    finally {
+                        _session.RunspaceLock.Set();
                     }
                 }
             }

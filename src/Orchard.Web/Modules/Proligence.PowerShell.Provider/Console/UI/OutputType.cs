@@ -1,7 +1,5 @@
-﻿namespace Proligence.PowerShell.Provider.Console.UI
-{
-    public enum OutputType
-    {
+﻿namespace Proligence.PowerShell.Provider.Console.UI {
+    public enum OutputType {
         Line,
         Warning,
         Error,

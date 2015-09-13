@@ -1,12 +1,10 @@
-﻿namespace Proligence.PowerShell.Provider.Internal
-{
-    using Orchard;
+﻿using Orchard;
 
+namespace Proligence.PowerShell.Provider.Internal {
     /// <summary>
     /// Discovers PowerShell content files (help, configuration, etc.) provided by Orchard modules.
     /// </summary>
-    public interface IPsFileSearcher : IDependency
-    {
+    public interface IPsFileSearcher : IDependency {
         /// <summary>
         /// Gets the path to the help file for the specified cmdlet.
         /// </summary>

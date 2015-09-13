@@ -1,26 +1,23 @@
-﻿namespace Proligence.PowerShell.Provider.Vfs
-{
-    using System.Collections.Generic;
-    using Proligence.PowerShell.Provider.Vfs.Navigation;
-    using Proligence.PowerShell.Provider.Vfs.Provider;
+﻿using System.Collections.Generic;
+using Proligence.PowerShell.Provider.Vfs.Navigation;
+using Proligence.PowerShell.Provider.Vfs.Provider;
 
+namespace Proligence.PowerShell.Provider.Vfs {
     /// <summary>
     /// Implements the PowerShell Virtual File System (VFS).
     /// </summary>
-    public class PowerShellVfs : IPowerShellVfs
-    {
-        private readonly object initializationLock = new object();
-        private bool initialized;
+    public class PowerShellVfs : IPowerShellVfs {
+        private readonly object _initializationLock = new object();
+        private bool _initialized;
 
         public PowerShellVfs(
             VfsDriveInfo drive,
             INavigationProviderManager navigationProviderManager,
-            IPathValidator pathValidator)
-        {
-            this.Drive = drive;
-            this.Root = new RootVfsNode(this, drive);
-            this.NavigationProviderManager = navigationProviderManager;
-            this.PathValidator = pathValidator;
+            IPathValidator pathValidator) {
+            Drive = drive;
+            Root = new RootVfsNode(this, drive);
+            NavigationProviderManager = navigationProviderManager;
+            PathValidator = pathValidator;
         }
 
         /// <summary>
@@ -46,36 +43,30 @@
         /// <summary>
         /// Initializes the VFS instance.
         /// </summary>
-        public void Initialize() 
-        {
-            lock (this.initializationLock)
-            {
-                if (!this.initialized)
-                {
+        public void Initialize() {
+            lock (_initializationLock) {
+                if (!_initialized) {
                     IEnumerable<IPsNavigationProvider> globalNodeProviders =
-                        this.NavigationProviderManager.GetProviders(NodeType.Global);
+                        NavigationProviderManager.GetProviders(NodeType.Global);
 
-                    foreach (IPsNavigationProvider provider in globalNodeProviders)
-                    {
+                    foreach (IPsNavigationProvider provider in globalNodeProviders) {
                         provider.Vfs = this;
                         provider.Initialize();
 
-                        VfsNode parent = this.NavigatePath(provider.Path);
-                        if (parent == null)
-                        {
+                        VfsNode parent = NavigatePath(provider.Path);
+                        if (parent == null) {
                             throw new VfsProviderException("The VFS path '" + provider.Path + "' does not exist.");
                         }
 
                         var containerNode = parent as ContainerNode;
-                        if (containerNode == null)
-                        {
+                        if (containerNode == null) {
                             throw new VfsProviderException("The node '" + provider.Path + "' must be a container.");
                         }
 
                         containerNode.AddStaticNode(provider.Node);
                     }
 
-                    this.initialized = true;
+                    _initialized = true;
                 }
             }
         }
@@ -87,11 +78,9 @@
         /// <returns>
         /// The node under the specified path or <c>null</c> if there is no node under the specified path.
         /// </returns>
-        public VfsNode NavigatePath(string path) 
-        {
-            if (this.Root != null) 
-            {
-                return this.Root.NavigatePath(path);
+        public VfsNode NavigatePath(string path) {
+            if (Root != null) {
+                return Root.NavigatePath(path);
             }
 
             return null;

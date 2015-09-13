@@ -1,15 +1,13 @@
-﻿namespace Proligence.PowerShell.Core.Content.Cmdlets
-{
-    using System.Management.Automation;
-    using Orchard.ContentManagement.MetaData;
-    using Orchard.ContentManagement.MetaData.Builders;
-    using Orchard.ContentManagement.MetaData.Models;
-    using Orchard.Environment.Configuration;
-    using Proligence.PowerShell.Provider;
-    using Proligence.PowerShell.Provider.Utilities;
+﻿using System.Management.Automation;
+using Orchard.ContentManagement.MetaData;
+using Orchard.ContentManagement.MetaData.Builders;
+using Orchard.ContentManagement.MetaData.Models;
+using Orchard.Environment.Configuration;
+using Proligence.PowerShell.Provider;
+using Proligence.PowerShell.Provider.Utilities;
 
-    public abstract class AlterContentPartFieldCmdletBase : TenantCmdlet
-    {
+namespace Proligence.PowerShell.Core.Content.Cmdlets {
+    public abstract class AlterContentPartFieldCmdletBase : TenantCmdlet {
         [Alias("cp")]
         [ValidateNotNullOrEmpty]
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 1)]
@@ -35,53 +33,45 @@
         protected abstract string GetActionName(string contentFieldName);
         protected abstract void PerformAction(ContentPartDefinitionBuilder builder, string contentFieldName);
 
-        protected override void ProcessRecord(ShellSettings tenant)
-        {
-            ContentPartDefinition contentPart = this.GetContentPartDefinition(tenant.Name);
-            if (contentPart != null)
-            {
+        protected override void ProcessRecord(ShellSettings tenant) {
+            ContentPartDefinition contentPart = GetContentPartDefinition(tenant.Name);
+            if (contentPart != null) {
                 string target = "Content Part: " + contentPart.Name + ", Tenant: " + tenant.Name;
 
-                if (this.ShouldProcess(target, this.GetActionName(this.ContentField)))
-                {
+                if (ShouldProcess(target, GetActionName(ContentField))) {
                     this.UsingWorkContextScope(
                         tenant.Name,
                         scope => scope.Resolve<IContentDefinitionManager>()
                             .AlterPartDefinition(
                                 contentPart.Name,
-                                builder => this.PerformAction(builder, this.ContentField)));
+                                builder => PerformAction(builder, ContentField)));
                 }
             }
         }
 
-        private ContentPartDefinition GetContentPartDefinition(string tenantName)
-        {
-            if (this.ContentPartObject != null)
-            {
-                return this.ContentPartObject;
+        private ContentPartDefinition GetContentPartDefinition(string tenantName) {
+            if (ContentPartObject != null) {
+                return ContentPartObject;
             }
 
-            if (this.ContentPart != null)
-            {
+            if (ContentPart != null) {
                 ContentPartDefinition contentPart = this.UsingWorkContextScope(
-                    tenantName, 
-                    scope => scope.Resolve<IContentDefinitionManager>().GetPartDefinition(this.ContentPart));
+                    tenantName,
+                    scope => scope.Resolve<IContentDefinitionManager>().GetPartDefinition(ContentPart));
 
-                if (contentPart == null)
-                {
-                    this.NotifyFailedToFindContentPart(this.ContentPart, tenantName);
+                if (contentPart == null) {
+                    NotifyFailedToFindContentPart(ContentPart, tenantName);
                 }
 
                 return contentPart;
             }
 
-            this.NotifyFailedToFindContentPart(string.Empty, tenantName);
+            NotifyFailedToFindContentPart(string.Empty, tenantName);
             return null;
         }
 
-        private void NotifyFailedToFindContentPart(string name, string tenantName)
-        {
-            this.WriteError(Error.InvalidArgument(
+        private void NotifyFailedToFindContentPart(string name, string tenantName) {
+            WriteError(Error.InvalidArgument(
                 "Failed to find content part '" + name + "' in tenant '" + tenantName + "'.",
                 "FailedToFindContentPart"));
         }

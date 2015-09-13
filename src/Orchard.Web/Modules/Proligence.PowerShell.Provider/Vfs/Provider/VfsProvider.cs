@@ -1,41 +1,31 @@
-﻿namespace Proligence.PowerShell.Provider.Vfs.Provider
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Management.Automation;
-    using System.Management.Automation.Provider;
-    using Proligence.PowerShell.Provider.Vfs.Navigation;
+﻿using System;
+using System.Collections.Generic;
+using System.Management.Automation;
+using System.Management.Automation.Provider;
+using Proligence.PowerShell.Provider.Vfs.Navigation;
 
+namespace Proligence.PowerShell.Provider.Vfs.Provider {
     /// <summary>
     /// Implements the VFS PS Provider.
     /// </summary>
-    public abstract class VfsProvider : NavigationCmdletProvider, IContentCmdletProvider
-    {
+    public abstract class VfsProvider : NavigationCmdletProvider, IContentCmdletProvider {
         /// <summary>
         /// The object which implements input path validation.
         /// </summary>
-        private IPathValidator pathValidator;
+        private IPathValidator _pathValidator;
 
         /// <summary>
         /// Gets the object which represents the state of the VFS PS provider.
         /// </summary>
-        public VfsProviderInfo VfsProviderInfo
-        {
-            get
-            {
-                return (VfsProviderInfo)this.ProviderInfo;
-            }
+        public VfsProviderInfo VfsProviderInfo {
+            get { return (VfsProviderInfo) ProviderInfo; }
         }
 
         /// <summary>
         /// Gets the object which implements input path validation.
         /// </summary>
-        public IPathValidator PathValidator
-        {
-            get 
-            {
-                return this.pathValidator ?? (this.pathValidator = new DefaultPathValidator());
-            }
+        public IPathValidator PathValidator {
+            get { return _pathValidator ?? (_pathValidator = new DefaultPathValidator()); }
         }
 
         /// <summary>
@@ -43,17 +33,15 @@
         /// </summary>
         /// <param name="path">Path to the item to be read.</param>
         /// <returns>An <see cref="IContentReader"/> interface for the content reader.</returns>
-        public IContentReader GetContentReader(string path)
-        {
+        public IContentReader GetContentReader(string path) {
             this.Trace("GetContentReader(Path='{0}')", path);
 
-            IContentReader reader = this.InvokeHandler<VfsNode, IContentReader>(
+            IContentReader reader = InvokeHandler<VfsNode, IContentReader>(
                 node => node.GetContentHandler,
                 node => node.GetContentName,
                 path);
 
-            if (reader == null)
-            {
+            if (reader == null) {
                 throw new NotSupportedException();
             }
 
@@ -67,11 +55,10 @@
         /// <returns>
         /// An object that has properties and fields decorated with parsing attributes similar to a cmdlet class.
         /// </returns>
-        public object GetContentReaderDynamicParameters(string path)
-        {
+        public object GetContentReaderDynamicParameters(string path) {
             this.Trace("GetContentReaderDynamicParameters(Path='{0}')", path);
 
-            return this.InvokeHandler<VfsNode, object>(
+            return InvokeHandler<VfsNode, object>(
                 node => node.GetContentDynamicParametersHandler,
                 null,
                 path);
@@ -82,17 +69,15 @@
         /// </summary>
         /// <param name="path">Path to the item to be written to.</param>
         /// <returns>An <see cref="IContentWriter"/> interface for the content writer.</returns>
-        public IContentWriter GetContentWriter(string path)
-        {
+        public IContentWriter GetContentWriter(string path) {
             this.Trace("GetContentWriter(Path='{0}')", path);
 
-            IContentWriter writer = this.InvokeHandler<VfsNode, IContentWriter>(
+            IContentWriter writer = InvokeHandler<VfsNode, IContentWriter>(
                 node => node.SetContentHandler,
                 node => node.SetContentName,
                 path);
 
-            if (writer == null)
-            {
+            if (writer == null) {
                 throw new NotSupportedException();
             }
 
@@ -107,11 +92,10 @@
         /// <returns>
         /// An object that has properties and fields decorated with parsing attributes similar to a cmdlet class.
         /// </returns>
-        public object GetContentWriterDynamicParameters(string path)
-        {
+        public object GetContentWriterDynamicParameters(string path) {
             this.Trace("GetContentWriterDynamicParameters(Path='{0}')", path);
 
-            return this.InvokeHandler<VfsNode, object>(
+            return InvokeHandler<VfsNode, object>(
                 node => node.SetContentDynamicParametersHandler,
                 null,
                 path);
@@ -121,15 +105,13 @@
         /// Clears the content of the specified item.
         /// </summary>
         /// <param name="path">The path to the item to be cleared.</param>
-        public void ClearContent(string path)
-        {
+        public void ClearContent(string path) {
             this.Trace("ClearContent(Path='{0}')", path);
 
-            if (!this.InvokeHandler(
+            if (!InvokeHandler(
                 node => node.ClearContentHandler,
                 node => node.ClearContentName,
-                path))
-            {
+                path)) {
                 throw new NotSupportedException();
             }
         }
@@ -142,11 +124,10 @@
         /// <returns>
         /// An object that has properties and fields decorated with parsing attributes similar to a cmdlet class.
         /// </returns>
-        public object ClearContentDynamicParameters(string path)
-        {
+        public object ClearContentDynamicParameters(string path) {
             this.Trace("ClearContentDynamicParameters(Path='{0}')", path);
 
-            return this.InvokeHandler<VfsNode, object>(
+            return InvokeHandler<VfsNode, object>(
                 node => node.ClearContentDynamicParametersHandler,
                 null,
                 path);
@@ -166,9 +147,8 @@
         /// </summary>
         /// <param name="drive">The drive to initialize.</param>
         /// <returns>The <see cref="VfsDriveInfo"/> object which represents the initialized drive.</returns>
-        protected virtual VfsDriveInfo InitializeNewDrive(PSDriveInfo drive) 
-        {
-            return (VfsDriveInfo)drive;
+        protected virtual VfsDriveInfo InitializeNewDrive(PSDriveInfo drive) {
+            return (VfsDriveInfo) drive;
         }
 
         /// <summary>
@@ -179,9 +159,8 @@
         /// A <see cref="ProviderInfo"/> object that describes the provider to be initialized.
         /// </param>
         /// <returns>A <see cref="ProviderInfo"/> object that contains information about the provider.</returns>
-        protected override ProviderInfo Start(ProviderInfo providerInfo) 
-        {
-            return this.CreateProviderInfo(providerInfo);
+        protected override ProviderInfo Start(ProviderInfo providerInfo) {
+            return CreateProviderInfo(providerInfo);
         }
 
         /// <summary>
@@ -189,8 +168,7 @@
         /// method to allow the provider a chance to stop and clean up its resources before the runtime removes the
         /// provider.
         /// </summary>
-        protected override void Stop() 
-        {
+        protected override void Stop() {
         }
 
         /// <summary>
@@ -205,20 +183,17 @@
         /// If an error occurs, an error record should be sent to the error pipeline using the <c>WriteError</c> method
         /// and null should be returned.
         /// </returns>
-        protected override PSDriveInfo NewDrive(PSDriveInfo drive) 
-        {
-            if (drive == null) 
-            {
+        protected override PSDriveInfo NewDrive(PSDriveInfo drive) {
+            if (drive == null) {
                 this.WriteError(new ArgumentNullException("drive"), ErrorIds.NullDrive, ErrorCategory.InvalidArgument);
                 return null;
             }
 
-            if (drive is VfsDriveInfo) 
-            {
+            if (drive is VfsDriveInfo) {
                 return drive;
             }
 
-            return this.InitializeNewDrive(drive);
+            return InitializeNewDrive(drive);
         }
 
         /// <summary>
@@ -233,17 +208,14 @@
         /// the drive cannot be removed, <c>null</c> should be returned or an exception should be thrown. The default
         /// implementation returns the drive that was passed.
         /// </returns>
-        protected override PSDriveInfo RemoveDrive(PSDriveInfo drive) 
-        {
-            if (drive == null) 
-            {
+        protected override PSDriveInfo RemoveDrive(PSDriveInfo drive) {
+            if (drive == null) {
                 this.WriteError(new ArgumentNullException("drive"), ErrorIds.NullDrive, ErrorCategory.InvalidArgument);
                 return null;
             }
 
             var vfsDrive = drive as VfsDriveInfo;
-            if (vfsDrive == null) 
-            {
+            if (vfsDrive == null) {
                 return null;
             }
 
@@ -259,9 +231,8 @@
         /// <returns>
         /// <c>true</c> if the path is syntactically and semantically valid for the provider; otherwise <c>false</c>.
         /// </returns>
-        protected override bool IsValidPath(string path) 
-        {
-            return this.PathValidator.IsValidPath(path);
+        protected override bool IsValidPath(string path) {
+            return PathValidator.IsValidPath(path);
         }
 
         /// <summary>
@@ -269,21 +240,19 @@
         /// </summary>
         /// <param name="path">The path to the item to be examined.</param>
         /// <returns><c>true</c> if an item exists at the specified path, otherwise <c>false</c>.</returns>
-        protected override bool ItemExists(string path) 
-        {
-            string normalizedPath = this.PathValidator.NormalizePath(path);
-            return this.GetNodeByPath(normalizedPath) != null;
+        protected override bool ItemExists(string path) {
+            string normalizedPath = PathValidator.NormalizePath(path);
+            return GetNodeByPath(normalizedPath) != null;
         }
 
         /// <summary>
         /// Retrieves the item at the specified path.
         /// </summary>
         /// <param name="path">The path to the item to retrieve.</param>
-        protected override void GetItem(string path) 
-        {
+        protected override void GetItem(string path) {
             this.Trace("GetItem(Path='{0}')", path);
 
-            this.ForNode(path, node => this.WriteItemNode(node, n => n.Item));
+            ForNode(path, node => this.WriteItemNode(node, n => n.Item));
         }
 
         /// <summary>
@@ -291,17 +260,15 @@
         /// </summary>
         /// <param name="path">The path to the item to be set.</param>
         /// <param name="value">The value of the item.</param>
-        protected override void SetItem(string path, object value)
-        {
+        protected override void SetItem(string path, object value) {
             string valueStr = value != null ? value.ToString() : "(null)";
             this.Trace("SetItem(Path='{0}', Value='{1}')", path, valueStr);
 
-            if (!this.InvokeHandler<VfsNode, object>(
-                node => node.SetItemHandler, 
-                node => node.SetItemName, 
-                path, 
-                value)) 
-            {
+            if (!InvokeHandler<VfsNode, object>(
+                node => node.SetItemHandler,
+                node => node.SetItemName,
+                path,
+                value)) {
                 base.SetItem(path, value);
             }
         }
@@ -310,12 +277,10 @@
         /// Clears the item at the specified path.
         /// </summary>
         /// <param name="path">The path to the item to be cleared.</param>
-        protected override void ClearItem(string path) 
-        {
+        protected override void ClearItem(string path) {
             this.Trace("ClearItem(Path='{0}')", path);
 
-            if (!this.InvokeHandler(node => node.ClearItemHandler, node => node.ClearItemName, path)) 
-            {
+            if (!InvokeHandler(node => node.ClearItemHandler, node => node.ClearItemName, path)) {
                 base.ClearItem(path);
             }
         }
@@ -324,15 +289,13 @@
         /// Invokes the default action on the specified item.
         /// </summary>
         /// <param name="path">The path to the item to perform the default operation on.</param>
-        protected override void InvokeDefaultAction(string path)
-        {
+        protected override void InvokeDefaultAction(string path) {
             this.Trace("InvokeDefaultAction(Path='{0}')", path);
 
-            if (!this.InvokeHandler(
-                node => node.InvokeDefaultActionHandler, 
-                node => node.InvokeDefaultActionName, 
-                path))
-            {
+            if (!InvokeHandler(
+                node => node.InvokeDefaultActionHandler,
+                node => node.InvokeDefaultActionName,
+                path)) {
                 base.InvokeDefaultAction(path);
             }
         }
@@ -345,11 +308,10 @@
         /// <c>true</c> if all containers are returned, even if they do not match the filter. <c>false</c> if the
         /// provider should return only those containers that match the filter.
         /// </param>
-        protected override void GetChildNames(string path, ReturnContainers returnContainers)
-        {
+        protected override void GetChildNames(string path, ReturnContainers returnContainers) {
             this.Trace("GetChildNames(Path='{0}', ReturnContainers='{1}')", path, returnContainers);
 
-            this.ForEachChildNode(path, node => this.WriteItemNode(node, n => n.Name));
+            ForEachChildNode(path, node => this.WriteItemNode(node, n => n.Name));
         }
 
         /// <summary>
@@ -359,23 +321,19 @@
         /// <returns>
         /// A <see cref="bool"/> value that indicates <c>true</c> if the item has children, <c>false</c> otherwise.
         /// </returns>
-        protected override bool HasChildItems(string path) 
-        {
+        protected override bool HasChildItems(string path) {
             this.Trace("HasChildItems(Path='{0}')", path);
 
             bool hasChildItems = false;
 
-            this.ForNode(
-                path, 
-                node => 
-                {
+            ForNode(
+                path,
+                node => {
                     ContainerNode containerNode = node as ContainerNode;
-                    if (containerNode != null) 
-                    {
+                    if (containerNode != null) {
                         hasChildItems = containerNode.HasChildItems;
                     }
-                    else 
-                    {
+                    else {
                         hasChildItems = false;
                     }
                 });
@@ -393,11 +351,10 @@
         /// <c>true</c> if all children should be retrieved, <c>false</c> if only a single level of children should be
         /// retrieved.
         /// </param>
-        protected override void GetChildItems(string path, bool recurse) 
-        {
+        protected override void GetChildItems(string path, bool recurse) {
             this.Trace("GetChildItems(Path='{0}')", path);
 
-            this.ForEachChildNode(path, this.WriteItemNode, true);
+            ForEachChildNode(path, this.WriteItemNode, true);
         }
 
         /// <summary>
@@ -408,18 +365,16 @@
         /// <param name="newItemValue">
         /// The provider specific type that can be used to create a new instance of an item at the specified path.
         /// </param>
-        protected override void NewItem(string path, string itemTypeName, object newItemValue)
-        {
+        protected override void NewItem(string path, string itemTypeName, object newItemValue) {
             string newItemValueStr = newItemValue != null ? newItemValue.ToString() : "(null)";
             this.Trace("NewItem(Path='{0}', Type='{1}', Value='{2}')", path, itemTypeName, newItemValueStr);
 
-            if (!this.InvokeHandler<ContainerNode, string, object>(
-                node => node.NewItemHandler, 
-                node => node.NewItemName, 
-                path, 
-                itemTypeName, 
-                newItemValue)) 
-            {
+            if (!InvokeHandler<ContainerNode, string, object>(
+                node => node.NewItemHandler,
+                node => node.NewItemName,
+                path,
+                itemTypeName,
+                newItemValue)) {
                 base.NewItem(path, itemTypeName, newItemValue);
             }
         }
@@ -430,38 +385,33 @@
         /// <param name="path">The path of the item that is being copied.</param>
         /// <param name="copyPath">The path to where the item is copied to.</param>
         /// <param name="recurse">Instructs the provider to recursively copy all items.</param>
-        protected override void CopyItem(string path, string copyPath, bool recurse) 
-        {
+        protected override void CopyItem(string path, string copyPath, bool recurse) {
             this.Trace("CopyItem(Path='{0}', CopyPath='{1}', Recurse='{2}')", path, copyPath, recurse);
 
             bool handled = false;
-            
-            this.ForNode(
-                path, 
-                node => 
-                {
-                    if (!this.ShouldProcess(node.Name, node.CopyItemName)) 
-                    {
+
+            ForNode(
+                path,
+                node => {
+                    if (!ShouldProcess(node.Name, node.CopyItemName)) {
                         handled = true;
                         return;
                     }
 
-                    this.ForNode(
-                        copyPath, 
-                        copyNode => 
+                    ForNode(
+                        copyPath,
+                        copyNode =>
                             this.Try(
-                            () => 
-                            {
-                                node.CopyItemHandler(node, copyNode, recurse);
-                                this.WriteItemNode(node);
-                            }, 
-                            ErrorIds.HandlerError, 
-                            ErrorCategory.NotSpecified, 
-                            node));
+                                () => {
+                                    node.CopyItemHandler(node, copyNode, recurse);
+                                    this.WriteItemNode(node);
+                                },
+                                ErrorIds.HandlerError,
+                                ErrorCategory.NotSpecified,
+                                node));
                 });
 
-            if (!handled) 
-            {
+            if (!handled) {
                 base.CopyItem(path, copyPath, recurse);
             }
         }
@@ -474,16 +424,14 @@
         /// <c>true</c> if all children of the item should be removed, <c>false</c> if only a single level of children
         /// should be removed.
         /// </param>
-        protected override void RemoveItem(string path, bool recurse) 
-        {
+        protected override void RemoveItem(string path, bool recurse) {
             this.Trace("RemoveItem(Path='{0}', Recurse='{1}')", path, recurse);
 
-            if (!this.InvokeHandler<VfsNode, bool>(
-                node => node.RemoveItemHandler, 
-                node => node.RemoveItemName, 
-                path, 
-                recurse)) 
-            {
+            if (!InvokeHandler<VfsNode, bool>(
+                node => node.RemoveItemHandler,
+                node => node.RemoveItemName,
+                path,
+                recurse)) {
                 base.RemoveItem(path, recurse);
             }
         }
@@ -495,16 +443,14 @@
         /// <param name="newName">
         /// The new name for the item. This name should always be relative to the parent container.
         /// </param>
-        protected override void RenameItem(string path, string newName) 
-        {
+        protected override void RenameItem(string path, string newName) {
             this.Trace("RenameItem(Path='{0}', NewName='{1}')", path, newName);
 
-            if (!this.InvokeHandler<VfsNode, string>(
-                node => node.RenameItemHandler, 
-                node => node.RenameItemName, 
-                path, 
-                newName)) 
-            {
+            if (!InvokeHandler<VfsNode, string>(
+                node => node.RenameItemHandler,
+                node => node.RenameItemName,
+                path,
+                newName)) {
                 base.RenameItem(path, newName);
             }
         }
@@ -519,11 +465,10 @@
         /// <c>true</c> if the current location is a container item (the current node has child nodes); otherwise
         /// <c>false</c>.
         /// </returns>
-        protected override bool IsItemContainer(string path) 
-        {
+        protected override bool IsItemContainer(string path) {
             this.Trace("IsItemContainer(Path='{0}')", path);
 
-            return this.GetNodeByPath(path) is ContainerNode;
+            return GetNodeByPath(path) is ContainerNode;
         }
 
         /// <summary>
@@ -531,38 +476,33 @@
         /// </summary>
         /// <param name="path">The path of the item to be moved.</param>
         /// <param name="destination">The path to the destination container.</param>
-        protected override void MoveItem(string path, string destination) 
-        {
+        protected override void MoveItem(string path, string destination) {
             this.Trace("MoveItem(Path='{0}', Destination='{1}')", path, destination);
 
             bool handled = false;
-            
-            this.ForNode(
-                path, 
-                node => 
-                {
-                    if (!this.ShouldProcess(node.Name, node.MoveItemName)) 
-                    {
+
+            ForNode(
+                path,
+                node => {
+                    if (!ShouldProcess(node.Name, node.MoveItemName)) {
                         handled = true;
                         return;
                     }
 
-                    this.ForNode(
-                        destination, 
-                        destinationNode => 
+                    ForNode(
+                        destination,
+                        destinationNode =>
                             this.Try(
-                            () => 
-                            {
-                                node.MoveItemHandler(node, destinationNode);
-                                this.WriteItemNode(node);
-                            },
-                            ErrorIds.HandlerError, 
-                            ErrorCategory.NotSpecified, 
-                            node));
+                                () => {
+                                    node.MoveItemHandler(node, destinationNode);
+                                    this.WriteItemNode(node);
+                                },
+                                ErrorIds.HandlerError,
+                                ErrorCategory.NotSpecified,
+                                node));
                 });
 
-            if (!handled) 
-            {
+            if (!handled) {
                 base.MoveItem(path, destination);
             }
         }
@@ -575,27 +515,22 @@
         /// The node under the specified path or <c>null</c> if the current drive is not a VFS drive or there is no
         /// node under the specified path.
         /// </returns>
-        protected VfsNode GetNodeByPath(string path) 
-        {
+        protected VfsNode GetNodeByPath(string path) {
             VfsNode node = null;
-            
+
             this.Try(
-                () => 
-                {
-                    var driveInfo = this.PSDriveInfo as VfsDriveInfo;
-                    if (driveInfo != null) 
-                    {
-                        if (this.PathValidator.IsDrivePath(path, this.PSDriveInfo.Root)) 
-                        {
+                () => {
+                    var driveInfo = PSDriveInfo as VfsDriveInfo;
+                    if (driveInfo != null) {
+                        if (PathValidator.IsDrivePath(path, PSDriveInfo.Root)) {
                             node = driveInfo.Vfs.Root;
                         }
-                        else 
-                        {
+                        else {
                             node = driveInfo.Vfs.NavigatePath(path);
                         }
                     }
                 },
-                ErrorIds.FailedToGetNode, 
+                ErrorIds.FailedToGetNode,
                 ErrorCategory.ReadError);
 
             return node;
@@ -606,18 +541,15 @@
         /// </summary>
         /// <param name="path">The VFS path.</param>
         /// <param name="action">The action to invoke.</param>
-        protected void ForNode(string path, Action<VfsNode> action) 
-        {
-            string normalizedPath = this.PathValidator.NormalizePath(path);
+        protected void ForNode(string path, Action<VfsNode> action) {
+            string normalizedPath = PathValidator.NormalizePath(path);
 
-            VfsNode node = this.GetNodeByPath(normalizedPath);
+            VfsNode node = GetNodeByPath(normalizedPath);
 
-            if (node != null) 
-            {
+            if (node != null) {
                 this.Try(() => action(node), ErrorIds.NodeEnumerationFailed, ErrorCategory.NotSpecified, node);
             }
-            else
-            {
+            else {
                 var exception = new ArgumentException("Path must represent a valid Orchard object: " + path);
                 this.WriteError(exception, ErrorIds.ItemNotFound, ErrorCategory.ObjectNotFound);
             }
@@ -632,31 +564,26 @@
         /// If set to <c>true</c>, cached dynamic nodes of the container node will be invalidated before listing
         /// child items.
         /// </param>
-        protected void ForEachChildNode(string path, Action<VfsNode> action, bool invalidateCachedNodes = false)
-        {
-            string normalizedPath = this.PathValidator.NormalizePath(path);
+        protected void ForEachChildNode(string path, Action<VfsNode> action, bool invalidateCachedNodes = false) {
+            string normalizedPath = PathValidator.NormalizePath(path);
 
-            ContainerNode parentNode = this.GetNodeByPath(normalizedPath) as ContainerNode;
-            if (parentNode != null) 
-            {
-                if (invalidateCachedNodes)
-                {
+            ContainerNode parentNode = GetNodeByPath(normalizedPath) as ContainerNode;
+            if (parentNode != null) {
+                if (invalidateCachedNodes) {
                     parentNode.InvalidateCachedNodes();
                 }
 
                 IEnumerable<VfsNode> items = parentNode.GetChildNodes();
-                foreach (VfsNode node in items) 
-                {
+                foreach (VfsNode node in items) {
                     VfsNode currentNode = node;
                     this.Try(
-                        () => action(currentNode), 
-                        ErrorIds.NodeEnumerationFailed, 
-                        ErrorCategory.NotSpecified, 
+                        () => action(currentNode),
+                        ErrorIds.NodeEnumerationFailed,
+                        ErrorCategory.NotSpecified,
                         node);
                 }
             }
-            else
-            {
+            else {
                 var exception = new ArgumentException("Path must represent a valid Orchard object: " + path);
                 this.WriteError(exception, ErrorIds.ItemNotFound, ErrorCategory.ObjectNotFound);
             }
@@ -670,31 +597,27 @@
         /// <param name="path">The VFS path.</param>
         /// <returns><c>true</c> if a handler was invoked; otherwise, <c>false</c>.</returns>
         protected bool InvokeHandler(
-            Func<VfsNode, Action<VfsNode>> handlerSelector, 
+            Func<VfsNode, Action<VfsNode>> handlerSelector,
             Func<VfsNode, string> actionNameSelector,
-            string path) 
-        {
-            return this.InvokeHandlerGeneric(
-                path, 
-                actionNameSelector, 
-                node => 
-                {
+            string path) {
+            return InvokeHandlerGeneric(
+                path,
+                actionNameSelector,
+                node => {
                     Action<VfsNode> handler = handlerSelector(node);
-                    if (handler == null) 
-                    {
+                    if (handler == null) {
                         return false;
                     }
 
                     this.Try(
-                        () => 
-                        {
+                        () => {
                             handler(node);
                             this.WriteItemNode(node);
                         },
-                        ErrorIds.HandlerError, 
-                        ErrorCategory.NotSpecified, 
+                        ErrorIds.HandlerError,
+                        ErrorCategory.NotSpecified,
                         node);
-                    
+
                     return true;
                 });
         }
@@ -710,33 +633,29 @@
         /// <param name="arg">The argument for the handler.</param>
         /// <returns><c>true</c> if a handler was invoked; otherwise, <c>false</c>.</returns>
         protected bool InvokeHandler<TNode, T>(
-            Func<TNode, Action<TNode, T>> handlerSelector, 
+            Func<TNode, Action<TNode, T>> handlerSelector,
             Func<TNode, string> actionNameSelector,
-            string path, 
-            T arg) 
-            where TNode : VfsNode 
-        {    
-            return this.InvokeHandlerGeneric(
-                path, 
-                actionNameSelector, 
-                node => 
-                {
+            string path,
+            T arg)
+            where TNode : VfsNode {
+            return InvokeHandlerGeneric(
+                path,
+                actionNameSelector,
+                node => {
                     Action<TNode, T> handler = handlerSelector(node);
-                    if (handler == null) 
-                    {
+                    if (handler == null) {
                         return false;
                     }
 
                     this.Try(
-                        () => 
-                        {
+                        () => {
                             handler(node, arg);
                             this.WriteItemNode(node);
                         },
-                        ErrorIds.HandlerError, 
-                        ErrorCategory.NotSpecified, 
+                        ErrorIds.HandlerError,
+                        ErrorCategory.NotSpecified,
                         node);
-                    
+
                     return true;
                 });
         }
@@ -754,26 +673,20 @@
             Func<TNode, Func<TNode, TResult>> handlerSelector,
             Func<TNode, string> actionNameSelector,
             string path)
-            where TNode : VfsNode
-        {
-            return this.InvokeHandlerGeneric(
+            where TNode : VfsNode {
+            return InvokeHandlerGeneric(
                 path,
                 actionNameSelector,
-                node =>
-                {
+                node => {
                     Func<TNode, TResult> handler = handlerSelector(node);
-                    if (handler == null)
-                    {
+                    if (handler == null) {
                         return default(TResult);
                     }
 
                     TResult result = default(TResult);
 
                     this.Try(
-                        () =>
-                        {
-                            result = handler(node);
-                        },
+                        () => { result = handler(node); },
                         ErrorIds.HandlerError,
                         ErrorCategory.NotSpecified,
                         node);
@@ -799,30 +712,26 @@
             Func<TNode, string> actionNameSelector,
             string path,
             T1 arg1,
-            T2 arg2) 
-            where TNode : VfsNode 
-        {
-            return this.InvokeHandlerGeneric(
-                path, 
-                actionNameSelector, 
-                node => 
-                {
+            T2 arg2)
+            where TNode : VfsNode {
+            return InvokeHandlerGeneric(
+                path,
+                actionNameSelector,
+                node => {
                     Action<TNode, T1, T2> handler = handlerSelector(node);
-                    if (handler == null) 
-                    {
+                    if (handler == null) {
                         return false;
                     }
 
                     this.Try(
-                        () => 
-                        {
+                        () => {
                             handler(node, arg1, arg2);
                             this.WriteItemNode(node);
                         },
-                        ErrorIds.HandlerError, 
-                        ErrorCategory.NotSpecified, 
+                        ErrorIds.HandlerError,
+                        ErrorCategory.NotSpecified,
                         node);
-                    
+
                     return true;
                 });
         }
@@ -838,30 +747,26 @@
         protected bool InvokeHandlerGeneric<TNode>(
             string path,
             Func<TNode, string> actionNameSelector,
-            Func<TNode, bool> action) 
-            where TNode : VfsNode 
-        {
+            Func<TNode, bool> action)
+            where TNode : VfsNode {
             bool handled = false;
-            
-            this.ForNode(
-                path, 
-                node => 
-                {
+
+            ForNode(
+                path,
+                node => {
                     TNode typedNode = node as TNode;
-                    if (typedNode == null) 
-                    {
+                    if (typedNode == null) {
                         this.WriteError(
-                            new InvalidOperationException("The operation is not valid for this item."), 
-                            ErrorIds.HandlerError, 
-                            ErrorCategory.InvalidArgument, 
+                            new InvalidOperationException("The operation is not valid for this item."),
+                            ErrorIds.HandlerError,
+                            ErrorCategory.InvalidArgument,
                             node);
 
                         handled = true;
                         return;
                     }
 
-                    if (!this.ShouldProcess(node.Name, actionNameSelector(typedNode))) 
-                    {
+                    if (!ShouldProcess(node.Name, actionNameSelector(typedNode))) {
                         handled = true;
                         return;
                     }
@@ -885,17 +790,14 @@
             string path,
             Func<TNode, string> actionNameSelector,
             Func<TNode, TResult> action)
-            where TNode : VfsNode
-        {
+            where TNode : VfsNode {
             TResult result = default(TResult);
 
-            this.ForNode(
+            ForNode(
                 path,
-                node =>
-                {
+                node => {
                     var typedNode = node as TNode;
-                    if (typedNode == null)
-                    {
+                    if (typedNode == null) {
                         this.WriteError(
                             new InvalidOperationException("The operation is not valid for this item."),
                             ErrorIds.HandlerError,
@@ -905,10 +807,8 @@
                         return;
                     }
 
-                    if (actionNameSelector != null)
-                    {
-                        if (!this.ShouldProcess(node.Name, actionNameSelector(typedNode)))
-                        {
+                    if (actionNameSelector != null) {
+                        if (!ShouldProcess(node.Name, actionNameSelector(typedNode))) {
                             return;
                         }
                     }

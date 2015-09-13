@@ -1,23 +1,20 @@
-namespace Proligence.PowerShell.Provider.Console.UI
-{
-    using System;
-    using System.Management.Automation;
-    using System.Management.Automation.Host;
+using System;
+using System.Management.Automation;
+using System.Management.Automation.Host;
 
-    public class ConsoleHostRawUserInterface : PSHostRawUserInterface
-    {
+namespace Proligence.PowerShell.Provider.Console.UI {
+    public class ConsoleHostRawUserInterface : PSHostRawUserInterface {
         // ReSharper disable once NotAccessedField.Local
-        private readonly ConsoleHostUserInterface consoleHostUserInterface;
+        private readonly ConsoleHostUserInterface _consoleHostUserInterface;
 
-        public ConsoleHostRawUserInterface(ConsoleHostUserInterface consoleHostUserInterface)
-        {
-            this.consoleHostUserInterface = consoleHostUserInterface;
+        public ConsoleHostRawUserInterface(ConsoleHostUserInterface consoleHostUserInterface) {
+            _consoleHostUserInterface = consoleHostUserInterface;
 
             /* ReSharper disable DoNotCallOverridableMethodsInConstructor */
-            this.ForegroundColor = ConsoleColor.White;
-            this.BackgroundColor = ConsoleColor.Blue;
-            this.BufferSize = new Size(200, 1000);
-            this.WindowSize = new Size(200, 72);
+            ForegroundColor = ConsoleColor.White;
+            BackgroundColor = ConsoleColor.Blue;
+            BufferSize = new Size(200, 1000);
+            WindowSize = new Size(200, 72);
             /* ReSharper restore DoNotCallOverridableMethodsInConstructor */
         }
 
@@ -29,70 +26,58 @@ namespace Proligence.PowerShell.Provider.Console.UI
         public override Size BufferSize { get; set; }
         public override Size WindowSize { get; set; }
 
-        public override Size MaxWindowSize
-        {
-            get
-            {
-                this.ThrowNotInteractive();
+        public override Size MaxWindowSize {
+            get {
+                ThrowNotInteractive();
                 return default(Size);
             }
         }
 
-        public override Size MaxPhysicalWindowSize
-        {
-            get
-            {
-                this.ThrowNotInteractive();
+        public override Size MaxPhysicalWindowSize {
+            get {
+                ThrowNotInteractive();
                 return default(Size);
             }
         }
 
-        public override bool KeyAvailable
-        {
-            get
-            {
-                this.ThrowNotInteractive();
+        public override bool KeyAvailable {
+            get {
+                ThrowNotInteractive();
                 return false;
             }
         }
 
         public override string WindowTitle { get; set; }
 
-        public override KeyInfo ReadKey(ReadKeyOptions options)
-        {
-            this.ThrowNotInteractive();
+        public override KeyInfo ReadKey(ReadKeyOptions options) {
+            ThrowNotInteractive();
             return default(KeyInfo);
         }
 
-        public override void FlushInputBuffer()
-        {
-            this.ThrowNotInteractive();
+        public override void FlushInputBuffer() {
+            ThrowNotInteractive();
         }
 
-        public override void SetBufferContents(Coordinates origin, BufferCell[,] contents)
-        {
-            this.ThrowNotInteractive();
+        public override void SetBufferContents(Coordinates origin, BufferCell[,] contents) {
+            ThrowNotInteractive();
         }
 
-        public override void SetBufferContents(Rectangle rectangle, BufferCell fill)
-        {
-            this.ThrowNotInteractive();
+        public override void SetBufferContents(Rectangle rectangle, BufferCell fill) {
+            ThrowNotInteractive();
         }
 
-        public override BufferCell[,] GetBufferContents(Rectangle rectangle)
-        {
-            this.ThrowNotInteractive();
+        public override BufferCell[,] GetBufferContents(Rectangle rectangle) {
+            ThrowNotInteractive();
             return null;
         }
 
-        public override void ScrollBufferContents(Rectangle source, Coordinates destination, Rectangle clip, BufferCell fill)
-        {
-            this.ThrowNotInteractive();
+        public override void ScrollBufferContents(Rectangle source, Coordinates destination, Rectangle clip,
+            BufferCell fill) {
+            ThrowNotInteractive();
         }
 
-        internal void ThrowNotInteractive()
-        {
-            string message = 
+        internal void ThrowNotInteractive() {
+            string message =
                 "A command that prompts the user failed because the host program or the command type does not support" +
                 "user interaction. Try a host program that supports user interaction, such as the Windows PowerShell " +
                 "Console or Windows PowerShell ISE, and remove prompt-related commands from command types that do not " +

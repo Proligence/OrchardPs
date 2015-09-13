@@ -1,12 +1,10 @@
-﻿namespace Proligence.PowerShell.Provider.Vfs.Navigation
-{
-    using Orchard;
+﻿using Orchard;
 
+namespace Proligence.PowerShell.Provider.Vfs.Navigation {
     /// <summary>
     /// Defines the API for classes which validate input paths for VFS-based PS providers.
     /// </summary>
-    public interface IPathValidator : IDependency
-    {
+    public interface IPathValidator : IDependency {
         /// <summary>
         /// Determines whether the specified path is syntactically valid.
         /// </summary>

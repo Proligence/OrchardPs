@@ -1,8 +1,6 @@
-namespace Proligence.PowerShell.Provider.Console
-{
-    using System;
+using System;
 
-    public class DataReceivedEventArgs : EventArgs 
-    {
+namespace Proligence.PowerShell.Provider.Console {
+    public class DataReceivedEventArgs : EventArgs {
     }
 }

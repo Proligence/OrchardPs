@@ -1,91 +1,76 @@
-﻿namespace Orchard.Tests.PowerShell.Infrastructure
-{
-    using System;
-    using System.IO;
-    using OrchardPs.Host;
-    using Proligence.PowerShell.Provider;
-    using Xunit;
+﻿using System;
+using System.IO;
+using OrchardPs.Host;
+using Proligence.PowerShell.Provider;
+using Xunit;
 
-    public class PowerShellFixture
-    {
-        private static readonly OrchardHostContextProvider hostContextProvider;
-        private static readonly TestConsoleConnection consoleConnection;
-        private static readonly IPsSession session;
+namespace Orchard.Tests.PowerShell.Infrastructure {
+    public class PowerShellFixture {
+        private static readonly OrchardHostContextProvider _hostContextProvider;
+        private static readonly TestConsoleConnection _consoleConnection;
+        private static readonly IPsSession _session;
 
-        static PowerShellFixture()
-        {
+        static PowerShellFixture() {
             string orchardDir = FindOrchardWebDirectory();
-            consoleConnection = new TestConsoleConnection();
-            hostContextProvider = new OrchardHostContextProvider(orchardDir);
-            
+            _consoleConnection = new TestConsoleConnection();
+            _hostContextProvider = new OrchardHostContextProvider(orchardDir);
+
             var hostContext = InitializeOrchardHost();
-            session = hostContext.Session;
+            _session = hostContext.Session;
         }
 
-        public IPsSession Session
-        {
-            get { return session; }
+        public IPsSession Session {
+            get { return _session; }
         }
 
-        public TestConsoleConnection ConsoleConnection
-        {
-            get { return consoleConnection; }
+        public TestConsoleConnection ConsoleConnection {
+            get { return _consoleConnection; }
         }
 
-        public string Execute(string command)
-        {
-            this.Session.ProcessInput(command);
-            this.ConsoleConnection.AssertNoErrors();
+        public string Execute(string command) {
+            Session.ProcessInput(command);
+            ConsoleConnection.AssertNoErrors();
 
-            return this.ConsoleConnection.Output.ToString().Trim();
+            return ConsoleConnection.Output.ToString().Trim();
         }
 
-        public PsTable ExecuteTable(string command)
-        {
-            this.ConsoleConnection.Reset();
-            this.Session.ProcessInput(command);
-            this.ConsoleConnection.AssertNoErrors();
+        public PsTable ExecuteTable(string command) {
+            ConsoleConnection.Reset();
+            Session.ProcessInput(command);
+            ConsoleConnection.AssertNoErrors();
 
-            string output = this.ConsoleConnection.Output.ToString();
+            string output = ConsoleConnection.Output.ToString();
 
-            try
-            {
+            try {
                 return PsTable.Parse(output);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 Assert.True(false, "Failed to parse table: " + ex.Message + Environment.NewLine + output);
                 throw;
             }
         }
 
-        private static OrchardHostContext InitializeOrchardHost()
-        {
-            OrchardHostContext context = hostContextProvider.CreateContext(consoleConnection);
-            if (context.Session == null)
-            {
-                context = hostContextProvider.CreateContext(consoleConnection);
+        private static OrchardHostContext InitializeOrchardHost() {
+            OrchardHostContext context = _hostContextProvider.CreateContext(_consoleConnection);
+            if (context.Session == null) {
+                context = _hostContextProvider.CreateContext(_consoleConnection);
             }
-            else if (context.Session == null)
-            {
-                hostContextProvider.Shutdown(context);
+            else if (context.Session == null) {
+                _hostContextProvider.Shutdown(context);
                 throw new ApplicationException("Failed to initialize Orchard session.");
             }
 
             return context;
         }
 
-        private static string FindOrchardWebDirectory()
-        {
+        private static string FindOrchardWebDirectory() {
             // ReSharper disable once AssignNullToNotNullAttribute
             var directoryInfo = new DirectoryInfo(Environment.CurrentDirectory);
-            while ((directoryInfo != null) && (directoryInfo.Name != "src"))
-            {
+            while ((directoryInfo != null) && (directoryInfo.Name != "src")) {
                 directoryInfo = directoryInfo.Parent;
             }
 
-            if (directoryInfo == null)
-            {
+            if (directoryInfo == null) {
                 throw new ApplicationException("Failed to find Orchard.Web directory.");
             }
 

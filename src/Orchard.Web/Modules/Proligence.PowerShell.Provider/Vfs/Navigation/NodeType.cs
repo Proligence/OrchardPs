@@ -1,10 +1,8 @@
-﻿namespace Proligence.PowerShell.Provider.Vfs.Navigation
-{
+﻿namespace Proligence.PowerShell.Provider.Vfs.Navigation {
     /// <summary>
     /// Defines valid types of nodes in the PowerShell VFS tree.
     /// </summary>
-    public enum NodeType 
-    {
+    public enum NodeType {
         /// <summary>
         /// Specifies that the node should be added as a subnode of the root (drive) node.
         /// </summary>

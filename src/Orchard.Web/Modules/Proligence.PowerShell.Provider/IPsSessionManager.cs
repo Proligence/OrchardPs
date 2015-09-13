@@ -1,12 +1,10 @@
-﻿namespace Proligence.PowerShell.Provider
-{
-    using Orchard;
+﻿using Orchard;
 
+namespace Proligence.PowerShell.Provider {
     /// <summary>
     /// Manages the sessions of the PowerShell engine hosted in the Orchard application.
     /// </summary>
-    public interface IPsSessionManager : ISingletonDependency
-    {
+    public interface IPsSessionManager : ISingletonDependency {
         /// <summary>
         /// Creates a new session.
         /// </summary>
@@ -29,7 +27,7 @@
         void CloseSession(IPsSession session);
 
         /// <summary>
-        /// Closes the specified session with given conenction ID.
+        /// Closes the specified session with given connection ID.
         /// </summary>
         /// <param name="connectionId">Id of the connection connected with session to be closed.</param>
         void CloseSession(string connectionId);

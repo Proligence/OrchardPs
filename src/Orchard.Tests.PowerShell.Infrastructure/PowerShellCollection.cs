@@ -1,7 +1,6 @@
-﻿namespace Orchard.Tests.PowerShell.Infrastructure
-{
-    using Xunit;
+﻿using Xunit;
 
+namespace Orchard.Tests.PowerShell.Infrastructure {
     /// <summary>
     /// This class has no code, and is never created. Its purpose is simply to be the place to apply
     /// <c>[CollectionDefinition]</c> and all the <c>ICollectionFixture{}</c> interfaces.
@@ -11,7 +10,6 @@
     /// for unit test purposes.
     /// </remarks>
     [CollectionDefinition("PowerShell")]
-    public class PowerShellCollection : ICollectionFixture<PowerShellFixture>
-    {
+    public class PowerShellCollection : ICollectionFixture<PowerShellFixture> {
     }
 }
