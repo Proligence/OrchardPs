@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Management.Automation;
 using Orchard.ContentManagement;
 using Orchard.ContentManagement.MetaData.Models;
@@ -11,6 +12,10 @@ namespace Proligence.PowerShell.Core.Content.Cmdlets {
     [CmdletAlias("ucit")]
     [Cmdlet(VerbsData.Update, "ContentItem", DefaultParameterSetName = "Default", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Low)]
     public class UpdateContentItem : TenantCmdlet {
+        private static readonly HashSet<string> PropertiesToSkip = new HashSet<string>(new[] {
+            "ContentItem", "Infoset", "VersionInfoset", "Record"
+        });
+
         [Alias("ci")]
         [Parameter(ParameterSetName = "Default", Mandatory = true, Position = 1, ValueFromPipeline = true)]
         [Parameter(ParameterSetName = "AllTenants", Mandatory = true, Position = 1, ValueFromPipeline = true)]
@@ -66,7 +71,7 @@ namespace Proligence.PowerShell.Core.Content.Cmdlets {
                         }
 
                         // Skip content item property
-                        if (propertyInfo.Name == "ContentItem") {
+                        if (PropertiesToSkip.Contains(propertyInfo.Name)) {
                             continue;
                         }
 
