@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<helpItems xmlns="http://msh" schema="maml">
+  <command:command 
+    xmlns:maml="http://schemas.microsoft.com/maml/2004/10"
+    xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10"
+    xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+
+    <!-- Cmdlet details section-->
+    
+    <command:details>
+      <command:name>Remove-Tenant</command:name>
+      <maml:description>
+        <maml:para>Removes an existing Orchard tenant.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Remove</command:verb>
+      <command:noun>Tenant</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+
+    <!-- Cmdlet description section-->
+    
+    <maml:description>
+      <maml:para>The Remove-Tenant cmdlet removes an existing Orchard tenant.</maml:para>
+      <maml:para>This cmdlet does not remove the data directory of the tenant. Only the tenant's settings file is removed, which causes the tenant to be removed from the Orchard application.</maml:para>
+      <maml:para>The default tenant can not be removed.</maml:para>
+    </maml:description>
+
+    <!-- Cmdlet syntax section-->
+    
+    <command:syntax>
+      
+      <command:syntaxItem>
+        <maml:name>Remove-Tenant</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the tenant to remove.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      
+      <command:syntaxItem>
+        <maml:name>Remove-Tenant</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true">
+          <maml:name>Tenant</maml:name>
+          <maml:description>
+            <maml:para>Specifies the object which represents the Orchard tenant to remove. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">ShellSettings</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      
+    </command:syntax>
+
+    <!-- Cmdlet parameters section-->
+    
+    <command:parameters>
+      
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the tenant to remove.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true">
+        <maml:name>Tenant</maml:name>
+        <maml:description>
+          <maml:para>Specifies the object which represents the Orchard tenant to remove. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">ShellSettings</command:parameterValue>
+        <dev:type>
+          <maml:name>ShellSettings</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      
+    </command:parameters>
+
+    <!-- Input - Output section-->
+
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>Orchard.Environment.Configuration.ShellSettings</maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe instances of the ShellSettings class to Remove-Tenant. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    
+    <command:returnValues />
+
+    <!-- Error section-->
+    
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+
+    <!-- Notes section  -->
+
+    <maml:alertSet />
+
+    <!-- Example section  -->
+    
+    <command:examples>
+      
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>Orchard:\&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Remove-Tenant foo
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command removes the Orchard tenant named 'foo'.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>Orchard:\Tenants&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Get-ChildItem foo* | Remove-Tenant
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command removes all Orchard tenants whose name begins with 'foo'.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+    </command:examples>
+
+    <!-- Related links section  -->
+
+    <RelatedLinks>
+      <navigationLink>
+        <linkText>Get-Tenant</linkText>
+        <linkText>Get-ChildItem</linkText>
+        <linkText>Disable-Tenant</linkText>
+        <linkText>Enable-Tenant</linkText>
+        <linkText>New-Tenant</linkText>
+        <uri/>
+      </navigationLink>
+    </RelatedLinks>
+
+  </command:command>
+</helpItems>

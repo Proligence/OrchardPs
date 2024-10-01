@@ -1,0 +1,309 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<helpItems xmlns="http://msh" schema="maml">
+  <command:command 
+    xmlns:maml="http://schemas.microsoft.com/maml/2004/10"
+    xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10"
+    xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+
+    <!-- Cmdlet details section-->
+    
+    <command:details>
+      <command:name>Enable-OrchardTheme</command:name>
+      <maml:description>
+        <maml:para>Enables themes for Orchard tenants.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Enable</command:verb>
+      <command:noun>OrchardTheme</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+
+    <!-- Cmdlet description section-->
+    
+    <maml:description>
+      <maml:para>The Enable-OrchardTheme cmdlet enables and activates a theme for an Orchard tenant.</maml:para>
+    </maml:description>
+
+    <!-- Cmdlet syntax section-->
+    
+    <command:syntax>
+      
+      <!-- ParameterSet: Default -->
+      <command:syntaxItem>
+        <maml:name>Enable-OrchardTheme</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Id</maml:name>
+          <maml:description>
+            <maml:para>Specifies the identifier of the theme to enable.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Tenant</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the tenant for which to enable the theme.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      
+      <!-- ParameterSet: FeatureObject -->
+      <command:syntaxItem>
+        <maml:name>Enable-OrchardTheme</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true" position="1">
+          <maml:name>Feature</maml:name>
+          <maml:description>
+            <maml:para>Specifies the object which represents the Orchard theme to enable. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-OrchardTheme cmdlet. This parameter is required.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Proligence.PowerShell.Core.Modules.Items.OrchardTheme</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+
+      <!-- ParameterSet: TenantObject -->
+      <command:syntaxItem>
+        <maml:name>Enable-OrchardTheme</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Id</maml:name>
+          <maml:description>
+            <maml:para>Specifies the identifier of the theme to enable.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="true">
+          <maml:name>TenantObject</maml:name>
+          <maml:description>
+            <maml:para>Specifies the tenant for which to enable the theme. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet. This parameter is required.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">Orchard.Environment.Configuration.ShellSettings</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+
+      <!-- ParameterSet: AllTenants -->
+      <command:syntaxItem>
+        <maml:name>Enable-OrchardTheme</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Id</maml:name>
+          <maml:description>
+            <maml:para>Specifies the identifier of the theme to enable.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>AllTenants</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the command should enable the specified theme in all running Orchard tenants.</maml:para>
+          </maml:description>
+        </command:parameter>
+      </command:syntaxItem>
+      
+    </command:syntax>
+
+    <!-- Cmdlet parameters section-->
+    
+    <command:parameters>
+      
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>Id</maml:name>
+        <maml:description>
+          <maml:para>Specifies the identifier of the theme to enable.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>Tenant</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the tenant for which to enable the theme.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true">
+        <maml:name>Theme</maml:name>
+        <maml:description>
+          <maml:para>Specifies the object which represents the Orchard theme to enable. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-OrchardTheme cmdlet. This parameter is required.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Proligence.PowerShell.Core.Modules.Items.OrchardTheme</command:parameterValue>
+        <dev:type>
+          <maml:name>Proligence.PowerShell.Core.Modules.Items.OrchardTheme</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true">
+        <maml:name>TenantObject</maml:name>
+        <maml:description>
+          <maml:para>Specifies the object that represents the Orchard tenant for which to enable the theme. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Orchard.Environment.Configuration.ShellSettings</command:parameterValue>
+        <dev:type>
+          <maml:name>Orchard.Environment.Configuration.ShellSettings</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>AllTenants</maml:name>
+        <maml:description>
+          <maml:para>Specifies that the command should enable the specified theme in all running Orchard tenants.</maml:para>
+        </maml:description>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      
+    </command:parameters>
+
+    <!-- Input - Output section-->
+    
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>Proligence.PowerShell.Core.Modules.Items.OrchardTheme</maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe instances of the OrchardTheme class to Enable-OrchardTheme. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-OrchardTheme cmdlet.</maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+
+    <command:inputType>
+      <dev:type>
+        <maml:name>Orchard.Environment.Configuration.ShellSettings</maml:name>
+        <maml:uri/>
+        <maml:description />
+      </dev:type>
+      <maml:description>
+        <maml:para>You can pipe instances of the ShellSettings class to Enable-OrchardTheme. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
+      </maml:description>
+    </command:inputType>
+
+    <command:returnValues />
+
+    <!-- Error section-->
+    
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+
+    <!-- Notes section  -->
+
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+
+    <!-- Example section  -->
+    
+    <command:examples>
+      
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>Orchard:\Tenants\Default&gt; </maml:para>
+        </maml:introduction>
+        <dev:code>
+          Enable-OrchardTheme TheThemeMachine
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command enables 'The Theme Machine' theme on the current tenat (Default).</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>Orchard:\&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Get-OrchardTheme TheThemeMachine | Enable-OrchardCommand
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command enables 'The Theme Machine' theme on the current tenat (Default). It does the same operation as example 1, but uses an OrchardTheme object acquired from the Get-OrchardTheme cmdlet.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 3 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>Orchard:\&gt; </maml:para>
+        </maml:introduction>
+        <dev:code>
+          Enable-OrchardTheme TheThemeMachine -Tenant MyTenant
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command enables 'The Theme Machine' theme on the tenat 'MyTenant'.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      
+    </command:examples>
+
+    <!-- Related links section  -->
+
+    <RelatedLinks>
+      <navigationLink>
+        <linkText>Get-OrchardTheme</linkText>
+        <uri/>
+      </navigationLink>
+      <navigationLink>
+        <linkText>Get-ChildItem</linkText>
+        <uri/>
+      </navigationLink>
+    </RelatedLinks>
+
+  </command:command>
+</helpItems>

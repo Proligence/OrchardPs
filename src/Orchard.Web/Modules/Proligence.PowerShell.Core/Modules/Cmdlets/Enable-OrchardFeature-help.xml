@@ -1,0 +1,341 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<helpItems xmlns="http://msh" schema="maml">
+  <command:command 
+    xmlns:maml="http://schemas.microsoft.com/maml/2004/10"
+    xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10"
+    xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+
+    <!-- Cmdlet details section-->
+    
+    <command:details>
+      <command:name>Enable-OrchardFeature</command:name>
+      <maml:description>
+        <maml:para>Enables Orchard features.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Enable</command:verb>
+      <command:noun>OrchardFeature</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+
+    <!-- Cmdlet description section-->
+    
+    <maml:description>
+      <maml:para>The Enable-OrchardFeature cmdlet enables features for Orchard tenants.</maml:para>
+    </maml:description>
+
+    <!-- Cmdlet syntax section-->
+    
+    <command:syntax>
+      
+      <!-- ParameterSet: Default -->
+      <command:syntaxItem>
+        <maml:name>Enable-OrchardFeature</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Id</maml:name>
+          <maml:description>
+            <maml:para>Specifies the identifier of the feature to enable.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Tenant</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the tenant for which to enable the feature.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>WithoutDependencies</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the command should not enable dependant features and fail if they are required.</maml:para>
+          </maml:description>
+        </command:parameter>
+      </command:syntaxItem>
+      
+      <!-- ParameterSet: FeatureObject -->
+      <command:syntaxItem>
+        <maml:name>Enable-OrchardFeature</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true" position="1">
+          <maml:name>Feature</maml:name>
+          <maml:description>
+            <maml:para>Specifies the object which represents the Orchard feature to enable. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents. This parameter is required.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Orchard.Environment.Extensions.Models.FeatureDescriptor</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>WithoutDependencies</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the command should not enable dependant features and fail if they are required.</maml:para>
+          </maml:description>
+        </command:parameter>
+      </command:syntaxItem>
+
+      <!-- ParameterSet: TenantObject -->
+      <command:syntaxItem>
+        <maml:name>Disable-OrchardFeature</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Id</maml:name>
+          <maml:description>
+            <maml:para>Specifies the identifier of the feature to enable.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="true">
+          <maml:name>TenantObject</maml:name>
+          <maml:description>
+            <maml:para>Specifies the tenant for which to enable the feature. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet. This parameter is required.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">Orchard.Environment.Configuration.ShellSettings</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>WithoutDependencies</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the command should not enable dependant features and fail if they are required.</maml:para>
+          </maml:description>
+        </command:parameter>
+      </command:syntaxItem>
+
+      <!-- ParameterSet: AllTenants -->
+      <command:syntaxItem>
+        <maml:name>Disable-OrchardFeature</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Id</maml:name>
+          <maml:description>
+            <maml:para>Specifies the identifier of the feature to enable.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>AllTenants</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the command should enable the specified features in all running Orchard tenants.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>WithoutDependencies</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the command should not enable dependant features and fail if they are required.</maml:para>
+          </maml:description>
+        </command:parameter>
+      </command:syntaxItem>
+      
+    </command:syntax>
+
+    <!-- Cmdlet parameters section-->
+    
+    <command:parameters>
+      
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>Id</maml:name>
+        <maml:description>
+          <maml:para>Specifies the identifier of the feature to enable.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true">
+        <maml:name>Feature</maml:name>
+        <maml:description>
+          <maml:para>Specifies the object which represents the Orchard feature to enable. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents. This parameter is required.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Orchard.Environment.Extensions.Models.FeatureDescriptor</command:parameterValue>
+        <dev:type>
+          <maml:name>Orchard.Environment.Extensions.Models.FeatureDescriptor</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>WithoutDependencies</maml:name>
+        <maml:description>
+          <maml:para>Specifies that the command should not enable dependant features and fail if they are required.</maml:para>
+        </maml:description>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>Tenant</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the tenant for which to enable the feature.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true">
+        <maml:name>TenantObject</maml:name>
+        <maml:description>
+          <maml:para>Specifies the object that represents the Orchard tenant for which to enable the feature. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Orchard.Environment.Configuration.ShellSettings</command:parameterValue>
+        <dev:type>
+          <maml:name>Orchard.Environment.Configuration.ShellSettings</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>AllTenants</maml:name>
+        <maml:description>
+          <maml:para>Specifies that the command should enable the specified features in all running Orchard tenants.</maml:para>
+        </maml:description>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      
+    </command:parameters>
+
+    <!-- Input - Output section-->
+    
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>Orchard.Environment.Extensions.Models.FeatureDescriptor</maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe instances of the FeatureDescriptor class to Enable-OrchardFeature. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents.</maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+
+    <command:inputType>
+      <dev:type>
+        <maml:name>Orchard.Environment.Configuration.ShellSettings</maml:name>
+        <maml:uri/>
+        <maml:description />
+      </dev:type>
+      <maml:description>
+        <maml:para>You can pipe instances of the ShellSettings class to Enable-OrchardFeature. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
+      </maml:description>
+    </command:inputType>
+
+    <command:returnValues />
+
+    <!-- Error section-->
+    
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+
+    <!-- Notes section  -->
+
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+
+    <!-- Example section  -->
+    
+    <command:examples>
+      
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>Orchard:\Tenants\Default&gt; </maml:para>
+        </maml:introduction>
+        <dev:code>
+          Enable-OrchardFeature Orchard.Blogs
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command enables the 'Blogs' feature on the current tenat (Default). If the feature is already enabled then the command has no effect.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>Orchard:\&gt; </maml:para>
+        </maml:introduction>
+        <dev:code>
+          Enable-OrchardFeature Orchard.Blogs -Tenant MyTenant
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command enables the 'Blogs' feature on the tenat 'MyTenant'. If the feature is already enabled then the command has no effect.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 3 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>Orchard:\Tenants\Default\Features&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Get-ChildItem a* | Enable-OrchardFeature
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command enables all features which identifier starts with the letter 'a' on the current tenant (Default).</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      
+    </command:examples>
+
+    <!-- Related links section  -->
+
+    <RelatedLinks>
+      <navigationLink>
+        <linkText>Get-ChildItem</linkText>
+        <uri/>
+      </navigationLink>
+      <navigationLink>
+        <linkText>Disable-OrchardFeature</linkText>
+        <uri/>
+      </navigationLink>
+    </RelatedLinks>
+
+  </command:command>
+</helpItems>

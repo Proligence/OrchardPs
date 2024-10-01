@@ -1,119 +1,89 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Program.cs" company="Proligence">
-//   Copyright (c) 2011 Proligence, All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿using System;
+using Autofac.Core.Registration;
+using OrchardPs.Console;
+using OrchardPs.Host;
 
-namespace OrchardPs 
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Management.Automation.Runspaces;
-    using System.Reflection;
-    using System.Text;
-    using Microsoft.PowerShell;
-    using Orchard.Management.PsProvider;
+namespace OrchardPs {
+    public static class Program {
+        private static bool _running = true;
+        private static OrchardHostContextProvider _hostContextProvider;
+        private static OrchardHostContext _hostContext;
 
-    /// <summary>
-    /// Implements the application's entry point.
-    /// </summary>
-    public static class Program 
-    {
-        /// <summary>
-        /// Implements the application's entry point.
-        /// </summary>
-        /// <param name="args">The application's command line arguments.</param>
-        /// <returns>The application's exit code.</returns>
-        public static int Main(string[] args) 
-        {
-            using (var snapIn = new OrchardPsSnapIn())
-            {
-                RunspaceConfiguration configuration;
-                try
-                {
-                    configuration = RunspaceConfiguration.Create();
+        public static int Main(string[] args) {
+            System.Console.WriteLine(Banner.GetBanner());
 
-                    foreach (ProviderConfigurationEntry provider in snapIn.Providers)
-                    {
-                        configuration.Providers.Append(provider);
-                    }
+            _hostContextProvider = new OrchardHostContextProvider();
 
-                    foreach (CmdletConfigurationEntry cmdlet in snapIn.Cmdlets)
-                    {
-                        configuration.Cmdlets.Append(cmdlet);
-                    }
+            try {
+                _hostContext = InitializeOrchardHost();
+            }
+            catch (Exception ex) {
+                // NOTE: Currently Autofac.Core.Registration.ComponentNotRegisteredException is not serializable,
+                // so we need to workaround this issue by reading the exception's message.
+                if ((ex is ComponentNotRegisteredException) || ex.Message.Contains("ComponentNotRegisteredException")) {
+                    ConsoleHelper.WriteToConsole(
+                        "Failed to initialize PowerShell engine host. " +
+                        "Please make sure that the Proligence.PowerShell.Provider Orchard module is enabled." +
+                        Environment.NewLine,
+                        ConsoleColor.Red);
 
-                    foreach (FormatConfigurationEntry format in snapIn.Formats)
-                    {
-                        configuration.Formats.Append(format);
-                    }
-
-                    configuration.InitializationScripts.Append(
-                        new ScriptConfigurationEntry(
-                            "NavigateToOrchardDrive",
-                            "if (Test-Path Orchard:) { Set-Location Orchard: }"));
-
-                    foreach (KeyValuePair<string, string> alias in snapIn.Aliases)
-                    {
-                        configuration.InitializationScripts.Append(
-                            new ScriptConfigurationEntry(
-                                "Alias-" + alias.Key,
-                                "New-Alias '" + alias.Key + "' " + alias.Value));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.Error.WriteLine("Failed to create runspace configuration. " + ex.Message);
                     return -1;
                 }
 
-                return ConsoleShell.Start(configuration, GetBanner(), string.Empty, args);
+                throw;
             }
+
+            System.Console.CancelKeyPress += OnCancelKeyPress;
+
+            try {
+                var session = _hostContext.Session;
+                var connection = (DirectConsoleConnection) _hostContext.OrchardHost.Connection;
+                connection.CommandCompletionProvider = new CommandCompletionProvider(session);
+
+                while (_running) {
+                    string input = connection.GetInput();
+
+                    if ((input == "clear") || (input == "cls")) {
+                        System.Console.Clear();
+                    }
+                    else if (input == "exit") {
+                        _running = false;
+                        break;
+                    }
+                    else {
+                        session.ProcessInput(input);
+                        session.RunspaceLock.WaitOne();
+                        session.RunspaceLock.Set();
+                    }
+                }
+
+                _hostContextProvider.Shutdown(_hostContext);
+            }
+            catch (AppDomainUnloadedException ex) {
+                ConsoleHelper.WriteToConsole(ex.Message + Environment.NewLine, ConsoleColor.Red);
+            }
+
+            return 0;
         }
 
-        /// <summary>
-        /// Gets the text banner which is displayed to the user when the application is started.
-        /// </summary>
-        /// <returns>The text banner.</returns>
-        private static string GetBanner() 
-        {
-            var banner = new StringBuilder();
-            banner.AppendLine("Proligence Orchard PowerShell");
+        private static OrchardHostContext InitializeOrchardHost() {
+            var connection = new DirectConsoleConnection();
 
-            var versionAttribute = GetAssemblyAttribute<AssemblyFileVersionAttribute>();
-            if (versionAttribute != null) 
-            {
-                Version version = Assembly.GetEntryAssembly().GetName().Version;
-                string versionString = string.Format(
-                    CultureInfo.CurrentCulture,
-                    "Version {0}.{1} build {2}", 
-                    version.Major, 
-                    version.Minor, 
-                    version.Build);
-
-                banner.Append(versionString);
+            OrchardHostContext context = _hostContextProvider.CreateContext(connection);
+            if (context.Session == null) {
+                context = _hostContextProvider.CreateContext(connection);
             }
-            
-            return banner.ToString();
+            else if (context.Session == null) {
+                _hostContextProvider.Shutdown(context);
+                throw new ApplicationException("Failed to initialize Orchard session.");
+            }
+
+            return context;
         }
 
-        /// <summary>
-        /// Gets the specified assembly attribute.
-        /// </summary>
-        /// <typeparam name="TAttribute">The type of the attribute to get.</typeparam>
-        /// <returns>The attribute or <c>null</c> if attribute was not found.</returns>
-        private static TAttribute GetAssemblyAttribute<TAttribute>()
-            where TAttribute : Attribute 
-        {
-            var assembly = typeof(Program).Assembly;
-            var attributes = assembly.GetCustomAttributes(typeof(TAttribute), false);
-            if (attributes.Length > 0) 
-            {
-                return (TAttribute)attributes[0];
-            }
-
-            return null;
+        private static void OnCancelKeyPress(object sender, ConsoleCancelEventArgs consoleCancelEventArgs) {
+            _running = false;
+            _hostContextProvider.Shutdown(_hostContext);
         }
     }
 }

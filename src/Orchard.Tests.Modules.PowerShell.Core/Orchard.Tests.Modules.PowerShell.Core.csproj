@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\lib\xunit\xunit.core.props" />
+  <Import Project="..\..\lib\xunit\xunit.runner.visualstudio.props" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{301B0B38-603A-4B9E-ADE3-4A4FE797F753}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Orchard.Tests.Modules.PowerShell.Core</RootNamespace>
+    <AssemblyName>Orchard.Tests.Modules.PowerShell.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Web" />
+    <Reference Include="xunit.abstractions">
+      <HintPath>..\..\lib\xunit\xunit.abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.assert">
+      <HintPath>..\..\lib\xunit\xunit.assert.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.core">
+      <HintPath>..\..\lib\xunit\xunit.core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Caching\ClearOrchardCacheTests.cs" />
+    <Compile Include="Commands\CommandVfsTests.cs" />
+    <Compile Include="Commands\InvokeOrchardCommandTests.cs" />
+    <Compile Include="Content\AlterContentPartFieldCmdletBaseTests.cs" />
+    <Compile Include="Content\AlterContentTypePartCmdletBaseTests.cs" />
+    <Compile Include="Content\ContentVfsNodes.cs" />
+    <Compile Include="Content\EditContentPartDefinitionTests.cs" />
+    <Compile Include="Content\GetContentItemTests.cs" />
+    <Compile Include="Content\GetContentPartDefinitionTests.cs" />
+    <Compile Include="Content\GetContentPartTests.cs" />
+    <Compile Include="Content\GetContentTypeTests.cs" />
+    <Compile Include="Content\EditContentTypeTests.cs" />
+    <Compile Include="Content\NewContentItemTests.cs" />
+    <Compile Include="Content\NewContentTypeTests.cs" />
+    <Compile Include="Content\CopyContentItemTests.cs" />
+    <Compile Include="Content\RestoreContentItemTests.cs" />
+    <Compile Include="Content\UnpublishContentItemTests.cs" />
+    <Compile Include="Content\PublishContentItemTests.cs" />
+    <Compile Include="Content\RemoveContentItemTests.cs" />
+    <Compile Include="Content\RemoveContentTypeTests.cs" />
+    <Compile Include="Content\UpdateContentItemTests.cs" />
+    <Compile Include="Modules\EnableOrchardFeatureTests.cs" />
+    <Compile Include="Modules\GetOrchardThemeTests.cs" />
+    <Compile Include="Modules\GetOrchardFeatureTests.cs" />
+    <Compile Include="Modules\ModuleVfsTests.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Recipes\GetOrchardRecipeTests.cs" />
+    <Compile Include="Recipes\InvokeOrchardRecipeTests.cs" />
+    <Compile Include="Recipes\RecipeVfsTests.cs" />
+    <Compile Include="Tenants\GetTenantTests.cs" />
+    <Compile Include="Tenants\TenantVfsTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Orchard.Tests.PowerShell.Infrastructure\Orchard.Tests.PowerShell.Infrastructure.csproj">
+      <Project>{6b662cf8-56bf-469d-9012-7ea3b8f8dc6c}</Project>
+      <Name>Orchard.Tests.PowerShell.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orchard.Web\Modules\Orchard.Caching\Orchard.Caching.csproj">
+      <Project>{7528bf74-25c7-4abe-883a-443b4eec4776}</Project>
+      <Name>Orchard.Caching</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orchard.Web\Modules\Proligence.PowerShell.Core\Proligence.PowerShell.Core.csproj">
+      <Project>{9c300795-5e99-4894-aeb1-e6b38dff0d78}</Project>
+      <Name>Proligence.PowerShell.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orchard.Web\Modules\Proligence.PowerShell.Provider\Proligence.PowerShell.Provider.csproj">
+      <Project>{2c286142-7875-44c6-a44b-332397a59fd4}</Project>
+      <Name>Proligence.PowerShell.Provider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tools\OrchardPs\OrchardPs.csproj">
+      <Project>{5407066d-9506-4a04-ad71-b61838254df8}</Project>
+      <Name>OrchardPs</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

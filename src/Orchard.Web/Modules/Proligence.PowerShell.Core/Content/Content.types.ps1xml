@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Types>
+  <Type>
+    <Name>Orchard.ContentManagement.MetaData.Models.ContentTypeDefinition</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>Stereotype</Name>
+        <GetScriptBlock>
+          $this.Settings['Stereotype']
+        </GetScriptBlock>
+        <SetScriptBlock>
+          param($newValue)
+          $this.Settings['Stereotype'] = $newValue
+        </SetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>Description</Name>
+        <GetScriptBlock>
+          $this.Settings['Description']
+        </GetScriptBlock>
+        <SetScriptBlock>
+          param($newValue)
+          $this.Settings['Description'] = $newValue
+        </SetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>Creatable</Name>
+        <GetScriptBlock>
+          $this.Settings['ContentTypeSettings.Creatable']
+        </GetScriptBlock>
+        <SetScriptBlock>
+          param($newValue)
+          $this.Settings['ContentTypeSettings.Creatable'] = $newValue
+        </SetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>Listable</Name>
+        <GetScriptBlock>
+          $this.Settings['ContentTypeSettings.Listable']
+        </GetScriptBlock>
+        <SetScriptBlock>
+          param($newValue)
+          $this.Settings['ContentTypeSettings.Listable'] = $newValue
+        </SetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>Securable</Name>
+        <GetScriptBlock>
+          $this.Settings['ContentTypeSettings.Securable']
+        </GetScriptBlock>
+        <SetScriptBlock>
+          param($newValue)
+          $this.Settings['ContentTypeSettings.Securable'] = $newValue
+        </SetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>Draftable</Name>
+        <GetScriptBlock>
+          $this.Settings['ContentTypeSettings.Draftable']
+        </GetScriptBlock>
+        <SetScriptBlock>
+          param($newValue)
+          $this.Settings['ContentTypeSettings.Draftable'] = $newValue
+        </SetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>Indexes</Name>
+        <GetScriptBlock>
+          $this.Settings['TypeIndexing.Indexes']
+        </GetScriptBlock>
+        <SetScriptBlock>
+          param($newValue)
+          $this.Settings['TypeIndexing.Indexes'] = $newValue
+        </SetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+</Types>

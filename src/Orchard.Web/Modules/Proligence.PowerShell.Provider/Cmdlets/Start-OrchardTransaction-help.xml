@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<helpItems xmlns="http://msh" schema="maml">
+  <command:command 
+    xmlns:maml="http://schemas.microsoft.com/maml/2004/10"
+    xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10"
+    xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+
+    <!-- Cmdlet details section-->
+    
+    <command:details>
+      <command:name>Start-OrchardTransaction</command:name>
+      <maml:description>
+        <maml:para>Starts a new explicit Orchard transaction for the specified Orchard tenant.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Start</command:verb>
+      <command:noun>OrchardTransaction</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+
+    <!-- Cmdlet description section-->
+    
+    <maml:description>
+      <maml:para>By default, each Orchard cmdlet is executed in a separate work context scope which is created before the command is executed and disposed after the command finishes its execution. An explicit Orchard transaction allows to execute multiple commands in the same work context scope and Orchard database transaction. This is very useful in some situations. For example when retrieving content items which use the content manager or lazy fields, some data may not be readable from the returned content item, since the work context scope has been destroyed. With an explicit transaction you can retrieve the content item, process its data with other cmdlets (in the same work context scope) and then explicitly dispose the work conext scope when you're finished working with the content item. Additionally, explicit transactions may be used to perform multiple operations atomically.</maml:para>
+      <maml:para>The Start-OrchardTransaction cmdlet starts a new explicit Orchard transaction for the specified Orchard tenant. After executing this command, all other commands will automatically use the created (shared) transaction and work context scope. To finish the transaction and dispose the work context scope, you must use the Complete-OrchardTransaction or Undo-OrchardTransaction cmdlet.</maml:para>
+      <maml:para>Explicit transactions are always associated with a single Orchard tenant. You may create at most one explicit transaction for each tenant at the same time. It is not possible to start multiple explicit transactions for the same tenant, at the same time. To create a new explicit transaction for the same tenant, you must either complete or undo the previous transaction.</maml:para>
+    </maml:description>
+
+    <!-- Cmdlet syntax section-->
+    
+    <command:syntax>
+
+      <!-- ParameterSet: Default -->
+      <command:syntaxItem>
+        <maml:name>Start-OrchardTransaction</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+          <maml:name>Tenant</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the Orchard tenant for which a new explicit transaction will be started.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+
+      <!-- ParameterSet: TenantObject -->
+      <command:syntaxItem>
+        <maml:name>Start-OrchardTransaction</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="true">
+          <maml:name>TenantObject</maml:name>
+          <maml:description>
+            <maml:para>Specifies the object that represents the Orchard tenant for which a new explicit transaction will be started. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet. This parameter is required.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">Orchard.Environment.Configuration.ShellSettings</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+
+      <!-- ParameterSet: AllTenants -->
+      <command:syntaxItem>
+        <maml:name>Start-OrchardTransaction</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>AllTenants</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the command should start a new explicit transaction for each running Orchard tenant.</maml:para>
+          </maml:description>
+        </command:parameter>
+      </command:syntaxItem>
+      
+    </command:syntax>
+
+    <!-- Cmdlet parameters section-->
+    
+    <command:parameters>
+      
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
+        <maml:name>Tenant</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the Orchard tenant for which a new explicit transaction will be started.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="true">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true">
+        <maml:name>TenantObject</maml:name>
+        <maml:description>
+          <maml:para>Specifies the object that represents the Orchard tenant for which a new explicit transaction will be started. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Orchard.Environment.Configuration.ShellSettings</command:parameterValue>
+        <dev:type>
+          <maml:name>Orchard.Environment.Configuration.ShellSettings</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>AllTenants</maml:name>
+        <maml:description>
+          <maml:para>Specifies that the command should start a new explicit transaction for each running Orchard tenant.</maml:para>
+        </maml:description>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      
+    </command:parameters>
+
+    <!-- Input - Output section-->
+    
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>Orchard.Environment.Configuration.ShellSettings</maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe instances of the ShellSettings class to Start-OrchardTransaction. This object can be acquired by using the Get-ChildItem cmdlet on the Orchard PSDrive contents or by using the Get-Tenant cmdlet.</maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+
+    <command:returnValues />
+
+    <!-- Error section-->
+    
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+
+    <!-- Notes section  -->
+
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+          When no tenant is specified, then the command will use the tenant at the current location in the Orchard drive. If the location is not in any Orchard tenant, then the Default tenant is used.
+        </maml:para>
+      </maml:alert>
+    </maml:alertSet>
+
+    <!-- Example section  -->
+    
+    <command:examples>
+      
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>Orchard:\Tenants\MyTenant&gt; </maml:para>
+        </maml:introduction>
+        <dev:code>
+          Start-OrchardTransaction
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command starts a new Orchard transaction. In this case the tenant from the current location in the Orchard drive is used, since no tenant name or object was specified as a parameter.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>Orchard:\&gt; </maml:para>
+        </maml:introduction>
+        <dev:code>
+          Start-OrchardTransaction -Tenant MyTenant
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command starts a new Orchard transaction for tenant 'MyTenant'. In this case the tenant is specified explicitly using the 'Tenant' parameter.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      
+    </command:examples>
+
+    <!-- Related links section  -->
+
+    <RelatedLinks>
+      <navigationLink>
+        <linkText>Complete-Transaction</linkText>
+        <uri/>
+      </navigationLink>
+      <navigationLink>
+        <linkText>Undo-Transaction</linkText>
+        <uri/>
+      </navigationLink>
+      <navigationLink>
+        <linkText>Get-Tenant</linkText>
+        <uri/>
+      </navigationLink>
+      <navigationLink>
+        <linkText>Get-ChildItem</linkText>
+        <uri/>
+      </navigationLink>
+      <navigationLink>
+        <linkText>Get-ContentItem</linkText>
+        <uri/>
+      </navigationLink>
+    </RelatedLinks>
+
+  </command:command>
+</helpItems>

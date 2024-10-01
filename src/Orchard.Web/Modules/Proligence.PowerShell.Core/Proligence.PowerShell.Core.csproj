@@ -1,0 +1,299 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9C300795-5E99-4894-AEB1-E6B38DFF0D78}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Proligence.PowerShell.Core</RootNamespace>
+    <AssemblyName>Proligence.PowerShell.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NoWarn>MSB3247;MSB3277</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Management.Automation">
+      <HintPath>..\..\..\..\lib\powershell\System.Management.Automation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.Mvc.5.3.0\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.Razor.3.3.0\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Caching\Cmdlets\ClearOrchardCache.cs" />
+    <Compile Include="Commands\Cmdlets\InvokeOrchardCommand.cs" />
+    <Compile Include="Commands\Items\OrchardCommand.cs" />
+    <Compile Include="Commands\NavigationProviders\CommandsPsNavigationProvider.cs" />
+    <Compile Include="Commands\Nodes\CommandNode.cs" />
+    <Compile Include="Commands\Nodes\CommandsNode.cs" />
+    <Compile Include="Content\Cmdlets\AlterContentItemCmdletBase.cs" />
+    <Compile Include="Content\Cmdlets\AlterContentTypeCmdletBase.cs" />
+    <Compile Include="Content\Cmdlets\CopyContentItem.cs" />
+    <Compile Include="Content\Cmdlets\ImportContentItem.cs" />
+    <Compile Include="Content\Cmdlets\ExportContentItem.cs" />
+    <Compile Include="Content\Cmdlets\GetContentItem.cs" />
+    <Compile Include="Content\Cmdlets\NewContentItem.cs" />
+    <Compile Include="Content\Cmdlets\PublishContentItem.cs" />
+    <Compile Include="Content\Cmdlets\RemoveContentField.cs" />
+    <Compile Include="Content\Cmdlets\AddContentField.cs" />
+    <Compile Include="Content\Cmdlets\AlterContentPartFieldCmdletBase.cs" />
+    <Compile Include="Content\Cmdlets\AlterContentTypePartCmdletBase.cs" />
+    <Compile Include="Content\Cmdlets\RemoveContentItem.cs" />
+    <Compile Include="Content\Cmdlets\RemoveContentPart.cs" />
+    <Compile Include="Content\Cmdlets\AddContentPart.cs" />
+    <Compile Include="Content\Cmdlets\EditContentPartDefinition.cs" />
+    <Compile Include="Content\Cmdlets\GetContentPart.cs" />
+    <Compile Include="Content\Cmdlets\GetContentType.cs" />
+    <Compile Include="Content\Cmdlets\GetContentPartDefinition.cs" />
+    <Compile Include="Content\Cmdlets\EditContentType.cs" />
+    <Compile Include="Content\Cmdlets\NewContentType.cs" />
+    <Compile Include="Content\Cmdlets\RemoveContentType.cs" />
+    <Compile Include="Content\Cmdlets\RestoreContentItem.cs" />
+    <Compile Include="Content\Cmdlets\UnpublishContentItem.cs" />
+    <Compile Include="Content\Cmdlets\UpdateContentItem.cs" />
+    <Compile Include="Content\Cmdlets\VersionOptionsEnum.cs" />
+    <Compile Include="Content\NavigationProviders\ContentPsNavigationProvider.cs" />
+    <Compile Include="Content\Nodes\ContentFieldNode.cs" />
+    <Compile Include="Content\Nodes\ContentFieldsNode.cs" />
+    <Compile Include="Content\Nodes\ContentItemNode.cs" />
+    <Compile Include="Content\Nodes\ContentItemsNode.cs" />
+    <Compile Include="Content\Nodes\ContentItemTypeNode.cs" />
+    <Compile Include="Content\Nodes\ContentNode.cs" />
+    <Compile Include="Content\Nodes\ContentTypeNode.cs" />
+    <Compile Include="Content\Nodes\ContentPartNode.cs" />
+    <Compile Include="Content\Nodes\ContentTypesNode.cs" />
+    <Compile Include="Content\Nodes\ContentPartsNode.cs" />
+    <Compile Include="Modules\Cmdlets\AlterOrchardFeatureCmdletBase.cs" />
+    <Compile Include="Modules\Cmdlets\DisableOrchardFeature.cs" />
+    <Compile Include="Modules\Cmdlets\EnableOrchardFeature.cs" />
+    <Compile Include="Modules\Cmdlets\EnableOrchardTheme.cs" />
+    <Compile Include="Modules\Cmdlets\GetOrchardFeature.cs" />
+    <Compile Include="Modules\Cmdlets\GetOrchardTheme.cs" />
+    <Compile Include="Modules\Cmdlets\RetrieveOrchardFeatureCmdletBase.cs" />
+    <Compile Include="Modules\Items\OrchardTheme.cs" />
+    <Compile Include="Modules\NavigationProviders\FeaturesPsNavigationProvider.cs" />
+    <Compile Include="Modules\NavigationProviders\ModulesPsNavigationProvider.cs" />
+    <Compile Include="Modules\NavigationProviders\ThemesPsNavigationProvider.cs" />
+    <Compile Include="Modules\Nodes\FeatureCategoryNode.cs" />
+    <Compile Include="Modules\Nodes\FeatureNode.cs" />
+    <Compile Include="Modules\Nodes\FeaturesNode.cs" />
+    <Compile Include="Modules\Nodes\ModuleNode.cs" />
+    <Compile Include="Modules\Nodes\ModulesNode.cs" />
+    <Compile Include="Modules\Nodes\ThemeNode.cs" />
+    <Compile Include="Modules\Nodes\ThemesNode.cs" />
+    <Compile Include="Recipes\Cmdlets\GetOrchardRecipe.cs" />
+    <Compile Include="Recipes\Cmdlets\InvokeOrchardRecipe.cs" />
+    <Compile Include="Recipes\NavigationProviders\RecipePsNavigationProvider.cs" />
+    <Compile Include="Recipes\Nodes\RecipeNode.cs" />
+    <Compile Include="Recipes\Nodes\RecipesNode.cs" />
+    <Compile Include="Recipes\RecipeHandlers\PowerShellRecipeHandler.cs" />
+    <Compile Include="Tenants\Cmdlets\AlterTenantCmdletBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tenants\Cmdlets\DisableTenant.cs" />
+    <Compile Include="Tenants\Cmdlets\EditTenant.cs" />
+    <Compile Include="Tenants\Cmdlets\EnableTenant.cs" />
+    <Compile Include="Tenants\Cmdlets\GetTenant.cs" />
+    <Compile Include="Tenants\Cmdlets\NewTenant.cs" />
+    <Compile Include="Tenants\Cmdlets\RemoveTenant.cs" />
+    <Compile Include="Tenants\NavigationProviders\TenantConfigurationPsNavigationProvider.cs" />
+    <Compile Include="Tenants\Nodes\TenantConfigurationNode.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Caching\Cmdlets\Clear-OrchardCache-help.xml" />
+    <Content Include="Commands\Cmdlets\Invoke-OrchardCommand-help.xml" />
+    <Content Include="Content\Cmdlets\Import-ContentItem-help.xml" />
+    <Content Include="Content\Cmdlets\Get-ContentItem-help.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\Cmdlets\Copy-ContentItem-help.xml" />
+    <Content Include="Content\Cmdlets\Export-ContentItem-help.xml" />
+    <Content Include="Content\Cmdlets\Restore-ContentItem-help.xml" />
+    <Content Include="Content\Cmdlets\Unpublish-ContentItem-help.xml" />
+    <Content Include="Content\Cmdlets\Publish-ContentItem-help.xml" />
+    <Content Include="Content\Cmdlets\Remove-ContentItem-help.xml" />
+    <Content Include="Content\Cmdlets\Update-ContentItem-help.xml" />
+    <Content Include="Content\Cmdlets\New-ContentItem-help.xml" />
+    <Content Include="Content\Cmdlets\Remove-ContentField-help.xml" />
+    <Content Include="Content\Cmdlets\Add-ContentField-help.xml" />
+    <Content Include="Content\Cmdlets\Remove-ContentPart-help.xml" />
+    <Content Include="Content\Cmdlets\Add-ContentPart-help.xml" />
+    <Content Include="Content\Cmdlets\Get-ContentPart-help.xml" />
+    <Content Include="Content\Cmdlets\Remove-ContentType-help.xml" />
+    <Content Include="Content\Cmdlets\Edit-ContentType-help.xml" />
+    <Content Include="Content\Cmdlets\New-ContentType-help.xml" />
+    <Content Include="Content\Cmdlets\Edit-ContentPartDefinition-help.xml" />
+    <Content Include="Content\Cmdlets\Get-ContentType-help.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\Cmdlets\Get-ContentPartDefinition-help.xml" />
+    <Content Include="Module.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Orchard.Caching\Orchard.Caching.csproj">
+      <Project>{7528BF74-25C7-4ABE-883A-443B4EEC4776}</Project>
+      <Name>Orchard.Caching</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orchard.Themes\Orchard.Themes.csproj">
+      <Project>{cde24a24-01d3-403c-84b9-37722e18dfb7}</Project>
+      <Name>Orchard.Themes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">
+      <Project>{2D1D92BB-4555-4CBE-8D0E-63563D6CE4C6}</Project>
+      <Name>Orchard.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Orchard.Core.csproj">
+      <Project>{9916839C-39FC-4CEB-A5AF-89CA7E87119F}</Project>
+      <Name>Orchard.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Proligence.PowerShell.Provider\Proligence.PowerShell.Provider.csproj">
+      <Project>{15DEF84F-B2E5-4F75-980E-AAFF1B93EDBE}</Project>
+      <Name>Proligence.PowerShell.Provider</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Modules\Cmdlets\Disable-OrchardFeature-help.xml" />
+    <Content Include="Modules\Cmdlets\Enable-OrchardFeature-help.xml" />
+    <Content Include="Modules\Cmdlets\Enable-OrchardTheme-help.xml" />
+    <Content Include="Modules\Cmdlets\Get-OrchardFeature-help.xml" />
+    <Content Include="Modules\Cmdlets\Get-OrchardTheme-help.xml" />
+    <Content Include="Recipes\Cmdlets\Get-OrchardRecipe-help.xml" />
+    <Content Include="Recipes\Cmdlets\Invoke-OrchardRecipe-help.xml" />
+    <Content Include="Recipes\Recipes\Sample.recipe.xml" />
+    <Content Include="Tenants\Cmdlets\Disable-Tenant-help.xml" />
+    <Content Include="Tenants\Cmdlets\Edit-Tenant-help.xml" />
+    <Content Include="Tenants\Cmdlets\Enable-Tenant-help.xml" />
+    <Content Include="Tenants\Cmdlets\Get-Tenant-help.xml" />
+    <Content Include="Tenants\Cmdlets\New-Tenant-help.xml" />
+    <Content Include="Tenants\Cmdlets\Remove-Tenant-help.xml" />
+    <Content Include="web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Commands\Commands.format.ps1xml">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Modules\Modules.format.ps1xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Content.format.ps1xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Content.types.ps1xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Recipes\Nodes\Recipe.format.ps1xml" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target> -->
+  <Target Name="AfterBuild" DependsOnTargets="AfterBuildCompiler">
+    <PropertyGroup>
+      <AreasManifestDir>$(ProjectDir)\..\Manifests</AreasManifestDir>
+    </PropertyGroup>
+    <!-- If this is an area child project, uncomment the following line:
+    <CreateAreaManifest AreaName="$(AssemblyName)" AreaType="Child" AreaPath="$(ProjectDir)" ManifestPath="$(AreasManifestDir)" ContentFiles="@(Content)" />
+    -->
+    <!-- If this is an area parent project, uncomment the following lines:
+    <CreateAreaManifest AreaName="$(AssemblyName)" AreaType="Parent" AreaPath="$(ProjectDir)" ManifestPath="$(AreasManifestDir)" ContentFiles="@(Content)" />
+    <CopyAreaManifests ManifestPath="$(AreasManifestDir)" CrossCopy="false" RenameViews="true" />
+    -->
+  </Target>
+  <Target Name="AfterBuildCompiler" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(ProjectDir)\..\$(ProjectName)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>9316</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://orchard.codeplex.com</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
