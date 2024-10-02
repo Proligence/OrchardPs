@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Management.Automation;
 using Orchard.ContentManagement;
+using Orchard.ContentManagement.MetaData;
 using Orchard.Environment.Configuration;
 using Proligence.PowerShell.Core.Content.Nodes;
 using Proligence.PowerShell.Provider;
@@ -68,7 +71,7 @@ namespace Proligence.PowerShell.Core.Content.Cmdlets {
 
             // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (!string.IsNullOrEmpty(ContentType)) {
-                query = contentManager.Query(ContentType);
+                query = contentManager.Query(ContentType).WithQueryHintsFor(ContentType);
             }
             else {
                 query = contentManager.Query();
