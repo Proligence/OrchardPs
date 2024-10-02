@@ -13,8 +13,8 @@ namespace Proligence.PowerShell.Provider.Console.UI {
             /* ReSharper disable DoNotCallOverridableMethodsInConstructor */
             ForegroundColor = ConsoleColor.White;
             BackgroundColor = ConsoleColor.Blue;
-            BufferSize = new Size(200, 1000);
-            WindowSize = new Size(200, 72);
+            BufferSize = new Size(120, 1000);
+            WindowSize = new Size(120, 72);
             /* ReSharper restore DoNotCallOverridableMethodsInConstructor */
         }
 
